@@ -20,7 +20,6 @@ function readSplashkitFile(args, callback) {
 }
 
 const execute = function(args, callback) {
-
   console.log("create exec args are: " + args)
   //check if we need to init or not and init if we need to.
   if (!utils.isSplashkit()) {
@@ -40,9 +39,7 @@ const execute = function(args, callback) {
       console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
     }
   })
-
   return
-
 }
 
 module.exports = {

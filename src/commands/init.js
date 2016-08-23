@@ -24,18 +24,18 @@ const execute = function(args, callback) {
       switch (args[0].toLowerCase()) {
         case "cpp":
         case "c":
-          data["language"] = "cpp";
+          data.language = "cpp";
           break;
         case "pascal":
         case "pas":
-          data["language"] = "pascal";
+          data.language = "pascal";
           break;
         case "swift":
-          data["language"] = "swift";
+          data.language = "swift";
           break;
         case "c#":
         case "csharp":
-          data["language"] = "C#";
+          data.language = "C#";
           break;
         default:
           return console.error (args[0].toLowerCase() + " is not a language.")
