@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 const generateDotSplashkit = function () {
   const data = {
     "version": '-1',
@@ -5,12 +7,26 @@ const generateDotSplashkit = function () {
     "message": 'Jake',
     "status": 'initialised'
   }
-  //this formats the json string so it doesn't stay on one line
   return data
+}
+
+const isSplashkit = function (pathToCheck = './') {
+  console.log("Checking for splashkit file at: " + pathToCheck + '.splashkit')
+
+  try {
+    return fs.statSync(pathToCheck + '.splashkit').isFile();
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      return false;
+    } else {
+      throw e;
+    }
+  }
 }
 
 module.exports = {
   generateDotSplashkit: generateDotSplashkit,
+  isSplashkit: isSplashkit,
   isMacOS: process.platform === 'darwin',
   isWindows: process.platform === 'win32',
   isLinux: process.platform === 'win32'

@@ -9,10 +9,18 @@ const preExecuteOnCLI = function() {
 
 const execute = function(args, callback) {
     if (utils.isMacOS) {
+      if (utils.isSplashkit())
+      {
+        return console.error("can't init in an existing splashkit folder")
+      }
+
       let data = utils.generateDotSplashkit();
 
-      console.log(args)
-      if (args) {
+      if ( args == null || args.length == 0) {
+        return console.error ("No Arguments Supplied")
+      }
+
+      //check arguments
       switch (args[0].toLowerCase()) {
         case "cpp":
         case "c":
@@ -29,11 +37,9 @@ const execute = function(args, callback) {
         case "csharp":
           data["language"] = "C#";
           break;
-      }
-    }
-    else {
-      //no args
-    }
+        default:
+          return console.error (args[0].toLowerCase() + " is not a language.")
+        }
 
       fs.writeFile('./.splashkit', JSON.stringify(data, null, "\t"), (err) => {
         if (err) throw err;
