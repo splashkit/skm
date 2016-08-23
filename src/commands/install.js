@@ -15,7 +15,6 @@ const execute = function(args, callback) {
     git.clone("https://github.com/splashkit/splashkit", "./.splashkit-download");
     console.log("The file was saved!");
   }
-
   return
 }
 

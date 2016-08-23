@@ -1,24 +1,26 @@
+//investigate better path solution
+const utils = require('../utilities');
 var fs = require('fs');
 
-const preExecuteOnCLI = function () {
-  //read from CLI
-  return [];
+const preExecuteOnCLI = function() {
+    //read from CLI
+    return [];
 }
 
 const execute = function(args, callback) {
-  if (isMacOS) {
-    fs.writeFile("./", ".splashkit", function(err) {
-    if(err) {
-        return console.log(err);
-    }
-    console.log("The file was saved!");
-});
+    if (utils.isMacOS) {
 
+      fs.writeFile("./.splashkit", utils.createSKJSON(), function(err) {
+          if (err) {
+              return console.log(err);
+          }
+          console.log("The file was saved!");
+      });
+    }
+    return
 }
 
-    return
-  }
-
 module.exports = {
-  execute: execute
+    execute: execute,
+    preExecuteOnCLI: preExecuteOnCLI
 }
