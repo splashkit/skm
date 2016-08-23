@@ -1,6 +1,10 @@
 
 # Created by https://www.gitignore.io/api/node
 
+### Splashkit ###
+.splashkit-download
+.splashkit
+
 ### Node ###
 # Logs
 logs

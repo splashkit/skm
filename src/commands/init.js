@@ -10,7 +10,7 @@ const preExecuteOnCLI = function() {
 const execute = function(args, callback) {
     if (utils.isMacOS) {
 
-      fs.writeFile("./.splashkit", utils.createSKJSON(), function(err) {
+      fs.writeFile("./.splashkit", utils.generateDotSplashkit(), function(err) {
           if (err) {
               return console.log(err);
           }

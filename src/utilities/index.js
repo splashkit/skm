@@ -1,11 +1,10 @@
-const createSKJSON = function () {
+const generateDotSplashkit = function () {
 
   var data = {
     "version":'-1',
     "dateCreated":new Date(),
     "message": 'Jake'
   }
-
   //format the json string so it doesn't stay on one line
   return JSON.stringify(data, null, "\t");
 }
