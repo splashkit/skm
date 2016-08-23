@@ -11,6 +11,8 @@ if (isMacOS) {
 
 app.on('ready', function () {
   console.log('SKM is ready...');
+  console.log('argument 1 was :' + process.argv[2]);
+  
   // TODO: Check if arguments are provided, if so then use CLI
   // otherwise request open GUI
   var useCLI = true;
@@ -18,7 +20,8 @@ app.on('ready', function () {
     let args = [];
     let callback = function (err, data) {
     };
-    cli.execute("install", callback);
+
+    cli.execute(process.argv[2], callback);
   }
   app.quit();
 });
