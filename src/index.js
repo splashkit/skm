@@ -1,9 +1,11 @@
 const app = require('electron').app;
 const cli = require('./cli');
 
+const isMacOS = (process.platform === 'darwin');
+
 // On macOS we want to make sure we never show the app icon unless
 // GUI is specifically requested.
-if (process.platform === 'darwin') {
+if (isMacOS) {
   app.dock.hide();
 }
 
@@ -16,7 +18,7 @@ app.on('ready', function () {
     let args = [];
     let callback = function (err, data) {
     };
-    cli.execute("build", callback);
+    cli.execute("install", callback);
   }
   app.quit();
 });

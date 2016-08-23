@@ -9,7 +9,8 @@ const execute = function (cmdName, args, callback) {
     console.error(`No such command name ${cmdName}`);
   } else {
     console.info(`Executing ${cmdName} command...`);
-    cmd.execute(args, callback);
+
+    cmd.execute(cmdName, callback);
   }
 }
 
