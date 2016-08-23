@@ -7,20 +7,12 @@ const preExecuteOnCLI = function() {
     return [];
 }
 
-
-
 //why is there weird concurrency issue?
 function readSplashkitFile(args, callback) {
   if (utils.isMacOS) {
     fs.readFile('./.splashkit', 'utf8', function (err, data) {
       if (err) {
-        if (err.code == 'ENOENT') {
-          init.execute(args)
-        }
-        else {
-          console.log(err)
-          return
-        }
+        return console.error("Can't read file");
       }
       callback(data)
     });
