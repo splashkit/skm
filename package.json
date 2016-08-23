@@ -1,0 +1,38 @@
+{
+  "name": "skm",
+  "version": "1.0.0",
+  "description": "SplashKit manager - a way to compile, run and create applications made with SplashKit.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/splashkit/skm.git"
+  },
+  "keywords": [
+    "splashkit",
+    "compiler",
+    "deployment",
+    "cli",
+    "manager"
+  ],
+  "contributors": [
+    {
+      "name": "Jake Renzella",
+      "email": "j@kerenzella.com"
+    },
+    {
+      "name": "Alex Cummaudo",
+      "email": "alexcu@me.com"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/splashkit/skm/issues"
+  },
+  "homepage": "https://github.com/splashkit/skm#readme",
+  "dependencies": {
+    "electron": "^1.3.3"
+  }
+}
