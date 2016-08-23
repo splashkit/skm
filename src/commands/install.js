@@ -10,14 +10,13 @@ const preExecuteOnCLI = function () {
 
 const execute = function(args, callback) {
   if (utils.isMacOS) {
-    console.log("Mac Install command was executed. Cloning ");
+    console.info("Mac Install command was executed. Cloning ");
     //user/home/.splashkit folder.
     git.clone("https://github.com/splashkit/splashkit", "./.splashkit-download");
-    console.log("The file was saved!");
+    console.info("The repo was cloned!");
   }
   return
 }
-
 
 module.exports = {
   execute: execute,

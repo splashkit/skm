@@ -9,41 +9,44 @@ const preExecuteOnCLI = function() {
 
 const execute = function(args, callback) {
     if (utils.isMacOS) {
-      if (utils.isSplashkit())
-      {
-        return console.error("can't init in an existing splashkit folder")
-      }
-
-      let data = utils.generateDotSplashkit();
-
+      //check if we have the language
       if ( args == null || args.length == 0) {
         return console.error ("No Arguments Supplied")
       }
 
-      //check arguments
+      //check if this is already a SK folder
+      if (utils.isSplashkit()) {
+        return console.error("can't init in an existing splashkit folder")
+      }
+
+      //generate a splashkitMeta object
+      let dotSplashKit = utils.generateDotSplashkit();
+
+      //check arguments to add language to splashkitMeta object
       switch (args[0].toLowerCase()) {
         case "cpp":
         case "c":
-          data.language = "cpp";
+          dotSplashKit.language = "cpp";
           break;
         case "pascal":
         case "pas":
-          data.language = "pascal";
+          dotSplashKit.language = "pascal";
           break;
         case "swift":
-          data.language = "swift";
+          dotSplashKit.language = "swift";
           break;
         case "c#":
         case "csharp":
-          data.language = "C#";
+          dotSplashKit.language = "C#";
           break;
         default:
           return console.error (args[0].toLowerCase() + " is not a language.")
         }
 
-      fs.writeFile('./.splashkit', JSON.stringify(data, null, "\t"), (err) => {
+      //write the .splashkit file
+      fs.writeFile('./.splashkit', JSON.stringify(dotSplashKit, null, "\t"), (err) => {
         if (err) throw err;
-        console.log('Saved to ./.splashkit successfully.');
+        console.info('Saved to ./.splashkit successfully.');
       });
     }
     return

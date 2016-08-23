@@ -11,7 +11,7 @@ const generateDotSplashkit = function () {
 }
 
 const isSplashkit = function (pathToCheck = './') {
-  console.log("Checking for splashkit file at: " + pathToCheck + '.splashkit')
+  console.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
 
   try {
     return fs.statSync(pathToCheck + '.splashkit').isFile();

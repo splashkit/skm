@@ -12,7 +12,7 @@ if (isMacOS) {
 app.on('ready', function () {
   const argPos = 2;
 
-  console.log('SKM is ready...');
+  console.info('SKM is ready...');
 
   // TODO: check if development or runtime.
   const cmdName = process.argv[argPos]
@@ -21,7 +21,7 @@ app.on('ready', function () {
   const args = process.argv.slice(argPos + 1);
 
   var useCLI = cmdName != null
-  console.log("are we using the CLI?: " + useCLI)
+  console.info("are we using the CLI?: " + useCLI)
 
   if (useCLI) {
     let callback = function (err, data) { };

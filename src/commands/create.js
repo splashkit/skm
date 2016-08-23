@@ -7,7 +7,8 @@ const preExecuteOnCLI = function() {
     return [];
 }
 
-//why is there weird concurrency issue?
+// I Think there is a concurrency issue here.
+// 3am update I don't think there is a concurrency issue at all...
 function readSplashkitFile(args, callback) {
   if (utils.isMacOS) {
     fs.readFile('./.splashkit', 'utf8', function (err, data) {
@@ -20,26 +21,26 @@ function readSplashkitFile(args, callback) {
 }
 
 const execute = function(args, callback) {
-  console.log("create exec args are: " + args)
   //check if we need to init or not and init if we need to.
   if (!utils.isSplashkit()) {
-    console.log("not found, initing directory with given language " + args[0])
+    console.info("not found, initing directory with given language " + args[0])
     init.execute(args)
   }
 
+  //read the .splashkit file
   readSplashkitFile(args, function(data) {
     const splashKitData = JSON.parse(data)
     //now we have a init'd directory, so check its status
-    if (splashKitData.status == 'initialised')
-    {
-      console.log("initialised folder found, creating: " + splashKitData.language + " folder structure.")
-      //TODO: Create folder for correct langauge in splashKitData.language
+    if (splashKitData.status == 'initialised') {
+      console.info("initialised folder found, creating: " + splashKitData.language + " folder structure.")
+      // TODO: Create folder for correct langauge in splashKitData.language
     }
-    else {
-      console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
-    }
+    else console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
   })
-  return
+
+  console.info("finished")
+
+  //finished (I think issue might be that we are returning before log is finished... ??)
 }
 
 module.exports = {
