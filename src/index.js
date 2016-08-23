@@ -10,18 +10,30 @@ if (isMacOS) {
 }
 
 app.on('ready', function () {
-  console.log('SKM is ready...');
-  console.log('argument 1 was :' + process.argv[2]);
-  
-  // TODO: Check if arguments are provided, if so then use CLI
-  // otherwise request open GUI
-  var useCLI = true;
-  if (useCLI) {
-    let args = [];
-    let callback = function (err, data) {
-    };
+  const argPos = 2;
 
-    cli.execute(process.argv[2], callback);
+  console.log('SKM is ready...');
+  console.log('argument 1 was :' + process.argv[argPos] );
+
+  // TODO: check if development or runtime.
+  const cmdName = process.argv[argPos]
+  console.log("CMD Name is:" + cmdName)
+
+  //args will be left with everything after the command itself.
+  const args = process.argv.slice(argPos + 1);
+
+  var useCLI = cmdName != null
+  console.log("are we using the CLI?: " + useCLI)
+
+  if (useCLI) {
+    let callback = function (err, data) { };
+    console.log("cmdName: " + cmdName + " args: " + args)
+    cli.execute(cmdName, args, callback);
+  }
+  else {
+    {
+      //TODO: Open Window
+    }
   }
   app.quit();
 });
