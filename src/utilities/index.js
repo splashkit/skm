@@ -2,7 +2,8 @@ const generateDotSplashkit = function () {
   const data = {
     "version": '-1',
     "dateCreated": new Date(),
-    "message": 'Jake'
+    "message": 'Jake',
+    "status": 'initialised'
   }
   //this formats the json string so it doesn't stay on one line
   return data

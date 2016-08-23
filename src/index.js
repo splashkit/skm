@@ -13,11 +13,9 @@ app.on('ready', function () {
   const argPos = 2;
 
   console.log('SKM is ready...');
-  console.log('argument 1 was :' + process.argv[argPos] );
 
   // TODO: check if development or runtime.
   const cmdName = process.argv[argPos]
-  console.log("CMD Name is:" + cmdName)
 
   //args will be left with everything after the command itself.
   const args = process.argv.slice(argPos + 1);
@@ -27,7 +25,6 @@ app.on('ready', function () {
 
   if (useCLI) {
     let callback = function (err, data) { };
-    console.log("cmdName: " + cmdName + " args: " + args)
     cli.execute(cmdName, args, callback);
   }
   else {
