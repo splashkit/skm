@@ -4,8 +4,8 @@ const generateDotSplashkit = function () {
     "dateCreated": new Date(),
     "message": 'Jake'
   }
-  //format the json string so it doesn't stay on one line
-  return JSON.stringify(data, null, "\t");
+  //this formats the json string so it doesn't stay on one line
+  return data
 }
 
 module.exports = {

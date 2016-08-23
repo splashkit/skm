@@ -9,8 +9,28 @@ const preExecuteOnCLI = function() {
 
 const execute = function(args, callback) {
     if (utils.isMacOS) {
+      
+      let data = utils.generateDotSplashkit();
 
-      fs.writeFile("./.splashkit", utils.generateDotSplashkit(), function(err) {
+      switch (args[0].toLowerCase()) {
+        case "cpp":
+        case "c":
+          data["language"] = "cpp";
+          break;
+        case "pascal":
+        case "pas":
+          data["language"] = "pascal";
+          break;
+        case "swift":
+          data["language"] = "swift";
+          break;
+        case "c#":
+        case "csharp":
+          data["language"] = "C#";
+          break;
+      }
+
+      fs.writeFile("./.splashkit", JSON.stringify(data, null, "\t"), function(err) {
           if (err) {
               return console.log(err);
           }
