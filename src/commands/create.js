@@ -2,6 +2,7 @@ const utils = require('../utilities');
 const fs = require('fs');
 const init = require('./init');
 const logger = require('winston-color');
+const mkdirp = require('mkdirp');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -9,24 +10,28 @@ const preExecuteOnCLI = function() {
 }
 
 const execute = function(args, callback) {
-  //check if we need to init or not and init if we need to.
-  let isDotFile = utils.isSplashkit('./')
 
-  if (!isDotFile && args.length > 0) {
+  let workingFolder = './'
+  //check if we need to init or not and init if we need to.
+
+  let isDotFile = utils.isSplashkit()
+  logger.info(`we have ${isDotFile}`)
+
+  if (!isDotFile && args.length < 1) {
     return logger.error(`no args given to an non splashkit folder splashkit folder.`)
   }
+  //no .file but we have a language
   if (!isDotFile)
   {
     logger.info(`initing directory with language ${args[0]}`)
     init.execute(args)
   }
 
-
   //read the .splashkit file
   const splashKitData = utils.readDotSplashkit()
 
   //now we have a init'd directory, so check its status
-  if (args.length > 0 && splashKitData.language != args[0]) {
+  if (splashKitData.language != args[0]) {
     return logger.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
   }
 
@@ -37,6 +42,11 @@ const execute = function(args, callback) {
   logger.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
   splashKitData.status = "created"
   utils.writeDotSplashkit(splashKitData)
+
+  mkdirp.sync('./src')
+  mkdirp.sync('./images')
+  mkdirp.sync('./sounds')
+
   // TODO: Create folder for correct langauge in splashKitData.language
 
 }

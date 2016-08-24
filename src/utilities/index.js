@@ -13,16 +13,41 @@ const generateDotSplashkit = function () {
   return data
 }
 
+const getValidLanguageFromArg = function (arg) {
+  switch (arg.toLowerCase()) {
+    case "cpp":
+    case "c":
+      return "cpp";
+    case "pascal":
+    case "pas":
+      return "pascal";
+    case "swift":
+      return "swift";
+    case "c#":
+    case "csharp":
+      return "C#";
+    default:
+      return logger.error (`${arg} is not a language.`)
+
+    }
+}
+
 const runCommand = function (cmd){
   execSync(cmd, {stdio:[0,1,2]})
 }
 
 const readDotSplashkit = function (path = './') {
+  if (path != './')
+    path =  path + `/`
+
   const data = fs.readFileSync(path + '.splashkit', 'utf8')
   return JSON.parse(JSON.minify(data))
 }
 
 const writeDotSplashkit = function (data, path = './') {
+  if (path != './')
+    path =  path + `/`
+
   let dataAsString = "//DO NOT TOUCH, THIS IS A GENERATED SPLASHKIT FILE.\n\n" + JSON.stringify(data, null, "\t")
 
   logger.info("path is: " + path + " data is: " + dataAsString)
@@ -31,6 +56,9 @@ const writeDotSplashkit = function (data, path = './') {
 }
 
 const isSplashkit = function (pathToCheck = './') {
+  if (pathToCheck != './')
+    pathToCheck = pathToCheck + `/`
+
   logger.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
   try {
     return fs.statSync(pathToCheck + '.splashkit').isFile();
@@ -44,6 +72,7 @@ const isSplashkit = function (pathToCheck = './') {
 }
 
 module.exports = {
+  getValidLanguageFromArg: getValidLanguageFromArg,
   runCommand: runCommand,
   readDotSplashkit: readDotSplashkit,
   writeDotSplashkit: writeDotSplashkit,

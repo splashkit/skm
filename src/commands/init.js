@@ -2,6 +2,7 @@
 const utils = require('../utilities');
 var fs = require('fs');
 const logger = require('winston-color');
+const mkdirp = require('mkdirp');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -16,7 +17,7 @@ const execute = function(args, callback) {
       }
 
       //check if this is already a SK folder
-      if (utils.isSplashkit()) {
+      if (utils.isSplashkit(`./`)) {
         return logger.error("can't init in an existing splashkit folder")
       }
 
@@ -24,26 +25,9 @@ const execute = function(args, callback) {
       let dotSplashKit = utils.generateDotSplashkit();
 
       //check arguments to add language to splashkitMeta object
-      switch (args[0].toLowerCase()) {
-        case "cpp":
-        case "c":
-          dotSplashKit.language = "cpp";
-          break;
-        case "pascal":
-        case "pas":
-          dotSplashKit.language = "pascal";
-          break;
-        case "swift":
-          dotSplashKit.language = "swift";
-          break;
-        case "c#":
-        case "csharp":
-          dotSplashKit.language = "C#";
-          break;
-        default:
-          return logger.error (args[0].toLowerCase() + " is not a language.")
-        }
+      dotSplashKit.language = utils.getValidLanguageFromArg(args[0])
 
+      if (dotSplashKit.language != null)
         utils.writeDotSplashkit(dotSplashKit)
     }
     return
