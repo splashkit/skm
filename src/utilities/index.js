@@ -1,5 +1,6 @@
 var fs = require('fs');
 const winston = require('winston-color');
+const jsonminify = require("jsonminify");
 
 const generateDotSplashkit = function () {
   const data = {
@@ -11,15 +12,17 @@ const generateDotSplashkit = function () {
   return data
 }
 
-const writeDotSplashkit = function (data, path = './') {
+const readDotSplashkit = function (path = './') {
+  const data = fs.readFileSync(path + '.splashkit', 'utf8')
+  return JSON.parse(JSON.minify(data))
+}
 
+const writeDotSplashkit = function (data, path = './') {
   let dataAsString = "//DO NOT TOUCH, THIS IS A GENERATED SPLASHKIT FILE.\n\n" + JSON.stringify(data, null, "\t")
 
   winston.info("path is: " + path + " data is: " + dataAsString)
-  fs.writeFile(path + '.splashkit', dataAsString, (err) => {
-    if (err) throw err;
-    winston.info('Saved to ./.splashkit successfully.');
-  });
+  fs.writeFileSync(path + '.splashkit', dataAsString)
+  winston.info('Saved to ./.splashkit successfully.')
 }
 
 
@@ -37,6 +40,7 @@ const isSplashkit = function (pathToCheck = './') {
 }
 
 module.exports = {
+  readDotSplashkit, readDotSplashkit,
   writeDotSplashkit: writeDotSplashkit,
   generateDotSplashkit: generateDotSplashkit,
   isSplashkit: isSplashkit,
