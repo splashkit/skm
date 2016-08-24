@@ -25,7 +25,6 @@ const writeDotSplashkit = function (data, path = './') {
   winston.info('Saved to ./.splashkit successfully.')
 }
 
-
 const isSplashkit = function (pathToCheck = './') {
   winston.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
   try {
