@@ -1,6 +1,7 @@
 var fs = require('fs');
 const winston = require('winston-color');
 const jsonminify = require("jsonminify");
+var execSync = require('child_process').execSync;
 
 const generateDotSplashkit = function () {
   const data = {
@@ -10,6 +11,10 @@ const generateDotSplashkit = function () {
     "status": 'initialised'
   }
   return data
+}
+
+const runCommand = function (cmd){
+  execSync(cmd, {stdio:[0,1,2]})
 }
 
 const readDotSplashkit = function (path = './') {
@@ -39,7 +44,8 @@ const isSplashkit = function (pathToCheck = './') {
 }
 
 module.exports = {
-  readDotSplashkit, readDotSplashkit,
+  runCommand: runCommand,
+  readDotSplashkit: readDotSplashkit,
   writeDotSplashkit: writeDotSplashkit,
   generateDotSplashkit: generateDotSplashkit,
   isSplashkit: isSplashkit,

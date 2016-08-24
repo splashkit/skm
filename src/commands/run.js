@@ -1,5 +1,7 @@
+const runCommand = require('../utilities').runCommand;
+
 const execute = function(args, callback) {
-  // TODO: Make...
+  runCommand('./program')
 }
 
 module.exports = {

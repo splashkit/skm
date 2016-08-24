@@ -26,7 +26,7 @@ app.on('ready', function () {
   const args = process.argv.slice(argPos + 1);
 
   var useCLI = cmdName != null
-  winston.info("are we using the CLI?: " + useCLI)
+  winston.info("are we using the CLI?: " + useCLI + " " + argPos)
 
   if (useCLI) {
     let callback = function (err, data) { };
