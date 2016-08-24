@@ -43,12 +43,7 @@ const execute = function(args, callback) {
           return console.error (args[0].toLowerCase() + " is not a language.")
         }
 
-        let data = "// DO NOT TOUCH, GENERATED SPLASHKIT FILE.\n" + JSON.stringify(dotSplashKit, null, "\t")
-
-      fs.writeFile('./.splashkit', data, (err) => {
-        if (err) throw err;
-        console.info('Saved to ./.splashkit successfully.');
-      });
+        utils.writeDotSplashkit(dotSplashKit)
     }
     return
 }

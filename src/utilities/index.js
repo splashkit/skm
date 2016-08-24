@@ -10,9 +10,20 @@ const generateDotSplashkit = function () {
   return data
 }
 
+const writeDotSplashkit = function (data, path = './') {
+
+  let dataAsString = "// DO NOT TOUCH, GENERATED SPLASHKIT FILE.\n" + JSON.stringify(data, null, "\t")
+
+  console.info("path is: " + path + " data is: " + dataAsString)
+  fs.writeFile(path + '.splashkit', dataAsString, (err) => {
+    if (err) throw err;
+    console.info('Saved to ./.splashkit successfully.');
+  });
+}
+
+
 const isSplashkit = function (pathToCheck = './') {
   console.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
-
   try {
     return fs.statSync(pathToCheck + '.splashkit').isFile();
   } catch (e) {
@@ -25,6 +36,7 @@ const isSplashkit = function (pathToCheck = './') {
 }
 
 module.exports = {
+  writeDotSplashkit: writeDotSplashkit,
   generateDotSplashkit: generateDotSplashkit,
   isSplashkit: isSplashkit,
   isMacOS: process.platform === 'darwin',

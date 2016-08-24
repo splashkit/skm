@@ -38,6 +38,9 @@ const execute = function(args, callback) {
     //now we have a init'd directory, so check its status
     if (splashKitData.status == 'initialised') {
       console.info("initialised folder found, creating: " + splashKitData.language + " folder structure.")
+
+      splashKitData.status = "created"
+      utils.writeDotSplashkit(splashKitData)
       // TODO: Create folder for correct langauge in splashKitData.language
     }
     else console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
