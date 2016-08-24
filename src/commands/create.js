@@ -1,6 +1,7 @@
 const utils = require('../utilities');
 var fs = require('fs');
 var init = require('./init');
+var jsonminify = require("jsonminify");
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -29,7 +30,11 @@ const execute = function(args, callback) {
 
   //read the .splashkit file
   readSplashkitFile(args, function(data) {
-    const splashKitData = JSON.parse(data)
+
+    const splashKitData = JSON.parse(JSON.minify(data))
+    console.info(splashKitData)
+
+    console.info("Status is: " + splashKitData.status)
     //now we have a init'd directory, so check its status
     if (splashKitData.status == 'initialised') {
       console.info("initialised folder found, creating: " + splashKitData.language + " folder structure.")
@@ -38,7 +43,6 @@ const execute = function(args, callback) {
     else console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
   })
 
-  console.info("finished")
 
   //finished (I think issue might be that we are returning before log is finished... ??)
 }
