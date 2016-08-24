@@ -2,7 +2,10 @@ const app = require('electron').app;
 const cli = require('./cli');
 const winston = require('winston-color');
 
-const argPos = 2;
+let argPos;
+
+console.log(process.env.NODE_ENV)
+process.env.NODE_ENV == 'development' ? argPos = 2 : argPos = 1
 
 const isMacOS = (process.platform === 'darwin');
 
