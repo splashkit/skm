@@ -13,7 +13,7 @@ const generateDotSplashkit = function () {
 
 const writeDotSplashkit = function (data, path = './') {
 
-  let dataAsString = "// DO NOT TOUCH, GENERATED SPLASHKIT FILE.\n" + JSON.stringify(data, null, "\t")
+  let dataAsString = "//DO NOT TOUCH, THIS IS A GENERATED SPLASHKIT FILE.\n\n" + JSON.stringify(data, null, "\t")
 
   winston.info("path is: " + path + " data is: " + dataAsString)
   fs.writeFile(path + '.splashkit', dataAsString, (err) => {
