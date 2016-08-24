@@ -1,7 +1,7 @@
 const utils = require('../utilities');
 const fs = require('fs');
 const init = require('./init');
-const winston = require('winston-color');
+const logger = require('winston-color');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -13,11 +13,11 @@ const execute = function(args, callback) {
   let isDotFile = utils.isSplashkit('./')
 
   if (!isDotFile && args.length > 0) {
-    return winston.error(`no args given to an non splashkit folder splashkit folder.`)
+    return logger.error(`no args given to an non splashkit folder splashkit folder.`)
   }
   if (!isDotFile)
   {
-    winston.info(`initing directory with language ${args[0]}`)
+    logger.info(`initing directory with language ${args[0]}`)
     init.execute(args)
   }
 
@@ -27,14 +27,14 @@ const execute = function(args, callback) {
 
   //now we have a init'd directory, so check its status
   if (args.length > 0 && splashKitData.language != args[0]) {
-    return winston.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
+    return logger.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
   }
 
   if (splashKitData.status != 'initialised') {
-    return winston.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
+    return logger.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
   }
 
-  winston.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
+  logger.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
   splashKitData.status = "created"
   utils.writeDotSplashkit(splashKitData)
   // TODO: Create folder for correct langauge in splashKitData.language

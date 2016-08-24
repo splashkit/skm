@@ -1,6 +1,6 @@
 const app = require('electron').app;
 const cli = require('./cli');
-const winston = require('winston-color');
+const logger = require('winston-color');
 
 let argPos;
 
@@ -17,7 +17,7 @@ if (isMacOS) {
 
 app.on('ready', function () {
 
-  winston.info('SKM is ready...');
+  logger.info('SKM is ready...');
 
   // TODO: check if development or runtime.
   const cmdName = process.argv[argPos]
@@ -26,7 +26,7 @@ app.on('ready', function () {
   const args = process.argv.slice(argPos + 1);
 
   var useCLI = cmdName != null
-  winston.info("are we using the CLI?: " + useCLI + " " + argPos)
+  logger.info("are we using the CLI?: " + useCLI + " " + argPos)
 
   if (useCLI) {
     let callback = function (err, data) { };

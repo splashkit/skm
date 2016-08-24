@@ -1,5 +1,5 @@
 var fs = require('fs');
-const winston = require('winston-color');
+const logger = require('winston-color');
 const jsonminify = require("jsonminify");
 var execSync = require('child_process').execSync;
 
@@ -25,13 +25,13 @@ const readDotSplashkit = function (path = './') {
 const writeDotSplashkit = function (data, path = './') {
   let dataAsString = "//DO NOT TOUCH, THIS IS A GENERATED SPLASHKIT FILE.\n\n" + JSON.stringify(data, null, "\t")
 
-  winston.info("path is: " + path + " data is: " + dataAsString)
+  logger.info("path is: " + path + " data is: " + dataAsString)
   fs.writeFileSync(path + '.splashkit', dataAsString)
-  winston.info('Saved to ./.splashkit successfully.')
+  logger.info('Saved to ./.splashkit successfully.')
 }
 
 const isSplashkit = function (pathToCheck = './') {
-  winston.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
+  logger.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
   try {
     return fs.statSync(pathToCheck + '.splashkit').isFile();
   } catch (e) {
