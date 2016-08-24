@@ -1,6 +1,8 @@
 const utils = require('../utilities');
-var fs = require('fs');
-var init = require('./init');
+const fs = require('fs');
+const init = require('./init');
+const jsonminify = require("jsonminify");
+const winston = require('winston-color');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -13,7 +15,7 @@ function readSplashkitFile(args, callback) {
   if (utils.isMacOS) {
     fs.readFile('./.splashkit', 'utf8', function (err, data) {
       if (err) {
-        return console.error("Can't read file");
+        return winston.error("Can't read file");
       }
       callback(data)
     });
@@ -23,24 +25,29 @@ function readSplashkitFile(args, callback) {
 const execute = function(args, callback) {
   //check if we need to init or not and init if we need to.
   if (!utils.isSplashkit()) {
-    console.info("not found, initing directory with given language " + args[0])
+    winston.info("not found, initing directory with given language " + args[0])
     init.execute(args)
   }
 
   //read the .splashkit file
   readSplashkitFile(args, function(data) {
-    const splashKitData = JSON.parse(data)
+
+    const splashKitData = JSON.parse(JSON.minify(data))
     //now we have a init'd directory, so check its status
-    if (splashKitData.status == 'initialised') {
-      console.info("initialised folder found, creating: " + splashKitData.language + " folder structure.")
-      // TODO: Create folder for correct langauge in splashKitData.language
+
+    if (args.length > 0 && splashKitData.language != args[0]) {
+      return winston.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
     }
-    else console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
+
+    if (splashKitData.status != 'initialised') {
+      return winston.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
+    }
+
+      winston.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
+      splashKitData.status = "created"
+      utils.writeDotSplashkit(splashKitData)
+      // TODO: Create folder for correct langauge in splashKitData.language
   })
-
-  console.info("finished")
-
-  //finished (I think issue might be that we are returning before log is finished... ??)
 }
 
 module.exports = {

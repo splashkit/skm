@@ -1,4 +1,5 @@
 var fs = require('fs');
+const winston = require('winston-color');
 
 const generateDotSplashkit = function () {
   const data = {
@@ -10,9 +11,20 @@ const generateDotSplashkit = function () {
   return data
 }
 
-const isSplashkit = function (pathToCheck = './') {
-  console.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
+const writeDotSplashkit = function (data, path = './') {
 
+  let dataAsString = "//DO NOT TOUCH, THIS IS A GENERATED SPLASHKIT FILE.\n\n" + JSON.stringify(data, null, "\t")
+
+  winston.info("path is: " + path + " data is: " + dataAsString)
+  fs.writeFile(path + '.splashkit', dataAsString, (err) => {
+    if (err) throw err;
+    winston.info('Saved to ./.splashkit successfully.');
+  });
+}
+
+
+const isSplashkit = function (pathToCheck = './') {
+  winston.info("Checking for splashkit file at: " + pathToCheck + '.splashkit')
   try {
     return fs.statSync(pathToCheck + '.splashkit').isFile();
   } catch (e) {
@@ -25,6 +37,7 @@ const isSplashkit = function (pathToCheck = './') {
 }
 
 module.exports = {
+  writeDotSplashkit: writeDotSplashkit,
   generateDotSplashkit: generateDotSplashkit,
   isSplashkit: isSplashkit,
   isMacOS: process.platform === 'darwin',

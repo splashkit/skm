@@ -2,6 +2,7 @@
 const git = require('simple-git')();
 const fs = require('fs');
 const utils = require('../utilities');
+const winston = require('winston-color');
 
 const preExecuteOnCLI = function () {
   //read from CLI
@@ -10,10 +11,10 @@ const preExecuteOnCLI = function () {
 
 const execute = function(args, callback) {
   if (utils.isMacOS) {
-    console.info("Mac Install command was executed. Cloning ");
+    winston.info("Mac Install command was executed. Cloning ");
     //user/home/.splashkit folder.
     git.clone("https://github.com/splashkit/splashkit", "./.splashkit-download");
-    console.info("The repo was cloned!");
+    winston.info("The repo was cloned!");
   }
   return
 }

@@ -1,6 +1,7 @@
 //investigate better path solution
 const utils = require('../utilities');
 var fs = require('fs');
+const winston = require('winston-color');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -11,12 +12,12 @@ const execute = function(args, callback) {
     if (utils.isMacOS) {
       //check if we have the language
       if ( args == null || args.length == 0) {
-        return console.error ("No Arguments Supplied")
+        return winston.error ("No Arguments Supplied")
       }
 
       //check if this is already a SK folder
       if (utils.isSplashkit()) {
-        return console.error("can't init in an existing splashkit folder")
+        return winston.error("can't init in an existing splashkit folder")
       }
 
       //generate a splashkitMeta object
@@ -40,14 +41,10 @@ const execute = function(args, callback) {
           dotSplashKit.language = "C#";
           break;
         default:
-          return console.error (args[0].toLowerCase() + " is not a language.")
+          return winston.error (args[0].toLowerCase() + " is not a language.")
         }
 
-      //write the .splashkit file
-      fs.writeFile('./.splashkit', JSON.stringify(dotSplashKit, null, "\t"), (err) => {
-        if (err) throw err;
-        console.info('Saved to ./.splashkit successfully.');
-      });
+        utils.writeDotSplashkit(dotSplashKit)
     }
     return
 }

@@ -1,4 +1,5 @@
 const commands = require('../commands');
+const winston = require('winston-color');
 
 /**
  * Execute a given command name with the given args and callback.
@@ -6,9 +7,9 @@ const commands = require('../commands');
 const execute = function(cmdName, args, callback) {
     let cmd = commands.get(cmdName);
     if (cmd === undefined) {
-        console.error(`No such command name ${cmdName}`);
+        winston.error(`No such command name ${cmdName}`);
     } else {
-        console.info(`Executing ${cmdName} command...`);
+        winston.info(`Executing ${cmdName} command...`);
         // if (cmd.preExecuteOnCLI === function) {
         //     args += cmd.preExecuteOnCLI()
         // }
