@@ -32,22 +32,21 @@ const execute = function(args, callback) {
   readSplashkitFile(args, function(data) {
 
     const splashKitData = JSON.parse(JSON.minify(data))
-    console.info(splashKitData)
-
-    console.info("Status is: " + splashKitData.status)
     //now we have a init'd directory, so check its status
-    if (splashKitData.status == 'initialised') {
-      console.info("initialised folder found, creating: " + splashKitData.language + " folder structure.")
 
+    if (args.length > 0 && splashKitData.language != args[0]) {
+      return console.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
+    }
+
+    if (splashKitData.status != 'initialised') {
+      return console.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
+    }
+
+      console.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
       splashKitData.status = "created"
       utils.writeDotSplashkit(splashKitData)
       // TODO: Create folder for correct langauge in splashKitData.language
-    }
-    else console.error('can\'t create Spalshkit in a ' + splashKitData.status + "splashkit folder.")
   })
-
-
-  //finished (I think issue might be that we are returning before log is finished... ??)
 }
 
 module.exports = {
