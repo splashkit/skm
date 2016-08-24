@@ -1,7 +1,8 @@
 const utils = require('../utilities');
-var fs = require('fs');
-var init = require('./init');
-var jsonminify = require("jsonminify");
+const fs = require('fs');
+const init = require('./init');
+const jsonminify = require("jsonminify");
+const winston = require('winston-color');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -14,7 +15,7 @@ function readSplashkitFile(args, callback) {
   if (utils.isMacOS) {
     fs.readFile('./.splashkit', 'utf8', function (err, data) {
       if (err) {
-        return console.error("Can't read file");
+        return winston.error("Can't read file");
       }
       callback(data)
     });
@@ -24,7 +25,7 @@ function readSplashkitFile(args, callback) {
 const execute = function(args, callback) {
   //check if we need to init or not and init if we need to.
   if (!utils.isSplashkit()) {
-    console.info("not found, initing directory with given language " + args[0])
+    winston.info("not found, initing directory with given language " + args[0])
     init.execute(args)
   }
 
@@ -35,14 +36,14 @@ const execute = function(args, callback) {
     //now we have a init'd directory, so check its status
 
     if (args.length > 0 && splashKitData.language != args[0]) {
-      return console.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
+      return winston.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
     }
 
     if (splashKitData.status != 'initialised') {
-      return console.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
+      return winston.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
     }
 
-      console.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
+      winston.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
       splashKitData.status = "created"
       utils.writeDotSplashkit(splashKitData)
       // TODO: Create folder for correct langauge in splashKitData.language
