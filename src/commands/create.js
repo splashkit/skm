@@ -10,7 +10,7 @@ const preExecuteOnCLI = function() {
 }
 
 const _makeDirectory = function (path) {
-  console.log(`path is _makeDirector is: ${path}`)
+  logger.log(`path is _makeDirector is: ${path}`)
   mkdirp.sync(`${path}/src`)
   mkdirp.sync(`${path}/images`)
   mkdirp.sync(`${path}/sounds`)
@@ -36,24 +36,29 @@ const _createSplashKitProject = function (path, callback) {
 }
 
 const execute = function(argv, callback) {
-  console.log(`args are ${argv}\n`)
-  const lang = argv['l']
-  const workingFolder = (argv['n'] == null) ? '.' : `./${argv['n']}`
-
-  console.log(`project name is: ${workingFolder}\n`)
+  const lang = argv['l'] || argv['language']
+  const name = argv['n'] || argv['name']
+  const workingFolder = name ==  null ? '.' : `./${name}`
 
   //check if we need to init or not and init if we need to.
   let isDotFile = utils.isSplashKitDirectory('.')
-  logger.info(`Do we have dotfile?: ${isDotFile}`)
+  logger.debug(`Do we have dotfile?: ${isDotFile}`)
+
+  if (!isDotFile && lang == null) {
+    return callback(Error(`No language supplied. Use --language or -l to specify one.`))
+  }
 
   if (!isDotFile && !utils.isSupportedLangauge(lang)) {
-    console.log(`lang is ${lang}\n`)
-    return callback(Error(`${lang} is unsupported, or no language given to an non splashkit folder.`))
-    //correct
+    return callback(Error(`${lang} is unsupported. See help for supported languages.`))
+  }
+
+  if (isDotFile && name) {
+    return callback(Error(`Can't create SplashKit project in a existing project directory`))
   }
 
   if (!isDotFile && utils.isSupportedLangauge(lang)) {
     logger.info(`initing directory with language ${lang}`)
+    logger.debug(`working folder is: ${workingFolder}`)
     mkdirp.sync(workingFolder)
     utils.writeDotSplashKit(workingFolder, utils.generateDotSplashKitData(lang))
     logger.info(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
