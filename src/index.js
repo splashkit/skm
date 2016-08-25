@@ -10,7 +10,9 @@ const prepare = function () {
   let argPos = process.env.NODE_ENV == 'development' ? 2 : 1
   argv = minimist(process.argv.slice(argPos))
   isGuiStart = argv['_'].length == 0
-  if (utils.isMacOS) {
+
+  //Need to hide icon
+  if (utils.isMacOS && !isGuiStart) {
     app.dock.hide();
   }
 }
