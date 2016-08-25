@@ -9,46 +9,63 @@ const preExecuteOnCLI = function() {
     return [];
 }
 
+const _makeDirectory = function (path) {
+
+  console.log(`path is _makeDirector is: ${path}`)
+
+  mkdirp.sync(`${path}/src`)
+  mkdirp.sync(`${path}/images`)
+  mkdirp.sync(`${path}/sounds`)
+}
+
 const execute = function(args, callback) {
 
-  let workingFolder = './'
+  console.log(`args are ${args}\n`)
+  const lang = args[0]
+  const workingFolder = (args[1] != null) ? args[1] : './SplashKit-Project'
+
+  console.log(`project name is: ${workingFolder}\n`)
+
   //check if we need to init or not and init if we need to.
+  let isDotFile = utils.isSplashKitDirectory('.')
+  logger.info(`Do we have dotfile?: ${isDotFile}`)
 
-  let isDotFile = utils.isSplashkit()
-  logger.info(`we have ${isDotFile}`)
-
-  if (!isDotFile && args.length < 1) {
-    return logger.error(`no args given to an non splashkit folder splashkit folder.`)
+  if (!isDotFile && !utils.isSupportedLangauge(lang)) {
+    console.log(`lang is ${lang}\n`)
+    return callback(Error(`no args given to an non splashkit folder.`))
   }
-  //no .file but we have a language
-  if (!isDotFile)
-  {
-    logger.info(`initing directory with language ${args[0]}`)
-    init.execute(args)
+
+  if (isDotFile && lang != null) {
+    return callback(Error(`can\'t create project with invalid language ${lang}`))
+  }
+
+  //no .file but we have a valid language
+
+  logger.info(`Is dotfile?: ${isDotFile} and is language suppoted?: ${utils.isSupportedLangauge(lang)}`)
+
+  if (!isDotFile && utils.isSupportedLangauge(lang)){
+    logger.info(`initing directory with language ${lang}`)
+
+    _makeDirectory(workingFolder)
+    utils.writeDotSplashKit(workingFolder, utils.generateDotSplashKitData(lang))
+
+    logger.info(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
   }
 
   //read the .splashkit file
-  const splashKitData = utils.readDotSplashkit()
+  const splashKitData = utils.readDotSplashKit(workingFolder)
 
-  //now we have a init'd directory, so check its status
-  if (splashKitData.language != args[0]) {
-    return logger.error(`can\'t create ${args[0]} in a ${splashKitData.language} splashkit folder.`)
+  if (splashKitData.status != 'initialized') {
+    return callback(Error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`))
   }
 
-  if (splashKitData.status != 'initialised') {
-    return logger.error(`can\'t create Spalshkit in a ${splashKitData.status} splashkit folder.`)
-  }
-
-  logger.info(`initialised folder found, creating: ${splashKitData.language} folder structure.`)
+  logger.info(`Creating: ${splashKitData.language} SplashKit project.`)
   splashKitData.status = "created"
-  utils.writeDotSplashkit(splashKitData)
 
-  mkdirp.sync('./src')
-  mkdirp.sync('./images')
-  mkdirp.sync('./sounds')
+  _makeDirectory(workingFolder)
+  utils.writeDotSplashKit(workingFolder, splashKitData)
 
-  // TODO: Create folder for correct langauge in splashKitData.language
-
+  logger.info(`Created: ${splashKitData.language} SplashKit project: ${workingFolder} successfully.`)
 }
 
 module.exports = {
