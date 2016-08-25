@@ -34,7 +34,10 @@
   "homepage": "https://github.com/splashkit/skm#readme",
   "dependencies": {
     "electron": "^1.3.3",
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "winston-color": "1.0.0",
+    "json-minify": "^1.0.0",
+    "simple-git": "^1.47.0"
   },
   "devDependencies": {
     "electron-packager": "^7.7.0"
