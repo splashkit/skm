@@ -3,6 +3,7 @@ const utils = require('../utilities');
 var fs = require('fs');
 const logger = require('winston-color');
 const mkdirp = require('mkdirp');
+const config = require('../config');
 
 const preExecuteOnCLI = function() {
     //read from CLI
@@ -10,27 +11,24 @@ const preExecuteOnCLI = function() {
 }
 
 const execute = function(args, callback) {
-    if (utils.isMacOS) {
-      //check if we have the language
-      if ( args == null || args.length == 0) {
-        return logger.error ("No Arguments Supplied")
-      }
-
-      //check if this is already a SK folder
-      if (utils.isSplashkit(`./`)) {
-        return logger.error("can't init in an existing splashkit folder")
-      }
-
-      //generate a splashkitMeta object
-      let dotSplashKit = utils.generateDotSplashkit();
-
-      //check arguments to add language to splashkitMeta object
-      dotSplashKit.language = utils.getValidLanguageFromArg(args[0])
-
-      if (dotSplashKit.language != null)
-        utils.writeDotSplashkit(dotSplashKit)
+    //check if we have the language
+    if ( args == null || args.length == 0) {
+      return callback(Error("No arguments supplied"))
     }
-    return
+
+    //check if this is already a SK folder
+    if (utils.isSplashKitDirectory('.')) {
+      return callback(Error("Can't initialise in an existing SplashKit directory"))
+    }
+
+    let lang = args[0]; // todo fix!
+    if (!utils.isSupportedLangauge(lang)) {
+      return callback(Error("Soz need lang to be cool. See help for more."))
+    }
+
+    const data = utils.generateDotSplashKitData(lang);
+    utils.writeDotSplashKit('.', data);
+    callback();
 }
 
 module.exports = {
