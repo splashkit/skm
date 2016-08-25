@@ -13,7 +13,13 @@ const execute = function(cmdName, args, callback) {
         // if (cmd.preExecuteOnCLI === function) {
         //     args += cmd.preExecuteOnCLI()
         // }
-        cmd.execute(args, callback);
+        cmd.execute(args, function(err, data) {
+          if (err) {
+            logger.error(`Error executing ${cmdName}:\n\t${err.message}`)
+          } else if (data != null) {
+            logger.info(data)
+          }
+        });
     }
 }
 
