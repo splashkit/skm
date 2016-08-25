@@ -10,15 +10,14 @@ const isSupportedLangauge = function (language) {
 }
 
 const runCommand = function (cmd, callback){
-  let error = null;
   try {
     execSync(cmd, {stdio:[0,1,2]})
   }
   catch (ex) {
-    error = ex.message
+    callback(ex.message)
   }
   finally {
-    callback(error)
+    //callback()
   }
 
 }

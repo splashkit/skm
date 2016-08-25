@@ -10,7 +10,6 @@ const execute = function(cmdName, args) {
         return logger.error(`No such command name ${cmdName}`);
     }
 
-    // have valid command
     logger.info(`Executing ${cmdName} command...`);
     // if (cmd.preExecuteOnCLI === function) {
     //     args += cmd.preExecuteOnCLI()
@@ -18,7 +17,7 @@ const execute = function(cmdName, args) {
 
     cmd.execute(args, function(err, data) {
       if (err) {
-        logger.error(`Error executing ${cmdName}:\n\t${err.message}`)
+        logger.error(`Error executing ${cmdName}:\n\t${err}`)
       } else if (data != null) {
         logger.info(data)
       }
