@@ -1,4 +1,4 @@
-const {runCommand} = require('../utilities');
+const {runCommand} = require('../utils');
 
 const execute = function(args, callback) {
   runCommand('clang++ ./game_main.cpp -o program', callback)

@@ -1,4 +1,4 @@
-const utils = require('../utilities');
+const utils = require('../utils');
 const fs = require('fs');
 const init = require('./init');
 const logger = require('winston-color');

@@ -1,7 +1,7 @@
 //require simple-git with optional empty working path.
 const git = require('simple-git')();
 const fs = require('fs');
-const utils = require('../utilities');
+const utils = require('../utils');
 const logger = require('winston-color');
 
 const preExecuteOnCLI = function () {
