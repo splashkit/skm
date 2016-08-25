@@ -1,13 +1,13 @@
 //investigate better path solution
-const utils = require('../utils');
-var fs = require('fs');
-const logger = require('winston-color');
-const mkdirp = require('mkdirp');
-const config = require('../config');
+const utils = require('../utils')
+var fs = require('fs')
+const logger = require('winston-color')
+const mkdirp = require('mkdirp')
+const config = require('../config')
 
 const preExecuteOnCLI = function() {
     //read from CLI
-    return [];
+    return []
 }
 
 const execute = function(argv, callback) {
@@ -17,7 +17,7 @@ const execute = function(argv, callback) {
     }
 
     //check if we have the language
-    let lang = argv['l'];
+    let lang = argv['l']
     if (lang == null) {
       return callback(Error(`${lang} language. See help for more details.`))
     }
@@ -25,8 +25,8 @@ const execute = function(argv, callback) {
       return callback(Error(`${lang} is not a supported language. See help for more details.`))
     }
 
-    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang));
-    callback();
+    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
+    callback()
 }
 
 module.exports = {

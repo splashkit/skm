@@ -2,7 +2,7 @@ var fs = require('fs')
 const logger = require('winston-color')
 const jsonminify = require("jsonminify")
 const config = require("../config")
-const execSync = require('child_process').execSync;
+const execSync = require('child_process').execSync
 
 
 const isSupportedLangauge = function (language) {

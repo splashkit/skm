@@ -1,12 +1,12 @@
-const utils = require('../utils');
-const fs = require('fs');
-const init = require('./init');
-const logger = require('winston-color');
-const mkdirp = require('mkdirp');
+const utils = require('../utils')
+const fs = require('fs')
+const init = require('./init')
+const logger = require('winston-color')
+const mkdirp = require('mkdirp')
 
 const preExecuteOnCLI = function() {
     //read from CLI
-    return [];
+    return []
 }
 
 const _makeDirectory = function (path) {
