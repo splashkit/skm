@@ -10,24 +10,22 @@ const preExecuteOnCLI = function() {
     return [];
 }
 
-const execute = function(args, callback) {
-    //check if we have the language
-    if ( args == null || args.length == 0) {
-      return callback(Error("No arguments supplied"))
-    }
-
+const execute = function(argv, callback) {
     //check if this is already a SK folder
     if (utils.isSplashKitDirectory('.')) {
       return callback(Error("Can't initialise in an existing SplashKit directory"))
     }
 
-    let lang = args[0]; // todo fix!
+    //check if we have the language
+    let lang = argv['l'];
+    if (lang == null) {
+      return callback(Error(`${lang} language. See help for more details.`))
+    }
     if (!utils.isSupportedLangauge(lang)) {
-      return callback(Error("Soz need lang to be cool. See help for more."))
+      return callback(Error(`${lang} is not a supported language. See help for more details.`))
     }
 
-    const data = utils.generateDotSplashKitData(lang);
-    utils.writeDotSplashKit('.', data);
+    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang));
     callback();
 }
 
