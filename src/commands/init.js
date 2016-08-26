@@ -1,8 +1,5 @@
 //investigate better path solution
 const utils = require('../utils')
-const fs = require('fs')
-const logger = require('winston-color')
-const mkdirp = require('mkdirp')
 const config = require('../config')
 const inquirer = require('inquirer');
 
