@@ -2,5 +2,7 @@
   "supported_languages": [
     "pascal"
   ],
-  "splashkit_version": "-1"
+  "splashkit_version": "-1",
+  "splashkit_install_location": "~/.splashkit",
+  "splashkit_repo": "https://github.com/splashkit/splashkit"
 }

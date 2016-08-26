@@ -56,11 +56,10 @@ ${dataAsString}
   logger.debug(`Saved to ${path}/.splashkit successfully.`)
 }
 
-const isSplashKitDirectory = function (path) {
-  const dotSK = `${path}/.splashkit`
-  logger.debug(`Checking for .splashkit file at: ${dotSK}`)
+const doespathExist = function (path) {
+  logger.debug(`Checking for directory or file at: ${path}`)
   try {
-    return fs.statSync(dotSK).isFile()
+    return fs.statSync(path).isFile()
   } catch (e) {
     if (e.code === 'ENOENT') {
       return false
@@ -70,8 +69,14 @@ const isSplashKitDirectory = function (path) {
   }
 }
 
+const isSplashKitDirectory = function (path) {
+  const dotSKPath = `${path}/.splashkit`
+  return doespathExist(dotSKPath)
+}
+
 module.exports = {
   generateDotSplashKitData: generateDotSplashKitData,
+  doespathExist: doespathExist,
   isSupportedLangauge: isSupportedLangauge,
   runCommand: runCommand,
   readDotSplashKit: readDotSplashKit,
