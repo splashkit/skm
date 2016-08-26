@@ -1,10 +1,10 @@
 const commands = require('../commands')
 const logger = require('winston-color')
 
-const _executeSpecificCommand = function (cmd, argv, callback) {
+const _executeCommand = function (cmd, argv, callback) {
   cmd.execute(argv, function(err, data) {
     if (err) {
-      logger.error(`Error executing ${cmdName}:\n\t${err}`)
+      logger.error(`Error executing ${cmd.cmdName}:\n\t${err}`)
     } else if (data != null) {
       logger.info(data)
     }
@@ -20,12 +20,15 @@ const execute = function(cmdName, argv, callback) {
     if (cmd == null) {
         return logger.error(`No such command name ${cmdName}`)
     }
+    //add the command name string to the object for error checking later on.
+    cmd.cmdName = cmdName
+
     if (typeof cmd.preExecuteOnCLI === "function") {
-        cmd.preExecuteOnCLI(cmdName, function (error, argv) {
-          _executeSpecificCommand(cmd, argv, callback)
+        cmd.preExecuteOnCLI(cmd, argv, function (error, argv) {
+          _executeCommand(cmd, argv, callback)
         })
     } else {
-      _executeSpecificCommand(cmd, argv, callback)
+      _executeCommand(cmd, argv, callback)
     }
 }
 

@@ -6,22 +6,28 @@ const config = require('../config')
 
 const execute = function(args, callback) {
   if (utils.isMacOS) {
-    logger.log("Before CLONE")
-
     const repo = config['splashkit_repo']
     const installPath = config['splashkit_install_location']
 
-    logger.info("Mac Install command was executed. Cloning ")
+    logger.info("Mac Install command was executed. Cloning repo")
 
     if (utils.doespathExist(installPath)) {
-      //return callback(Error(`can't install, splashkit is already installed!`))
+      return callback(Error(`can't install, splashkit is already installed!`))
     }
 
-    // Clone a given repository into the `./tmp` folder.
-    logger.info(`cloning ${repo} to ${installPath}`)
-    git.Clone(repo, installPath)
-    logger.info(`cloned ${repo} to ${installPath}`)
+    let cloneOptions = {}
+    cloneOptions.fetchOpts = {
+      callbacks: {
+        certificateCheck: function() { return 1; }
+      }
+    };
 
+    logger.info(`cloning ${repo} to ${installPath}`)
+    let cloneRepo = git.Clone(repo, installPath, cloneOptions)
+      .then(null, function(response){
+        console.log(response)
+        callback()
+      })
   }
 }
 

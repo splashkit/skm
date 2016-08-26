@@ -59,7 +59,7 @@ ${dataAsString}
 const doespathExist = function (path) {
   logger.debug(`Checking for directory or file at: ${path}`)
   try {
-    return fs.statSync(path).isFile()
+    return fs.statSync(path).isDirectory() || fs.statSync(path).isFile()
   } catch (e) {
     if (e.code === 'ENOENT') {
       return false
