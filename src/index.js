@@ -1,4 +1,6 @@
+console.log(1);
 const app = require('electron').app
+console.log(2);
 const cli = require('./cli')
 const gui = require('./gui')
 const minimist = require('minimist')
@@ -10,6 +12,8 @@ const prepare = function () {
   let argPos = process.env.NODE_ENV == 'development' ? 2 : 1
   argv = minimist(process.argv.slice(argPos))
   isGuiStart = argv['_'].length == 0
+
+
 
   //Need to hide icon
   if (utils.isMacOS && !isGuiStart) {
