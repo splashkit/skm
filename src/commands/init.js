@@ -9,23 +9,23 @@ var inquirer = require('inquirer');
 const preExecuteOnCLI = function(argv, callback) {
 
     let questions = [
-    {
-      type: 'confirm',
-      name: 'toBeDelivered',
-      message: 'Is this for delivery?',
-      default: false
-    }
+      {
+        type: 'list',
+        name: 'language',
+        message: `Which language would you like to initialise in this folder?`,
+        choices: config['supported_languages']
+      }
     ]
 
     let lang = argv['l']
-
     if (lang == null || !utils.isSupportedLangauge(lang)) {
-
       inquirer.prompt(questions).then(function (answers) {
-          logger.info(`HERE2`)
-          argv['l'] = answers
+          argv['l'] = answers['language']
           callback(null, argv)
       });
+    }
+    else {
+      callback(null, argv)
     }
 }
 

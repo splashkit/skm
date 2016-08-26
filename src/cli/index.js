@@ -24,7 +24,8 @@ const execute = function(cmdName, argv, callback) {
     cmd.cmdName = cmdName
 
     if (typeof cmd.preExecuteOnCLI === "function") {
-        cmd.preExecuteOnCLI(cmd, argv, function (error, argv) {
+        cmd.preExecuteOnCLI(argv, function (error, argv) {
+          logger.log(`cmd is: ${cmd}, argv is: ${argv} `)
           _executeCommand(cmd, argv, callback)
         })
     } else {
