@@ -9,8 +9,9 @@ const _checkLangIsValid = function (language) {
 }
 //it is preExecutOnCLI's job to ensure argv is sanatized and a valid language
 const preExecuteOnCLI = function(argv, callback) {
+  const lang = argv['l'] || argv['language']
   //check the language, if it's fine continue on.
-  if (_checkLangIsValid(argv['l'])) {
+  if (_checkLangIsValid(lang)) {
     callback(null, argv)
   } else {
     let questions = [
@@ -29,7 +30,7 @@ const preExecuteOnCLI = function(argv, callback) {
 }
 
 const execute = function(argv, callback) {
-  const lang = argv['l']
+  const lang = argv['l'] || argv['language']
   //check if this is already a SK folder
   if (utils.isSplashKitDirectory('.')) {
     return callback(Error("Can't initialise in an existing SplashKit directory"))
