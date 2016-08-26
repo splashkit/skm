@@ -28,7 +28,7 @@ const _createSplashKitProject = function (path, callback) {
   utils.writeDotSplashKit(path, splashKitData)
 
   logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
-  callback()
+
 }
 
 const preExecuteOnCLI = function(argv, callback) {
@@ -65,6 +65,7 @@ const execute = function(argv, callback) {
     logger.info(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
   }
   _createSplashKitProject(workingFolder, callback)
+  callback()
 }
 
 module.exports = {
