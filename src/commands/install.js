@@ -12,7 +12,7 @@ const execute = function(args, callback) {
     logger.info("Mac Install command was executed. Cloning repo")
 
     if (utils.doespathExist(installPath)) {
-      return callback(Error(`can't install, splashkit is already installed!`))
+      callback(Error(`can't install, splashkit is already installed!`))
     }
 
     let cloneOptions = {}

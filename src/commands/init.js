@@ -34,13 +34,13 @@ const execute = function(argv, callback) {
   const lang = argv['l'] || argv['language']
   //check if this is already a SK folder
   if (utils.isSplashKitDirectory('.')) {
-    return callback(Error("Can't initialise in an existing SplashKit directory"))
+    callback(Error("Can't initialise in an existing SplashKit directory"))
+  }  else if (!_checkLangIsValid(lang)) {
+    callback(Error(`Error: Invalid language ${lang}`))
+  } else {
+    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
+    callback(null, '.')
   }
-  else if (!_checkLangIsValid(lang)) {
-    return callback(Error(`Error: Invalid language ${lang}`))
-  }
-  utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
-  callback(null, '.')
 }
 
 module.exports = {

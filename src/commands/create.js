@@ -18,20 +18,19 @@ const _isDotFile = function(path) {
 
 const _createSplashKitProject = function (path, callback) {
   const splashKitData = utils.readDotSplashKit(path)
-
   if (splashKitData == null) {
-    return callback(Error(`Can't create splashKit Project`))
+    callback(Error(`Can't create splashKit Project`))
   }
-
-  if (splashKitData.status != 'initialized') {
-    return callback(Error(`Can't create SplashKit in a ${splashKitData.status} splashkit folder.`))
+  else if (splashKitData.status != 'initialized') {
+    callback(Error(`Can't create SplashKit in a ${splashKitData.status} splashkit folder.`))
   }
+  else {
+    splashKitData.status = "created"
+    _makeDirectory(path)
+    utils.writeDotSplashKit(path, splashKitData)
 
-  splashKitData.status = "created"
-  _makeDirectory(path)
-  utils.writeDotSplashKit(path, splashKitData)
-
-  logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
+    logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
+  }
 }
 
 const preExecuteOnCLI = function(argv, callback) {
