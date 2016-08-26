@@ -1,13 +1,21 @@
 //investigate better path solution
 const utils = require('../utils')
-var fs = require('fs')
+const fs = require('fs')
 const logger = require('winston-color')
 const mkdirp = require('mkdirp')
 const config = require('../config')
-var inquirer = require('inquirer');
+const inquirer = require('inquirer');
 
+// Don't put this in utils, they need to be seperate there
+const _checkLangIsValid = function (language) {
+  return (language != null && utils.isSupportedLangauge(language))
+}
+//it is preExecutOnCLI's job to ensure argv is sanatized and a valid language
 const preExecuteOnCLI = function(argv, callback) {
-
+  //check the language, if it's fine continue on.
+  if (_checkLangIsValid(argv['l'])) {
+    callback(null, argv)
+  } else {
     let questions = [
       {
         type: 'list',
@@ -16,36 +24,24 @@ const preExecuteOnCLI = function(argv, callback) {
         choices: config['supported_languages']
       }
     ]
-
-    let lang = argv['l']
-    if (lang == null || !utils.isSupportedLangauge(lang)) {
-      inquirer.prompt(questions).then(function (answers) {
-          argv['l'] = answers['language']
-          callback(null, argv)
-      });
-    }
-    else {
-      callback(null, argv)
-    }
+    inquirer.prompt(questions).then(function (answers) {
+        argv['l'] = answers['language']
+        callback(null, argv)
+    });
+  }
 }
 
 const execute = function(argv, callback) {
-    //check if this is already a SK folder
-    if (utils.isSplashKitDirectory('.')) {
-      return callback(Error("Can't initialise in an existing SplashKit directory"))
-    }
-
-    //check if we have the language
-    let lang = argv['l']
-    if (lang == null) {
-      return callback(Error(`${lang} language. See help for more details.`))
-    }
-    if (!utils.isSupportedLangauge(lang)) {
-      return callback(Error(`${lang} is not a supported language. See help for more details.`))
-    }
-
-    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
-    callback()
+  const lang = argv['l']
+  //check if this is already a SK folder
+  if (utils.isSplashKitDirectory('.')) {
+    return callback(Error("Can't initialise in an existing SplashKit directory"))
+  }
+  else if (!_checkLangIsValid(lang)) {
+    return callback(Error(`Error: Invalid language ${lang}`))
+  }
+  utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
+  callback(null, '.')
 }
 
 module.exports = {
