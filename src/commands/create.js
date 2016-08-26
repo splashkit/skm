@@ -4,11 +4,6 @@ const init = require('./init')
 const logger = require('winston-color')
 const mkdirp = require('mkdirp')
 
-const preExecuteOnCLI = function() {
-    //read from CLI
-    return []
-}
-
 const _makeDirectory = function (path) {
   logger.log(`path is _makeDirector is: ${path}`)
   mkdirp.sync(`${path}/src`)
@@ -17,11 +12,11 @@ const _makeDirectory = function (path) {
 }
 
 const _createSplashKitProject = function (path, callback) {
+
   const splashKitData = utils.readDotSplashKit(path)
 
   if (splashKitData == null) {
-    return callback(Error(`Can't create splashKit Project `))
-    // TODO: Need more specificity
+    return callback(Error(`Can't create splashKit Project`))
   }
 
   if (splashKitData.status != 'initialized') {
@@ -33,7 +28,13 @@ const _createSplashKitProject = function (path, callback) {
   utils.writeDotSplashKit(path, splashKitData)
 
   logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
+  callback()
 }
+
+const preExecuteOnCLI = function(argv, callback) {
+    callback(null, argv)
+}
+
 
 const execute = function(argv, callback) {
   const lang = argv['l'] || argv['language']
@@ -57,13 +58,12 @@ const execute = function(argv, callback) {
   }
 
   if (!isDotFile && utils.isSupportedLangauge(lang)) {
-    logger.info(`initing directory with language ${lang}`)
+    logger.debug(`initing directory with language ${lang}`)
     logger.debug(`working folder is: ${workingFolder}`)
     mkdirp.sync(workingFolder)
     utils.writeDotSplashKit(workingFolder, utils.generateDotSplashKitData(lang))
     logger.info(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
   }
-
   _createSplashKitProject(workingFolder, callback)
 }
 
