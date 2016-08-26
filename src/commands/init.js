@@ -4,10 +4,29 @@ var fs = require('fs')
 const logger = require('winston-color')
 const mkdirp = require('mkdirp')
 const config = require('../config')
+var inquirer = require('inquirer');
 
-const preExecuteOnCLI = function() {
-    //read from CLI
-    return []
+const preExecuteOnCLI = function(argv, callback) {
+
+    let questions = [
+    {
+      type: 'confirm',
+      name: 'toBeDelivered',
+      message: 'Is this for delivery?',
+      default: false
+    }
+    ]
+
+    let lang = argv['l']
+
+    if (lang == null || !utils.isSupportedLangauge(lang)) {
+
+      inquirer.prompt(questions).then(function (answers) {
+          logger.info(`HERE2`)
+          argv['l'] = answers
+          callback(null, argv)
+      });
+    }
 }
 
 const execute = function(argv, callback) {
