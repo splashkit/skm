@@ -18,18 +18,22 @@ const _executeCommand = function (cmd, argv, callback) {
 const execute = function(cmdName, argv, callback) {
     const cmd = commands.get(cmdName)
     if (cmd == null) {
-        return logger.error(`No such command name ${cmdName}`)
-    }
-    //add the command name string to the object for error checking later on.
-    cmd.cmdName = cmdName
-
-    if (typeof cmd.preExecuteOnCLI === "function") {
-        cmd.preExecuteOnCLI(argv, function (error, argv) {
-          logger.log(`cmd is: ${cmd}, argv is: ${argv} `)
-          _executeCommand(cmd, argv, callback)
-        })
+        callback(logger.error(`${cmdName} is not a valid command.`))
     } else {
-      _executeCommand(cmd, argv, callback)
+      //add the command name string to the object for error checking later on.
+      cmd.cmdName = cmdName
+
+      if (typeof cmd.preExecuteOnCLI === "function") {
+          cmd.preExecuteOnCLI(argv, function (error, argv) {
+            if (error != null) {
+              callback(error)
+            } else {
+              _executeCommand(cmd, argv, callback)
+            }
+          })
+      } else {
+        _executeCommand(cmd, argv, callback)
+      }
     }
 }
 

@@ -9,6 +9,7 @@ const _checkLangIsValid = function (language) {
 }
 //it is preExecutOnCLI's job to ensure argv is sanatized and a valid language
 const preExecuteOnCLI = function(argv, callback) {
+  // TODO: Fix flag break problem where argv['l'] is true if no language is passed in.
   const lang = argv['l'] || argv['language']
   //check the language, if it's fine continue on.
   if (_checkLangIsValid(lang)) {
