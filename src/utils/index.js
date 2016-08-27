@@ -4,6 +4,10 @@ const jsonminify = require("jsonminify")
 const config = require("../config")
 const execSync = require('child_process').execSync
 
+const randomJsonValue = function (obj) {
+    const keys = Object.keys(obj)
+    return obj[keys[keys.length * Math.random() << 0]]
+}
 
 const isSupportedLangauge = function (language) {
   if (typeof language === "boolean") return false
@@ -76,6 +80,7 @@ const isSplashKitDirectory = function (path) {
 
 module.exports = {
   generateDotSplashKitData: generateDotSplashKitData,
+  randomJsonValue: randomJsonValue,
   doespathExist: doespathExist,
   isSupportedLangauge: isSupportedLangauge,
   runCommand: runCommand,

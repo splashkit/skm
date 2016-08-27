@@ -3,6 +3,15 @@ const utils = require('../utils')
 const config = require('../config')
 const inquirer = require('inquirer');
 
+const whichLanguage = [
+    {
+      type: 'list',
+      name: 'language',
+      message: `Which language would you like to initialise in this folder?`,
+      choices: config['supported_languages']
+    }
+  ]
+
 // Don't put this in utils, they need to be seperate there
 const _checkLangIsValid = function (language) {
   return (language != null && utils.isSupportedLangauge(language))
@@ -15,15 +24,7 @@ const preExecuteOnCLI = function(argv, callback) {
   if (_checkLangIsValid(lang)) {
     callback(null, argv)
   } else {
-    let questions = [
-      {
-        type: 'list',
-        name: 'language',
-        message: `Which language would you like to initialise in this folder?`,
-        choices: config['supported_languages']
-      }
-    ]
-    inquirer.prompt(questions).then(function (answers) {
+    inquirer.prompt(whichLanguage).then(function (answers) {
         argv['l'] = answers['language']
         callback(null, argv)
     });
