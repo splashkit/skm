@@ -24,7 +24,6 @@ const guiStart = function () {
 const cliStart = function () {
   let cmdName = argv['_'][0]
   cli.execute(cmdName, argv, app.quit)
-
 }
 
 prepare()
