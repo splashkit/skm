@@ -2,9 +2,17 @@
 
 SplashKit Manager or SKM is the CLI/App tool for installing and managing SplashKit, as well as creating, building, and running your very own SplashKit projects!
 
-## Code Example
+## Status
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+*Under Heavy Development*
+
+## Use Example
+
+* ```skm install```
+* ```cd /code/projects```
+* ```skm create -l pascal -n helloWorld```
+* ```skm build <build args>```
+* ```skm run```
 
 ## Motivation
 
@@ -22,6 +30,7 @@ TODO
 * ```skm update```: Updates the installed of SplashKit, if there is a newer version available.
 
 * ```skm init```: Initializes the current directory as a SplashKit project directory.
+  * ```--language <language>```: *necessary* Specify the project language.
   * Use this command if you have an existing SplashKit project folder you would like to build.
 
 * ```skm create```: Creates a new SplashKit project with the given language and name.
