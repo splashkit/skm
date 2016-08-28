@@ -4,7 +4,7 @@ const logger = require('winston-color')
 const _executeCommand = function (cmd, argv, callback) {
   cmd.execute(argv, function(err, data) {
     if (err) {
-      logger.error(`Error executing ${cmd.cmdName}:\n\t${err}`)
+      logger.error(`Error during ${cmd.cmdName} command:\n\t${err}`)
     } else if (data != null) {
       logger.info(data)
     }
