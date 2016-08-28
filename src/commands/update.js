@@ -1,28 +1,47 @@
 //require simple-git with optional empty working path.
-// const git = require('nodegit')()
-// const utils = require('../utils')
-// const logger = require('winston-color')
-// const config = require('../config')
+const git = require("nodegit")
+const utils = require('../utils')
+const logger = require('winston-color')
+const config = require('../config')
+const cliSpinners = require('cli-spinners')
+const ora = require('ora');
 
-const preExecuteOnCLI = function () {
-  //read from CLI
-  return []
-}
+const spinner = new ora({
+  text: 'Installing Splashkit',
+  spinner: utils.randomJsonValue(cliSpinners),
+  color: 'cyan'
+});
 
 const execute = function(args, callback) {
   if (utils.isMacOS) {
-    // const path = config['splashkit_install_location']
-    // const repo = config['splashkit_repo']
-    //
-    // logger.info("Mac Install command was executed. Cloning ")
-    //
-    // utils.doespathExist(`${path}/splashkit`)
-    // git.clone(repo, installPath)
-    // logger.info(`The repo was cloned to ${path} from ${repo}!`)
+    const repo = config['splashkit_repo']
+    const installPath = config['splashkit_install_location']
+
+    logger.info("Mac Install command was executed. Cloning repo")
+
+    if (!utils.doespathExist(installPath)) {
+      callback(Error(`can't find SplashKit, please install splashkit !`))
+    } else {
+      let cloneOptions = {}
+      cloneOptions.fetchOpts = {
+        callbacks: {
+          certificateCheck: function() { return 1; }
+        }
+      };
+
+      logger.debug(`cloning ${repo} to ${installPath}`)
+      // let cloneRepo = git.Clone(repo, installPath, cloneOptions)
+      //   .then(null, function(response){
+      //     if (response) {
+      //       spinner.succeed()
+      //     }
+      //     callback()
+      //   })
+      //   spinner.start(cliSpinners.dots4);
+      }
   }
 }
 
 module.exports = {
-  execute: execute,
-  preExecuteOnCLI: preExecuteOnCLI
+  execute: execute
 }
