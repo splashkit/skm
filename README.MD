@@ -29,6 +29,8 @@ TODO
 
 * ```skm update```: Updates the installed of SplashKit, if there is a newer version available.
 
+### Managing SplashKit Projects
+
 * ```skm init```: Initializes the current directory as a SplashKit project directory.
   * ```--language <language>```: *necessary* Specify the project language.
   * Use this command if you have an existing SplashKit project folder you would like to build.
