@@ -9,6 +9,7 @@ let argv, isGuiStart
 const prepare = function () {
   let argPos = process.env.NODE_ENV == 'development' ? 2 : 1
   argv = minimist(process.argv.slice(argPos))
+  argv['original_string'] = process.argv.slice(argPos + 1)
   isGuiStart = argv['_'].length == 0
 
   //Need to hide icon
