@@ -1,7 +1,7 @@
-//investigate better path solution
 const utils = require('../utils')
 const config = require('../config')
-const inquirer = require('inquirer');
+const inquirer = require('inquirer')
+const emoji = require('node-emoji');
 
 const whichLanguage = [
     {
@@ -40,7 +40,7 @@ const execute = function(argv, callback) {
     callback(Error(`Error: Invalid language ${lang}`))
   } else {
     utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
-    callback(null, '.')
+    callback(null, `Successfully initialised SplashKit Folder ${emoji.get('thumbsup')}`)
   }
 }
 
