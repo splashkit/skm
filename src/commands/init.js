@@ -1,50 +1,87 @@
 const utils = require('../utils')
-const config = require('../config')
+const fs = require('fs')
+const init = require('./init')
+const logger = require('winston-color')
+const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
-const emoji = require('node-emoji');
+const config = require('../config')
+const path = require(`path`)
 
-const whichLanguage = [
-    {
-      type: 'list',
-      name: 'language',
-      message: `Which language would you like to initialise in this folder?`,
-      choices: config['supported_languages']
-    }
-  ]
-
-// Don't put this in utils, they need to be seperate there
-const _checkLangIsValid = function (language) {
-  return (language != null && utils.isSupportedLangauge(language))
+const questions = []
+const whatLang = {
+  type: 'list',
+  name: 'project_language',
+  message: `Which language would you like to initialise in this folder?`,
+  choices: config['supported_languages']
 }
-//it is preExecutOnCLI's job to ensure argv is sanatized and a valid language
+const whatName = {
+  type: 'input',
+  name: 'project_name',
+  message: 'What would you like to name your project?'
+}
+
+const _createSplashKitProject = function(path, callback) {
+  // COPY DIRECTORY HERE
+  logger.debug('Here we will copy the directory')
+  callback()
+}
+
 const preExecuteOnCLI = function(argv, callback) {
-  // TODO: Fix flag break problem where argv['l'] is true if no language is passed in.
-  const lang = argv['l'] || argv['language']
-  //check the language, if it's fine continue on.
-  if (_checkLangIsValid(lang)) {
+  let language = argv['l'] || argv['language']
+  let name = argv['n'] || argv['name']
+
+  // don't need lang or name
+  if (utils.isSupportedLangauge(language) && name != null) {
     callback(null, argv)
-  } else {
-    inquirer.prompt(whichLanguage).then(function (answers) {
-        argv['l'] = answers['language']
-        callback(null, argv)
-    });
   }
+  //just ask for lang
+  if (!utils.isSupportedLangauge(language)) {
+    questions.push(whatLang)
+  }
+  //just ask for name
+  if (name == null) {
+    questions.push(whatName)
+  }
+
+  inquirer.prompt(questions).then(function(answers) {
+    if (answers.project_language != null) {
+      logger.debug(answers.project_language)
+      language = answers['project_language']
+    }
+    if (answers.project_name != null) {
+      name = answers.project_name
+    }
+
+    argv['l'] = argv['language'] = language
+    argv['n'] = argv['name'] = name
+
+    callback(null, argv)
+  })
 }
 
 const execute = function(argv, callback) {
   const lang = argv['l'] || argv['language']
-  //check if this is already a SK folder
-  if (utils.isSplashKitDirectory('.')) {
-    callback(Error("Can't initialise in an existing SplashKit directory"))
-  }  else if (!_checkLangIsValid(lang)) {
-    callback(Error(`Error: Invalid language ${lang}`))
-  } else {
-    utils.writeDotSplashKit('.', utils.generateDotSplashKitData(lang))
-    callback(null, `Successfully initialised SplashKit Folder ${emoji.get('thumbsup')}`)
+  const name = argv['n'] || argv['name']
+  const workingFolder = name == null ? '.' : `./${name}`
+
+  if (lang == null) {
+    return callback(Error('No language supplied. Use --language or -l to specify one.'))
+  } else if (!utils.isSupportedLangauge(lang)) {
+    return callback(Error(`${lang} is unsupported. See help for supported languages.`))
+  } else if (name == null) {
+    return callback('Need name to create SplashKit project')
   }
+
+  _createSplashKitProject(workingFolder, function(err, data) {
+    if (err) {
+      callback(err.message)
+    } else {
+      callback(null, `Successfully created ${lang} splashkit project in ${path.resolve(workingFolder)}`)
+    }
+  })
 }
 
 module.exports = {
-    execute: execute,
-    preExecuteOnCLI: preExecuteOnCLI
+  execute: execute,
+  preExecuteOnCLI: preExecuteOnCLI
 }
