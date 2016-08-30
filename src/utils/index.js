@@ -28,7 +28,7 @@ const readDotSplashKit = function (path) {
   return JSON.parse(JSON.minify(data))
 }
 
-const generateDotSplashKitData = function (language) {
+const generateDotSplashKitData = function (language, splashKitProjectName = 'SplashKit Project') {
   if (language == null) {
     throw Error('Must provide language when generating a .splashkit')
   }
@@ -37,7 +37,8 @@ const generateDotSplashKitData = function (language) {
     'date_created': new Date(),
     'message': 'Jake',
     'status': 'initialized',
-    'language': language
+    'language': language,
+    'name': splashKitProjectName.toLowerCase().replace(' ', '-')
   }
   return data
 }

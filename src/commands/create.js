@@ -5,6 +5,7 @@ const logger = require('winston-color')
 const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
 const config = require('../config')
+const path = require(`path`)
 
 const whatName = [{
   type: 'confirm',
@@ -26,14 +27,15 @@ const _isDotFile = function(path) {
 const _createSplashKitProject = function (path, callback) {
   const splashKitData = utils.readDotSplashKit(path)
   if (splashKitData == null) {
-    callback(Error(`Can't create splashKit Project`))
+    return callback(Error(`Can't create splashKit Project`))
   } else if (splashKitData.status != 'initialized') {
-    callback(Error(`Can't create SplashKit in a ${splashKitData.status} splashkit folder.`))
+    return callback(Error(`Can't create SplashKit in a ${splashKitData.status} splashkit folder.`))
   } else {
     splashKitData.status = "created"
     _makeDirectory(path)
     utils.writeDotSplashKit(path, splashKitData)
-    logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
+    logger.debug(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
+    callback()
   }
 }
 
@@ -57,7 +59,7 @@ const preExecuteOnCLI = function(argv, callback) {
         let questions_2 = null
 
         if (answers['want_named_project']) {
-          logger.info(`Do we want project named? ${answers['want_named_project']}`)
+          logger.debug(`Do we want project named? ${answers['want_named_project']}`)
           questions_2 = [
             {
               type: 'input',
@@ -82,9 +84,9 @@ const preExecuteOnCLI = function(argv, callback) {
             }
           ]
         }
-        logger.info(`inquiring second time:`)
+        logger.debug(`inquiring second time:`)
         inquirer.prompt(questions_2).then(function (answers) {
-          logger.info(`in body of second inquire`)
+          logger.debug(`in body of second inquire`)
           argv['l'] = answers['language']
           argv['language'] = answers['language']
 
@@ -99,31 +101,40 @@ const preExecuteOnCLI = function(argv, callback) {
 }
 
 const execute = function(argv, callback) {
-  const lang = argv['l'] || argv['language']
+  let lang = argv['l'] || argv['language']
   const name = argv['n'] || argv['name']
   const workingFolder = name ==  null ? '.' : `./${name}`
 
   //check if we need to init or not and init if we need to.
   const isDotFile = _isDotFile('.')
   logger.debug(`Do we have dotfile?: ${isDotFile}`)
+  if (isDotFile) {
+    lang = lang || utils.readDotSplashKit('.').language
+  }
 
   if (!isDotFile && lang == null) {
-    callback(Error(`No language supplied. Use --language or -l to specify one.`))
+    return callback(Error(`No language supplied. Use --language or -l to specify one.`))
   }
   else if (!isDotFile && !utils.isSupportedLangauge(lang)) {
-    callback(Error(`${lang} is unsupported. See help for supported languages.`))
+    return callback(Error(`${lang} is unsupported. See help for supported languages.`))
   }
   else if (isDotFile && name) {
-    callback(Error(`Can't create SplashKit project in a existing project directory`))
+    return callback(`Can't create SplashKit project in a existing project directory`)
   }
   else if (!isDotFile && utils.isSupportedLangauge(lang)) {
     logger.debug(`initing directory with language ${lang} at ${workingFolder}`)
     mkdirp.sync(workingFolder)
     utils.writeDotSplashKit(workingFolder, utils.generateDotSplashKitData(lang))
-    logger.info(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
+    logger.debug(`Created: ${lang} SplashKit project: ${workingFolder} successfully.`)
   }
-  _createSplashKitProject(workingFolder, callback)
-  callback()
+  _createSplashKitProject(workingFolder, function (err, data) {
+    if (err) {
+        callback(err.message)
+    } else {
+        callback(null, `Successfully created ${lang} splashkit project in ${path.resolve(workingFolder)}`)
+    }
+  })
+
 }
 
 module.exports = {
