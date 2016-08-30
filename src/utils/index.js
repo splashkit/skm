@@ -3,11 +3,18 @@ const logger = require('winston-color')
 const jsonminify = require("jsonminify")
 const config = require("../config")
 const {execSync} = require('child_process')
+const ora = require('ora')
+const cliSpinners = require('cli-spinners')
 
 const randomJsonValue = function (obj) {
     const keys = Object.keys(obj)
     return obj[keys[keys.length * Math.random() << 0]]
 }
+
+const getSpinner = new ora({
+  spinner: randomJsonValue(cliSpinners),
+  color: 'cyan'
+})
 
 const isSupportedLangauge = function (language) {
   if (typeof language === "boolean") return false
@@ -37,6 +44,7 @@ const doespathExist = function (path) {
 }
 
 module.exports = {
+  getSpinner: getSpinner,
   randomJsonValue: randomJsonValue,
   doespathExist: doespathExist,
   isSupportedLangauge: isSupportedLangauge,

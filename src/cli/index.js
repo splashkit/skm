@@ -19,7 +19,12 @@ const _executeCommand = function(cmd, argv, callback) {
  */
 const execute = function(cmdName, argv, callback) {
   let cmd = commands.get(cmdName)
-  let isCompilerCmd = compilers.hasCompilerNamed(cmdName)
+  let isCompilerCmd = null
+
+  if (cmd == null) {
+    isCompilerCmd = compilers.hasCompilerNamed(cmdName)
+  }
+
   if (cmd == null && !isCompilerCmd) {
     callback(logger.error(`${cmdName} is not a valid command.`))
   } else {
