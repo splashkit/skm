@@ -1,10 +1,12 @@
 const commands = require('../commands')
 const logger = require('winston-color')
+const os = require('os')
+const compilers = require(`${os.homedir()}/.splashkit/splashkit-macos/compilers`)
 
 const _executeCommand = function (cmd, argv, callback) {
   cmd.execute(argv, function(err, data) {
     if (err) {
-      logger.error(`Error executing ${cmd.cmdName}:\n\t${err}`)
+      logger.error(`Error during ${cmd.cmdName} command:\n\t${err}`)
     } else if (data != null) {
       logger.info(data)
     }
@@ -16,7 +18,7 @@ const _executeCommand = function (cmd, argv, callback) {
  * Execute a given command name with the given args and callback.
  */
 const execute = function(cmdName, argv, callback) {
-    const cmd = commands.get(cmdName)
+    let cmd = commands.get(cmdName) || compilers.get(cmdName)
     if (cmd == null) {
         callback(logger.error(`${cmdName} is not a valid command.`))
     } else {

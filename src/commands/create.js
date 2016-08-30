@@ -6,6 +6,13 @@ const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
 const config = require('../config')
 
+const whatName = [{
+  type: 'confirm',
+  name: 'want_named_project',
+  message: 'Would you like to name your project? This will create a new folder.',
+  default: true
+}]
+
 const _makeDirectory = function (path) {
   mkdirp.sync(`${path}/src`)
   mkdirp.sync(`${path}/images`)
@@ -20,15 +27,12 @@ const _createSplashKitProject = function (path, callback) {
   const splashKitData = utils.readDotSplashKit(path)
   if (splashKitData == null) {
     callback(Error(`Can't create splashKit Project`))
-  }
-  else if (splashKitData.status != 'initialized') {
+  } else if (splashKitData.status != 'initialized') {
     callback(Error(`Can't create SplashKit in a ${splashKitData.status} splashkit folder.`))
-  }
-  else {
+  } else {
     splashKitData.status = "created"
     _makeDirectory(path)
     utils.writeDotSplashKit(path, splashKitData)
-
     logger.info(`Created: ${splashKitData.language} SplashKit project: ${path} successfully.`)
   }
 }
@@ -44,21 +48,12 @@ const preExecuteOnCLI = function(argv, callback) {
   if (isDotFile) {
     callback(null, argv)
   }
-  //valid name and lang
+  // valid name and lang
   else if (utils.isSupportedLangauge(lang)) {
     callback(null, argv)
   }
   else {
-    let questions = [
-      {
-        type: 'confirm',
-        name: 'want_named_project',
-        message: 'Would you like to name your project? This will create a new folder.',
-        default: true
-      }
-    ]
-
-    inquirer.prompt(questions).then(function (answers) {
+    inquirer.prompt(whatName).then(function (answers) {
         let questions_2 = null
 
         if (answers['want_named_project']) {
@@ -113,13 +108,13 @@ const execute = function(argv, callback) {
   logger.debug(`Do we have dotfile?: ${isDotFile}`)
 
   if (!isDotFile && lang == null) {
-    return callback(Error(`No language supplied. Use --language or -l to specify one.`))
+    callback(Error(`No language supplied. Use --language or -l to specify one.`))
   }
   else if (!isDotFile && !utils.isSupportedLangauge(lang)) {
-    return callback(Error(`${lang} is unsupported. See help for supported languages.`))
+    callback(Error(`${lang} is unsupported. See help for supported languages.`))
   }
   else if (isDotFile && name) {
-    return callback(Error(`Can't create SplashKit project in a existing project directory`))
+    callback(Error(`Can't create SplashKit project in a existing project directory`))
   }
   else if (!isDotFile && utils.isSupportedLangauge(lang)) {
     logger.debug(`initing directory with language ${lang} at ${workingFolder}`)

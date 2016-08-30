@@ -4,7 +4,10 @@
 ### Splashkit ###
 .splashkit-download
 .splashkit
-skm-darwin-x64/
+skm-darwin-x64
+program
+/*.cpp
+/*.c
 
 ### Node ###
 # Logs
