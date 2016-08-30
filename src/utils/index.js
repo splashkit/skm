@@ -2,7 +2,7 @@ var fs = require('fs')
 const logger = require('winston-color')
 const jsonminify = require("jsonminify")
 const config = require("../config")
-const {execSync} = require('child_process')
+const childProcess = require('child_process')
 const ora = require('ora')
 const cliSpinners = require('cli-spinners')
 
@@ -23,11 +23,17 @@ const isSupportedLangauge = function (language) {
 
 const runCommand = function (cmd, callback){
   try {
-    execSync(cmd, {stdio:[0,1,2]})
+    childProcess.execSync(cmd, {stdio:[0,1,2]})
   }
   catch (ex) {
     callback(ex.message)
   }
+}
+
+const runGit = function (cmd, callback){
+
+  childProcess.exec(cmd, {stdio:[0,1,2]}, callback)
+
 }
 
 const doespathExist = function (path) {
@@ -44,6 +50,7 @@ const doespathExist = function (path) {
 }
 
 module.exports = {
+  runGit: runGit,
   getSpinner: getSpinner,
   randomJsonValue: randomJsonValue,
   doespathExist: doespathExist,

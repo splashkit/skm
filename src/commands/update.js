@@ -1,5 +1,4 @@
 //require simple-git with optional empty working path.
-const git = require("nodegit")
 const utils = require('../utils')
 const logger = require('winston-color')
 const config = require('../config')
