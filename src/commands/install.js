@@ -27,13 +27,15 @@ const execute = function(args, callback) {
       let cloneOptions = {}
       cloneOptions.fetchOpts = {
         callbacks: {
-          certificateCheck: function() { return 1; }
+          certificateCheck: function() {
+            return 1;
+          }
         }
-      };
+      }
 
       logger.info(`cloning ${repo} to ${installPath}`)
       let cloneRepo = git.Clone(repo, installPath, cloneOptions)
-        .then(null, function(response){
+        .then(null, function(response) {
           if (response === true) {
             spinner.succeed()
             callback()
@@ -41,8 +43,8 @@ const execute = function(args, callback) {
             callback(response)
           }
         })
-        spinner.start(cliSpinners.dots4);
-      }
+      spinner.start(cliSpinners.dots4)
+    }
   }
 }
 

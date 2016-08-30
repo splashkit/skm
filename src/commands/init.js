@@ -7,7 +7,7 @@ const inquirer = require('inquirer')
 const config = require('../config')
 const path = require(`path`)
 
-const questions = []
+let questions = []
 const whatLang = {
   type: 'list',
   name: 'project_language',

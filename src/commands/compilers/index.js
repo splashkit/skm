@@ -12,17 +12,10 @@ const hasCompilerNamed = function(compilerName) {
 }
 
 const execute = function(argv, callback) {
-  if (!utils.isSplashKitDirectory) {
-    return callback("Can't compile in a non splashkit directory")
-  }
   const compilerName = argv['_'][0]
   const compiler = _getCompiler(compilerName)
-  const isArgument = compiler.isOutputSpecified(argv)
-  if (!isArgument) {
-    mkdirp('bin')
-  }
-  const skConfig = utils.readDotSplashKit('.')
-  compiler.execute(argv, skConfig, function (err) {
+
+  compiler.execute(argv, function (err) {
     if (err) {
       callback(err)
     } else {
