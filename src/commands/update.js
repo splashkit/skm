@@ -4,41 +4,48 @@ const utils = require('../utils')
 const logger = require('winston-color')
 const config = require('../config')
 const cliSpinners = require('cli-spinners')
-const ora = require('ora');
+const ora = require('ora')
+const os = require('os')
 
-const spinner = new ora({
-  text: 'Installing Splashkit',
-  spinner: utils.randomJsonValue(cliSpinners),
-  color: 'cyan'
-});
+var repository;
+
+const spinner = utils.getSpinner
+spinner.text = 'Updating SplashKit!'
 
 const execute = function(args, callback) {
-  if (utils.isMacOS) {
-    const repo = config['splashkit_repo']
-    const installPath = config['splashkit_install_location']
 
-    logger.info("Mac Install command was executed. Cloning repo")
+  const repo = config['splashkit_repo']
+  const installPath = `${os.homedir()}/.splashkit/install-test`
 
-    if (!utils.doespathExist(installPath)) {
-      callback(Error(`can't find SplashKit, please install splashkit !`))
-    } else {
-      let cloneOptions = {}
-      cloneOptions.fetchOpts = {
-        callbacks: {
-          certificateCheck: function() { return 1; }
-        }
-      };
+  logger.info("Update command was executed. Cloning repo")
 
-      logger.debug(`cloning ${repo} to ${installPath}`)
-      // let cloneRepo = git.Clone(repo, installPath, cloneOptions)
-      //   .then(null, function(response){
-      //     if (response) {
-      //       spinner.succeed()
-      //     }
-      //     callback()
-      //   })
-      //   spinner.start(cliSpinners.dots4);
-      }
+  if (!utils.doespathExist(installPath)) {
+    callback(Error(`can't find SplashKit, please install splashkit before updating!`))
+  } else {
+
+    var repoDir = installPath
+    let data
+
+    // console.log(repoDir)
+    //
+    // //Open a repository that needs to be fetched and fast-forwarded
+    // git.Repository.open(repoDir, function(err, repo) {
+    //   console.log("Using " + repo)
+    //
+    //   data = repo.fetchAll({
+    //     callbacks: {
+    //       credentials: function(url, userName) {
+    //         return nodegit.Cred.sshKeyFromAgent(userName);
+    //       },
+    //       certificateCheck: function() {
+    //         return 1;
+    //       }
+    //     }
+    //   });
+    //   logger.info(`data is: ${data}`)
+    //
+    // })
+    callback('update not implemented yet')
   }
 }
 
