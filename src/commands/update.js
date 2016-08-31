@@ -9,7 +9,7 @@ const os = require('os')
 var repository;
 
 const spinner = utils.getSpinner
-spinner.text = 'Updating SplashKit!'
+
 
 const execute = function(args, callback) {
 
@@ -23,28 +23,24 @@ const execute = function(args, callback) {
   } else {
 
     var repoDir = installPath
-    let data
 
-    // console.log(repoDir)
-    //
-    // //Open a repository that needs to be fetched and fast-forwarded
-    // git.Repository.open(repoDir, function(err, repo) {
-    //   console.log("Using " + repo)
-    //
-    //   data = repo.fetchAll({
-    //     callbacks: {
-    //       credentials: function(url, userName) {
-    //         return nodegit.Cred.sshKeyFromAgent(userName);
-    //       },
-    //       certificateCheck: function() {
-    //         return 1;
-    //       }
-    //     }
-    //   });
-    //   logger.info(`data is: ${data}`)
-    //
-    // })
-    callback('update not implemented yet')
+    spinner.text = 'Updating the SplashKit Manager! '
+    spinner.start()
+
+    utils.runGit(`git -C ~/splashkitTest/skm pull`, function(error, stdout, stderr) {
+      if (error) {
+        spinner.fail()
+        return callback(error)
+      } else {
+        logger.info(stdout)
+        spinner.text = 'Updating the SplashKit Mac Libraries! '
+        utils.runGit(`git -C ~/splashkitTest/mac-os pull`, function(error, stdout, stderr) {
+          logger.info(stdout)
+          spinner.succeed()
+          callback()
+        })
+      }
+    })
   }
 }
 
