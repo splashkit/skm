@@ -30,10 +30,10 @@ const runCommand = function (cmd, callback){
   }
 }
 
-const runGit = function (cmd, callback){
-
-  childProcess.exec(cmd, {stdio:[0,1,2]}, callback)
-
+const runGit = function (cmd, callback) {
+  childProcess.exec(cmd, {stdio:[0,1,2]}, function(error, stdout, stderror) {
+    callback(error, stdout, stdout)
+  })
 }
 
 const doespathExist = function (path) {

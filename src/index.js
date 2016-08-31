@@ -19,7 +19,7 @@ const prepare = function () {
 }
 
 const guiStart = function () {
-  gui.execute()
+  gui.execute(null, app.quit)
 }
 
 const cliStart = function () {
