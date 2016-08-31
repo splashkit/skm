@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_MACOS_REPO=https://github.com/splashkit/splashkit-macos
 
