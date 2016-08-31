@@ -9,12 +9,13 @@ const os = require('os')
 var repository;
 
 const spinner = utils.getSpinner
+spinner.text = 'Updating SplashKit! '
 
 
 const execute = function(args, callback) {
 
   const repo = config['splashkit_repo']
-  const installPath = `${os.homedir()}/.splashkit/install-test`
+  const installPath = `${os.homedir()}/splashkitTest`
 
   logger.info("Update command was executed. Cloning repo")
 
@@ -24,7 +25,6 @@ const execute = function(args, callback) {
 
     var repoDir = installPath
 
-    spinner.text = 'Updating the SplashKit Manager! '
     spinner.start()
 
     utils.runGit(`git -C ~/splashkitTest/skm pull`, function(error, stdout, stderr) {
@@ -33,11 +33,15 @@ const execute = function(args, callback) {
         return callback(error)
       } else {
         logger.info(stdout)
-        spinner.text = 'Updating the SplashKit Mac Libraries! '
-        utils.runGit(`git -C ~/splashkitTest/mac-os pull`, function(error, stdout, stderr) {
-          logger.info(stdout)
-          spinner.succeed()
-          callback()
+        utils.runGit(`git -C ~/splashkitTest/splashkit-macos pull`, function(error, stdout, stderr) {
+          if (error) {
+            spinner.fail()
+            return callback(error)
+          } else {
+            logger.info(stdout)
+            spinner.succeed()
+            callback()
+          }
         })
       }
     })
