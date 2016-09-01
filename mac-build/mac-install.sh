@@ -23,7 +23,7 @@ function installGit() {
 
 if [ "$GIT_EXISTS" = true ] ; then
     echo 'Git found'
-    env -i git clone -b master --single-branch $GIT_MACOS_REPO $INSTALL_MACOS_PATH
+    env -i git clone -b develop --single-branch $GIT_MACOS_REPO $INSTALL_MACOS_PATH
     env -i git clone -b master --single-branch $GIT_SKM_REPO $INSTALL_SKM_PATH
   else
     echo 'Git not found, installing git...'
