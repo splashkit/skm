@@ -33,3 +33,5 @@ fi
 unzip ~/.splashkit/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ~/.splashkit/install.log
 
 ln -sf ~/.splashkit/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin
+
+echo "SplashKit Successfully installed!"

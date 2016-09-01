@@ -6,9 +6,9 @@ const childProcess = require('child_process')
 const ora = require('ora')
 const cliSpinners = require('cli-spinners')
 
-const randomJsonValue = function (obj) {
-    const keys = Object.keys(obj)
-    return obj[keys[keys.length * Math.random() << 0]]
+const randomJsonValue = function(obj) {
+  const keys = Object.keys(obj)
+  return obj[keys[keys.length * Math.random() << 0]]
 }
 
 const getSpinner = new ora({
@@ -16,27 +16,33 @@ const getSpinner = new ora({
   color: 'cyan'
 })
 
-const isSupportedLangauge = function (language) {
+const isSupportedLangauge = function(language) {
   if (typeof language === "boolean") return false
   return language == null ? false : (config.supported_languages.indexOf(language.toLowerCase()) != -1)
 }
 
-const runCommand = function (cmd, callback){
+const runCommand = function(cmd, callback) {
+  let exMessage
   try {
-    childProcess.execSync(cmd, {stdio:[0,1,2]})
-  }
-  catch (ex) {
-    callback(ex.message)
+    childProcess.execSync(cmd, {
+      stdio: [0, 1, 2]
+    })
+  } catch (ex) {
+    exMessage = ex.message
+  } finally {
+    callback(exMessage)
   }
 }
 
-const runGit = function (cmd, callback) {
-  childProcess.exec(cmd, {stdio:[0,1,2]}, function(error, stdout, stderror) {
+const runGit = function(cmd, callback) {
+  childProcess.exec(cmd, {
+    stdio: [0, 1, 2]
+  }, function(error, stdout, stderror) {
     callback(error, stdout, stdout)
   })
 }
 
-const doespathExist = function (path) {
+const doespathExist = function(path) {
   logger.debug(`Checking for directory or file at: ${path}`)
   try {
     return fs.statSync(path).isDirectory() || fs.statSync(path).isFile()
