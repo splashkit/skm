@@ -2,8 +2,8 @@
 GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_MACOS_REPO=https://github.com/splashkit/splashkit-macos
 
-INSTALL_MACOS_PATH=~/splashkitTest/splashkit-macos
-INSTALL_SKM_PATH=~/splashkitTest/skm
+INSTALL_MACOS_PATH=~/.splashkit/splashkit-macos
+INSTALL_SKM_PATH=~/.splashkit/skm
 
 if which clang++ >/dev/null; then
   CLANG_EXISTS=true
@@ -30,6 +30,6 @@ if [ "$GIT_EXISTS" = true ] ; then
     installGit
 fi
 
-unzip ~/splashkitTest/skm/mac-build/skm.zip -d ~/splashkitTest/skm/mac-build
+unzip ~/.splashkit/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build
 
-ln -sf ~/splashkitTest/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin
+ln -sf ~/.splashkit/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin
