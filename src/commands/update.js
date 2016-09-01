@@ -15,7 +15,8 @@ spinner.text = 'Updating SplashKit! '
 const execute = function(args, callback) {
 
   const repo = config['splashkit_repo']
-  const installPath = `${os.homedir()}/splashkitTest`
+  const installName = config['splashkit_install_name']
+  const installPath = `${os.homedir()}/${installName}`
 
   logger.info("Update command was executed. Cloning repo")
 
@@ -23,24 +24,25 @@ const execute = function(args, callback) {
     callback(Error(`can't find SplashKit, please install splashkit before updating!`))
   } else {
 
-    var repoDir = installPath
-
     spinner.start()
 
-    utils.runGit(`git -C ~/splashkitTest/skm pull`, function(error, stdout, stderr) {
+    utils.runGit(`git -C ${installPath}/skm pull`, function(error, stdout, stderr) {
       if (error) {
         spinner.fail()
         return callback(error)
       } else {
         logger.info(stdout)
-        utils.runGit(`git -C ~/splashkitTest/splashkit-macos pull`, function(error, stdout, stderr) {
+        utils.runGit(`git -C ${installPath}/splashkit-macos pull`, function(error, stdout, stderr) {
           if (error) {
             spinner.fail()
             return callback(error)
           } else {
             logger.info(stdout)
-            spinner.succeed()
-            callback()
+            logger.info('updated!')
+            utils.runCommand(`unzip ${installPath}/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ${installPath}/install.log && ln -sf ${installPath}/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin`, function() {
+              spinner.succeed()
+              callback()
+            })
           }
         })
       }

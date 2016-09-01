@@ -4,5 +4,6 @@
     "cpp"
   ],
   "splashkit_version": "-1",
-  "splashkit_repo": "https://github.com/rmccue/test-repository"
+  "splashkit_repo": "https://github.com/rmccue/test-repository",
+  "splashkit_install_name": ".splashkit"
 }
