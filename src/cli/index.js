@@ -2,6 +2,7 @@ const commands = require('../commands')
 const compilers = require('../commands/compilers')
 const logger = require('winston-color')
 const os = require('os')
+const config = require('../config')
 
 const _executeCommand = function(cmd, argv, callback) {
   cmd.execute(argv, function(err, data) {
@@ -26,6 +27,9 @@ const execute = function(cmdName, argv, callback) {
   }
 
   if (cmd == null && !isCompilerCmd) {
+    if (argv['version']) {
+      callback(null, config['splashkit_version'])
+    }
     callback(logger.error(`${cmdName} is not a valid command.`))
   } else {
     if (isCompilerCmd) {

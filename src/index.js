@@ -3,6 +3,7 @@ const cli = require('./cli')
 const gui = require('./gui')
 const minimist = require('minimist')
 const utils = require('./utils')
+const config = require('../config')
 
 let argv, isGuiStart
 
@@ -15,6 +16,10 @@ const prepare = function () {
   //Need to hide icon
   if (utils.isMacOS && !isGuiStart) {
     app.dock.hide()
+  }
+
+  if (argv['version']) {
+    console.log(config['splashkit_version'])
   }
 }
 
