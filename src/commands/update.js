@@ -11,7 +11,6 @@ var repository;
 const spinner = utils.getSpinner
 spinner.text = 'Updating SplashKit! '
 
-
 const execute = function(args, callback) {
 
   const repo = config['splashkit_repo']
@@ -38,7 +37,6 @@ const execute = function(args, callback) {
             return callback(error)
           } else {
             logger.info(stdout)
-            logger.info('updated!')
             utils.runCommand(`unzip -o ${installPath}/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ${installPath}/install.log && ln -sf ${installPath}/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin`, function() {
               spinner.succeed()
               callback()
