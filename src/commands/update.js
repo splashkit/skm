@@ -39,7 +39,7 @@ const execute = function(args, callback) {
           } else {
             logger.info(stdout)
             logger.info('updated!')
-            utils.runCommand(`unzip ${installPath}/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ${installPath}/install.log && ln -sf ${installPath}/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin`, function() {
+            utils.runCommand(`unzip -o ${installPath}/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ${installPath}/install.log && ln -sf ${installPath}/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin`, function() {
               spinner.succeed()
               callback()
             })
