@@ -43,7 +43,6 @@ const runGit = function(cmd, callback) {
 }
 
 const doespathExist = function(path) {
-  logger.debug(`Checking for directory or file at: ${path}`)
   try {
     return fs.statSync(path).isDirectory() || fs.statSync(path).isFile()
   } catch (e) {

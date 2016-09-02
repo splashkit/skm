@@ -6,17 +6,14 @@ const cliSpinners = require('cli-spinners')
 const ora = require('ora')
 const os = require('os')
 
-var repository;
-
 const spinner = utils.getSpinner
 spinner.text = 'Updating SplashKit! '
 
-const execute = function(args, callback) {
+const installPath = `${os.homedir()}/${config['splashkit_install_name']}` // ~/.splashkit
 
-  const repo = config['splashkit_repo']
-  const installName = config['splashkit_install_name']
-  const installPath = `${os.homedir()}/${installName}`
-
+const updateMac = function (callback) {
+  const skmFolder = 'skm/mac-build'
+  const installFolder = 'splashkit-macos'
   logger.info("Update command was executed. Cloning repo")
 
   if (!utils.doespathExist(installPath)) {
@@ -25,27 +22,33 @@ const execute = function(args, callback) {
 
     spinner.start()
 
-    utils.runGit(`git -C ${installPath}/skm pull`, function(error, stdout, stderr) {
+    utils.runGit(`git -C ${installPath}/skm pull &&
+                  git -C ${installPath}/${installFolder} pull &&
+                  unzip -o ${installPath}/${skmFolder}/skm.zip -d ${installPath}/${skmFolder} > ${installPath}/install.log &&
+                  ln -sf ${installPath}/${skmFolder}/skm.app/Contents/MacOS/skm /usr/local/bin`, function(error, stdout, stderr) {
       if (error) {
         spinner.fail()
         return callback(error)
       } else {
-        logger.info(stdout)
-        utils.runGit(`git -C ${installPath}/splashkit-macos pull`, function(error, stdout, stderr) {
-          if (error) {
-            spinner.fail()
-            return callback(error)
-          } else {
-            logger.info(stdout)
-            utils.runCommand(`unzip -o ${installPath}/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ${installPath}/install.log && ln -sf ${installPath}/skm/mac-build/skm.app/Contents/MacOS/skm /usr/local/bin`, function() {
-              spinner.succeed()
-              callback()
-            })
-          }
-        })
+        spinner.succeed()
+        console.log(stdout)
+        callback()
       }
     })
   }
+}
+
+const execute = function(args, callback) {
+  if (utils.isMacOS) {
+    updateMac(callback)
+  } else if (utils.isLinux) {
+    installFolder = 'splashkit-linux'
+    skmFolder = 'skm/linux-build'
+  } else if (utils.isWindows) {
+    installFolder = 'splashkit-windows'
+    skmFolder = 'skm/windows-build'
+  }
+
 }
 
 module.exports = {

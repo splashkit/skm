@@ -9,10 +9,10 @@ const path = require('path')
 const commandExists = require('command-exists')
 
 let questions = [
-   {
-  type: 'input',
-  name: 'splashkit_path',
-  message: 'Enter the full path to where you would like to install the SplashKit development tools.'
+  {
+    type: 'input',
+    name: 'splashkit_path',
+    message: 'Enter the full path to where you would like to install the SplashKit development tools.'
   }
 ]
 
@@ -60,18 +60,13 @@ const execute = function(argv, callback) {
 
   installBrew(function (err) {
     if (err) {
-      logger.debug('here2')
       return callback(err)
     } else {
-      utils.runGit(`git clone --recursive https://github.com/splashkit/splashkit.git ${path}`, function (err) {
+      utils.runGit(`git clone -b develop --recursive https://github.com/jakerenzella/splashkit.git ${path}`, function (err) {
         if (err) {
-          logger.debug('here1')
           callback(err)
         } else {
-          utils.runCommand(`brew install mercurial && ${path}/coresdk/external/setup.sh`, function (message) {
-            logger.debug(message)
             callback(null, 'successfully installed splashkit')
-          })
         }
       })
     }
