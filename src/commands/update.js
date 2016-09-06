@@ -14,14 +14,12 @@ const installPath = `${os.homedir()}/${config['splashkit_install_name']}` // ~/.
 const updateMac = function (callback) {
   const skmFolder = 'skm/mac-build'
   const installFolder = 'splashkit-macos'
-  logger.info("Update command was executed. Cloning repo")
+  logger.debug("Update command was executed. Cloning repo")
 
   if (!utils.doespathExist(installPath)) {
     callback(Error(`can't find SplashKit, please install splashkit before updating!`))
   } else {
-
     spinner.start()
-
     utils.runGit(`git -C ${installPath}/skm pull &&
                   git -C ${installPath}/${installFolder} pull &&
                   unzip -o ${installPath}/${skmFolder}/skm.zip -d ${installPath}/${skmFolder} > ${installPath}/install.log &&
@@ -48,7 +46,6 @@ const execute = function(args, callback) {
     installFolder = 'splashkit-windows'
     skmFolder = 'skm/windows-build'
   }
-
 }
 
 module.exports = {
