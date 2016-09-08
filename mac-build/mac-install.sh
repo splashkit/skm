@@ -27,8 +27,7 @@ fi
 
 unzip ~/.splashkit/skm/mac-build/skm.zip -d ~/.splashkit/skm/mac-build > ~/.splashkit/install.log
 
-touch ~/.bash_profile
-echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:$PATH\""" > ~/.bash_profile
+echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:$PATH\""" >> ~/.bash_profile
 source ~/.bash_profile
 
 echo "SplashKit Successfully installed! Please restart your terminal..."
