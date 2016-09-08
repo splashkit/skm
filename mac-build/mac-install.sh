@@ -31,4 +31,4 @@ touch ~/.bash_profile
 echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:$PATH\""" > ~/.bash_profile
 source ~/.bash_profile
 
-echo "SplashKit Successfully installed!"
+echo "SplashKit Successfully installed! Please restart your terminal..."
