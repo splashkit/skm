@@ -21,8 +21,8 @@ const execute = function (argv, callback) {
 
   // TODO: Finish this
   let output = help({
-    usage: 'skm init [options]',
-    desc: 'Initialise a SplashKit Folder.',
+    usage: 'skm clang++ [file] -o [output]',
+    desc: 'Build a CPP file.',
     options: {
       name: {
         alias: 'n',
