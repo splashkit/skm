@@ -1,4 +1,3 @@
-//require simple-git with optional empty working path.
 const utils = require('../utils')
 const logger = require('winston-color')
 const config = require('../config')
