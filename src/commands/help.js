@@ -5,7 +5,7 @@ const help = require('generate-help')
 const execute = function (argv, callback) {
 
   let output = help({
-    usage: 'skm clang++ [file] -o [output]',
+    usage: 'skm <command>',
     desc: 'Build a CPP file.',
     options: {
       name: {
@@ -18,13 +18,6 @@ const execute = function (argv, callback) {
         desc: 'The language of the SplashKit project'
       }
     }
-  });
-
-  console.log(output);
-
-  output = help({
-    usage: 'skm update',
-    desc: 'Updates SKM and SplashKit.',
   });
 
   console.log(output);
