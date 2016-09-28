@@ -1,8 +1,5 @@
 const utils = require('../utils')
-const fs = require('fs')
-const init = require('./init')
 const logger = require('winston-color')
-const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
 const config = require('../config')
 const path = require(`path`)
@@ -20,13 +17,13 @@ const whatName = {
   message: 'What would you like to name your project?'
 }
 
-const _createSplashKitProject = function(path, callback) {
+const _createSplashKitProject = function (path, callback) {
   // COPY DIRECTORY HERE
   logger.debug('Here we will copy the directory')
   callback()
 }
 
-const preExecuteOnCLI = function(argv, callback) {
+const preExecuteOnCLI = function (argv, callback) {
   let language = argv['l'] || argv['language']
   let name = argv['n'] || argv['name']
 
@@ -34,16 +31,16 @@ const preExecuteOnCLI = function(argv, callback) {
   if (utils.isSupportedLangauge(language) && name != null) {
     callback(null, argv)
   }
-  //just ask for lang
+  // just ask for lang
   if (!utils.isSupportedLangauge(language)) {
     questions.push(whatLang)
   }
-  //just ask for name
+  // just ask for name
   if (name == null) {
     questions.push(whatName)
   }
 
-  inquirer.prompt(questions).then(function(answers) {
+  inquirer.prompt(questions).then(function (answers) {
     if (answers.project_language != null) {
       logger.debug(answers.project_language)
       language = answers['project_language']
@@ -59,7 +56,7 @@ const preExecuteOnCLI = function(argv, callback) {
   })
 }
 
-const execute = function(argv, callback) {
+const execute = function (argv, callback) {
   const lang = argv['l'] || argv['language']
   const name = argv['n'] || argv['name']
   const workingFolder = name == null ? '.' : `./${name}`
@@ -72,7 +69,7 @@ const execute = function(argv, callback) {
     return callback('Need name to create SplashKit project')
   }
 
-  _createSplashKitProject(workingFolder, function(err, data) {
+  _createSplashKitProject(workingFolder, function (err, data) {
     if (err) {
       callback(err.message)
     } else {

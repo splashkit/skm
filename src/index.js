@@ -1,7 +1,6 @@
 const {app} = require('electron')
 const cli = require('./cli')
 const gui = require('./gui')
-const help = require('./commands/help')
 const minimist = require('minimist')
 const utils = require('./utils')
 const config = require('../config')
@@ -9,12 +8,12 @@ const config = require('../config')
 let argv, isGuiStart
 
 const prepare = function () {
-  let argPos = process.env.NODE_ENV == 'development' ? 2 : 1
+  let argPos = process.env.NODE_ENV === 'development' ? 2 : 1
   argv = minimist(process.argv.slice(argPos))
   argv['original_string'] = process.argv.slice(argPos + 1)
-  isGuiStart = argv['_'].length == 0
+  isGuiStart = argv['_'].length === 0
 
-  //Need to hide icon
+  // Need to hide icon
   if (utils.isMacOS && !isGuiStart) {
     app.dock.hide()
   }

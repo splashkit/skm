@@ -1,11 +1,10 @@
 const commands = require('../commands')
 const compilers = require('../commands/compilers')
 const logger = require('winston-color')
-const os = require('os')
 const config = require('../config')
 
-const _executeCommand = function(cmd, argv, callback) {
-  cmd.execute(argv, function(err, data) {
+const _executeCommand = function (cmd, argv, callback) {
+  cmd.execute(argv, function (err, data) {
     if (err) {
       logger.error(`Error during ${cmd.cmdName} command:\n\t${err}`)
     } else if (data != null) {
@@ -18,7 +17,7 @@ const _executeCommand = function(cmd, argv, callback) {
 /**
  * Execute a given command name with the given args and callback.
  */
-const execute = function(cmdName, argv, callback) {
+const execute = function (cmdName, argv, callback) {
   let cmd = commands.get(cmdName)
   let isCompilerCmd = null
 
@@ -36,11 +35,11 @@ const execute = function(cmdName, argv, callback) {
       cmd = compilers
     }
 
-    //add the command name string to the object for error checking later on.
+    // add the command name string to the object for error checking later on.
     cmd.cmdName = cmdName
 
-    if (typeof cmd.preExecuteOnCLI === "function") {
-      cmd.preExecuteOnCLI(argv, function(error, argv) {
+    if (typeof cmd.preExecuteOnCLI === 'function') {
+      cmd.preExecuteOnCLI(argv, function (error, argv) {
         if (error != null) {
           callback(error)
         } else {

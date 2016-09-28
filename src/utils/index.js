@@ -1,27 +1,25 @@
-var fs = require('fs')
-const logger = require('winston-color')
-const jsonminify = require("jsonminify")
-const config = require("../config")
+const fs = require('fs')
+const config = require('../config')
 const childProcess = require('child_process')
-const ora = require('ora')
+const Ora = require('ora')
 const cliSpinners = require('cli-spinners')
 
-const randomJsonValue = function(obj) {
+const randomJsonValue = function (obj) {
   const keys = Object.keys(obj)
   return obj[keys[keys.length * Math.random() << 0]]
 }
 
-const getSpinner = new ora({
+const getSpinner = new Ora({
   spinner: randomJsonValue(cliSpinners),
   color: 'cyan'
 })
 
-const isSupportedLangauge = function(language) {
-  if (typeof language === "boolean") return false
-  return language == null ? false : (config.supported_languages.indexOf(language.toLowerCase()) != -1)
+const isSupportedLangauge = function (language) {
+  if (typeof language === 'boolean') return false
+  return language == null ? false : (config.supported_languages.indexOf(language.toLowerCase()) !== -1)
 }
 
-const runCommand = function(cmd, callback) {
+const runCommand = function (cmd, callback) {
   let exMessage
   try {
     childProcess.execSync(cmd, {
@@ -34,15 +32,15 @@ const runCommand = function(cmd, callback) {
   }
 }
 
-const runGit = function(cmd, callback) {
+const runGit = function (cmd, callback) {
   childProcess.exec(cmd, {
     stdio: [0, 1, 2]
-  }, function(error, stdout, stderror) {
+  }, function (error, stdout, stderror) {
     callback(error, stdout, stdout)
   })
 }
 
-const doespathExist = function(path) {
+const doespathExist = function (path) {
   try {
     return fs.statSync(path).isDirectory() || fs.statSync(path).isFile()
   } catch (e) {

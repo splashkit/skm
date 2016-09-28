@@ -1,11 +1,5 @@
 const utils = require('../utils')
-const fs = require('fs')
-const init = require('./init')
-const logger = require('winston-color')
-const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
-const config = require('../config')
-const path = require('path')
 const commandExists = require('command-exists')
 
 let questions = [
@@ -16,13 +10,13 @@ let questions = [
   }
 ]
 
-const installBrew = function(callback) {
-  commandExists('brew', function(err, commandExists) {
+const installBrew = function (callback) {
+  commandExists('brew', function (err, commandExists) {
     if (err) {
       callback(err)
     } else if (!commandExists) {
-      //would you like to install brew?
-      utils.runCommand('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"', function(err) {
+      // would you like to install brew?
+      utils.runCommand('/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"', function (err) {
         callback(err)
       })
     } else {
@@ -31,14 +25,14 @@ const installBrew = function(callback) {
   })
 }
 
-const preExecuteOnCLI = function(argv, callback) {
+const preExecuteOnCLI = function (argv, callback) {
   let path = argv['p'] || argv['path']
 
-  //just ask for name
+  // just ask for name
   if (path != null) {
     callback(null, argv)
   } else {
-    inquirer.prompt(questions).then(function(answers) {
+    inquirer.prompt(questions).then(function (answers) {
       if (answers.splashkit_path != null) {
         path = answers['splashkit_path']
       }
@@ -50,10 +44,10 @@ const preExecuteOnCLI = function(argv, callback) {
   }
 }
 
-const execute = function(argv, callback) {
+const execute = function (argv, callback) {
   const path = argv['p'] || argv['path']
 
-  //check is valid path
+  // check is valid path
   if (path == null) {
     return callback(Error('No path specified, Use --path or -p to specify one.'))
   }
@@ -66,7 +60,7 @@ const execute = function(argv, callback) {
         if (err) {
           callback(err)
         } else {
-            callback(null, 'successfully installed splashkit')
+          callback(null, 'successfully installed splashkit')
         }
       })
     }

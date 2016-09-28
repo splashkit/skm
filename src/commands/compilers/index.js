@@ -1,6 +1,4 @@
 const os = require('os')
-const utils = require(`../../utils`)
-const mkdirp = require('mkdirp')
 
 const _getCompiler = function (compilerName) {
   let compilers
@@ -17,7 +15,6 @@ const hasCompilerNamed = function (compilerName) {
 }
 
 const execute = function (argv, callback) {
-
   const compilerName = argv['_'][0]
   const compiler = _getCompiler(compilerName)
 
@@ -32,7 +29,6 @@ const execute = function (argv, callback) {
   } catch (error) {
     callback(error)
   }
-
 }
 
 module.exports = {

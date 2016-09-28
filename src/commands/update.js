@@ -1,8 +1,6 @@
 const utils = require('../utils')
 const logger = require('winston-color')
 const config = require('../config')
-const cliSpinners = require('cli-spinners')
-const ora = require('ora')
 const os = require('os')
 
 const spinner = utils.getSpinner
@@ -13,7 +11,7 @@ const installPath = `${os.homedir()}/${config['splashkit_install_name']}` // ~/.
 const updateMac = function (callback) {
   const skmFolder = 'skm/mac-build'
   const installFolder = 'splashkit-macos'
-  logger.debug("Update command was executed. Cloning repo")
+  logger.debug('Update command was executed. Cloning repo')
 
   if (!utils.doespathExist(installPath)) {
     callback(Error(`can't find SplashKit, please install splashkit before updating!`))
@@ -22,7 +20,7 @@ const updateMac = function (callback) {
     utils.runGit(`git -C ${installPath}/skm pull &&
                   git -C ${installPath}/${installFolder} pull &&
                   unzip -o ${installPath}/${skmFolder}/skm.zip -d ${installPath}/${skmFolder} > ${installPath}/install.log &&
-                  ln -sf ${installPath}/${skmFolder}/skm.app/Contents/MacOS/skm /usr/local/bin`, function(error, stdout, stderr) {
+                  ln -sf ${installPath}/${skmFolder}/skm.app/Contents/MacOS/skm /usr/local/bin`, function (error, stdout, stderr) {
       if (error) {
         spinner.fail()
         return callback(error)
@@ -35,15 +33,15 @@ const updateMac = function (callback) {
   }
 }
 
-const execute = function(args, callback) {
+const execute = function (args, callback) {
   if (utils.isMacOS) {
     updateMac(callback)
   } else if (utils.isLinux) {
-    installFolder = 'splashkit-linux'
-    skmFolder = 'skm/linux-build'
+    // installFolder = 'splashkit-linux'
+    // skmFolder = 'skm/linux-build'
   } else if (utils.isWindows) {
-    installFolder = 'splashkit-windows'
-    skmFolder = 'skm/windows-build'
+    // installFolder = 'splashkit-windows'
+    // skmFolder = 'skm/windows-build'
   }
 }
 
