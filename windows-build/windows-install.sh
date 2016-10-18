@@ -6,9 +6,12 @@ INSTALL_PATH=~/.splashkit/splashkit-windows
 INSTALL_SKM_PATH=~/.splashkit/skm
 
 # Get gcc if not installed
-if which clang >/dev/null; then
-  pacman -S mingw-w64-x86_64-clang --noconfirm
-fi
+
+command -v clang >/dev/null 2>&1 || { echo "I require clang but it's not installed. Installing clang." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
+
+# if which clang >/dev/null; then
+#   pacman -S mingw-w64-x86_64-clang --noconfirm
+# fi
 
 # Get git if not installed
 if which git >/dev/null; then
