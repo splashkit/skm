@@ -20,8 +20,13 @@ if which unzip >/dev/null; then
   pacman -S unzip --noconfirm
 fi
 
+sleep 5
+
 # Clone the repos.
 git clone --depth 1 $GIT_WINDOWS_REPO $INSTALL_PATH
+
+sleep 5
+
 git clone -b master --depth 1 --single-branch $GIT_SKM_REPO $INSTALL_SKM_PATH
 
 # Unzip the SKM app.
