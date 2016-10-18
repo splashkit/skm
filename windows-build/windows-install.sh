@@ -31,11 +31,15 @@ command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." 
 sleep 5
 
 # Clone the repos.
+echo git clone --depth 1 $GIT_WINDOWS_REPO $INSTALL_PATH
 git clone --depth 1 $GIT_WINDOWS_REPO $INSTALL_PATH
 
 sleep 5
 
+echo git clone -b master --depth 1 --single-branch $GIT_SKM_REPO $INSTALL_SKM_PATH
 git clone -b master --depth 1 --single-branch $GIT_SKM_REPO $INSTALL_SKM_PATH
+
+
 
 sleep 5
 
