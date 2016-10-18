@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-GIT_SKM_REPO=https://github.com/jakerenzella/skm-windows
-GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-windows
+GIT_SKM_REPO=https://github.com/jakerenzella/skm
+GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-macos
 
 INSTALL_PATH=~/.splashkit/splashkit-windows
 INSTALL_SKM_PATH=~/.splashkit/skm
