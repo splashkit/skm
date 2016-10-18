@@ -7,21 +7,26 @@ INSTALL_SKM_PATH=~/.splashkit/skm
 
 # Get gcc if not installed
 
-command -v clang >/dev/null 2>&1 || { echo "I require clang but it's not installed. Installing clang." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
+command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
 
 # if which clang >/dev/null; then
 #   pacman -S mingw-w64-x86_64-clang --noconfirm
 # fi
 
+command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
+
+
 # Get git if not installed
-if which git >/dev/null; then
-  pacman -S git --noconfirm
-fi
+# if which git >/dev/null; then
+#   pacman -S git --noconfirm
+# fi
+
+command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
 
 # Get unzip if not installed, needed for skm app.
-if which unzip >/dev/null; then
-  pacman -S unzip --noconfirm
-fi
+# if which unzip >/dev/null; then
+#   pacman -S unzip --noconfirm
+# fi
 
 sleep 5
 
@@ -32,8 +37,12 @@ sleep 5
 
 git clone -b master --depth 1 --single-branch $GIT_SKM_REPO $INSTALL_SKM_PATH
 
+sleep 5
+
 # Unzip the SKM app.
 unzip $INSTALL_PATH/skm.zip -d $INSTALL_PATH/mac-build > ~/.splashkit/install.log
 
+sleep 5
+
 # Add SKM app to path
-ln -sf $INSTALL_PATH/skm.app/Contents/MacOS/skm /usr/local/bin
+ln -sf $INSTALL_PATH/skm.app/Contents/MacOS/skm /bin
