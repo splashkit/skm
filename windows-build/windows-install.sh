@@ -13,7 +13,7 @@ command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." 
 #   pacman -S mingw-w64-x86_64-clang --noconfirm
 # fi
 
-command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
+command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; pacman -S git --noconfirm;}
 
 
 # Get git if not installed
@@ -21,7 +21,7 @@ command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; p
 #   pacman -S git --noconfirm
 # fi
 
-command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." >&2; pacman -S mingw-w64-x86_64-clang --noconfirm;}
+command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." >&2; pacman -S unzip --noconfirm;}
 
 # Get unzip if not installed, needed for skm app.
 # if which unzip >/dev/null; then
