@@ -3,49 +3,26 @@ GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-macos
 
 HOME_PATH=~
-INSTALL_PATH="${HOME_PATH}/.splashkit folder/splashkit-windows"
-INSTALL_SKM_PATH="${HOME_PATH}/.splashkit folder/skm"
+FOLDER_PATH="${HOME_PATH}/.splashkit folder"
+INSTALL_PATH="${FOLDER_PATH}/splashkit-windows"
+INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
 
-# Get gcc if not installed
+# Get tools if not installed
 command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." >&2; pacman -S mingw-w64-x86_64-clang mingw-w64-i686-clang --noconfirm;}
-
-# if which clang >/dev/null; then
-#   pacman -S mingw-w64-x86_64-clang --noconfirm
-# fi
 
 command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; pacman -S git --noconfirm;}
 
-
-# Get git if not installed
-# if which git >/dev/null; then
-#   pacman -S git --noconfirm
-# fi
-
 command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." >&2; pacman -S unzip --noconfirm;}
-
-# Get unzip if not installed, needed for skm app.
-# if which unzip >/dev/null; then
-#   pacman -S unzip --noconfirm
-# fi
-
-sleep 5
 
 # Clone the repos.
 echo git clone --depth 1 $GIT_WINDOWS_REPO "${INSTALL_PATH}"
 git clone --depth 1 $GIT_WINDOWS_REPO "${INSTALL_PATH}"
 
-sleep 5
-
 echo git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
-sleep 5
 git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
 
-sleep 5
-
 # Unzip the SKM app.
-unzip "$INSTALL_PATH/skm.zip" -d "$INSTALL_PATH/mac-build" > "~/.splashkit folder/install.log"
-
-sleep 5
+unzip "$INSTALL_SKM_PATH/mac-build/skm.zip" -d "${INSTALL_PATH}/mac-build" > "${FOLDER_PATH}/install.log"
 
 # Add SKM app to path
 ln -sf "$INSTALL_PATH/skm.app/Contents/MacOS/skm" /bin
