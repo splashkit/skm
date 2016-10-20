@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo "Running mac-install.sh"
+
 GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_MACOS_REPO=https://github.com/splashkit/splashkit-macos
 
@@ -26,6 +29,7 @@ if which git >/dev/null; then
 fi
 
 # Unzip the SKM app.
+echo "unzipping"
 unzip "$INSTALL_SKM_PATH/mac-build/skm.zip" -d "$INSTALL_SKM_PATH/mac-build" > "$FOLDER_PATH/install.log"
 
 

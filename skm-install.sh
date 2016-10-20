@@ -3,6 +3,7 @@
 if [[ `uname` == Darwin ]]; then
   echo "installing SplashKit for MacOS" 
   bash <(curl -s https://raw.githubusercontent.com/jakerenzella/skm/develop/mac-build/mac-install.sh)
+  echo "finished installing SplashKit for MacOS"
 fi
 
 if [[ `uname` == MINGW* ]]; then
