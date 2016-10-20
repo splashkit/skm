@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-macos
 
-INSTALL_PATH=~/.splashkit folder/splashkit-windows
-INSTALL_SKM_PATH=~/.splashkit folder/skm
+HOME_PATH=~
+INSTALL_PATH="${HOME_PATH}/.splashkit folder/splashkit-windows"
+INSTALL_SKM_PATH="${HOME_PATH}/.splashkit folder/skm"
 
 # Get gcc if not installed
 command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." >&2; pacman -S mingw-w64-x86_64-clang mingw-w64-i686-clang --noconfirm;}
@@ -36,9 +37,7 @@ git clone --depth 1 $GIT_WINDOWS_REPO "${INSTALL_PATH}"
 sleep 5
 
 echo git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
-
 sleep 5
-
 git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
 
 sleep 5
