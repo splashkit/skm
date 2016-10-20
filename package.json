@@ -33,19 +33,17 @@
   },
   "homepage": "https://github.com/splashkit/skm#readme",
   "dependencies": {
+    "cli-spinners": "^0.2.0",
+    "cli-table": "^0.3.1",
+    "command-exists": "^1.0.2",
     "electron": "^1.3.4",
-    "electron-prebuilt": "^1.2.8",
+    "generate-help": "^1.0.2",
     "inquirer": "^1.1.2",
-    "json-minify": "^1.0.0",
-    "lodash": "^4.15.0",
-    "nodegit": "^0.14.1",
+    "jsonminify": "^0.4.1",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "ora": "^0.3.0",
     "winston-color": "1.0.0"
   },
-  "engines": {
-    "atom-shell": "1.2",
-    "electron": "1.2"
-  },
-  "devDependencies": {
-    "electron-packager": "^7.7.0"
-  }
+  "devDependencies": {}
 }

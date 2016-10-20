@@ -1,28 +1,50 @@
-//require simple-git with optional empty working path.
-// const git = require('nodegit')()
-// const utils = require('../utils')
-// const logger = require('winston-color')
-// const config = require('../config')
+const utils = require('../utils')
+const logger = require('winston-color')
+const config = require('../config')
+const os = require('os')
 
-const preExecuteOnCLI = function () {
-  //read from CLI
-  return []
+const spinner = utils.getSpinner
+spinner.text = 'Updating SplashKit! '
+
+const installPath = `${os.homedir()}/${config['splashkit_install_name']}` // ~/.splashkit
+
+const updateMac = function (callback) {
+  const skmFolder = 'skm/mac-build'
+  const installFolder = 'splashkit-macos'
+  logger.debug('Update command was executed. Cloning repo')
+
+  if (!utils.doespathExist(installPath)) {
+    callback(Error(`can't find SplashKit, please install splashkit before updating!`))
+  } else {
+    spinner.start()
+    utils.runGit(`git -C ${installPath}/skm pull &&
+                  git -C ${installPath}/${installFolder} pull &&
+                  unzip -o ${installPath}/${skmFolder}/skm.zip -d ${installPath}/${skmFolder} > ${installPath}/install.log &&
+                  ln -sf ${installPath}/${skmFolder}/skm.app/Contents/MacOS/skm /usr/local/bin`, function (error, stdout, stderr) {
+      if (error) {
+        spinner.fail()
+        return callback(error)
+      } else {
+        spinner.succeed()
+        console.log(stdout)
+        callback()
+      }
+    })
+  }
 }
 
-const execute = function(args, callback) {
+const execute = function (args, callback) {
   if (utils.isMacOS) {
-    // const path = config['splashkit_install_location']
-    // const repo = config['splashkit_repo']
-    //
-    // logger.info("Mac Install command was executed. Cloning ")
-    //
-    // utils.doespathExist(`${path}/splashkit`)
-    // git.clone(repo, installPath)
-    // logger.info(`The repo was cloned to ${path} from ${repo}!`)
+    updateMac(callback)
+  } else if (utils.isLinux) {
+    // installFolder = 'splashkit-linux'
+    // skmFolder = 'skm/linux-build'
+  } else if (utils.isWindows) {
+    // installFolder = 'splashkit-windows'
+    // skmFolder = 'skm/windows-build'
   }
 }
 
 module.exports = {
-  execute: execute,
-  preExecuteOnCLI: preExecuteOnCLI
+  execute: execute
 }
