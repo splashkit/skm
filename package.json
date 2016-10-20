@@ -44,6 +44,5 @@
     "mkdirp": "^0.5.1",
     "ora": "^0.3.0",
     "winston-color": "1.0.0"
-  },
-  "devDependencies": {}
+  }
 }
