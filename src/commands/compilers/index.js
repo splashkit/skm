@@ -1,9 +1,14 @@
 const os = require('os')
+const utils = require('../../utils')
 
 const _getCompiler = function (compilerName) {
   let compilers
   try {
-    compilers = require(`${os.homedir()}/.splashkit/splashkit-macos/compilers`)
+    if (utils.isMacOS) {
+      compilers = require(`${os.homedir()}/.splashkit/splashkit-macos/compilers`)
+    } else if (utils.isWindows) {
+      compilers = require(`${os.homedir()}/.splashkit/splashkit-windows/compilers`)
+    }
   } catch (error) {
     return // Return null if you can't find the directory.
   }
