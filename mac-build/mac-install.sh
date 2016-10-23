@@ -16,7 +16,7 @@ INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
 if which clang++ >/dev/null; then
   CLANG_EXISTS=true
 else
-  "SplashKit will install, but we can not find a clang compiler. Please run Xcode developer command."
+  echo "SplashKit will install, but we can not find a clang compiler. Please run Xcode developer command."
 fi
 
 # Clone the repos if git is found.
@@ -38,6 +38,6 @@ echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:\$PAT
 if [ -f ~/.zshrc ]; then
     echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:\$PATH\""" >> ~/.zshrc
 fi
-export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:\$PATH\""
+export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOS:\$PATH\""
 
 echo "SplashKit Successfully installed! Please restart your terminal..."
