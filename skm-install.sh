@@ -8,7 +8,7 @@ fi
 
 if [[ `uname` == MINGW* ]]; then
   echo "installing SplashKit for Windows MingW"
-  bash <(curl -s https://raw.githubusercontent.com/jakerenzella/skm/develop/windows-build/windows-install.sh)
+  bash <(curl -s https://raw.githubusercontent.com/jakerenzella/skm/feature/windows-compile/windows-build/windows-install.sh)
 fi
 
 if [[ `uname` == Linux ]]; then
