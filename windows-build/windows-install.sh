@@ -12,7 +12,7 @@ if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
     echo Please restart your terminal and rerun this script.
 else
     # echo "export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""" >> ~/.bash_profile
-    export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""
+    export PATH="\"$HOME/.splashkit/splashkit-windows/lib\":$PATH"
 
     # Get tools if not installed
     command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." >&2; pacman -S mingw-w64-x86_64-clang mingw-w64-i686-clang --noconfirm;}
@@ -32,6 +32,6 @@ else
     # Shouldn't this just use the Linux build?
     # Add SKM app to path
     # echo "export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""" >> ~/.bash_profile
-    export PATH=\""$HOME/.splashkit/skm/windows-build/skm-win32-x64:\$PATH\""
+    export PATH="\"$HOME/.splashkit/skm/windows-build/skm-win32-x64\":$PATH"
     ${SYSTEMROOT}/system32/setx.exe PATH $PATH
 fi
