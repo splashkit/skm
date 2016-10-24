@@ -1,9 +1,9 @@
 #!/bin/bash
 GIT_SKM_REPO=https://github.com/jakerenzella/skm
-GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-macos
+GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-windows
 
 HOME_PATH=~
-FOLDER_PATH="${HOME_PATH}/.splashkit folder"
+FOLDER_PATH="${HOME_PATH}/.splashkit"
 INSTALL_PATH="${FOLDER_PATH}/splashkit-windows"
 INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
 
@@ -29,7 +29,7 @@ else
     git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
 
     # Unzip the SKM app.
-    unzip "$INSTALL_SKM_PATH/mac-build/skm.zip" -d "${INSTALL_PATH}/mac-build" > "${FOLDER_PATH}/install.log"
+    unzip "$INSTALL_SKM_PATH/windows-build/skm.zip" -d "${INSTALL_PATH}/windows-build" > "${FOLDER_PATH}/install.log"
 
     # Shouldn't this just use the Linux build?
     # Add SKM app to path
