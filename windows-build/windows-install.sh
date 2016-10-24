@@ -8,12 +8,12 @@ INSTALL_PATH="${FOLDER_PATH}/splashkit-windows"
 INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
 
 if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then 
-    `setx MSYS2_PATH_TYPE inherit`
+    setx MSYS2_PATH_TYPE inherit
     echo Please restart your terminal and rerun this script.
 else
     echo "export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""" >> ~/.bash_profile
     export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""
-    `setx PATH $PATH`
+
     # Get tools if not installed
     command -v clang >/dev/null 2>&1 || { echo "clang not found, Installing clang." >&2; pacman -S mingw-w64-x86_64-clang mingw-w64-i686-clang --noconfirm;}
     command -v git >/dev/null 2>&1 || { echo "git not found, Installing git." >&2; pacman -S git --noconfirm;}
@@ -33,5 +33,5 @@ else
     # Add SKM app to path
     echo "export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""" >> ~/.bash_profile
     export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""
-    `setx PATH $PATH`
+    setx PATH $PATH
 fi
