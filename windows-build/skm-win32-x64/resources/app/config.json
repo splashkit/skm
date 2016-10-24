@@ -1,0 +1,9 @@
+{
+  "supported_languages": [
+    "pascal",
+    "cpp"
+  ],
+  "splashkit_version": "0.1.5",
+  "splashkit_repo": "https://github.com/rmccue/test-repository",
+  "splashkit_install_name": ".splashkit"
+}

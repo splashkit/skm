@@ -11,7 +11,7 @@ if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
     setx MSYS2_PATH_TYPE inherit
     echo Please restart your terminal and rerun this script.
 else
-    echo "export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""" >> ~/.bash_profile
+    # echo "export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""" >> ~/.bash_profile
     export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""
 
     # Get tools if not installed
@@ -27,11 +27,11 @@ else
     git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
 
     # Unzip the SKM app.
-    unzip "$INSTALL_SKM_PATH/windows-build/skm.zip" -d "${INSTALL_PATH}/windows-build" > "${FOLDER_PATH}/install.log"
+    # unzip "$INSTALL_SKM_PATH/windows-build/skm.zip" -d "${INSTALL_PATH}/windows-build" > "${FOLDER_PATH}/install.log"
 
     # Shouldn't this just use the Linux build?
     # Add SKM app to path
-    echo "export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""" >> ~/.bash_profile
-    export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""
-    setx PATH $PATH
+    # echo "export PATH=\""$HOME/.splashkit/skm/windows-build/skm.app/Contents/windows:\$PATH\""" >> ~/.bash_profile
+    export PATH=\""$HOME/.splashkit/skm/windows-build/skm-win32-x64:\$PATH\""
+    ${SYSTEMROOT}/system32/setx.exe PATH $PATH
 fi
