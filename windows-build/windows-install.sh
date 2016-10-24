@@ -7,10 +7,9 @@ FOLDER_PATH="${HOME_PATH}/.splashkit"
 INSTALL_PATH="${FOLDER_PATH}/splashkit-windows"
 INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
 
-if [[ `MSYS2_PATH_TYPE` != 'inherit' ]]; then 
+if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then 
     `setx MSYS2_PATH_TYPE inherit`
-    echo Please restart your terminal.
-
+    echo Please restart your terminal and rerun this script.
 else
     echo "export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""" >> ~/.bash_profile
     export PATH=\""$HOME/.splashkit/splashkit-windows/lib:\$PATH\""
