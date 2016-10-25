@@ -34,3 +34,8 @@ const cliStart = function () {
 
 prepare()
 app.on('ready', isGuiStart ? guiStart : cliStart)
+
+process.on('SIGABRT' || 'SIGINT', function () {
+  console.log('Quitting SKM')
+  process.exit()
+})
