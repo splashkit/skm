@@ -12,6 +12,6 @@ if [[ `uname` == MINGW* ]]; then
 fi
 
 if [[ `uname` == Linux ]]; then
-  echo "installing SplashKit for Windows Linux"
+  echo "installing SplashKit for Linux"
   bash <(curl -s https://raw.githubusercontent.com/jakerenzella/skm/master/install-scripts/linux-install.sh)
 fi

@@ -26,7 +26,6 @@ else
     export ORIGINAL_PATH="$HOME/.splashkit/lib:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit/lib/win32:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit/lib/win64:$ORIGINAL_PATH"
-
     export ORIGINAL_PATH="$HOME/.splashkit/skm-win32-ia32:$ORIGINAL_PATH"
 
     # Set path
