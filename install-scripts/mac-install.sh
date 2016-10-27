@@ -1,5 +1,5 @@
 #!/bin/bash
-GIT_MACOS_REPO=https://github.com/jakerenzella/splashkit-macos
+GIT_MACOS_REPO=https://github.com/splashkit/splashkit-macos
 
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
