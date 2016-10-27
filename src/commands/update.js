@@ -8,8 +8,6 @@ spinner.text = 'Updating SplashKit! '
 const home = process.env.HOME
 const installPath = `${home}/${config['splashkit_install_name']}` // ~/.splashkit
 
-let installFolder
-
 const updateSplashKit = function (callback) {
   logger.debug('Update command was executed. Updating SplashKit')
 
@@ -17,7 +15,7 @@ const updateSplashKit = function (callback) {
     callback(Error(`can't find SplashKit, please install splashkit before updating!`))
   } else {
     spinner.start()
-    utils.runGit(`git -C ${installPath}/${installFolder} pull`, function (error, stdout, stderr) {
+    utils.runGit(`git -C ${installPath} pull`, function (error, stdout, stderr) {
       if (error) {
         spinner.fail()
         return callback(error)
@@ -31,13 +29,6 @@ const updateSplashKit = function (callback) {
 }
 
 const execute = function (args, callback) {
-  if (utils.isMacOS) {
-    installFolder = 'splashkit-macos'
-  } else if (utils.isLinux) {
-    installFolder = 'splashkit-windows'
-  } else if (utils.isWindows) {
-    installFolder = 'splashkit-linux'
-  }
   updateSplashKit(callback)
 }
 
