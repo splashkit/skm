@@ -1,41 +1,20 @@
 #!/bin/bash
-
-GIT_SKM_REPO=https://github.com/jakerenzella/skm
 GIT_MACOS_REPO=https://github.com/splashkit/splashkit-macos
 
 HOME_PATH=~
-FOLDER_PATH="${HOME_PATH}/.splashkit"
-INSTALL_PATH="${FOLDER_PATH}/splashkit-macos"
-INSTALL_SKM_PATH="${FOLDER_PATH}/skm"
+INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-# Check for clang
+command -v clang++ >/dev/null 2>&1 || { echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then rerun this script." >&2; exit;}
+command -v git >/dev/null 2>&1 || { echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then rerun this script." >&2; exit;}
 
-# command -v clang >/dev/null 2>&1 || { echo "SplashKit will install, but we can not find a clang compiler. Please run Xcode developer command."}
-if which clang++ >/dev/null; then
-  CLANG_EXISTS=true
-else
-  echo "SplashKit will install, but we can not find a clang compiler. Please run Xcode developer command."
-fi
-
-# Clone the repos if git is found.
-if which git >/dev/null; then
-    echo 'Git found'
-    git clone --depth 1 $GIT_MACOS_REPO "${INSTALL_PATH}"
-    git clone -b master --depth 1 --single-branch $GIT_SKM_REPO "${INSTALL_SKM_PATH}"
-  else
-    echo 'Git not found, can''t install splashkit. Please run xcode developer command.'
-fi
-
-# Unzip the SKM app.
-echo "unzipping"
-unzip "$INSTALL_SKM_PATH/mac-build/skm.zip" -d "$INSTALL_SKM_PATH/mac-build" > "$FOLDER_PATH/install.log"
+git clone --depth 1 $GIT_MACOS_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
-echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:\$PATH\""" >> ~/.bash_profile
+echo "export PATH=\"$INSTALL_PATH/skm-darwin-x64/skm.app/Contents/MacOS:$PATH\"" >> ~/.bash_profile
 
 if [ -f ~/.zshrc ]; then
-    echo "export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOs:\$PATH\""" >> ~/.zshrc
+    echo "export PATH=\"$INSTALL_PATH/skm-darwin-x64/skm.app/Contents/MacOS:$PATH\"" >> ~/.zshrc
 fi
-export PATH=\""$HOME/.splashkit/skm/mac-build/skm.app/Contents/MacOS:\$PATH\""
 
+export PATH="$INSTALL_PATH/skm-darwin-x64/skm.app/Contents/MacOS:$PATH"
 echo "SplashKit Successfully installed! Please restart your terminal..."

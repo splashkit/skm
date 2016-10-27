@@ -4,16 +4,11 @@ const logger = require('winston-color')
 
 const _getCompiler = function (compilerName) {
   let compilers
+  const home = process.env.HOME
   try {
-    if (utils.isMacOS) {
-      logger.debug('MacOS System Detected')
-      compilers = require(`${os.homedir()}/.splashkit/splashkit-macos/compilers`)
-    } else if (utils.isWindows) {
-      logger.debug('Windows System Detected')
-      compilers = require(`${os.homedir()}/.splashkit/splashkit-windows/compilers`)
-    }
+    compilers = require(`${home}/.splashkit/compilers`)
   } catch (error) {
-    logger.debug('OS Not Recognised')
+    logger.error(error.message)
     return // Return null if you can't find the directory.
   }
   return compilers.get(compilerName)
