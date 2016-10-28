@@ -1,19 +1,21 @@
 const {app, BrowserWindow} = require('electron')
+const config = require('../config')
 
 const execute = function (argv, callback) {
-  // gui not implemented
-  createWindow()
+  const doc = argv['_'][1]
+  if (config['doc_to_url'].indexOf(doc) > -1) {
+    createWindow(`api/${doc}`)
+  } else {
+    createWindow()
+  }
 }
 let win
 
-function createWindow () {
+function createWindow (doc = '') {
   // Create the browser window.
-  win = new BrowserWindow({backgroundColor: '##3F51B5', width: 800, height: 600, frame: false})
+  win = new BrowserWindow({backgroundColor: '##3F51B5', width: 1000, height: 800, frame: false})
   // and load the index.html of the app.
-  win.loadURL(`http://localhost:4567/`)
-
-  // Open the DevTools.
-  win.webContents.openDevTools()
+  win.loadURL(`http://localhost:4567/${doc}`)
 
   // Emitted when the window is closed.
   win.on('closed', () => {

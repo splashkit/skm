@@ -30,4 +30,4 @@ echo "
 SKM and SplashKit has been installed. please ensure SKM is added to the PATH.
     SKM is located at: $INSTALL_PATH/splashkit-linux/skm-linux-x64
     
-    For example: echo export PATH="$INSTALL_PATH/splashkit/linux/skm-linux-x64/skm:$PATH" >> ~/.bash_profile"
+    For example: echo export PATH="$INSTALL_PATH/skm-linux-x64:$PATH" >> ~/.bash_profile"
