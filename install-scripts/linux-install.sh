@@ -6,7 +6,7 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 command -v git >/dev/null 2>&1 || { echo "Please install git using your package manager For example: sudo apt install git" >&2; exit;}
 
-git clone --depth 1 $GIT_LINUX_REPO "${INSTALL_PATH}"
+git clone --depth 1 --branch master $GIT_LINUX_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
 echo "SKM and SplashKit depends on the following libraries:

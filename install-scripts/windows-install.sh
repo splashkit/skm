@@ -14,7 +14,7 @@ else
     command -v unzip >/dev/null 2>&1 || { echo "unzip not found, Installing unzip." >&2; pacman -S unzip --noconfirm;}
 
     # Clone the repo.
-    git clone --depth 1 $GIT_WINDOWS_REPO "${INSTALL_PATH}"
+    git clone --depth 1 --branch master $GIT_WINDOWS_REPO "${INSTALL_PATH}"
 
     #Export to path -- for current terminal
     export PATH="$HOME/.splashkit/lib:$PATH"
