@@ -2,11 +2,14 @@ const {app, BrowserWindow} = require('electron')
 const config = require('../config')
 
 const execute = function (argv, callback) {
-  const doc = argv['_'][1]
-  if (config['doc_to_url'].indexOf(doc) > -1) {
-    createWindow(`api/${doc}`)
-  } else {
+  if (argv == null || argv['_'][1] == null) {
     createWindow()
+  } else {
+    if (config['doc_to_url'].indexOf(argv['_'][1]) > -1) {
+      createWindow(`api/${argv['_'][1]}`)
+    } else {
+      createWindow()
+    }
   }
 }
 let win
@@ -15,7 +18,7 @@ function createWindow (doc = '') {
   // Create the browser window.
   win = new BrowserWindow({backgroundColor: '##3F51B5', width: 1000, height: 800, frame: false})
   // and load the index.html of the app.
-  win.loadURL(`http://localhost:4567/${doc}`)
+  win.loadURL(`http://splashkit.io/${doc}`)
 
   // Emitted when the window is closed.
   win.on('closed', () => {
