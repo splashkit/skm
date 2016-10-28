@@ -7,7 +7,7 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 command -v clang++ >/dev/null 2>&1 || { echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then rerun this script." >&2; exit;}
 command -v git >/dev/null 2>&1 || { echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then rerun this script." >&2; exit;}
 
-git clone --depth 1 $GIT_MACOS_REPO "${INSTALL_PATH}"
+git clone --depth 1 --branch master $GIT_MACOS_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
 echo "export PATH=\"$INSTALL_PATH/skm-darwin-x64/skm.app/Contents/MacOS:$PATH\"" >> ~/.bash_profile
