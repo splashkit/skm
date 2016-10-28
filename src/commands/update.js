@@ -1,45 +1,35 @@
-//require simple-git with optional empty working path.
-const git = require("nodegit")
 const utils = require('../utils')
 const logger = require('winston-color')
 const config = require('../config')
-const cliSpinners = require('cli-spinners')
-const ora = require('ora');
 
-const spinner = new ora({
-  text: 'Installing Splashkit',
-  spinner: utils.randomJsonValue(cliSpinners),
-  color: 'cyan'
-});
+const spinner = utils.getSpinner
+spinner.text = 'Updating SplashKit! '
 
-const execute = function(args, callback) {
-  if (utils.isMacOS) {
-    const repo = config['splashkit_repo']
-    const installPath = config['splashkit_install_location']
+const home = process.env.HOME
+const installPath = `${home}/${config['splashkit_install_name']}` // ~/.splashkit
 
-    logger.info("Mac Install command was executed. Cloning repo")
+const updateSplashKit = function (callback) {
+  logger.debug('Update command was executed. Updating SplashKit')
 
-    if (!utils.doespathExist(installPath)) {
-      callback(Error(`can't find SplashKit, please install splashkit !`))
-    } else {
-      let cloneOptions = {}
-      cloneOptions.fetchOpts = {
-        callbacks: {
-          certificateCheck: function() { return 1; }
-        }
-      };
-
-      logger.debug(`cloning ${repo} to ${installPath}`)
-      // let cloneRepo = git.Clone(repo, installPath, cloneOptions)
-      //   .then(null, function(response){
-      //     if (response) {
-      //       spinner.succeed()
-      //     }
-      //     callback()
-      //   })
-      //   spinner.start(cliSpinners.dots4);
+  if (!utils.doespathExist(installPath)) {
+    callback(Error(`can't find SplashKit, please install splashkit before updating!`))
+  } else {
+    spinner.start()
+    utils.runGit(`git -C ${installPath} pull`, function (error, stdout, stderr) {
+      if (error) {
+        spinner.fail()
+        return callback(error)
+      } else {
+        spinner.succeed()
+        console.log(stdout)
+        callback()
       }
+    })
   }
+}
+
+const execute = function (args, callback) {
+  updateSplashKit(callback)
 }
 
 module.exports = {
