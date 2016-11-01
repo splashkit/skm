@@ -15,3 +15,5 @@ if [[ `uname` == Linux ]]; then
   echo "installing SplashKit for Linux"
   bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/linux-install.sh)
 fi
+
+echo "SplashKit is not supported on this Operating System. If using Windows, ensure you install SKM in a MinGW Terminal."
