@@ -22,7 +22,7 @@ const execute = function (cmdName, argv, callback) {
   let isCompilerCmd = null
 
   if (cmd == null) {
-    isCompilerCmd = compilers.hasCompilerNamed(cmdName)
+    isCompilerCmd = compilers.hasExternalCommandNamed(cmdName)
   }
 
   if (cmd == null && !isCompilerCmd) {

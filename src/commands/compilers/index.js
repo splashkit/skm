@@ -1,34 +1,31 @@
-const os = require('os')
-const utils = require('../../utils')
 const logger = require('winston-color')
 
-const _getCompiler = function (compilerName) {
-  let compilers
+const _getExternalCommand = function (externalCommandName) {
+  let externalCommands
   const home = process.env.HOME
   try {
-    compilers = require(`${home}/.splashkit/compilers`)
+    externalCommands = require(`${home}/.splashkit/commands`)
   } catch (error) {
-    logger.error(error.message)
+    logger.debug(error)
     return // Return null if you can't find the directory.
   }
-  return compilers.get(compilerName)
+  return externalCommands.get(externalCommandName)
 }
 
-const hasCompilerNamed = function (compilerName) {
-  return _getCompiler(compilerName) != null
+const hasExternalCommandNamed = function (externalCommandName) {
+  return _getExternalCommand(externalCommandName) != null
 }
 
 const execute = function (argv, callback) {
-  const compilerName = argv['_'][0]
-  const compiler = _getCompiler(compilerName)
-
+  const externalCommandName = argv['_'][0]
+  const command = _getExternalCommand(externalCommandName)
   // check for sigabort
   try {
-    compiler.execute(argv, function (err) {
+    command.execute(argv, function (err, string) {
       if (err) {
         callback(err)
       } else {
-        callback(null, 'Successfully compiled! 🎉')
+        callback(null, string)
       }
     })
   } catch (error) {
@@ -38,5 +35,5 @@ const execute = function (argv, callback) {
 
 module.exports = {
   execute: execute,
-  hasCompilerNamed: hasCompilerNamed
+  hasExternalCommandNamed: hasExternalCommandNamed
 }
