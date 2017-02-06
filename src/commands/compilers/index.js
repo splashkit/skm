@@ -21,6 +21,7 @@ const execute = function (argv, callback) {
   const command = _getExternalCommand(externalCommandName)
   // check for sigabort
   try {
+    logger.debug('err')
     command.execute(argv, function (err, string) {
       if (err) {
         callback(err)
@@ -29,6 +30,7 @@ const execute = function (argv, callback) {
       }
     })
   } catch (error) {
+    // logger.debug('error: ', error)
     callback(error)
   }
 }

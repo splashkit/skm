@@ -1,5 +1,6 @@
 const {app, BrowserWindow} = require('electron')
 const config = require('../config')
+const utils = require('../utils')
 
 const execute = function (argv, callback) {
   if (argv == null || argv['_'][1] == null) {
@@ -16,7 +17,8 @@ let win
 
 function createWindow (doc = '') {
   // Create the browser window.
-  win = new BrowserWindow({backgroundColor: '##3F51B5', width: 1000, height: 800, frame: false})
+  win = new BrowserWindow({backgroundColor: '#3F51B5', width: 1000, height: 800})
+
   // and load the index.html of the app.
   win.loadURL(`http://splashkit.io/${doc}`)
 
