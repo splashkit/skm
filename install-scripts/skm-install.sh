@@ -7,7 +7,7 @@ if [[ `uname` == Darwin ]]; then
   exit
 fi
 
-if [[ `uname` == MINGW* ]]; then
+if [[ `uname` == MINGW* || `uname` == MSYS*]]; then
   echo "installing SplashKit for Windows MingW"
   bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/windows-install.sh)
   echo "finished installing SplashKit for Windows (MINGW)"
