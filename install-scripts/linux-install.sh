@@ -4,7 +4,7 @@ GIT_LINUX_REPO=https://github.com/splashkit/splashkit-linux
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-declare -a DEPENDENCIES=("libsdl2-dev" "libsdl2-gfx-dev" "libsdl2-mixer-dev" "libsdl2-ttf-dev" "libsdl2-net-dev" "libsdl2-image-dev" "libncurses5-dev" "libpng-dev" "libcurl4-openssl-dev")
+declare -a DEPENDENCIES=("libsdl2-dev" "libsdl2-gfx-dev" "libsdl2-mixer-dev" "libsdl2-ttf-dev" "libsdl2-net-dev" "libsdl2-image-dev" "libncurses5-dev" "libpng12-dev" "libcurl4-openssl-dev")
 
 command -v git >/dev/null 2>&1 || { echo "Please install git using your package manager For example: sudo apt install git" >&2; exit;}
 
@@ -21,17 +21,26 @@ echo "SKM and SplashKit depends on the following libraries:
     * curl4 openssl development library
     * CMAKE
 
-Please ensure these dependencies are installed using your package manager.
-For example:
+    Please ensure these dependencies are installed using your package manager.
+    For example:
 
-sudo apt install libsdl2-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-image-dev libncurses-dev libpng-dev libcurl4-openssl-dev cmake
+    sudo apt install libsdl2-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-image-dev libncurses-dev libpng-dev libcurl4-openssl-dev cmake
+    
 "
 
-for dependency in "${DEPENDENCIES[@]}"; do
-    dpkg -l | grep "$dependency" > /dev/null 2>&1 || {
-        echo "$dependency is required for SKM and SplashKit. Please install $dependency and run the installer again."
-        exit;
-    }
+while true
+do
+  read -p "Have you installed these dependencies? [y/n]: " answer
+  case $answer in
+    [yY]* ) echo "Okay, installing SKM and SplashKit."
+            break;;
+
+    [nN]* ) echo "Please install these dependencies and run this script again."
+            exit;;
+
+    * )     echo "Enter Y or N, please.";
+            break ;;
+  esac
 done
 
 git clone --depth 1 --branch master $GIT_LINUX_REPO "${INSTALL_PATH}"
