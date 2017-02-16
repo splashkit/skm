@@ -19,12 +19,16 @@ echo "SKM and SplashKit depends on the following libraries:
     * ncurses development library
     * png development library
     * curl4 openssl development library
+    * bz2 development library
+    * flac, libvorbis libmikmod development libraries
+    * webp development library
+    * freetype development library
     * CMAKE
 
     Please ensure these dependencies are installed using your package manager.
     For example:
 
-    sudo apt install libsdl2-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-image-dev libncurses-dev libpng-dev libcurl4-openssl-dev cmake
+    sudo apt install libsdl2-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-image-dev libncurses-dev libpng-dev libcurl4-openssl-dev libbz2-dev libflac-dev libvorbis-dev libmikmod-dev libwebp-dev libfreetype6-dev cmake
 
 "
 
