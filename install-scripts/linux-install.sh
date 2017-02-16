@@ -25,7 +25,7 @@ echo "SKM and SplashKit depends on the following libraries:
     For example:
 
     sudo apt install libsdl2-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-image-dev libncurses-dev libpng-dev libcurl4-openssl-dev cmake
-    
+
 "
 
 while true
@@ -39,7 +39,6 @@ do
             exit;;
 
     * )     echo "Enter Y or N, please.";
-            break ;;
   esac
 done
 
