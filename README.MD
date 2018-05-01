@@ -2,10 +2,6 @@
 
 SplashKit Manager or SKM is the CLI/App tool for installing and managing SplashKit, as well as creating, building, and running your very own SplashKit projects!
 
-## Status
-
-*Under Heavy Development*
-
 ## Use Example
 
 * ```cd /code/projects```
