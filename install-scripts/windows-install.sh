@@ -1,5 +1,5 @@
 #!/bin/bash
-GIT_WINDOWS_REPO=https://github.com/splashkit/splashkit-windows
+GIT_WINDOWS_REPO=https://github.com/skm
 
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
@@ -18,13 +18,13 @@ else
     export PATH="$HOME/.splashkit/lib:$PATH"
     export PATH="$HOME/.splashkit/lib/win32:$PATH"
     export PATH="$HOME/.splashkit/lib/win64:$PATH"
-    export PATH="$HOME/.splashkit/skm-win32-ia32:$PATH"
+    export PATH="$HOME/.splashkit:$PATH"
 
     #Export path for new terminals
     export ORIGINAL_PATH="$HOME/.splashkit/lib:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit/lib/win32:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit/lib/win64:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$HOME/.splashkit/skm-win32-ia32:$ORIGINAL_PATH"
+    export ORIGINAL_PATH="$HOME/.splashkit:$ORIGINAL_PATH"
 
     # Set path
     setx PATH "$ORIGINAL_PATH"
