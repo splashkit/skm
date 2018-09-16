@@ -5,4 +5,4 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 DYLIB_PATH=`cd "$APP_PATH"/../lib; pwd`
 
-clang++ -g -std=c++14 -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib" -lSplashKitCpp -I "${APP_PATH}/include" -rpath @loader_path -rpath "$DYLIB_PATH" -rpath /usr/local/lib $*
+g++ -g -std=c++14 -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib" -lSplashKitCpp -I "${APP_PATH}/include" -rpath @loader_path -rpath "$DYLIB_PATH" -rpath /usr/local/lib $*

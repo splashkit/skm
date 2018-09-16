@@ -21,7 +21,11 @@ function restore_skm_dotnet {
 
         mkdir -p ./lib
         ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
-        cp -r -n "${APP_PATH}/files/" .
+        if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
+            cp -r -n "${APP_PATH}/files/" -T .
+        else
+            cp -r -n "${APP_PATH}/files/" .
+        fi
     fi
 }
 
