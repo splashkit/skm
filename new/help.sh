@@ -20,7 +20,13 @@ else
     echo "You can create projects for the following languages:"
     echo
 
-    for i in `find -s "$APP_PATH" -type d -maxdepth 1`
+    if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
+        OPT=""
+    else
+        OPT="-s"
+    fi
+
+    for i in `find $OPT "$APP_PATH" -type d -maxdepth 1`
     do
         if [ -f "$i/lang_details.sh" ]; then
             "$i/lang_details.sh"
@@ -29,7 +35,7 @@ else
 
     echo
     echo "Example usage:"
-    echo "    Run the install scripts for SphasKit on Linux."
-    echo "    ${bold}skm linux install${normal}"
+    echo "    Create a new c++ project."
+    echo "    ${bold}skm new c++${normal}"
 fi
 

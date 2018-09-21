@@ -12,6 +12,11 @@ if [ -f "$APP_PATH/$1/$1.sh" ] ; then
     COMMAND=$1
     shift
     "$APP_PATH/$COMMAND/$COMMAND.sh" $*
+    if [ $? -eq 0 ]; then
+        echo "🎉  $COMMAND command run successfully 🎉"
+    else
+        exit $?
+    fi
 else
     echo "Unknown skm command '$1'. For help use 'skm help'"
     exit 1

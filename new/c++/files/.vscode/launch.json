@@ -8,10 +8,11 @@
             "program": "${workspaceRoot}/${workspaceRootFolderName}",
             "args": [],
             "stopAtEntry": false,
-            "preLaunchTask": "skm",
+            "preLaunchTask": "build",
             "cwd": "${workspaceRoot}",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
+            "internalConsoleOptions": "openOnSessionStart",
             "linux": {
                 "MIMode": "gdb",
                 "setupCommands": [
@@ -33,6 +34,11 @@
                         "description": "Enable pretty-printing for gdb",
                         "text": "-enable-pretty-printing",
                         "ignoreFailures": true
+                    }
+                ],
+                "environment": [ {
+                        "name": "PATH",
+                        "value": "${env:PATH};${env:HOME}/.splashkit"
                     }
                 ]
             }
