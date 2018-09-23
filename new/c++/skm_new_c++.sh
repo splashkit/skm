@@ -15,7 +15,7 @@ fi
 
 ln -f -s "${INCLUDE_PATH}" ./include/splashkit
 
-if [ `uname -o 2>>/dev/null` = "Msys" ]; then
+if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
     cp -r -n "${APP_PATH}/files/" -T .
 else
     cp -r -n "${APP_PATH}/files/" .
