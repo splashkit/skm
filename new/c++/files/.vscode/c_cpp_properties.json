@@ -9,6 +9,7 @@
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
+            "cppStandard": "c++14",
             "browse": {
                 "path": [
                     "${workspaceRoot}",
@@ -27,6 +28,7 @@
             ],
             "defines": [],
             "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++14",
             "browse": {
                 "path": [
                     "${workspaceRoot}",
@@ -45,6 +47,7 @@
             ],
             "defines": [],
             "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++14",
             "browse": {
                 "path": [
                     "${workspaceRoot}",
