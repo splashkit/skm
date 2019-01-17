@@ -16,7 +16,7 @@ else
     echo "    Compile a 'program.cpp' file into an executable program called 'HelloWorld'."
     echo "    ${bold}skm clang++ program.cpp -o HelloWorld${normal}"
     echo
-    echo "    Compile a all of the cpp files into an executable program called 'MyProgram'."
+    echo "    Compile all of the cpp files into an executable program called 'MyProgram'."
     echo "    ${bold}skm clang++ *.cpp -o MyProgram${normal}"
     echo 
     echo "    Output options for the clang++ compiler"
