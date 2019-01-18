@@ -56,3 +56,5 @@ jspm_packages
 !.vscode/launch.json
 
 *.pyc
+fpc/SplashKit.o
+fpc/SplashKit.ppu
