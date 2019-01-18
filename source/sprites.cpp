@@ -21,7 +21,12 @@
 #include <cmath>
 #include <map>
 #include <vector>
-using namespace std;
+
+using std::map;
+using std::vector;
+using std::to_string;
+using std::swap;
+
 namespace splashkit_lib
 {
     timer _sprite_timer = nullptr;
@@ -1579,7 +1584,7 @@ namespace splashkit_lib
         if ( INVALID_PTR(s, SPRITE_PTR))
             return false;
         else
-            return rectangles_intersect(sprite_layer_rectangle(s, 0), screen_rectangle());
+            return not rectangles_intersect(sprite_layer_rectangle(s, 0), screen_rectangle());
     }
 
 

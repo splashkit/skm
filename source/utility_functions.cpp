@@ -27,10 +27,12 @@
 #include <Windows.h>
 #include <Shlobj.h>
 #endif
+
+using std::string;
+using std::locale;
+
 namespace splashkit_lib
 {
-    using namespace std;
-
 #define PI 3.141592653589793238L
 
     template <typename T>
@@ -459,15 +461,6 @@ namespace splashkit_lib
 
         return result;
     }
-
-//    string trim(const string& str)
-//    {
-//        if (str.length() == 0) return str;
-//
-//        size_t first = str.find_first_not_of(' ');
-//        size_t last = str.find_last_not_of(' ');
-//        return str.substr(first, (last-first+1));
-//    }
 
     void to_upper(string &str)
     {

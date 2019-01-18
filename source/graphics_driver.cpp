@@ -9,8 +9,6 @@
 #include <limits.h>
 #include <iostream>
 
-using namespace std;
-
 #ifdef __linux__
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
@@ -26,6 +24,10 @@ using namespace std;
 
 #include "core_driver.h"
 #include "graphics_driver.h"
+
+using std::cerr;
+using std::endl;
+
 namespace splashkit_lib
 {
     unsigned int _sk_renderer_count(sk_drawing_surface *surface);
@@ -168,9 +170,10 @@ namespace splashkit_lib
 
         _sk_has_initial_window = true;
         _sk_initial_window = static_cast<sk_window_be *>(malloc(sizeof(sk_window_be)));
-        _sk_initial_window->window = SDL_CreateWindow("SwinGame",
+
+        _sk_initial_window->window = SDL_CreateWindow("SplashKit",
                                                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 200, 200,
-                                                      SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN );
+                                                      SDL_WINDOW_HIDDEN | SDL_WINDOW_ALLOW_HIGHDPI );
 
         if ( ! _sk_initial_window->window )
         {
@@ -180,10 +183,23 @@ namespace splashkit_lib
 
         _sk_initial_window->renderer = SDL_CreateRenderer(_sk_initial_window->window,
                                                           -1,
-                                                          SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
+                                                          SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE );
+
+        if ( ! _sk_initial_window->renderer )
+        {
+            _sk_initial_window->renderer = SDL_CreateRenderer(_sk_initial_window->window, -1, SDL_RENDERER_TARGETTEXTURE );
+
+            if ( ! _sk_initial_window->renderer )
+            {
+                cerr << "Splashkit failed to create a renderer for the window." << endl << (SDL_GetError()) << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
 
         SDL_SetRenderDrawBlendMode(_sk_initial_window->renderer, SDL_BLENDMODE_BLEND);
         SDL_PumpEvents();
+        //HACK: Change size of Mojave
+        SDL_SetWindowSize(_sk_initial_window->window, 200, 200);
 
         //    std::cout << "Initial Renderer is " << _sk_initial_window->renderer << std::endl;
 
@@ -243,6 +259,8 @@ namespace splashkit_lib
         SDL_PumpEvents();
     }
 
+    void _sk_get_pixels_from_renderer(SDL_Renderer *renderer, int x, int y, int w, int h, int *pixels);
+
     SDL_Texture* _sk_copy_texture(SDL_Texture *src_tex, SDL_Renderer *src_renderer, SDL_Renderer *dest_renderer)
     {
         // Read from initial window
@@ -253,7 +271,9 @@ namespace splashkit_lib
         pixels = malloc(static_cast<size_t>(4 * w * h));
 
         SDL_SetRenderTarget(src_renderer, src_tex);
-        SDL_RenderReadPixels(src_renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, pixels, 4 * w);
+        _sk_get_pixels_from_renderer(src_renderer, 0, 0, w, h, (int*)pixels);
+        
+        //SDL_RenderReadPixels(src_renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, pixels, 4 * w);
 
         SDL_Texture *tex = SDL_CreateTexture(dest_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
         SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
@@ -272,7 +292,7 @@ namespace splashkit_lib
         sk_window_be *window = _sk_open_windows[dest_window_idx];
 
         // if the surface exists, use that to create the new bitmap... otherwise extract from texture
-        if (current_bmp->surface)
+        if (current_bmp->surface && not current_bmp->drawable)
         {
             current_bmp->texture[dest_window_idx] = SDL_CreateTextureFromSurface(window->renderer, current_bmp->surface );
         }
@@ -345,14 +365,17 @@ namespace splashkit_lib
     {
         SDL_Rect rect = {x, y, w, h};
 
-        // textures appear flipped by default and need to have their pixels inverted
         int *raw_pixels = (int*)malloc( sizeof(int) * static_cast<unsigned long>(w * h) );
         SDL_RenderReadPixels(renderer, &rect, SDL_PIXELFORMAT_RGBA8888, raw_pixels, w * 4);
 
         for (int row = 0; row < h; row++)
         {
             // Copy a row from the paw pixels to the dest pixels
+#ifdef WINDOWS
             memcpy(&pixels[(h - row - 1) * w], &raw_pixels[row *  w], sizeof(int) * static_cast<unsigned long>(w));
+#else
+            memcpy(&pixels[row * w], &raw_pixels[row *  w], sizeof(int) * static_cast<unsigned long>(w));
+#endif
         }
         free(raw_pixels);
     }
@@ -429,6 +452,9 @@ namespace splashkit_lib
                 }
 
                 SDL_UnlockSurface(_sk_open_bitmaps[i]->surface);
+                
+                // Last window is being closed, saving the surface means the loaded bitmap will no longer be drawable!
+                _sk_open_bitmaps[i]->drawable = false;
             }
         }
     }
@@ -629,17 +655,12 @@ namespace splashkit_lib
 
     bool _sk_open_window(const char *title, int width, int height, unsigned int options, sk_window_be *window_be)
     {
-        if( _sk_has_initial_window )
-        {
-            _sk_destroy_initial_window();
-        }
-
         window_be->window = SDL_CreateWindow(title,
                                              SDL_WINDOWPOS_CENTERED,
                                              SDL_WINDOWPOS_CENTERED,
                                              width,
                                              height,
-                                             options | SDL_WINDOW_OPENGL);
+                                             options | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_INPUT_FOCUS);
 
         if ( ! window_be->window )
         {
@@ -656,7 +677,18 @@ namespace splashkit_lib
         // Create the actual renderer -- accellerated,
         window_be->renderer = SDL_CreateRenderer(window_be->window,
                                                  -1,
-                                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
+                                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE );
+
+        if ( ! window_be->renderer )
+        {
+            window_be->renderer = SDL_CreateRenderer(window_be->window, -1, SDL_RENDERER_TARGETTEXTURE );
+
+            if ( ! window_be->renderer )
+            {
+                cerr << "Splashkit failed to create a renderer for the window." << endl << (SDL_GetError()) << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
 
         //std::cout << "Renderer is " << window_be->renderer << std::endl;
 
@@ -672,10 +704,17 @@ namespace splashkit_lib
         SDL_RenderClear(window_be->renderer);
 
         _sk_add_window(window_be);
+        
+        if( _sk_has_initial_window )
+        {
+            _sk_destroy_initial_window();
+        }
 
         SDL_RaiseWindow(window_be->window);
         _sk_present_window(window_be);
         SDL_PumpEvents();
+        //HACK: Change size of Mojave
+        SDL_SetWindowSize(window_be->window, width, height);
 
         return true;
     }
@@ -1233,8 +1272,13 @@ namespace splashkit_lib
     {
         sk_color result = {0,0,0,0};
         unsigned int clr = 0;
+        
+#ifdef WINDOWS
         // Texture is inverted so flip y
-        SDL_Rect rect = {x, surface->height - y - 1, 1, 1};
+        SDL_Rect rect = {x, surface->height - y - 1, 1, 1};	
+#else
+        SDL_Rect rect = {x, y, 1, 1};
+#endif
 
         if ( ! surface || ! surface->_data ) return result;
 
@@ -1403,13 +1447,8 @@ namespace splashkit_lib
                 window_be = static_cast<sk_window_be *>(surface->_data);
 
                 window_be->clipped = true;
-#ifdef __APPLE__
-                window_be->clip = { x1, surface->height - y1 - h, w, h };
-#else
                 window_be->clip = { x1, y1, w, h };
-#endif
 
-                //Should be: window_be->clip = { x1, y1, w, h };
                 SDL_RenderSetClipRect(window_be->renderer, &window_be->clip);
                 break;
             }
@@ -1419,13 +1458,7 @@ namespace splashkit_lib
                 bitmap_be = static_cast<sk_bitmap_be *>(surface->_data);
 
                 bitmap_be->clipped = true;
-
-#ifdef WINDOWS
                 bitmap_be->clip = { x1, y1, w, h };
-#else
-                //HACK: Current hack to fix SDL clip rect error
-                bitmap_be->clip = { x1, surface->height - h - y1, w, h };
-#endif
 
                 break;
             }
