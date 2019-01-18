@@ -20,12 +20,12 @@ if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
     SKM_PATH=`cd "$APP_PATH"/../../; pwd`
 
     LIB_PATH=`cd "$APP_PATH/../../lib/win64"; pwd -W`
-    
-    sed -i "s|\"terminal.integrated.shell.windows\":.*\".*:.*\"|\"terminal.integrated.shell.windows\": \"$BASH_PATH\"|g" ./.vscode/settings.json
-    sed -i "s|\"miDebuggerPath\":.*\".*:.*\"|\"miDebuggerPath\": \"$GDB_PATH\"|g" ./.vscode/launch.json
-    sed -i "s|\"value\": \"\${env:PATH};.*\"|\"value\": \"\${env:PATH};$LIB_PATH\"|g" ./.vscode/launch.json
-    sed -i "s|\"PATH\":.*\".*:.*\"|\"PATH\": \"\${env:PATH};$SKM_PATH\"|g" ./.vscode/tasks.json
-    sed -i "s|\"args\":.*\[\"--login\",\".*skm\"|\"args\": \[\"--login\",\"$SKM_PATH/skm\"|g" ./.vscode/tasks.json
+
+    sed -i '' "s|\"terminal.integrated.shell.windows\":.*\".*:.*\"|\"terminal.integrated.shell.windows\": \"$BASH_PATH\"|g" ./.vscode/settings.json
+    sed -i '' "s|\"miDebuggerPath\":.*\".*:.*\"|\"miDebuggerPath\": \"$GDB_PATH\"|g" ./.vscode/launch.json
+    sed -i '' "s|\"value\": \"\${env:PATH};.*\"|\"value\": \"\${env:PATH};$LIB_PATH\"|g" ./.vscode/launch.json
+    sed -i '' "s|\"PATH\":.*\".*:.*\"|\"PATH\": \"\${env:PATH};$SKM_PATH\"|g" ./.vscode/tasks.json
+    sed -i '' "s|\"args\":.*\[\"--login\",\".*skm\"|\"args\": \[\"--login\",\"$SKM_PATH/skm\"|g" ./.vscode/tasks.json
 else
     GPP_PATH=`which clang++`
 
@@ -34,4 +34,4 @@ else
     fi
 fi
 
-sed -i "s|\"compilerPath\":.*\".*:.*\"|\"compilerPath\": \"$GPP_PATH\"|g" ./.vscode/c_cpp_properties.json
+sed -i '' "s|\"compilerPath\":.*\".*:.*\"|\"compilerPath\": \"$GPP_PATH\"|g" ./.vscode/c_cpp_properties.json

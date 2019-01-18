@@ -7,4 +7,5 @@ if [ -f "${APP_PATH}/$1/skm_fix_$1.sh" ]; then
     "${APP_PATH}/$1/skm_fix_$1.sh"
 else
     "$APP_PATH/help.sh"
+    exit 1
 fi
