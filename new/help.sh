@@ -3,6 +3,10 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
+SKM_PATH=`cd "$APP_PATH/.."; pwd`
+
+source "${SKM_PATH}/tools/set_sk_env_vars.sh"
+
 if [ "$1" = "-s" ] ; then
     echo "    new        Create a new SplashKit project in the current folder"
 else
@@ -12,7 +16,7 @@ else
     echo "OVERVIEW: create new SplashKit project"
     echo
     echo "USAGE: skm new [language]"
-    echo 
+    echo
     echo "Perform necessary installation steps to build the SplashKit library locally. This will attempt to install the necessary components, or will provide instructions to do this manually."
     echo
     echo "LANGUAGES:"
@@ -20,7 +24,7 @@ else
     echo "You can create projects for the following languages:"
     echo
 
-    if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
+    if [ "$IS_WINDOWS" = true ]; then
         OPT=""
     else
         OPT="-s"

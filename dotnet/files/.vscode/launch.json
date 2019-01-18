@@ -17,9 +17,14 @@
              "console": "integratedTerminal",
              "stopAtEntry": false,
              "internalConsoleOptions": "openOnSessionStart",
+             "linux": {
+                 "env":{
+                     "LD_LIBRARY_PATH": "${env:HOME}/.splashkit/lib/linux"
+                 }
+             },
              "osx": {
                  "env": {
-                     "DYLD_LIBRARY_PATH": "${env:HOME}/.splashkit/lib"
+                     "DYLD_LIBRARY_PATH": "${env:HOME}/.splashkit/lib/macos"
                  }
              },
              "windows": {

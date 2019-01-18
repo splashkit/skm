@@ -3,10 +3,14 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
-if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
+SKM_PATH=`cd "$APP_PATH/../.."; pwd`
+
+source "${SKM_PATH}/tools/set_sk_env_vars.sh"
+
+if [ "$IS_WINDOWS" = true ]; then
     cp -r -n "${APP_PATH}/files/" -T .
 else
     cp -r -n "${APP_PATH}/files/" .
 fi
 
-"$APP_PATH/../../skm" fix python3
+"$SKM_PATH/fix/python3/skm_fix_python3.sh"

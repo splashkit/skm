@@ -3,8 +3,11 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
+SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
-if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
+source "${SKM_PATH}/tools/set_sk_env_vars.sh"
+
+if [ "$IS_WINDOWS" = true ]; then
     GPP_PATH=`which g++ | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
     GPP_PATH=`cd "$GPP_PATH"; pwd -W`
     GPP_PATH="$GPP_PATH/g++.exe"
@@ -19,11 +22,9 @@ if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
 
     SKM_PATH=`cd "$APP_PATH"/../../; pwd`
 
-    LIB_PATH=`cd "$APP_PATH/../../lib/win64"; pwd -W`
-
     sed -i '' "s|\"terminal.integrated.shell.windows\":.*\".*:.*\"|\"terminal.integrated.shell.windows\": \"$BASH_PATH\"|g" ./.vscode/settings.json
     sed -i '' "s|\"miDebuggerPath\":.*\".*:.*\"|\"miDebuggerPath\": \"$GDB_PATH\"|g" ./.vscode/launch.json
-    sed -i '' "s|\"value\": \"\${env:PATH};.*\"|\"value\": \"\${env:PATH};$LIB_PATH\"|g" ./.vscode/launch.json
+    sed -i '' "s|\"value\": \"\${env:PATH};.*\"|\"value\": \"\${env:PATH};$DYLIB_PATH\"|g" ./.vscode/launch.json
     sed -i '' "s|\"PATH\":.*\".*:.*\"|\"PATH\": \"\${env:PATH};$SKM_PATH\"|g" ./.vscode/tasks.json
     sed -i '' "s|\"args\":.*\[\"--login\",\".*skm\"|\"args\": \[\"--login\",\"$SKM_PATH/skm\"|g" ./.vscode/tasks.json
 else
