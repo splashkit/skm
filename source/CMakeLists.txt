@@ -192,30 +192,8 @@ endif()
 
 get_filename_component(SK_DEPLOY_ROOT ${SK_DEPLOY_ROOT} ABSOLUTE)
 
-install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT}/lib/${WIN_PATH_SUFFIX})
+install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
 
 if ( MSYS )
-  install(FILES ${SK_LIB_DLL_FILES} DESTINATION ${SK_DEPLOY_ROOT}/lib/${WIN_PATH_SUFFIX})
-endif()
-
-if ( ${LINUX} )
-  file(GLOB LINUX_INCLUDE_FILES
-      "${SK_EXT}/civetweb/include/*.h"
-      "${SK_EXT}/hash-library/*.h"
-      "${SK_SRC}/backend/*.h"
-      "${SK_EXT}/easyloggingpp/*.h"
-      "${SK_EXT}/json/*.hpp"
-      "${SK_EXT}/sqlite/*.h"
-      "${SK_EXT}/catch/*.h"
-  )
-
-  file(GLOB INL_FILES
-      "${SK_EXT}/civetweb/src/*.inl"
-  )
-
-  install(FILES ${LINUX_INCLUDE_FILES}  DESTINATION ${SK_DEPLOY_ROOT}/include)
-  install(FILES ${INCLUDE_FILES}  DESTINATION ${SK_DEPLOY_ROOT}/include)
-  install(FILES ${OS_SOURCE_FILES} DESTINATION ${SK_DEPLOY_ROOT}/source)
-  install(FILES ${SOURCE_FILES} DESTINATION ${SK_DEPLOY_ROOT}/source)
-  install(FILES ${INL_FILES} DESTINATION ${SK_DEPLOY_ROOT}/source)
+  install(FILES ${SK_LIB_DLL_FILES} DESTINATION ${SK_DEPLOY_ROOT})
 endif()
