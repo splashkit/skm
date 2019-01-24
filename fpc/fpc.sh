@@ -8,7 +8,8 @@ SKM_PATH=`cd "$APP_PATH/.."; pwd`
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 if [ "$IS_WINDOWS" = true ]; then
-    fpc -S2 -Sh -Cg -Fu"${APP_PATH}" -k"-L${DYLIB_PATH}" -k"-lSplashKit" $*
+    APP_PATH_W=`cd "$APP_PATH"; pwd -W`
+    fpc -S2 -Sh -Cg -Fu"${APP_PATH_W}" -k"-L${DYLIB_PATH}" -k"-lSplashKit.dll" $*
 elif [ "$SK_OS" == "macos" ]; then
     ppcx64 -Tdarwin -S2 -Sh -XR/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -WM10.11 -Cg -Fu"${APP_PATH}" -k"-L${DYLIB_PATH}" -k"-lSplashKit" -k"-rpath @loader_path -rpath ${DYLIB_PATH}" $*
 elif [ "$SK_OS" == "linux" ]; then
