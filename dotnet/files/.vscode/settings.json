@@ -3,7 +3,7 @@
     "terminal.integrated.shell.windows": "C:/msys64/usr/bin/sh.exe",
     "terminal.integrated.env.windows": {
         "MSYSTEM": "MINGW64",
-        "MSYS": "winsymlinks",
+        "MSYS2_PATH_TYPE": "inherit",
         "CHERE_INVOKING": "1"
     },
     "terminal.integrated.shellArgs.windows": [
