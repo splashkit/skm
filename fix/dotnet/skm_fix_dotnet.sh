@@ -4,7 +4,6 @@ APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != 
 APP_PATH=`cd "$APP_PATH"; pwd`
 
 PRJ_NAME="${PWD##*/}.csproj"
-
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
@@ -18,7 +17,7 @@ else
 fi
 
 if [ $SK_OS = "macos" ]; then
-    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp2.0</TargetFramework>|g" $PRJ_NAME
+    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp2.0</TargetFramework>|g" "$PRJ_NAME"
 else
-    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp2.0</TargetFramework>|g" $PRJ_NAME
+    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp2.0</TargetFramework>|g" "$PRJ_NAME"
 fi
