@@ -24,13 +24,7 @@ else
     echo "You can fix projects for the following languages:"
     echo
 
-    if [ "$IS_WINDOWS" = true ]; then
-        OPT=""
-    else
-        OPT="-s"
-    fi
-
-    for i in `find $OPT "$APP_PATH" -maxdepth -type d1 | sort`
+    for i in `find "$APP_PATH" -maxdepth -type d1 | sort`
     do
         if [ -f "$i/lang_details.sh" ]; then
             "$i/lang_details.sh"
