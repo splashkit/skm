@@ -103,4 +103,6 @@ if [[ `uname` = Linux ]]; then
 "
 fi
 
+find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
+
 echo "SplashKit Successfully installed! Please restart your terminal..."

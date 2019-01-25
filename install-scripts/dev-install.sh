@@ -32,6 +32,8 @@ fi
 # TODO: Update branch when testing new feature!
 git clone --depth 1 --branch new/rewrite-skm-bash $GIT_SKM_REPO "${INSTALL_PATH}"
 
+find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
+
 echo "Make sure ${INSTALL_PATH} is on the PATH, and other dev tools and libraries are installed"
 
 echo "SplashKit Successfully installed! Please restart your terminal..."
