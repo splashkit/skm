@@ -37,8 +37,8 @@ if [ -f ~/.bash_profile ]; then
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
 fi
 
-if [ -f ~/.bash_rc ]; then
-    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_rc
+if [ -f ~/.bashrc ]; then
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
 fi
 
 if [ -f ~/.zshrc ]; then
