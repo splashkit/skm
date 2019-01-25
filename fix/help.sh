@@ -30,7 +30,7 @@ else
         OPT="-s"
     fi
 
-    for i in `find $OPT "$APP_PATH" -type d -maxdepth 1`
+    for i in `find $OPT "$APP_PATH" -maxdepth -type d1 | sort`
     do
         if [ -f "$i/lang_details.sh" ]; then
             "$i/lang_details.sh"
