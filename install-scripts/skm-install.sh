@@ -11,39 +11,43 @@ if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
     fi
 fi
 
-report_missing_git() {
-    if [[ `uname`  Darwin ]]; then
+function report_missing_git () {
+    if [[ `uname` = Darwin ]]; then
         echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then reinstall."
-        exit 1
     elif [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
         echo "Git not found. Please run \"pacman -S git --noconfirm;\" in the terminal and then reinstall"
-        exit 1
     elif [[ `uname` = Linux ]]; then
         echo "Please install git using your package manager For example: sudo apt install git"
-        exit 1
     fi
+    exit 1
 }
 
-command -v git >/dev/null 2>&1 || report_missing_git()
+command -v git >/dev/null 2>&1 || report_missing_git
+
+if [ -d "${INSTALL_PATH}" ]; then
+    echo "Looks like you already have splashkit!"
+    echo "To uninstall run \"rm -rf ${INSTALL_PATH}\""
+    exit 1
+fi
 
 git clone --depth 1 --branch master $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
 if [ -f ~/.bash_profile ]; then
-    echo "export PATH=\"$INSTALL_PATH:$PATH\"" >> ~/.bash_profile
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
 fi
 
 if [ -f ~/.bash_rc ]; then
-    echo "export PATH=\"$INSTALL_PATH:$PATH\"" >> ~/.bash_rc
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_rc
 fi
 
 if [ -f ~/.zshrc ]; then
-    echo "export PATH=\"$INSTALL_PATH:$PATH\"" >> ~/.zshrc
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
 fi
 
 export PATH="$INSTALL_PATH:$PATH"
 
-if [[ `uname` = MINGW32 ]] then
+if [[ `uname` = MINGW32 ]]; then
     #Export to path -- for current terminal
     export PATH="$HOME/.splashkit/lib:$PATH"
     export PATH="$HOME/.splashkit/lib/win32:$PATH"
