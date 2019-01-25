@@ -12,7 +12,7 @@ if [ "$#" -ge 1 ] ; then
         ;;
 
         *)
-        if [ -f "$SKM/$1/help.sh" ]; then
+        if [ -f "$SKM_PATH/$1/help.sh" ]; then
             COMMAND=$1
             shift
             "$SKM_PATH/$COMMAND/help.sh" $*
