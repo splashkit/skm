@@ -20,7 +20,6 @@ elif [ "$SK_OS" = "win64" ]; then
 elif [ "$SK_OS" = "macos" ]; then
     DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $*
 elif [ "$SK_OS" = "linux" ]; then
-    echo LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH"
     LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $*
 else
     echo "Unable to detect operating system..."
