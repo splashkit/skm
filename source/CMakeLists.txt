@@ -53,7 +53,7 @@ file(GLOB CPP_SOURCE_FILES
 # SOURCE FILES
 file(GLOB SOURCE_FILES
     "${SK_SRC}/*.cpp"
-    "${SK_EXT}/easylogging++.cc"
+    "${SK_SRC}/easylogging++.cc"
 )
 
 # SKSDK FILE INCLUDES
@@ -183,7 +183,7 @@ add_definitions(-DELPP_THREAD_SAFE)
 #### SplashKitBackend STATIC LIBRARY ####
 
 
-add_library(SplashKit SHARED ${SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES})
+add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES})
 target_link_libraries(SplashKit ${LIB_FLAGS})
 
 if (LINUX)
@@ -193,6 +193,15 @@ endif()
 get_filename_component(SK_DEPLOY_ROOT ${SK_DEPLOY_ROOT} ABSOLUTE)
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
+
+if (LINUX)
+    INSTALL(CODE "execute_process( \
+       COMMAND ${CMAKE_COMMAND} -E create_symlink \
+       libSplashKit.so \
+       ${SK_DEPLOY_ROOT}/splashkit.dll   \
+       )"
+    )
+endif()
 
 if ( MSYS )
   install(FILES ${SK_LIB_DLL_FILES} DESTINATION ${SK_DEPLOY_ROOT})
