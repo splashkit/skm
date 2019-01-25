@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "-s" ] ; then
     echo "    fpc        Run the Free Pascal compiler"

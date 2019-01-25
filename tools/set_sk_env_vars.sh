@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
     if [ "$MSYSTEM" = "MINGW32" ]; then
@@ -21,7 +21,7 @@ fi
 
 if [ $SK_OS = "win32" ]; then
     export DYLIB_PATH=`cd "$SKM_PATH/lib/win32"; pwd -W`
-    export DYLIB_PATH_MSYS=`cd "$SKM_PATH/lib/win32; pwd`
+    export DYLIB_PATH_MSYS=`cd "$SKM_PATH/lib/win32"; pwd`
     export IS_WINDOWS=true
 elif [ $SK_OS = "win64" ]; then
     export DYLIB_PATH=`cd "$SKM_PATH/lib/win64"; pwd -W`

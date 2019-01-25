@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "-s" ] ; then
     echo "    linux      Run linux distribution specific commands - namely 'skm linux install'"

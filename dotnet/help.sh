@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "-s" ] ; then
     echo "    dotnet     Run the dotnet command line tool for SplashKit"

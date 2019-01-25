@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "    c++        Fix a C/C++ SplashKit project"

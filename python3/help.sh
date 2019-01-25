@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "-s" ] ; then
     echo "    python3    Run python3 with SplashKit settings"

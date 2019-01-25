@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
@@ -13,20 +13,21 @@ else
     PROGRAM_EXISTS=0
 fi
 
-if [ "$SK_OS" == "win32" ]; then
+if [ "$SK_OS" = "win32" ]; then
     PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" == "win64" ]; then
+elif [ "$SK_OS" = "win64" ]; then
     PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" == "macos" ]; then
+elif [ "$SK_OS" = "macos" ]; then
     DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $*
-elif [ "$SK_OS" == "linux" ]; then
+elif [ "$SK_OS" = "linux" ]; then
+    echo LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH"
     LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $*
 else
     echo "Unable to detect operating system..."
     exit 1
 fi
 
-function restore_skm_dotnet {
+restore_skm_dotnet () {
     if [ -f "Program.cs" ]; then
         if [ "$PROGRAM_EXISTS" -ne 1 ]; then
             rm "Program.cs"
@@ -34,12 +35,10 @@ function restore_skm_dotnet {
 
         mkdir -p ./lib
         ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
-        if [ "$SK_OS" == "win32" ]; then
-            cp -r -n "${APP_PATH}/files/" -T .
-        elif [ "$SK_OS" == "win64" ]; then
-            cp -r -n "${APP_PATH}/files/" -T .
-        else
+        if [ "$SK_OS" = "macos" ]; then
             cp -r -n "${APP_PATH}/files/" .
+        else
+            cp -r -n "${APP_PATH}/files/" -T .
         fi
     fi
 }

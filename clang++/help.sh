@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$1" = "-s" ] ; then
     echo "    clang++    Run the clang++ (or g++) compiler"
