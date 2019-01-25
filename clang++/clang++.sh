@@ -15,7 +15,7 @@ elif [ "$SK_OS" = "win64" ]; then
 elif [ "$SK_OS" = "macos" ]; then
     clang++ -g -Wall -std=c++14 -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib/macos" -lSplashKitCpp -I "${APP_PATH}/include" -rpath @loader_path -rpath "$DYLIB_PATH" -rpath /usr/local/lib $*
 elif [ "$SK_OS" = "linux" ]; then
-    clang++ -g -Wall -std=c++14 -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib/linux" -lSplashKitCPP -I "${APP_PATH}/include" -rpath @loader_path -rpath "$DYLIB_PATH" -rpath /usr/local/lib $*
+    clang++ -g -Wall -std=c++14 -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib/linux" -I ${APP_PATH}/include -Wl,-rpath=$ORIGIN -Wl,-rpath="${DYLIB_PATH}" -Wl,-rpath=/usr/local/lib $* -lSplashKitCPP
 else
     echo "Unable to detect operating system..."
     exit 1
