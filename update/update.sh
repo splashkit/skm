@@ -6,4 +6,4 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 cd "$APP_PATH"
 git stash
 git checkout master
-git pull
+git pull --force

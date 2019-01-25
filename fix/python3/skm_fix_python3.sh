@@ -18,6 +18,12 @@ else
     PYTHON_BIN=`which python3`
 fi
 
-sed -i '' "s|PYTHONPATH=.*|PYTHONPATH=$PYTHON_PATH|g" .env
-sed -i '' "s|DYLD_LIBRARY_PATH=.*|DYLD_LIBRARY_PATH=$DYLIB_PATH|g" .env
-sed -i '' "s|\"python.pythonPath\":.*\".*\"|\"python.pythonPath\": \"$PYTHON_BIN\"|g" ./.vscode/settings.json
+if [ $SK_OS = "macos" ]; then
+    sed -i '' "s|PYTHONPATH=.*|PYTHONPATH=$PYTHON_PATH|g" .env
+    sed -i '' "s|DYLD_LIBRARY_PATH=.*|DYLD_LIBRARY_PATH=$DYLIB_PATH|g" .env
+    sed -i '' "s|\"python.pythonPath\":.*\".*\"|\"python.pythonPath\": \"$PYTHON_BIN\"|g" ./.vscode/settings.json
+else
+    sed -i "s|PYTHONPATH=.*|PYTHONPATH=$PYTHON_PATH|g" .env
+    sed -i "s|DYLD_LIBRARY_PATH=.*|DYLD_LIBRARY_PATH=$DYLIB_PATH|g" .env
+    sed -i "s|\"python.pythonPath\":.*\".*\"|\"python.pythonPath\": \"$PYTHON_BIN\"|g" ./.vscode/settings.json
+fi
