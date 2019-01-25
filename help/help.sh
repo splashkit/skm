@@ -27,7 +27,7 @@ else
     echo "USAGE: skm [command] [arguments]"
     echo
     echo "COMMANDS: "
-    for i in `find -s "$SKM_PATH" -type d -maxdepth 1`
+    for i in `find "$SKM_PATH" -type d -maxdepth 1 | sort`
     do
         if [ -f "$i/help.sh" ]; then
             "$i/help.sh" -s
