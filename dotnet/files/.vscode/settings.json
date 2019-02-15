@@ -1,0 +1,13 @@
+{
+    "terminal.integrated.scrollback": 9999,
+    "terminal.integrated.shell.windows": "C:/msys64/usr/bin/sh.exe",
+    "terminal.integrated.env.windows": {
+        "MSYSTEM": "MINGW64",
+        "MSYS2_PATH_TYPE": "inherit",
+        "CHERE_INVOKING": "1"
+    },
+    "terminal.integrated.shellArgs.windows": [
+        "--login",
+        "-i"
+    ]
+}

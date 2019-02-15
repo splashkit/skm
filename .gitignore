@@ -1,13 +1,10 @@
-
 # Created by https://www.gitignore.io/api/node
 
 ### Splashkit ###
 .splashkit-download
 .splashkit
-skm-darwin-x64
 program
-/*.cpp
-/*.c
+test
 
 ### Node ###
 # Logs
@@ -56,3 +53,14 @@ jspm_packages
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+
+*.pyc
+fpc/SplashKit.o
+fpc/SplashKit.ppu
+
+source/cmake_install.cmake
+source/CMakeFiles
+source/libSplashKit.so
+source/install_manifest.txt
+source/CMakeCache.txt
+source/Makefile
