@@ -21,3 +21,5 @@ if [ $SK_OS = "macos" ]; then
 else
     sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp2.0</TargetFramework>|g" "$PRJ_NAME"
 fi
+
+dotnet restore
