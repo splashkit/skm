@@ -47,7 +47,7 @@ fi
 
 export PATH="$INSTALL_PATH:$PATH"
 
-if [[ `uname` = MINGW32 ]]; then
+if [[ `uname` = MINGW32* ]]; then
     #Export to path -- for current terminal
     export PATH="$HOME/.splashkit/lib:$PATH"
     export PATH="$HOME/.splashkit/lib/win32:$PATH"
@@ -62,20 +62,16 @@ if [[ `uname` = MINGW32 ]]; then
     setx PATH "$ORIGINAL_PATH"
 fi
 
-if [[ `uname` = MINGW64 ]] || [[ `uname` = MSYS* ]]; then
+if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
     #Export to path -- for current terminal
     export PATH="$HOME/.splashkit/lib:$PATH"
     export PATH="$HOME/.splashkit/lib/win64:$PATH"
     export PATH="$HOME/.splashkit:$PATH"
 
-    echo "export PATH=\"$HOME/.splashkit/lib/win64:\$PATH\"" >> ~/.bashrc
-
-    WIN_HOME_PATH=`cd ~; pwd -W`
-
     #Export path for new terminals
-    export ORIGINAL_PATH="$WIN_HOME_PATH/.splashkit/lib:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$WIN_HOME_PATH/.splashkit/lib/win64:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$WIN_HOME_PATH/.splashkit:$ORIGINAL_PATH"
+    export ORIGINAL_PATH="$HOME/.splashkit/lib:$ORIGINAL_PATH"
+    export ORIGINAL_PATH="$HOME/.splashkit/lib/win64:$ORIGINAL_PATH"
+    export ORIGINAL_PATH="$HOME/.splashkit:$ORIGINAL_PATH"
 
     # Set path
     setx PATH "$ORIGINAL_PATH"
