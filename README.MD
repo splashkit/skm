@@ -2,25 +2,22 @@
 
 SplashKit Manager or SKM is the CLI/App tool for installing and managing SplashKit, as well as creating, building, and running your very own SplashKit projects!
 
-## Status
-
-*Under Heavy Development*
-
 ## Use Example
 
-* ```skm install```
 * ```cd /code/projects```
-* ```skm create -l pascal -n helloWorld```
-* ```skm build <build args>```
-* ```skm run```
+* ```mkdir helloworld```
+* ```cd helloworld```
+* ```skm new c++```
+* ```skm clang++ *.cpp -o HelloWorld```
+* ```./HelloWorld```
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+SKM is designed to simplify the process of compiling and running programs that use the SplashKit library.
 
 ## Installation
 
-TODO
+Refer to the SplashKit [installation guide](http://www.splashkit.io/articles/installation/).
 
 ## API Reference
 
@@ -31,16 +28,8 @@ TODO
 
 ### Managing SplashKit Projects
 
-* ```skm init```: Initializes the current directory as a SplashKit project directory.
-  * ```--language <language>```: *necessary* Specify the project language.
-  * Use this command if you have an existing SplashKit project folder you would like to build.
-
-* ```skm create```: Creates a new SplashKit project with the given language and name.
-  * ```--language <language>```: *necessary* Specify the project language.
-  * ```--name <projectName>```: *optional* Specify the name of the project directory. Without this the project will be created in the current directory.
-
-* ```skm build <>```: Builds the current SplashKit project.
-* ```skm run```: Runs the current SplashKit project.
+* ```skm new <language>```: Initializes the current directory as a SplashKit project directory. Note, dotnet uses ```skm dotnet new``` - as dotnet core has its own project boostrapping process.
+* ```skm <compiler> <args>```: Call the associated compiler, with the SplashKit options as well as the additional arguments.
 
 ## Contributors
 
@@ -48,6 +37,9 @@ TODO
 https://github.com/jakerenzella/
 
 * Alex Cummaudo
+
+* Andrew Cain
+https://github.com/macite/
 
 ## License
 

@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "build",
+                "${workspaceFolder}/${workspaceRootFolderName}.csproj"
+            ],
+            "windows": {
+                "options": {"shell": {"executable": "cmd.exe", "args": ["/d", "/c"]}},
+                "args": [
+                    "build",
+                    "${workspaceFolder}/${workspaceRootFolderName}.csproj"
+                ]
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "compilerPath": "/usr/bin/clang++",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/include/splashkit"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "cppStandard": "c++14",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "${workspaceRoot}/include/splashkit"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceRoot}/.vscode/.browse.VC.db"
+            }
+        },
+        {
+            "name": "Linux",
+            "compilerPath": "/usr/bin/g++",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/include/splashkit"
+            ],
+            "defines": [],
+            "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++14",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "${workspaceRoot}/include/splashkit"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceRoot}/.vscode/.browse.VC.db"
+            }
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "c:/msys64/mingw64/bin/g++",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/include/splashkit"
+            ],
+            "defines": [],
+            "intelliSenseMode": "gcc-x64",
+            "cppStandard": "c++14",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "${workspaceRoot}/include/splashkit"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceRoot}/.vscode/.browse.VC.db"
+            }
+        }
+    ],
+    "version": 4
+}
