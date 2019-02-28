@@ -13,17 +13,10 @@ else
     PROGRAM_EXISTS=0
 fi
 
-if [ "$SK_OS" = "win32" ]; then
-    PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" = "win64" ]; then
-    PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" = "macos" ]; then
-    DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $*
-elif [ "$SK_OS" = "linux" ]; then
-    LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $*
+if [ "$1" = "new" -a "$#" -eq 1 ]; then
+    EXTRA="console"
 else
-    echo "Unable to detect operating system..."
-    exit 1
+    EXTRA=""
 fi
 
 restore_skm_dotnet () {
@@ -40,17 +33,35 @@ restore_skm_dotnet () {
             cp -r -n "${APP_PATH}/files/" -T .
         fi
     fi
+    $SKM_PATH/fix/dotnet/skm_fix_dotnet.sh
+}
+
+run_dotnet () {
+    if [ "$SK_OS" = "win32" ]; then
+        PATH="$DYLIB_PATH;$PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "win64" ]; then
+        PATH="$DYLIB_PATH;$PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "macos" ]; then
+        DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "linux" ]; then
+        LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $* $EXTRA
+    else
+        echo "Unable to detect operating system..."
+        exit 1
+    fi
 }
 
 case $1 in
     new)
-    if [ "$#" -ge 2 ]; then
-        restore_skm_dotnet
-        $SKM_PATH/fix/dotnet/skm_fix_dotnet.sh
-    fi
+    run_dotnet $*
+    restore_skm_dotnet
     ;;
 
     restore)
     restore_skm_dotnet
+    ;;
+
+    *)
+    run_dotnet $*
     ;;
 esac
