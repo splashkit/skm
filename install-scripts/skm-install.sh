@@ -33,13 +33,8 @@ fi
 git clone --depth 1 --branch master $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
-if [ -f ~/.bash_profile ]; then
-    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
-fi
-
-if [ -f ~/.bashrc ]; then
-    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
-fi
+echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
+echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
 
 if [ -f ~/.zshrc ]; then
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
