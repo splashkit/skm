@@ -7,6 +7,15 @@ SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
+if ( echo "${*}" | grep -E '(-h|--help)\b' ) ; then
+  echo "Usage: skm linux install [-h|--help] [--no-os-detect] [--no-update]"
+  echo "Options:"
+  echo "    -h|--help       Display this usage messeage"
+  echo "    --no-os-detect  Bypass OS detection"
+  echo "    --no-update     Skip skm update"
+  exit 0;
+fi
+
 if [ "$SK_OS" = "linux" ] || ( echo "${*}" | grep '\-\-no-os-detect' ); then
   : # All good - no op and continue
 elif [ "$SK_OS" = "macos" ] || [ "$SK_OS" = "win64" ] || [ "$SK_OS" = "win32" ]; then
