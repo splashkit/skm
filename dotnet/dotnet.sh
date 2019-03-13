@@ -49,6 +49,7 @@ run_dotnet () {
 case $1 in
     new)
     run_dotnet $*
+    # Check if program.cs exists... do did it succeed
     if [ -f "Program.cs" ]; then
         if [ "$PROGRAM_EXISTS" -ne 1 ]; then
             rm "Program.cs"
@@ -60,6 +61,10 @@ case $1 in
 
     restore)
     restore_skm_dotnet
+    # If Program.cs did not exist at start... remove it as we added it on restore!
+    if [ "$PROGRAM_EXISTS" -ne 1 ]; then
+        rm "Program.cs"
+    fi
     ;;
 
     *)
