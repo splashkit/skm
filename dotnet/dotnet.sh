@@ -20,20 +20,15 @@ else
 fi
 
 restore_skm_dotnet () {
-    if [ -f "Program.cs" ]; then
-        if [ "$PROGRAM_EXISTS" -ne 1 ]; then
-            rm "Program.cs"
-        fi
-
-        mkdir -p ./lib
-        ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
-        if [ "$SK_OS" = "macos" ]; then
-            cp -r -n "${APP_PATH}/files/" .
-        else
-            cp -r -n "${APP_PATH}/files/" -T .
-        fi
+    mkdir -p ./lib
+    ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
+    if [ "$SK_OS" = "macos" ]; then
+        cp -r -n "${APP_PATH}/files/" .
+    else
+        cp -r -n "${APP_PATH}/files/" -T .
     fi
-    $SKM_PATH/fix/dotnet/skm_fix_dotnet.sh
+
+    "$SKM_PATH"/fix/dotnet/skm_fix_dotnet.sh
 }
 
 run_dotnet () {
@@ -54,7 +49,13 @@ run_dotnet () {
 case $1 in
     new)
     run_dotnet $*
-    restore_skm_dotnet
+    if [ -f "Program.cs" ]; then
+        if [ "$PROGRAM_EXISTS" -ne 1 ]; then
+            rm "Program.cs"
+        fi
+
+        restore_skm_dotnet
+    fi
     ;;
 
     restore)
@@ -65,3 +66,6 @@ case $1 in
     run_dotnet $*
     ;;
 esac
+
+# Cause dotnet to avoid reporting success - as dotnet does not return error codes
+exit 1
