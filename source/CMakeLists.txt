@@ -74,9 +74,21 @@ add_definitions(-DELPP_THREAD_SAFE)
 
 #### END SETUP ####
 
-#### SplashKitBackend STATIC LIBRARY ####
+#### SplashKitCPP STATIC LIBRARY ####
+set(SKM_GPP "${SKM_ROOT}/g++")
+set(SKM_CLANGPP "${SKM_ROOT}/clang++")
+file(GLOB SPLASHKITCPP_SOURCE_FILES
+  "${SKM_GPP}/src/*.cpp"
+)
 
+include_directories(${SKM_GPP}/include)
 
+add_library(SplashKitCPP STATIC "${SPLASHKITCPP_SOURCE_FILES}")
+
+install(TARGETS SplashKitCPP DESTINATION "${SKM_GPP}/lib/${PATH_SUFFIX}")
+install(TARGETS SplashKitCPP DESTINATION "${SKM_CLANGPP}/lib/${PATH_SUFFIX}")
+
+#### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES})
 target_link_libraries(SplashKit ${LIB_FLAGS})
 
