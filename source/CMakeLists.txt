@@ -18,6 +18,7 @@ endif()
 
 # SK Directories relative to cmake project
 set(SKM_ROOT "..")
+get_filename_component(SKM_ROOT ${SKM_ROOT} ABSOLUTE) # Convert root to absolute path
 set(SK_SRC "${SKM_ROOT}/source")
 set(SK_LIB "${SKM_ROOT}/lib/${PATH_SUFFIX}")
 
@@ -94,7 +95,6 @@ target_link_libraries(SplashKit ${LIB_FLAGS})
 
 target_link_libraries(SplashKit ${PNG_LIBRARY})
 
-get_filename_component(SK_DEPLOY_ROOT ${SK_DEPLOY_ROOT} ABSOLUTE)
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
 
