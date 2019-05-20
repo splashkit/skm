@@ -9,7 +9,7 @@ if system() == 'Darwin':
 elif system() == 'Linux':
   # Linux uses .so extension
   cdll.LoadLibrary("libSplashKit.so")
-  sklib = CDLL("libsplashkit.so")
+  sklib = CDLL("libSplashKit.so")
 else:
   # Windows uses .dll extension:
   cdll.LoadLibrary("libSplashKit.dll")
