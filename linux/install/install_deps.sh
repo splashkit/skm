@@ -36,19 +36,20 @@ install_deps () {
 	ARCH )
 	  echo Installing depencies with Arch Linux method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
-	  echo   pacman -S --noconfirm --needed cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod	
+	  echo   pacman -S --needed cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod	
+	  sudo pacman -S --needed cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod	
 	  ;;
     DEBIAN | UBUNTU | KALI )
 	  echo Installing depencies with $1 method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
-	  echo   apt-get install -y libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-devlibbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev
-	  apt-get install -y libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-devlibbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev
+	  echo   apt-get install libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-devlibbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev
+	  sudo apt-get install libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-devlibbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev
 	  ;;
 	FEDORA )
 	  echo Installing depencies with Fedora method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
-	  echo   dnf install -y cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel 
-	  dnf install -y cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel 
+	  echo   dnf install cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel 
+	  sudo dnf install -y cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel 
 	  ;;
 	*)
       echo Unable to install dependency;
