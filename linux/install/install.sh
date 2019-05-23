@@ -18,6 +18,8 @@ else
     exit 1
 fi
 
+${APP_PATH}/install_deps.sh
+
 echo "Configuring SplashKit"
 cd "${SKM_PATH}/source"
 pwd
