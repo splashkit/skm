@@ -8,7 +8,7 @@ to_upper () {
 }
 
 detect_distro () {
-  if [ -e /etc2/os-release ]; then 
+  if [ -e /etc/os-release ]; then
     source /etc/os-release
     export DISTRO_ID=$(to_upper ${ID})
   elif (lsb_release); then 
