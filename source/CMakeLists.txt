@@ -18,6 +18,7 @@ endif()
 
 # SK Directories relative to cmake project
 set(SKM_ROOT "..")
+get_filename_component(SKM_ROOT ${SKM_ROOT} ABSOLUTE) # Convert root to absolute path
 set(SK_SRC "${SKM_ROOT}/source")
 set(SK_LIB "${SKM_ROOT}/lib/${PATH_SUFFIX}")
 
@@ -67,22 +68,33 @@ set(LIB_FLAGS "-lSDL2 \
                -ldl")
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC")
 
 # MACRO DEFINITIONS #
 add_definitions(-DELPP_THREAD_SAFE)
 
 #### END SETUP ####
 
-#### SplashKitBackend STATIC LIBRARY ####
+#### SplashKitCPP STATIC LIBRARY ####
+set(SKM_GPP "${SKM_ROOT}/g++")
+set(SKM_CLANGPP "${SKM_ROOT}/clang++")
+file(GLOB SPLASHKITCPP_SOURCE_FILES
+  "${SKM_GPP}/src/*.cpp"
+)
 
+include_directories(${SKM_GPP}/include)
 
+add_library(SplashKitCPP STATIC "${SPLASHKITCPP_SOURCE_FILES}")
+
+install(TARGETS SplashKitCPP DESTINATION "${SKM_GPP}/lib/${PATH_SUFFIX}")
+install(TARGETS SplashKitCPP DESTINATION "${SKM_CLANGPP}/lib/${PATH_SUFFIX}")
+
+#### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES})
 target_link_libraries(SplashKit ${LIB_FLAGS})
 
 target_link_libraries(SplashKit ${PNG_LIBRARY})
 
-get_filename_component(SK_DEPLOY_ROOT ${SK_DEPLOY_ROOT} ABSOLUTE)
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
 
