@@ -13,44 +13,64 @@ else
     PROGRAM_EXISTS=0
 fi
 
-if [ "$SK_OS" = "win32" ]; then
-    PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" = "win64" ]; then
-    PATH="$DYLIB_PATH;$PATH" dotnet $*
-elif [ "$SK_OS" = "macos" ]; then
-    DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $*
-elif [ "$SK_OS" = "linux" ]; then
-    LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $*
+if [ "$1" = "new" -a "$#" -eq 1 ]; then
+    EXTRA="console"
 else
-    echo "Unable to detect operating system..."
-    exit 1
+    EXTRA=""
 fi
 
 restore_skm_dotnet () {
-    if [ -f "Program.cs" ]; then
-        if [ "$PROGRAM_EXISTS" -ne 1 ]; then
-            rm "Program.cs"
-        fi
+    mkdir -p ./lib
+    ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
+    if [ "$SK_OS" = "macos" ]; then
+        cp -r -n "${APP_PATH}/files/" .
+    else
+        cp -r -n "${APP_PATH}/files/" -T .
+    fi
 
-        mkdir -p ./lib
-        ln -fs "${APP_PATH}/SplashKit.cs" ./lib/SplashKit.cs
-        if [ "$SK_OS" = "macos" ]; then
-            cp -r -n "${APP_PATH}/files/" .
-        else
-            cp -r -n "${APP_PATH}/files/" -T .
-        fi
+    "$SKM_PATH"/fix/dotnet/skm_fix_dotnet.sh
+}
+
+run_dotnet () {
+    if [ "$SK_OS" = "win32" ]; then
+        PATH="$DYLIB_PATH:$PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "win64" ]; then
+        PATH="$DYLIB_PATH:$PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "macos" ]; then
+        DYLD_LIBRARY_PATH="$DYLIB_PATH" dotnet $* $EXTRA
+    elif [ "$SK_OS" = "linux" ]; then
+        LD_LIBRARY_PATH="$DYLIB_PATH:$LD_LIBRARY_PATH" dotnet $* $EXTRA
+    else
+        echo "Unable to detect operating system..."
+        exit 1
     fi
 }
 
 case $1 in
     new)
-    if [ "$#" -ge 2 ]; then
+    run_dotnet $*
+    # Check if program.cs exists... do did it succeed
+    if [ -f "Program.cs" ]; then
+        if [ "$PROGRAM_EXISTS" -ne 1 ]; then
+            rm "Program.cs"
+        fi
+
         restore_skm_dotnet
-        $SKM_PATH/fix/dotnet/skm_fix_dotnet.sh
     fi
     ;;
 
     restore)
     restore_skm_dotnet
+    # If Program.cs did not exist at start... remove it as we added it on restore!
+    if [ "$PROGRAM_EXISTS" -ne 1 ]; then
+        rm "Program.cs"
+    fi
+    ;;
+
+    *)
+    run_dotnet $*
     ;;
 esac
+
+# Cause dotnet to avoid reporting success - as dotnet does not return error codes
+exit 1

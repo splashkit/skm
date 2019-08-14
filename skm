@@ -4,6 +4,7 @@ APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != 
 APP_PATH=`cd "$APP_PATH"; pwd`
 
 if [ $# -eq 0 ] ; then
+    echo  "Splashkit is installed successfully!"
     echo  "Missing skm command. For help use 'skm help'"
     exit 1
 fi
