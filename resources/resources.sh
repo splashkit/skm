@@ -7,8 +7,8 @@ SKM_PATH=`cd "$APP_PATH/.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
-if [ "$SK_OS" = "macos" ]; then
-    cp -r -n "${APP_PATH}/Resources" .
-else
+if [ "$IS_WINDOWS" = true ]; then
     cp -r -n "${APP_PATH}/Resources" -T .
+else
+    cp -r -n "${APP_PATH}/Resources" .
 fi
