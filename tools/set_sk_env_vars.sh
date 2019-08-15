@@ -31,6 +31,6 @@ elif [ $SK_OS = "macos" ]; then
     export DYLIB_PATH=`cd "$SKM_PATH/lib/macos"; pwd`
     export IS_WINDOWS=false
 else
-    export DYLIB_PATH=`cd "$SKM_PATH/lib/linux"; pwd`
+    export DYLIB_PATH=`cd "$SKM_PATH/lib/linux"; pwd` 2>>/dev/null
     export IS_WINDOWS=false
 fi
