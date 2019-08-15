@@ -32,5 +32,8 @@ elif [ $SK_OS = "macos" ]; then
     export IS_WINDOWS=false
 else
     export DYLIB_PATH=`cd "$SKM_PATH/lib/linux"; pwd` 2>>/dev/null
+    if [ $? -neq 0 ]; then
+        echo "Unable to locate SplashKit library - please run ${bold}skm linux install${normal}"
+    else
     export IS_WINDOWS=false
 fi
