@@ -31,7 +31,7 @@
                 "args": [ "clang++", "-g", "*.cpp", "-o", "${workspaceRootFolderName}" ],
                 "options": {
                     "env": {
-                        "PATH": "${env:HOME}/.splashkit;${env:PATH}"
+                        "PATH": "${env:HOME}/.splashkit:${env:PATH}"
                     }
                 }
             },
@@ -40,7 +40,7 @@
                 "args": [ "clang++", "-g", "*.cpp", "-o", "${workspaceRootFolderName}" ],
                 "options": {
                     "env": {
-                        "PATH": "${env:HOME}/.splashkit;${env:PATH}"
+                        "PATH": "${env:HOME}/.splashkit:${env:PATH}"
                     }
                 }
             },
