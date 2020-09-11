@@ -50,6 +50,13 @@ namespace splashkit_lib
         r->query_string = request_info->query_string ? request_info->query_string : "";
         r->filename = "";
 
+        // Populate headers
+        for (auto header : request_info->http_headers) {
+          if (header.name != nullptr) {
+            r->headers.push_back(string(header.name) + ": " + string(header.value));
+          }
+        }
+
         if ( strncmp(request_info->request_method, "GET", 4) == 0 )
         {
             r->method = HTTP_GET_METHOD;
@@ -92,17 +99,25 @@ namespace splashkit_lib
         servers[port]->request_queue.put(r); // Add request to concurrent queue
         r->control.acquire(); // Waits until user returns response.
 
+        // Concatenate headers vector
+        string headers;
+        for (string &header : r->response->headers) {
+          headers.append(header.append("\r\n"));
+        }
+
         // Send HTTP reply to the client
         mg_printf(conn,
                   "HTTP/1.1 %d\r\n"
                   "Content-Type: %s\r\n"
                   "Connection: close\r\n"
                   "Content-Length: %lu\r\n" // Always set Content-Length
+                  "%s"
                   "\r\n"
                   "%s",
                   r->response->code,
                   r->response->content_type.c_str(),
                   r->response->message_size,
+                  headers.c_str(),
                   r->response->message);
 
         r->response->response_sent.release();
@@ -215,21 +230,21 @@ namespace splashkit_lib
             sk_flush_request(server->last_request);
             delete server->last_request;
         }
-        
+
         sk_http_request *request;
         while (server->request_queue.try_take(request))
         {
             sk_flush_request(request);
         }
-        
+
         _web_server_ctx_data *user_data = static_cast<_web_server_ctx_data *>(mg_get_user_data(server->ctx));
         if ( user_data )
         {
             delete user_data;
         }
-        
+
         mg_stop(server->ctx);
-        
+
         auto it = servers.find(server->port);
         if (it != servers.end())
         {
