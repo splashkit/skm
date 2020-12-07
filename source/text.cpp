@@ -89,7 +89,7 @@ namespace splashkit_lib
         if ( VALID_PTR(fnt, FONT_PTR) )
         {
             notify_of_free(fnt);
-            
+
             if (fnt->was_downloaded && file_exists(fnt->filename) )
             {
                 remove(fnt->filename.c_str());
@@ -180,8 +180,13 @@ namespace splashkit_lib
 
                 if ( ! file_exists(file_path) )
                 {
-                    LOG(WARNING) << cat({ "Unable to locate file for ", name, " (", file_path, ")"});
-                    return nullptr;
+                    file_path = sk_find_system_font_path(filename);
+                    // LOG(TRACE) << "Loading font: " << file_path;
+                    if ( ! file_exists(file_path) )
+                    {
+						LOG(WARNING) << cat({ "Unable to locate font file for ", name, " (", filename, ")"});
+                        return nullptr;
+                    }
                 }
             }
         }
@@ -246,27 +251,27 @@ namespace splashkit_lib
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(wnd, opts));
     }
-    
+
     void draw_text_on_window(window wnd, const string &text, const color &clr, font fnt, int font_size, double x, double y)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(wnd));
     }
-    
+
     void draw_text_on_window(window wnd, const string &text, const color &clr, const string &fnt, int font_size, double x, double y, const drawing_options &opts)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(wnd, opts));
     }
-    
+
     void draw_text_on_window(window wnd, const string &text, const color &clr, const string &fnt, int font_size, double x, double y)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(wnd));
     }
-    
+
     void draw_text_on_window(window wnd, const string &text, const color &clr, double x, double y, const drawing_options &opts)
     {
         draw_text(text, clr, x, y, option_draw_to(wnd, opts));
     }
-    
+
     void draw_text_on_window(window wnd, const string &text, const color &clr, double x, double y)
     {
         draw_text(text, clr, x, y, option_draw_to(wnd));
@@ -276,32 +281,32 @@ namespace splashkit_lib
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(bmp, opts));
     }
-    
+
     void draw_text_on_bitmap(bitmap bmp, const string &text, const color &clr, font fnt, int font_size, double x, double y)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(bmp));
     }
-    
+
     void draw_text_on_bitmap(bitmap bmp, const string &text, const color &clr, const string &fnt, int font_size, double x, double y, const drawing_options &opts)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(bmp, opts));
     }
-    
+
     void draw_text_on_bitmap(bitmap bmp, const string &text, const color &clr, const string &fnt, int font_size, double x, double y)
     {
         draw_text(text, clr, fnt, font_size, x, y, option_draw_to(bmp));
     }
-    
+
     void draw_text_on_bitmap(bitmap bmp, const string &text, const color &clr, double x, double y, const drawing_options &opts)
     {
         draw_text(text, clr, x, y, option_draw_to(bmp, opts));
     }
-    
+
     void draw_text_on_bitmap(bitmap bmp, const string &text, const color &clr, double x, double y)
     {
         draw_text(text, clr, x, y, option_draw_to(bmp));
     }
-    
+
     int text_width(const string &text, font fnt, int font_size)
     {
         if ( fnt != nullptr && INVALID_PTR(fnt, FONT_PTR) )

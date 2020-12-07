@@ -7,7 +7,7 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
     if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
         setx MSYS2_PATH_TYPE inherit
-        echo Updated e! Please restart your terminal and rerun this script to install SplashKit.
+        echo Updated! Please restart your terminal and rerun this script to install SplashKit.
     fi
 fi
 
