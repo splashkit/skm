@@ -21,7 +21,7 @@ namespace splashkit_lib
         conf.setToDefault();
         conf.setGlobally(
                          ConfigurationType::Format,
-                         "(%datetime{%d/%m/%Y}) %level -> %msg [%file:%line]");
+                         "(%datetime{%d/%M/%Y}) %level -> %msg [%fbase:%line]");
         conf.setGlobally(ConfigurationType::Filename, "logs/splashkit.log");
 
         Loggers::reconfigureLogger("default", conf);
