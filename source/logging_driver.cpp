@@ -21,14 +21,12 @@ namespace splashkit_lib
         conf.setToDefault();
         conf.setGlobally(
                          ConfigurationType::Format,
-                         "(%datetime{%d/%M/%Y}) %level -> %msg [raised in %fbase:%line]");
+                         "(%datetime{%d/%m/%Y}) %level -> %msg [%file:%line]");
         conf.setGlobally(ConfigurationType::Filename, "logs/splashkit.log");
 
         Loggers::reconfigureLogger("default", conf);
         
         Loggers::addFlag(LoggingFlag::ColoredTerminalOutput);
         Loggers::addFlag(LoggingFlag::DisableApplicationAbortOnFatalLog);
-        Loggers::addFlag(LoggingFlag::LogDetailedCrashReason);
-        Loggers::addFlag(LoggingFlag::ImmediateFlush);
     }
 }

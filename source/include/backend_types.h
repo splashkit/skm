@@ -254,8 +254,6 @@ namespace splashkit_lib
 
         semaphore           control;
         sk_http_response    *response;
-
-        sk_web_server       *server;
     };
 
     struct sk_web_server
@@ -268,12 +266,6 @@ namespace splashkit_lib
         channel<sk_http_request*>   request_queue;
 
         unsigned short              port;
-
-        /**
-         * @brief a vector of the requests that are awaiting a response - and in the users hands.
-         * These must be responded to before the server can be closed.
-         */
-        vector<sk_http_request*>    outstanding_requests;
     };
 
     struct animation_frame
