@@ -340,7 +340,7 @@ namespace splashkit_lib
             path = path_from( { dir }, name);
             lcpath = path_from( { dir }, to_lower(name));
 
-            std::cout << "loading font at system path: " << path << std::endl << lcpath << std::endl;
+            // LOG(TRACE) << "Loading font at system path: " << path;
 
             if ( file_exists( path ))
             {
