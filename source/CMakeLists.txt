@@ -74,7 +74,7 @@ set(LIB_FLAGS "-lSDL2 \
                -ldl")
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
 
 # MACRO DEFINITIONS #
 add_definitions(-DELPP_THREAD_SAFE)
