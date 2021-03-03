@@ -37,7 +37,7 @@ install_deps () {
 	  echo Installing depencies with Arch Linux method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
 	  echo   pacman -S --needed cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod
-	  sudo pacman -S --needed cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod
+	  sudo pacman -S --needed base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod
 	  ;;
     DEBIAN | UBUNTU | KALI )
 	  echo Installing depencies with $1 method
