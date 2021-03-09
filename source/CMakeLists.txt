@@ -46,6 +46,12 @@ include_directories("${SKM_ROOT}/source/include")
 find_package(PNG REQUIRED)
 find_package(CURL REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
+
+# Fix clang not compiling because being_code.h doesn't exit
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    include_directories("/usr/include/SDL2")
+endif()
+
 SET(LINUX "true")
 set(LIB_FLAGS "-lSDL2 \
                -lSDL2_mixer \

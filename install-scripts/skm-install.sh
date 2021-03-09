@@ -7,7 +7,7 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
     if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
         setx MSYS2_PATH_TYPE inherit
-        echo Updated e! Please restart your terminal and rerun this script to install SplashKit.
+        echo Updated! Please restart your terminal and rerun this script to install SplashKit.
     fi
 fi
 
@@ -33,10 +33,15 @@ fi
 git clone --depth 1 --branch master $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
-echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
-echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
 
-if [ -f ~/.zshrc ]; then
+# Add to .bashrc if using bash
+if [ ${SHELL} = "/bin/bash" ]; then
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
+    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
+fi
+
+# Add to .zshrc if using zsh
+if [ ${SHELL} = "/bin/zsh" ]; then
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
 fi
 
