@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             "cwd": "${workspaceRoot}",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "internalConsoleOptions": "openOnSessionStart",
             "linux": {
                 "MIMode": "gdb",
@@ -36,7 +36,8 @@
                         "ignoreFailures": true
                     }
                 ],
-                "environment": [ {
+                "environment": [
+                    {
                         "name": "PATH",
                         "value": "${env:PATH};${env:HOME}/.splashkit"
                     }
