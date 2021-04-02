@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io/api/node
 
+.DS_Store
+
 ### Splashkit ###
 .splashkit-download
 .splashkit
