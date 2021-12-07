@@ -17,9 +17,9 @@ else
 fi
 
 if [ $SK_OS = "macos" ]; then
-    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp5.0</TargetFramework>|g" "$PRJ_NAME"
+    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net6.0</TargetFramework>|g" "$PRJ_NAME"
 else
-    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>netcoreapp5.0</TargetFramework>|g" "$PRJ_NAME"
+    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net6.0</TargetFramework>|g" "$PRJ_NAME"
 fi
 
 dotnet restore
