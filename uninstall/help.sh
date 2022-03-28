@@ -12,7 +12,7 @@ else
     echo "OVERVIEW: uninstall skm"
     echo
     echo "USAGE: skm uninstall"
-    echo 
+    echo
     echo "Uninstall skm."
     echo
     echo "Example usage:"
