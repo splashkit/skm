@@ -1,0 +1,161 @@
+{
+    // game-based
+    "Player movement with arrows": { //Reduce repetition between games, alter speed for each direction
+        "prefix": "player_movement_arrows",
+        "body": [
+            "if (key_down(LEFT_KEY)) player_x -= ${1:speed};",
+            "if (key_down(RIGHT_KEY)) player_x += ${2:speed};",
+            "if (key_down(DOWN_KEY)) player_y += ${3:speed};",
+            "if (key_down(UP_KEY)) player_y -= ${4:speed};",
+            "$BLOCK_COMMENT_START player_x and player_y are the players coordinates $BLOCK_COMMENT_END"
+        ],
+        "description": "Player movement with arrows"
+    },
+    "Player movement with WASD": { //Reduce repetition between games, alter speed for each direction
+        "prefix": "player_movement_WASD",
+        "body": [
+            "if (key_down(A_KEY)) player_x -= ${1:speed};",
+            "if (key_down(D_KEY)) player_x += ${2:speed};",
+            "if (key_down(S_KEY)) player_y += ${3:speed};",
+            "if (key_down(W_KEY)) player_y -= ${4:speed};",
+            "$BLOCK_COMMENT_START player_x and player_y are the players coordinates $BLOCK_COMMENT_END"
+        ],
+        "description": "Player movement with WASD"
+    },
+    //
+    // data structures
+    "Enumeration": {
+        "prefix": "data_enum", //as to not double with Intellisense
+        "body": [
+            "enum ${1:name_of_enum}",
+            "{",
+            "   ${2:$BLOCK_COMMENT_START element   value, $BLOCK_COMMENT_END}", //more useful informaion
+            "};"
+        ],
+        "description": "Enumeration data type"
+    },
+    "Structures": {
+        "prefix": "data_struct", //as to not double with Intellisense
+        "body": [
+            "struct ${1:name_of_struct}",
+            "{",
+            "   ${2:$BLOCK_COMMENT_START data_type   name; $BLOCK_COMMENT_END}", //more useful information
+            "};"
+        ],
+        "description": "Struct data type"
+    },
+    "typedef": {
+        "prefix": "typedef",
+        "body": [
+            "typedef ${1:data_type} ${2:name_of_data}",
+            "{",
+            "   ${3:$BLOCK_COMMENT_START element    value, $BLOCK_COMMENT_END}",
+            "}${4:alternate_name};"
+        ],
+        "description": "User defined data types"
+    },
+    "namespace": {
+        "prefix": "namespace",
+        "body": [
+            "namespace ${1:name_of_namespace}",
+            "{",
+            "   ${2:$BLOCK_COMMENT_START code $BLOCK_COMMENT_END}",
+            "}"
+        ],
+        "description": "namespace function"
+    },
+    "class": {
+        "prefix": "public_class",
+        "body": [
+            "class {1:name_of_class}",
+            "{",
+            "{2:public, private or protected}:",
+            "   ${3:$BLOCK_COMMENT_START code $BLOCK_COMMENT_END}",
+            "}",
+        ],
+        "description": "class function"
+    },
+    "dataframe": {
+        "prefix": "dataframe",
+        "body": [
+            "DataFrame<${1:data_type)>::${2:function}",
+            "{",
+            "   ${3:$BLOCK_COMMENT_START code $BLOCK_COMMENT_END}",
+            "}"
+        ],
+        "description": "dataframe setup"
+    },
+    "header_file_1": {
+        "prefix": "header_comment_1",
+        "body": [
+            "/**",
+            "     * ${1:comments}",
+            "     * @param ${2:parameter_name} ${3:parameter_comment}",
+            "     */",
+            "${4:type} ${5:name}(${6:parameter_type} ${2:parameter_name});"
+        ],
+        "description": "create an 1 parameter header comment"
+    },
+    "linked list": { // as per discussed in SIT102
+        "prefix": "Linked_List",
+        "body": [
+            "typedef struct node *node;",
+            "",
+            "struct linked_list",
+            "{",
+            "    node first;",
+            "    node last;",
+            "};",
+            "",
+            "struct node_data",
+            "{",
+            "    int data;",
+            "    node next;",
+            "    node prev;",
+            "    linked_list *in_list;",
+            "};",
+            ""
+        ],
+        "description": "linked_list creation"
+    },
+    "switch": {
+        "prefix": "switch_struct",
+        "body": [
+            "switch(${1: expression})",
+            "{",
+            "case ${2:id}: ${3:code}",
+            "break;",
+            "default:",
+            "${4:code}",
+            "}",
+        ],
+        "description": "switch structure"
+    },
+    "pointer": {
+        "prefix": "pointer",
+        "body": [
+            "${1:data_type} ${2:name} = ${3:value;}",
+            "",
+            "//this is the pointer to your variable",
+            "${1: data_type} *${4:pointer_name} = &${2:name_of_variable};"
+        ],
+        "description": "Pointer template"
+    },
+    "array creation": {
+        "prefix": "array_struct",
+        "body": [
+            "${1: data_type} ${2: name_of_array} [${3: size_of_array}];",
+        ],
+        "description": "array creation"
+    },
+    "do_while": {
+        "prefix": "do_while",
+        "body": [
+            "do",
+            "{",
+            "${1:statement}",
+            "}while(${2:condition});",
+        ],
+        "description": "do while loop"
+    }
+}
