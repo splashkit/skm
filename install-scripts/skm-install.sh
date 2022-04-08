@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# If the kernel is a version of macOS, run the mac-specified installer.
-if [[ `uname` = Darwin ]]; then
-    ./mac/skm-install-mac.sh
-    exit 0
-fi
-
 GIT_SKM_REPO=https://github.com/splashkit/skm.git
 
 HOME_PATH=~
@@ -19,7 +13,9 @@ if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
 fi
 
 function report_missing_git () {
-    if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
+    if [[ `uname` = Darwin ]]; then
+        echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then reinstall."
+    elif [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
         echo "Git not found. Please run \"pacman -S git --noconfirm;\" in the terminal and then reinstall"
     elif [[ `uname` = Linux ]]; then
         echo "Please install git using your package manager For example: sudo apt install git"
