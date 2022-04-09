@@ -31,8 +31,7 @@ if has_git; then
     echo -e "\t$MARK_CHECK macOS developer tools appears to be installed"
 else
     install_developer_tools
-    has_git
-    if [ $? -ne 0 ]; then
+    if ! has_git; then
         echo -e "\t$MARK_CROSS Failed to install macOS developer tools. Please ensure you have \"git\" installed and try again."
         exit 1
     fi
