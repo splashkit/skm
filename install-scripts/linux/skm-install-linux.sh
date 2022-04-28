@@ -15,7 +15,21 @@ function has_git() {
 
 if ! has_git; then
     echo -e "\t$MARK_CROSS Pre-requisite 'git' is not installed."
-    exit 1
+    if which apt > /dev/null 2>&1; then
+        sudo apt-get install git
+    elif which pacman > /dev/null 2>&1; then
+        sudo pacman -S git
+    elif which dnf > /dev/null 2>&1; then
+        sudo dnf install git
+    else
+        echo -e "\t$MARK_CROSS Unable to determine your package manager. Please install git and try again."
+    	exit 1
+    fi
+
+	if ! has_git; then
+        echo -e "\t$MARK_CROSS Failed to install pre-resuite 'git'. Please install git and try again."
+    	exit 1
+	fi
 fi
 
 echo "Checking for an existing version of SplashKit..."
