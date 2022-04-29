@@ -9,12 +9,14 @@ HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 function has_git() {
+    echo "Checking for git..."
     git --help 2>&1 > /dev/null
     return $?
 }
 
 if ! has_git; then
     echo -e "\t$MARK_CROSS Pre-requisite 'git' is not installed."
+    echo "Installing git..."
     if which apt > /dev/null 2>&1; then
         sudo apt-get install git
     elif which pacman > /dev/null 2>&1; then
@@ -27,7 +29,7 @@ if ! has_git; then
     fi
 
     if ! has_git; then
-        echo -e "\t$MARK_CROSS Failed to install pre-resuite 'git'. Please install git and try again."
+        echo -e "\t$MARK_CROSS Failed to install git. Please install git and try again."
         exit 1
     fi
 fi
