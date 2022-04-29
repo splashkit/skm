@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -eu
+
 GIT_SKM_REPO=https://github.com/splashkit/skm.git
 MARK_CHECK="\xE2\x9C\x94"
 MARK_CROSS="\xE2\x9C\x95"
@@ -10,18 +11,18 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 function has_git() {
     echo "Checking for git..."
-    git --help 2>&1 > /dev/null
+    command -v git > /dev/null 2>&1
     return $?
 }
 
 if ! has_git; then
     echo -e "\t$MARK_CROSS Pre-requisite 'git' is not installed."
     echo "Installing git..."
-    if which apt > /dev/null 2>&1; then
+    if command -v apt > /dev/null 2>&1; then
         sudo apt-get install git
-    elif which pacman > /dev/null 2>&1; then
+    elif command -v pacman > /dev/null 2>&1; then
         sudo pacman -S git
-    elif which dnf > /dev/null 2>&1; then
+    elif command -v dnf > /dev/null 2>&1; then
         sudo dnf install git
     else
         echo -e "\t$MARK_CROSS Unable to determine your package manager. Please install git and try again."
@@ -93,7 +94,7 @@ fi
 
 find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
-if which skm > /dev/null 2>&1; then
+if command -v skm > /dev/null 2>&1; then
     echo -e "$MARK_CHECK Verified that \"skm\" can be accessed."
 else
     echo -e "$MARK_CROSS Failed to validate \"skm\" command."
