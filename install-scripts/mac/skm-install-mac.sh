@@ -16,7 +16,7 @@ function has_git() {
 
 function install_developer_tools() {
     echo "macOS developer tools are currently not installed command -v are required for installation skm."
-    read -p "Would you like to install them now? " -n 1 -r < /dev/tty
+    read -p "Would you like to install them now? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]
     then
@@ -41,7 +41,7 @@ fi
 echo "Checking for an existing version of SplashKit..."
 if [ -d "${INSTALL_PATH}" ]; then
     echo -e "\t$MARK_CROSS SplashKit is already installed!"
-    read -p "Would you like to completely re-install SplashKit? " -n 1 -r < /dev/tty
+    read -p "Would you like to completely re-install SplashKit? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
         D=$(date +%y%m%d-%H%M%S)
