@@ -41,7 +41,7 @@ if [ -d "${INSTALL_PATH}" ]; then
     read -p "Would you like to completely re-install SplashKit? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
-        D=`date +%y%m%d-%H%M%S`
+        D=$(date +%y%m%d-%H%M%S)
         OLD_PATH="$INSTALL_PATH-$D"
         echo "Removing existing SplashKit installation..."
         mv $INSTALL_PATH $OLD_PATH

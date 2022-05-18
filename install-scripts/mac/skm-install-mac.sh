@@ -9,13 +9,14 @@ HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 function has_git() {
-    git --help 2>&1 > /dev/null
+    echo "Checking for git..."
+    command -v git > /dev/null 2>&1
     return $?
 }
 
 function install_developer_tools() {
-    echo "macOS developer tools are currently not installed which are required for installation skm."
-    read -p "Would you like to install them now? " -n 1 -r < /dev/tty
+    echo "macOS developer tools which are required for skm, are currently not installed."
+    read -p "Would you like to install them now? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]
     then
@@ -40,10 +41,10 @@ fi
 echo "Checking for an existing version of SplashKit..."
 if [ -d "${INSTALL_PATH}" ]; then
     echo -e "\t$MARK_CROSS SplashKit is already installed!"
-    read -p "Would you like to completely re-install SplashKit? " -n 1 -r < /dev/tty
+    read -p "Would you like to completely re-install SplashKit? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
-        D=`date +%y%m%d-%H%M%S`
+        D=$(date +%y%m%d-%H%M%S)
         OLD_PATH="$INSTALL_PATH-$D"
         echo "Removing existing SplashKit installation..."
         mv $INSTALL_PATH $OLD_PATH
@@ -94,7 +95,7 @@ fi
 
 find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
-if which skm > /dev/null 2>&1; then
+if command -v skm > /dev/null 2>&1; then
     echo -e "$MARK_CHECK Verified that \"skm\" can be accessed."
 else
     echo -e "$MARK_CROSS Failed to validate \"skm\" command."
