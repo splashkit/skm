@@ -15,7 +15,7 @@ function has_git() {
 }
 
 function install_developer_tools() {
-    echo "macOS developer tools are currently not installed are required for installation skm."
+    echo "macOS developer tools which are required for skm, are currently not installed."
     read -p "Would you like to install them now? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]
