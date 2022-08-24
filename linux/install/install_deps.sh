@@ -39,7 +39,7 @@ install_deps () {
 	  echo   pacman -S --needed base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod
 	  sudo pacman -S --needed base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod
 	  ;;
-    DEBIAN | UBUNTU | KALI )
+    DEBIAN | UBUNTU | KALI | RASPIAN )
 	  echo Installing depencies with $1 method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
 	  echo   apt-get install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential
