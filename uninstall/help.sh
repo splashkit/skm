@@ -15,7 +15,7 @@ else
     echo
     echo "Uninstall skm."
     echo
-    echo "Example usage:"
+    echo "Example usage: "
     echo "    Uninstall skm using."
     echo "    ${bold}skm uninstall${normal}"
 fi
