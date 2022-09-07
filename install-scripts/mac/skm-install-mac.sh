@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 set -eu
 GIT_SKM_REPO=https://github.com/splashkit/skm.git
