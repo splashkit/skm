@@ -1,10 +1,13 @@
 using System;
 using SplashKitSDK;
 
-public class Program
+namespace SkmProject
 {
-    public static void Main()
+    public class Program
     {
+        public static void Main()
+        {
 
+        }
     }
 }
