@@ -30,4 +30,10 @@ else
     sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net6.0</TargetFramework>|g" "$PRJ_NAME"
 fi
 
+if [ $SK_OS = "macos" ]; then
+    sed -i '' "s|namespace SkmProject|namespace ${PWD##*/}|g" "$PROGRAM_CS_NAME"
+else
+    sed -i "s|namespace SkmProject|namespace ${PWD##*/}|g" "$PROGRAM_CS_NAME"
+fi
+
 dotnet restore
