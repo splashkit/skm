@@ -5,6 +5,13 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 PRJ_NAME="${PWD##*/}.csproj"
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
+PROGRAM_CS_NAME='Program.cs'
+MAC_RUN_CONFIG="  <PropertyGroup Condition=\" '\$(RunConfiguration)' == 'Default' \">\n\
+    <StartAction>Project</StartAction>\n\
+    <ExternalConsole>true</ExternalConsole>\n\
+    <EnvironmentVariables>\n\
+    <Variable name=\"DYLD_LIBRARY_PATH\" value=\"$DYLIB_PATH\" />\n\
+    </EnvironmentVariables>\n  </PropertyGroup>\n"
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
@@ -19,12 +26,7 @@ fi
 if [ $SK_OS = "macos" ]; then
     sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net6.0</TargetFramework>|g" "$PRJ_NAME"
     if ! grep -q RunConfiguration "$PRJ_NAME"; then
-        sed -i '' "s|</Project>|  <PropertyGroup Condition=\" '\$(RunConfiguration)' == 'Default' \">\n\
-    <StartAction>Project</StartAction>\n\
-    <ExternalConsole>true</ExternalConsole>\n\
-    <EnvironmentVariables>\n\
-    <Variable name=\"DYLD_LIBRARY_PATH\" value=\"$DYLIB_PATH\" />\n\
-    </EnvironmentVariables>\n  </PropertyGroup>\n\n</Project>|g" "$PRJ_NAME"
+        sed -i '' "s|</Project>|$MAC_RUN_CONFIG\n</Project>|g" "$PRJ_NAME"
     fi
 else
     sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net6.0</TargetFramework>|g" "$PRJ_NAME"
