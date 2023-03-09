@@ -15,7 +15,7 @@ SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 PROGRAM_CS_NAME='Program.cs'
 MAC_RUN_CONFIG="  <PropertyGroup Condition=\" '\$(RunConfiguration)' == 'Default' \">\n\
     <StartAction>Project</StartAction>\n\
-    <StartWorkingDirectory>.</StartWorkingDirectory>\
+    <StartWorkingDirectory>.</StartWorkingDirectory>\n\
     <ExternalConsole>true</ExternalConsole>\n\
     <EnvironmentVariables>\n\
     <Variable name=\"DYLD_LIBRARY_PATH\" value=\"$DYLIB_PATH\" />\n\
