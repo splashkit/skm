@@ -6,6 +6,7 @@
 #ifndef __networking_h
 #define __networking_h
 
+#include <cstdint>
 #include <string>
 #include <vector>
 using std::string;
