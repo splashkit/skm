@@ -6,9 +6,9 @@
 #ifndef __networking_h
 #define __networking_h
 
-#include <cstdint>
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 
