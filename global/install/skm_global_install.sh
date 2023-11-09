@@ -11,9 +11,15 @@ echo "Attempting to install the SplashKit C++ libraries to /usr/local/lib/splash
 echo "This may require root access, please enter your password when prompted."
 echo
 
+if [ "$IS_WINDOWS" = true ]; then
+    PRIVILEGED=""
+else
+    PRIVILEGED="sudo"
+fi
+
 if [ ! -d /usr/local/lib ]; then
     echo "Creating directory /usr/local/lib"
-    sudo mkdir -p /usr/local/lib
+    $PRIVILEGED mkdir -p /usr/local/lib
     if [ ! $? -eq 0 ]; then
         echo "Failed to create directory /usr/local/lib"
         exit 1
@@ -22,7 +28,7 @@ fi
 
 if [ ! -d /usr/local/include/splashkit ]; then
     echo "Creating directory /usr/local/include/splashkit"
-    sudo mkdir -p /usr/local/include/splashkit
+    $PRIVILEGED mkdir -p /usr/local/include/splashkit
     if [ ! $? -eq 0 ]; then
         echo "Failed to create directory /usr/local/include/splashkit"
         exit 1
@@ -48,13 +54,13 @@ else
     exit 1
 fi
 
-sudo cp $LIB_FILE /usr/local/lib
+$PRIVILEGED cp $LIB_FILE /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit library to /usr/local/lib"
     exit 1
 fi
 
-sudo cp $CPP_LIB_FILE /usr/local/lib
+$PRIVILEGED cp $CPP_LIB_FILE /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit C++ library to /usr/local/lib"
     exit 1
@@ -77,13 +83,13 @@ elif [ "$SK_OS" = "linux" ]; then
 fi
 
 echo "Copying files to /usr/local/include/splashkit"
-sudo cp "${SKM_PATH}/clang++/include/"* /usr/local/include/splashkit
+$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /usr/local/include/splashkit
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit C++ headers to /usr/local/include/splashkit"
     exit 1
 fi
 
-sudo cp "${APP_PATH}/splashkit.h" /usr/local/include
+$PRIVILEGED cp "${APP_PATH}/splashkit.h" /usr/local/include
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit header to /usr/local/include"
     exit 1
@@ -92,13 +98,20 @@ fi
 echo "Testing install"
 
 if [ "$SK_OS" = "macos" ]; then
-    clang++ ${APP_PATH}/test.cpp -l SplashKit -l SplashKitCPP -rpath /usr/local/lib -o ${APP_PATH}/test
+    clang++ ${APP_PATH}/test.cpp -l SplashKitCPP -l SplashKit -rpath /usr/local/lib -o ${APP_PATH}/test
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$SK_OS" = "linux" ]; then
-    g++ ${APP_PATH}/test.cpp -l SplashKit -l SplashKitCPP -Wl,-rpath=/usr/local/lib -o ${APP_PATH}/test
+    g++ ${APP_PATH}/test.cpp -l SplashKitCPP -l SplashKit -Wl,-rpath=/usr/local/lib -o ${APP_PATH}/test
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to compile test program"
+        exit 1
+    fi
+elif [ "$IS_WINDOWS" = true ]; then
+    g++ ${APP_PATH}/test.cpp -L /usr/local/lib -lSplashKit -I /usr/local/include/ /usr/local/lib/libSplashKitCPP.a -o ${APP_PATH}/test
+
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
