@@ -46,9 +46,11 @@ elif [ "$SK_OS" = "linux" ]; then
 elif [ "$SK_OS" = "win32" ]; then
     LIB_FILE="${SKM_PATH}/lib/win32/SplashKit.dll"
     CPP_LIB_FILE="${SKM_PATH}/clang++/lib/win32/libSplashKitCPP.a"
+    WIN_OUT_DIR="${WINDIR}/System32"
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
     CPP_LIB_FILE="${SKM_PATH}/clang++/lib/win64/libSplashKitCPP.a"
+    WIN_OUT_DIR="${WINDIR}/System32"
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -58,6 +60,15 @@ $PRIVILEGED cp $LIB_FILE /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit library to /usr/local/lib"
     exit 1
+fi
+
+# If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
+if [ ! -z "$WIN_OUT_DIR" ]; then
+    $PRIVILEGED cp $LIB_FILE $WIN_OUT_DIR
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
+        exit 1
+    fi
 fi
 
 $PRIVILEGED cp $CPP_LIB_FILE /usr/local/lib

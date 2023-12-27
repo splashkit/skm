@@ -424,12 +424,6 @@ class HttpResponse(_PointerWrapper):
 class Json(_PointerWrapper):
     def __init__(self, ptr):
         super().__init__(ptr)
-class Database(_PointerWrapper):
-    def __init__(self, ptr):
-        super().__init__(ptr)
-class QueryResult(_PointerWrapper):
-    def __init__(self, ptr):
-        super().__init__(ptr)
 class HttpRequest(_PointerWrapper):
     def __init__(self, ptr):
         super().__init__(ptr)
@@ -1246,18 +1240,6 @@ def __skadapter__to_json(v):
     return _find_pointer_resource(v, "Json")
 
 def __skadapter__to_sklib_json(v):
-    return v
-
-def __skadapter__to_database(v):
-    return _find_pointer_resource(v, "Database")
-
-def __skadapter__to_sklib_database(v):
-    return v
-
-def __skadapter__to_query_result(v):
-    return _find_pointer_resource(v, "QueryResult")
-
-def __skadapter__to_sklib_query_result(v):
     return v
 
 def __skadapter__to_http_request(v):
@@ -2481,50 +2463,6 @@ sklib.__sklib__json_to_file__json__string_ref.argtypes = [ c_void_p, _sklib_stri
 sklib.__sklib__json_to_file__json__string_ref.restype = None
 sklib.__sklib__json_to_string__json.argtypes = [ c_void_p ]
 sklib.__sklib__json_to_string__json.restype = _sklib_string
-sklib.__sklib__database_named__string.argtypes = [ _sklib_string ]
-sklib.__sklib__database_named__string.restype = c_void_p
-sklib.__sklib__error_message__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__error_message__query_result.restype = _sklib_string
-sklib.__sklib__free_all_databases.argtypes = [  ]
-sklib.__sklib__free_all_databases.restype = None
-sklib.__sklib__free_all_query_results.argtypes = [  ]
-sklib.__sklib__free_all_query_results.restype = None
-sklib.__sklib__free_database__database.argtypes = [ c_void_p ]
-sklib.__sklib__free_database__database.restype = None
-sklib.__sklib__free_database__string.argtypes = [ _sklib_string ]
-sklib.__sklib__free_database__string.restype = None
-sklib.__sklib__free_query_result__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__free_query_result__query_result.restype = None
-sklib.__sklib__get_next_row__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__get_next_row__query_result.restype = c_bool
-sklib.__sklib__has_database__string.argtypes = [ _sklib_string ]
-sklib.__sklib__has_database__string.restype = c_bool
-sklib.__sklib__has_row__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__has_row__query_result.restype = c_bool
-sklib.__sklib__open_database__string__string.argtypes = [ _sklib_string, _sklib_string ]
-sklib.__sklib__open_database__string__string.restype = c_void_p
-sklib.__sklib__query_column_count__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__query_column_count__query_result.restype = c_int
-sklib.__sklib__query_column_for_bool__query_result__int.argtypes = [ c_void_p, c_int ]
-sklib.__sklib__query_column_for_bool__query_result__int.restype = c_bool
-sklib.__sklib__query_column_for_double__query_result__int.argtypes = [ c_void_p, c_int ]
-sklib.__sklib__query_column_for_double__query_result__int.restype = c_double
-sklib.__sklib__query_column_for_int__query_result__int.argtypes = [ c_void_p, c_int ]
-sklib.__sklib__query_column_for_int__query_result__int.restype = c_int
-sklib.__sklib__query_column_for_string__query_result__int.argtypes = [ c_void_p, c_int ]
-sklib.__sklib__query_column_for_string__query_result__int.restype = _sklib_string
-sklib.__sklib__query_success__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__query_success__query_result.restype = c_bool
-sklib.__sklib__query_type_of_col__query_result__int.argtypes = [ c_void_p, c_int ]
-sklib.__sklib__query_type_of_col__query_result__int.restype = _sklib_string
-sklib.__sklib__reset_query_result__query_result.argtypes = [ c_void_p ]
-sklib.__sklib__reset_query_result__query_result.restype = None
-sklib.__sklib__rows_changed__database.argtypes = [ c_void_p ]
-sklib.__sklib__rows_changed__database.restype = c_int
-sklib.__sklib__run_sql__database__string.argtypes = [ c_void_p, _sklib_string ]
-sklib.__sklib__run_sql__database__string.restype = c_void_p
-sklib.__sklib__run_sql__string__string.argtypes = [ _sklib_string, _sklib_string ]
-sklib.__sklib__run_sql__string__string.restype = c_void_p
 sklib.__sklib__apply_matrix__matrix_2d_ref__quad_ref.argtypes = [ _sklib_matrix_2d, POINTER(_sklib_quad) ]
 sklib.__sklib__apply_matrix__matrix_2d_ref__quad_ref.restype = None
 sklib.__sklib__apply_matrix__matrix_2d_ref__triangle_ref.argtypes = [ _sklib_matrix_2d, POINTER(_sklib_triangle) ]
@@ -6303,94 +6241,6 @@ def json_to_string ( j ):
     __skparam__j = __skadapter__to_sklib_json(j)
     __skreturn = sklib.__sklib__json_to_string__json(__skparam__j)
     return __skadapter__to_string(__skreturn)
-def database_named ( name ):
-    __skparam__name = __skadapter__to_sklib_string(name)
-    __skreturn = sklib.__sklib__database_named__string(__skparam__name)
-    return __skadapter__to_database(__skreturn)
-def error_message ( query ):
-    __skparam__query = __skadapter__to_sklib_query_result(query)
-    __skreturn = sklib.__sklib__error_message__query_result(__skparam__query)
-    return __skadapter__to_string(__skreturn)
-def free_all_databases (  ):
-    sklib.__sklib__free_all_databases()
-def free_all_query_results (  ):
-    sklib.__sklib__free_all_query_results()
-def free_database ( db_to_close ):
-    __skparam__db_to_close = __skadapter__to_sklib_database(db_to_close)
-    sklib.__sklib__free_database__database(__skparam__db_to_close)
-def free_database_named ( name_of_db_to_close ):
-    __skparam__name_of_db_to_close = __skadapter__to_sklib_string(name_of_db_to_close)
-    sklib.__sklib__free_database__string(__skparam__name_of_db_to_close)
-def free_query_result ( query ):
-    __skparam__query = __skadapter__to_sklib_query_result(query)
-    sklib.__sklib__free_query_result__query_result(__skparam__query)
-def get_next_row ( db_result ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skreturn = sklib.__sklib__get_next_row__query_result(__skparam__db_result)
-    return __skadapter__to_bool(__skreturn)
-def has_database ( name ):
-    __skparam__name = __skadapter__to_sklib_string(name)
-    __skreturn = sklib.__sklib__has_database__string(__skparam__name)
-    return __skadapter__to_bool(__skreturn)
-def has_row ( db_result ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skreturn = sklib.__sklib__has_row__query_result(__skparam__db_result)
-    return __skadapter__to_bool(__skreturn)
-def open_database ( name, filename ):
-    __skparam__name = __skadapter__to_sklib_string(name)
-    __skparam__filename = __skadapter__to_sklib_string(filename)
-    __skreturn = sklib.__sklib__open_database__string__string(__skparam__name, __skparam__filename)
-    return __skadapter__to_database(__skreturn)
-def query_column_count ( db_result ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skreturn = sklib.__sklib__query_column_count__query_result(__skparam__db_result)
-    return __skadapter__to_int(__skreturn)
-def query_column_for_bool ( db_result, col ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skparam__col = __skadapter__to_sklib_int(col)
-    __skreturn = sklib.__sklib__query_column_for_bool__query_result__int(__skparam__db_result, __skparam__col)
-    return __skadapter__to_bool(__skreturn)
-def query_column_for_double ( db_result, col ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skparam__col = __skadapter__to_sklib_int(col)
-    __skreturn = sklib.__sklib__query_column_for_double__query_result__int(__skparam__db_result, __skparam__col)
-    return __skadapter__to_double(__skreturn)
-def query_column_for_int ( db_result, col ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skparam__col = __skadapter__to_sklib_int(col)
-    __skreturn = sklib.__sklib__query_column_for_int__query_result__int(__skparam__db_result, __skparam__col)
-    return __skadapter__to_int(__skreturn)
-def query_column_for_string ( db_result, col ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skparam__col = __skadapter__to_sklib_int(col)
-    __skreturn = sklib.__sklib__query_column_for_string__query_result__int(__skparam__db_result, __skparam__col)
-    return __skadapter__to_string(__skreturn)
-def query_success ( db_result ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skreturn = sklib.__sklib__query_success__query_result(__skparam__db_result)
-    return __skadapter__to_bool(__skreturn)
-def query_type_of_col ( db_result, col ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    __skparam__col = __skadapter__to_sklib_int(col)
-    __skreturn = sklib.__sklib__query_type_of_col__query_result__int(__skparam__db_result, __skparam__col)
-    return __skadapter__to_string(__skreturn)
-def reset_query_result ( db_result ):
-    __skparam__db_result = __skadapter__to_sklib_query_result(db_result)
-    sklib.__sklib__reset_query_result__query_result(__skparam__db_result)
-def rows_changed ( db ):
-    __skparam__db = __skadapter__to_sklib_database(db)
-    __skreturn = sklib.__sklib__rows_changed__database(__skparam__db)
-    return __skadapter__to_int(__skreturn)
-def run_sql ( db, sql ):
-    __skparam__db = __skadapter__to_sklib_database(db)
-    __skparam__sql = __skadapter__to_sklib_string(sql)
-    __skreturn = sklib.__sklib__run_sql__database__string(__skparam__db, __skparam__sql)
-    return __skadapter__to_query_result(__skreturn)
-def run_sql_from_name ( database_name, sql ):
-    __skparam__database_name = __skadapter__to_sklib_string(database_name)
-    __skparam__sql = __skadapter__to_sklib_string(sql)
-    __skreturn = sklib.__sklib__run_sql__string__string(__skparam__database_name, __skparam__sql)
-    return __skadapter__to_query_result(__skreturn)
 def apply_matrix_to_quad ( matrix, q ):
     __skparam__matrix = __skadapter__to_sklib_matrix_2d(matrix)
     __skparam__q = __skadapter__to_sklib_quad(q)

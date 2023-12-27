@@ -36,7 +36,6 @@
 #include "audio.h"
 #include "logging.h"
 #include "json.h"
-#include "database.h"
 #include "matrix_2d.h"
 #include "images.h"
 #include "rectangle_geometry.h"
@@ -53,7 +52,6 @@
 #include "circle_geometry.h"
 #include "point_drawing.h"
 #include "quad_geometry.h"
-#include "twitter.h"
 #include "networking.h"
 #include "keyboard_input.h"
 #include "physics.h"
@@ -112,10 +110,6 @@ __sklib_ptr __sklib__to_sklib_http_response(splashkit_lib::http_response v);
 http_response __sklib__to_http_response(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_json(splashkit_lib::json v);
 json __sklib__to_json(__sklib_ptr v);
-__sklib_ptr __sklib__to_sklib_database(splashkit_lib::database v);
-database __sklib__to_database(__sklib_ptr v);
-__sklib_ptr __sklib__to_sklib_query_result(splashkit_lib::query_result v);
-query_result __sklib__to_query_result(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_http_request(splashkit_lib::http_request v);
 http_request __sklib__to_http_request(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_web_server(splashkit_lib::web_server v);
