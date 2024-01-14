@@ -7,8 +7,4 @@ SKM_PATH=`cd "$APP_PATH/.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
-if [ "$IS_WINDOWS" = true ]; then
-    cp -r -n "${APP_PATH}/Resources" -T .
-else
-    cp -r -n "${APP_PATH}/Resources" .
-fi
+cp -r -n "${APP_PATH}/Resources" .
