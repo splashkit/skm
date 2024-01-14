@@ -6,11 +6,12 @@
 #ifndef __collisions_h
 #define __collisions_h
 
-#include "types.h"
 #include "matrix_2d.h"
 #include "sprites.h"
+#include "types.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 

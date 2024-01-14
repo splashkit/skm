@@ -1,6 +1,7 @@
 /**
  * @header color
  * @author Andrew Cain
+ * @brief SplashKit simplifies color manipulation in graphical applications for developers, ensuring ease of use and efficiency.
  * @attribute group color
  */
 
@@ -823,9 +824,9 @@ namespace splashkit_lib
     /**
      * Returs a color from a combination of hue, saturation, and brightness.
      *
-     * @param  hue        The hue of the color
-     * @param  saturation The saturation of that hue
-     * @param  brightness The brightness of the color
+     * @param  hue        The hue of the color. Value must be between 0 and 1.
+     * @param  saturation The saturation of that hue. Value must be between 0 and 1.
+     * @param  brightness The brightness of the color. Value must be between 0 and 1.
      * @return            The color from its hue, saturation and brightness.
      *
      * @attribute static color

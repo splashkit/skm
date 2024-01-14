@@ -6,10 +6,11 @@
 #ifndef __sprites_h
 #define __sprites_h
 
-#include "types.h"
 #include "matrix_2d.h"
+#include "types.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 

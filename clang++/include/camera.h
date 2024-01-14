@@ -6,11 +6,12 @@
 #ifndef __camera_h
 #define __camera_h
 
-#include "window_manager.h"
-#include "types.h"
 #include "sprites.h"
+#include "types.h"
+#include "window_manager.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 

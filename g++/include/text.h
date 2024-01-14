@@ -6,10 +6,11 @@
 #ifndef __text_h
 #define __text_h
 
-#include "window_manager.h"
 #include "types.h"
+#include "window_manager.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 

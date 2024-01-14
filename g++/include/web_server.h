@@ -6,10 +6,11 @@
 #ifndef __web_server_h
 #define __web_server_h
 
-#include "types.h"
 #include "json.h"
+#include "types.h"
 #include <string>
 #include <vector>
+#include <cstdint>
 using std::string;
 using std::vector;
 
