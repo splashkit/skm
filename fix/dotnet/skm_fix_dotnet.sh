@@ -36,12 +36,12 @@ if [ "$INIT_PRJ_NAME" != "$PRJ_NAME" ]; then
 fi
 
 if [ $SK_OS = "macos" ]; then
-    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net7.0</TargetFramework>|g" "$PRJ_NAME"
+    sed -i '' "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net8.0</TargetFramework>|g" "$PRJ_NAME"
     if ! grep -q RunConfiguration "$PRJ_NAME"; then
         sed -i '' "s|</Project>|$MAC_RUN_CONFIG\n</Project>|g" "$PRJ_NAME"
     fi
 else
-    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net7.0</TargetFramework>|g" "$PRJ_NAME"
+    sed -i "s|<TargetFramework>.*</TargetFramework>|<TargetFramework>net8.0</TargetFramework>|g" "$PRJ_NAME"
 fi
 
 if [ $SK_OS = "macos" ]; then
