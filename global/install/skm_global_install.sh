@@ -64,14 +64,14 @@ fi
 
 # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
 if [ ! -z "$WIN_OUT_DIR" ]; then
-    $PRIVILEGED cp $LIB_FILE $WIN_OUT_DIR
+    $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
         exit 1
     fi
 fi
 
-$PRIVILEGED cp $CPP_LIB_FILE /usr/local/lib
+$PRIVILEGED cp "$CPP_LIB_FILE" /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit C++ library to /usr/local/lib"
     exit 1
@@ -109,19 +109,19 @@ fi
 echo "Testing install"
 
 if [ "$SK_OS" = "macos" ]; then
-    clang++ ${APP_PATH}/test.cpp -l SplashKitCPP -l SplashKit -rpath /usr/local/lib -o ${APP_PATH}/test
+    clang++ "${APP_PATH}/test.cpp" -l SplashKitCPP -l SplashKit -rpath /usr/local/lib -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$SK_OS" = "linux" ]; then
-    g++ ${APP_PATH}/test.cpp -l SplashKitCPP -l SplashKit -Wl,-rpath=/usr/local/lib -o ${APP_PATH}/test
+    g++ "${APP_PATH}/test.cpp" -l SplashKitCPP -l SplashKit -Wl,-rpath=/usr/local/lib -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$IS_WINDOWS" = true ]; then
-    g++ ${APP_PATH}/test.cpp -L /usr/local/lib -lSplashKit -I /usr/local/include/ /usr/local/lib/libSplashKitCPP.a -o ${APP_PATH}/test
+    g++ "${APP_PATH}/test.cpp" -L /usr/local/lib -lSplashKit -I /usr/local/include/ /usr/local/lib/libSplashKitCPP.a -o "${APP_PATH}/test"
 
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
@@ -129,12 +129,12 @@ elif [ "$IS_WINDOWS" = true ]; then
     fi
 fi
 
-${APP_PATH}/test
+"${APP_PATH}/test"
 if [ ! $? -eq 0 ]; then
     echo "Failed to run test program"
     exit 1
 fi
 
-rm ${APP_PATH}/test
+rm "${APP_PATH}/test"
 
 echo "Done"
