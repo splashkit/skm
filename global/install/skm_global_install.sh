@@ -62,15 +62,6 @@ if [ ! $? -eq 0 ]; then
     exit 1
 fi
 
-# If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
-if [ ! -z "$WIN_OUT_DIR" ]; then
-    $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
-        exit 1
-    fi
-fi
-
 $PRIVILEGED cp "$CPP_LIB_FILE" /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit C++ library to /usr/local/lib"
@@ -104,6 +95,15 @@ $PRIVILEGED cp "${APP_PATH}/splashkit.h" /usr/local/include
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit header to /usr/local/include"
     exit 1
+fi
+
+# If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
+if [ ! -z "$WIN_OUT_DIR" ]; then
+    $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
+        exit 1
+    fi
 fi
 
 echo "Testing install"
