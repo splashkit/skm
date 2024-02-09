@@ -70,14 +70,14 @@ fi
 
 if [ "$SK_OS" = "macos" ]; then
     echo "Linking dll for dotnet"
-    sudo ln -s /usr/local/lib/libSplashKit.dylib /usr/local/lib/libsplashkit.dll.dylib
+    sudo ln -sf /usr/local/lib/libSplashKit.dylib /usr/local/lib/libsplashkit.dll.dylib
     if [ ! $? -eq 0 ]; then
         echo "Failed to create /usr/local/lib/libsplashkit.dll.dylib"
         exit 1
     fi
 elif [ "$SK_OS" = "linux" ]; then
     echo "Linking dll for dotnet"
-    sudo ln -s /usr/local/lib/libSplashKit.so /usr/local/lib/libsplashkit.dll.so
+    sudo ln -sf /usr/local/lib/libSplashKit.so /usr/local/lib/libsplashkit.dll.so
     if [ ! $? -eq 0 ]; then
         echo "Failed to create /usr/local/lib/libsplashkit.dll.so"
         exit 1
