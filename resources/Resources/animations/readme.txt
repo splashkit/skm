@@ -1,3 +1,3 @@
 You can place scripts for animations in this folder.
 
-See http://www.splashkit.io/articles/guides/tags/animations/animation/
+See the "Using Animations" guide on this page https://splashkit.io/guides/ for more information.
