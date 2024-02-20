@@ -39,49 +39,28 @@ echo "Copying files to /usr/local/lib"
 
 if [ "$SK_OS" = "macos" ]; then
     LIB_FILE="${SKM_PATH}/lib/macos/libSplashKit.dylib"
-    CPP_LIB_FILE="${SKM_PATH}/clang++/lib/macos/libSplashKitCPP.a"
 elif [ "$SK_OS" = "linux" ]; then
     LIB_FILE="${SKM_PATH}/lib/linux/libSplashKit.so"
-    CPP_LIB_FILE="${SKM_PATH}/clang++/lib/linux/libSplashKitCPP.a"
 elif [ "$SK_OS" = "win32" ]; then
     LIB_FILE="${SKM_PATH}/lib/win32/SplashKit.dll"
-    CPP_LIB_FILE="${SKM_PATH}/clang++/lib/win32/libSplashKitCPP.a"
     WIN_OUT_DIR="${WINDIR}/System32"
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    CPP_LIB_FILE="${SKM_PATH}/clang++/lib/win64/libSplashKitCPP.a"
     WIN_OUT_DIR="${WINDIR}/System32"
 else
     echo "Unable to detect operating system..."
     exit 1
 fi
 
-$PRIVILEGED cp $LIB_FILE /usr/local/lib
+$PRIVILEGED cp -f $LIB_FILE /usr/local/lib
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit library to /usr/local/lib"
     exit 1
 fi
 
-$PRIVILEGED cp "$CPP_LIB_FILE" /usr/local/lib
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit C++ library to /usr/local/lib"
-    exit 1
-fi
-
-if [ "$SK_OS" = "macos" ]; then
-    echo "Linking dll for dotnet"
-    sudo ln -sf /usr/local/lib/libSplashKit.dylib /usr/local/lib/libsplashkit.dll.dylib
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to create /usr/local/lib/libsplashkit.dll.dylib"
-        exit 1
-    fi
-elif [ "$SK_OS" = "linux" ]; then
-    echo "Linking dll for dotnet"
-    sudo ln -sf /usr/local/lib/libSplashKit.so /usr/local/lib/libsplashkit.dll.so
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to create /usr/local/lib/libsplashkit.dll.so"
-        exit 1
-    fi
+if [ "$SK_OS" = "linux" ]; then
+    echo "Updating library config cache"
+    $PRIVILEGED ldconfig
 fi
 
 echo "Copying files to /usr/local/include/splashkit"

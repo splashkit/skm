@@ -81,32 +81,18 @@ add_definitions(-DELPP_THREAD_SAFE)
 
 #### END SETUP ####
 
-#### SplashKitCPP STATIC LIBRARY ####
+#### SplashKit++ Adapter ####
 set(SKM_GPP "${SKM_ROOT}/g++")
-set(SKM_CLANGPP "${SKM_ROOT}/clang++")
 file(GLOB SPLASHKITCPP_SOURCE_FILES
   "${SKM_GPP}/src/*.cpp"
 )
 
 include_directories(${SKM_GPP}/include)
 
-add_library(SplashKitCPP STATIC "${SPLASHKITCPP_SOURCE_FILES}")
-
-install(TARGETS SplashKitCPP DESTINATION "${SKM_GPP}/lib/${PATH_SUFFIX}")
-install(TARGETS SplashKitCPP DESTINATION "${SKM_CLANGPP}/lib/${PATH_SUFFIX}")
-
 #### SplashKit SHARED LIBRARY ####
-add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES})
+add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES} "${SPLASHKITCPP_SOURCE_FILES}")
 target_link_libraries(SplashKit ${LIB_FLAGS})
 
 target_link_libraries(SplashKit ${PNG_LIBRARY})
 
-
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
-
-INSTALL(CODE "execute_process( \
-   COMMAND ${CMAKE_COMMAND} -E create_symlink \
-   libSplashKit.so \
-   ${SK_DEPLOY_ROOT}/libsplashkit.dll   \
-   )"
-)
