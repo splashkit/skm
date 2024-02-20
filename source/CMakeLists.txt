@@ -29,10 +29,6 @@ file(GLOB C_SOURCE_FILES
 "${SK_SRC}/*.c"
 )
 
-file(GLOB CPP_SOURCE_FILES
-"${SK_SRC}/*.cpp"
-)
-
 # SOURCE FILES
 file(GLOB SOURCE_FILES
     "${SK_SRC}/*.cpp"
