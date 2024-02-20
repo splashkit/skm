@@ -88,19 +88,19 @@ fi
 echo "Testing install"
 
 if [ "$SK_OS" = "macos" ]; then
-    clang++ "${APP_PATH}/test.cpp" -l SplashKitCPP -l SplashKit -rpath /usr/local/lib -o "${APP_PATH}/test"
+    clang++ "${APP_PATH}/test.cpp" -l SplashKit -rpath /usr/local/lib -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$SK_OS" = "linux" ]; then
-    g++ "${APP_PATH}/test.cpp" -l SplashKitCPP -l SplashKit -Wl,-rpath=/usr/local/lib -o "${APP_PATH}/test"
+    g++ "${APP_PATH}/test.cpp" -l SplashKit -Wl,-rpath=/usr/local/lib -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$IS_WINDOWS" = true ]; then
-    g++ "${APP_PATH}/test.cpp" -L /usr/local/lib -lSplashKit -I /usr/local/include/ /usr/local/lib/libSplashKitCPP.a -o "${APP_PATH}/test"
+    g++ "${APP_PATH}/test.cpp" -L /usr/local/lib -lSplashKit -I /usr/local/include/ -o "${APP_PATH}/test"
 
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
