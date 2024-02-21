@@ -42,25 +42,25 @@ else
     exit 1
 fi
 
-if [ ! -d "${DEST_LIB}" ]; then
-    echo "Creating directory ${DEST_LIB}"
-    $PRIVILEGED mkdir -p "${DEST_LIB}"
+if [ ! -d "${LIB_DEST}" ]; then
+    echo "Creating directory ${LIB_DEST}"
+    $PRIVILEGED mkdir -p "${LIB_DEST}"
     if [ ! $? -eq 0 ]; then
-        echo "Failed to create directory ${DEST_LIB}"
+        echo "Failed to create directory ${LIB_DEST}"
         exit 1
     fi
 fi
 
-if [ ! -d "${DEST_INC}/splashkit" ]; then
-    echo "Creating directory ${DEST_INC}/splashkit"
-    $PRIVILEGED mkdir -p ${DEST_INC}/splashkit
+if [ ! -d "${INC_DEST}/splashkit" ]; then
+    echo "Creating directory ${INC_DEST}/splashkit"
+    $PRIVILEGED mkdir -p ${INC_DEST}/splashkit
     if [ ! $? -eq 0 ]; then
-        echo "Failed to create directory ${DEST_INC}/splashkit"
+        echo "Failed to create directory ${INC_DEST}/splashkit"
         exit 1
     fi
 fi
 
-echo "Copying files to "${DEST_LIB}""
+echo "Copying files to "${LIB_DEST}""
 
 $PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
 if [ ! $? -eq 0 ]; then
