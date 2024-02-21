@@ -39,73 +39,44 @@ echo "Copying files to /usr/local/lib"
 
 if [ "$SK_OS" = "macos" ]; then
     LIB_FILE="${SKM_PATH}/lib/macos/libSplashKit.dylib"
+    LIB_DEST="/usr/local/lib"
+    INC_DEST="/usr/local/include"
 elif [ "$SK_OS" = "linux" ]; then
     LIB_FILE="${SKM_PATH}/lib/linux/libSplashKit.so"
+    LIB_DEST="/usr/local/lib"
+    INC_DEST="/usr/local/include"
 elif [ "$SK_OS" = "win32" ]; then
     LIB_FILE="${SKM_PATH}/lib/win32/SplashKit.dll"
     WIN_OUT_DIR="${WINDIR}/System32"
+    LIB_DEST="/mingw32/lib"
+    INC_DEST="/mingw32/include"
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
     WIN_OUT_DIR="${WINDIR}/System32"
+    LIB_DEST="/mingw64/lib"
+    INC_DEST="/mingw64/include"
 else
     echo "Unable to detect operating system..."
     exit 1
 fi
 
-$PRIVILEGED cp -f $LIB_FILE /usr/local/lib
+$PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
 if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit library to /usr/local/lib"
+    echo "Failed to copy SplashKit library to $LIB_DEST"
     exit 1
 fi
 
-if [ "$SK_OS" = "linux" ]; then
-    echo "Updating library config cache"
-    $PRIVILEGED ldconfig
-fi
-
-echo "Copying files to /usr/local/include/splashkit"
-$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /usr/local/include/splashkit
+echo "Copying files to ${INC_DEST}/splashkit"
+$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}"
 if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit C++ headers to /usr/local/include/splashkit"
+    echo "Failed to copy SplashKit C++ headers to ${INC_DEST}"
     exit 1
 fi
 
-$PRIVILEGED cp "${APP_PATH}/splashkit.h" /usr/local/include
+$PRIVILEGED cp "${APP_PATH}/splashkit.h" ${INC_DEST}
 if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit header to /usr/local/include"
+    echo "Failed to copy SplashKit header to ${INC_DEST}"
     exit 1
-fi
-
-if [ "$SK_OS" = "win32" ]; then
-    # Copy to msys include folders
-    echo "Copying files to /mingw32/include/splashkit"
-    $PRIVILEGED mkdir -p /mingw32/include/splashkit
-    $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw32/include/splashkit
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit C++ headers to /mingw32/include/splashkit"
-        exit 1
-    fi
-
-    $PRIVILEGED cp "${APP_PATH}/splashkit.h" /mingw32/include
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit header to /mingw32/include"
-        exit 1
-    fi
-elif [ "$SK_OS" = "win64" ]; then
-    # Copy to msys include folders
-    echo "Copying files to /mingw64/include/splashkit"
-    $PRIVILEGED mkdir -p /mingw64/include/splashkit
-    $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw64/include/splashkit
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit C++ headers to /mingw64/include/splashkit"
-        exit 1
-    fi
-
-    $PRIVILEGED cp "${APP_PATH}/splashkit.h" /mingw64/include
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit header to /mingw64/include"
-        exit 1
-    fi
 fi
 
 # We cant install but it should be on the path anyway...
@@ -118,6 +89,11 @@ fi
 #         exit 1
 #     fi
 # fi
+
+if [ "$SK_OS" = "linux" ]; then
+    echo "Updating library config cache"
+    $PRIVILEGED ldconfig
+fi
 
 echo "Testing install"
 
