@@ -17,25 +17,7 @@ else
     PRIVILEGED="sudo"
 fi
 
-if [ ! -d /usr/local/lib ]; then
-    echo "Creating directory /usr/local/lib"
-    $PRIVILEGED mkdir -p /usr/local/lib
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to create directory /usr/local/lib"
-        exit 1
-    fi
-fi
-
-if [ ! -d /usr/local/include/splashkit ]; then
-    echo "Creating directory /usr/local/include/splashkit"
-    $PRIVILEGED mkdir -p /usr/local/include/splashkit
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to create directory /usr/local/include/splashkit"
-        exit 1
-    fi
-fi
-
-echo "Copying files to /usr/local/lib"
+echo "Detecting operating system"
 
 if [ "$SK_OS" = "macos" ]; then
     LIB_FILE="${SKM_PATH}/lib/macos/libSplashKit.dylib"
@@ -59,6 +41,26 @@ else
     echo "Unable to detect operating system..."
     exit 1
 fi
+
+if [ ! -d "${DEST_LIB}" ]; then
+    echo "Creating directory ${DEST_LIB}"
+    $PRIVILEGED mkdir -p "${DEST_LIB}"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to create directory ${DEST_LIB}"
+        exit 1
+    fi
+fi
+
+if [ ! -d "${DEST_INC}/splashkit" ]; then
+    echo "Creating directory ${DEST_INC}/splashkit"
+    $PRIVILEGED mkdir -p ${DEST_INC}/splashkit
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to create directory ${DEST_INC}/splashkit"
+        exit 1
+    fi
+fi
+
+echo "Copying files to "${DEST_LIB}""
 
 $PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
 if [ ! $? -eq 0 ]; then
