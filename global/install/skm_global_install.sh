@@ -79,6 +79,7 @@ fi
 if [ "$SK_OS" = "win32" ]; then
     # Copy to msys include folders
     echo "Copying files to /mingw32/include/splashkit"
+    $PRIVILEGED mkdir -p /mingw32/include/splashkit
     $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw32/include/splashkit
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy SplashKit C++ headers to /mingw32/include/splashkit"
@@ -93,6 +94,7 @@ if [ "$SK_OS" = "win32" ]; then
 elif [ "$SK_OS" = "win64" ]; then
     # Copy to msys include folders
     echo "Copying files to /mingw64/include/splashkit"
+    $PRIVILEGED mkdir -p /mingw64/include/splashkit
     $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw64/include/splashkit
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy SplashKit C++ headers to /mingw64/include/splashkit"
