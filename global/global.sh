@@ -3,8 +3,6 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
-echo "${APP_PATH}/$1/skm_global_$1.sh"
-
 if [ -f "${APP_PATH}/$1/skm_global_$1.sh" ]; then
     "${APP_PATH}/$1/skm_global_$1.sh"
 else
