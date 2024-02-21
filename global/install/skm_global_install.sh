@@ -95,18 +95,21 @@ fi
 if [ "$SK_OS" = "linux" ]; then
     echo "Updating library config cache"
     $PRIVILEGED ldconfig
+elif [ "$SK_OS" = "macos" ]; then
+    echo "Setting library location"
+    sudo install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
 fi
 
 echo "Testing install"
 
 if [ "$SK_OS" = "macos" ]; then
-    clang++ "${APP_PATH}/test.cpp" -l SplashKit -rpath /usr/local/lib -o "${APP_PATH}/test"
+    clang++ "${APP_PATH}/test.cpp" -l SplashKit -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
     fi
 elif [ "$SK_OS" = "linux" ]; then
-    g++ "${APP_PATH}/test.cpp" -l SplashKit -Wl,-rpath=/usr/local/lib -o "${APP_PATH}/test"
+    g++ "${APP_PATH}/test.cpp" -l SplashKit -o "${APP_PATH}/test"
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
         exit 1
