@@ -76,14 +76,46 @@ if [ ! $? -eq 0 ]; then
     exit 1
 fi
 
-# If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
-if [ ! -z "$WIN_OUT_DIR" ]; then
-    $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
+if [ "$SK_OS" = "win32" ]; then
+    # Copy to msys include folders
+    echo "Copying files to /mingw32/include/splashkit"
+    $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw32/include/splashkit
     if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
+        echo "Failed to copy SplashKit C++ headers to /mingw32/include/splashkit"
+        exit 1
+    fi
+
+    $PRIVILEGED cp "${APP_PATH}/splashkit.h" /mingw32/include
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit header to /mingw32/include"
+        exit 1
+    fi
+elif [ "$SK_OS" = "win64" ]; then
+    # Copy to msys include folders
+    echo "Copying files to /mingw64/include/splashkit"
+    $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* /mingw64/include/splashkit
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit C++ headers to /mingw64/include/splashkit"
+        exit 1
+    fi
+
+    $PRIVILEGED cp "${APP_PATH}/splashkit.h" /mingw64/include
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit header to /mingw64/include"
         exit 1
     fi
 fi
+
+# We cant install but it should be on the path anyway...
+#
+# # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
+# if [ ! -z "$WIN_OUT_DIR" ]; then
+#     $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
+#     if [ ! $? -eq 0 ]; then
+#         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
+#         exit 1
+#     fi
+# fi
 
 echo "Testing install"
 
@@ -100,7 +132,7 @@ elif [ "$SK_OS" = "linux" ]; then
         exit 1
     fi
 elif [ "$IS_WINDOWS" = true ]; then
-    g++ "${APP_PATH}/test.cpp" -L /usr/local/lib -lSplashKit -I /usr/local/include/ -o "${APP_PATH}/test"
+    g++ "${APP_PATH}/test.cpp" -lSplashKit -o "${APP_PATH}/test"
 
     if [ ! $? -eq 0 ]; then
         echo "Failed to compile test program"
