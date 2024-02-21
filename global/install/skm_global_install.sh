@@ -53,7 +53,7 @@ fi
 
 if [ ! -d "${INC_DEST}/splashkit" ]; then
     echo "Creating directory ${INC_DEST}/splashkit"
-    $PRIVILEGED mkdir -p ${INC_DEST}/splashkit
+    $PRIVILEGED mkdir -p "${INC_DEST}/splashkit"
     if [ ! $? -eq 0 ]; then
         echo "Failed to create directory ${INC_DEST}/splashkit"
         exit 1
@@ -69,9 +69,9 @@ if [ ! $? -eq 0 ]; then
 fi
 
 echo "Copying files to ${INC_DEST}/splashkit"
-$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}"
+$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}/splashkit"
 if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit C++ headers to ${INC_DEST}"
+    echo "Failed to copy SplashKit C++ headers to ${INC_DEST}/splashkit"
     exit 1
 fi
 
