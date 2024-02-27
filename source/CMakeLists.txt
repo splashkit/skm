@@ -77,12 +77,6 @@ add_definitions(-DELPP_THREAD_SAFE)
 
 #### END SETUP ####
 
-#### SplashKit++ Adapter ####
-set(SKM_GPP "${SKM_ROOT}/g++")
-file(GLOB SPLASHKITCPP_SOURCE_FILES
-  "${SKM_GPP}/src/*.cpp"
-)
-
 #### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES} "${SPLASHKITCPP_SOURCE_FILES}")
 target_link_libraries(SplashKit ${LIB_FLAGS})
