@@ -9,9 +9,7 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 CPP_OPTIONS="-std=c++14 -g -Wall -Wno-sign-compare"
 
-if [ "$SK_OS" = "win32" ]; then
-    g++ $CPP_OPTIONS -Wl,--as-needed -L"${APP_PATH}/lib/win32" -static-libstdc++ -static-libgcc -lSplashKit -Wl,-Bstatic -lstdc++ -lpthread -I "${APP_PATH}/include" -I "${APP_PATH}/../" -L "${SKM_PATH}/lib/win32" -I "$APP_PATH/src" -I "$APP_PATH/win_include" $*
-elif [ "$SK_OS" = "win64" ]; then
+if [ "$SK_OS" = "win64" ]; then
     g++ $CPP_OPTIONS -Wl,--as-needed -L"${APP_PATH}/lib/win64" -static-libstdc++ -static-libgcc -lSplashKit -Wl,-Bstatic -lstdc++ -lpthread -I "${APP_PATH}/include" -I "${APP_PATH}/../" -L "${SKM_PATH}/lib/win64" -I "$APP_PATH/src" -I "$APP_PATH/win_include" $*
 elif [ "$SK_OS" = "macos" ]; then
     g++ $CPP_OPTIONS -L"$DYLIB_PATH" -lSplashKit -L"${APP_PATH}/lib/macos" -I "${APP_PATH}/include" -rpath @loader_path -rpath "$DYLIB_PATH" -rpath /usr/local/lib $*

@@ -9,7 +9,7 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 if [ "$SK_OS" = "macos" ] || ( echo "${*}" | grep '\-\-no-os-detect' ); then
   : # All good - no op and continue
-elif [ "$SK_OS" = "linux" ] || [ "$SK_OS" = "win64" ] || [ "$SK_OS" = "win32" ]; then
+elif [ "$SK_OS" = "linux" ] || [ "$SK_OS" = "win64" ]; then
   echo "macOS install only available on macOS"
   exit 1
 else
