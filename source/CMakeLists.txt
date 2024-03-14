@@ -30,7 +30,7 @@ set(SK_GPP "${SKM_ROOT}/g++")
 
 # Setup requirements using PkgConfig
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SPLASHKIT_REQUIRED_LIBS REQUIRED sdl2 sdl2_ttf sdl2_image sdl2_net sdl2_mixer sdl2_gfx libpng libcurl)
+pkg_check_modules(SPLASHKIT_REQUIRED_LIBS REQUIRED sdl2 SDL2_ttf SDL2_image SDL2_net SDL2_mixer SDL2_gfx libpng libcurl)
 
 # Setup include paths
 include_directories("${SK_SRC}/include")
