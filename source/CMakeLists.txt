@@ -2,7 +2,7 @@
 # CMake file for generating the splashkit core library
 #
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.5)
 project(SplashKit)
 
 # Detect Windows and flag MSYS
@@ -10,19 +10,40 @@ if (WIN32 OR MSYS OR MINGW)
     message(SEND_ERROR "Source compile only available for Linux")
     return ()
 elseif (APPLE)
-    message(SEND_ERROR "Source compile only available for Linux")
-    return ()
+    set(PATH_SUFFIX "macos")
 else  ( )
     set(PATH_SUFFIX "linux")
+    SET(LINUX "true")
 endif()
 
 # SK Directories relative to cmake project
 set(SKM_ROOT "..")
 get_filename_component(SKM_ROOT ${SKM_ROOT} ABSOLUTE) # Convert root to absolute path
-set(SK_SRC "${SKM_ROOT}/source")
-set(SK_LIB "${SKM_ROOT}/lib/${PATH_SUFFIX}")
 
+# SK_SRC is the source folder
+set(SK_SRC "${SKM_ROOT}/source")
+# SK_LIB for the output library location
+set(SK_LIB "${SKM_ROOT}/lib/${PATH_SUFFIX}")
 set(SK_DEPLOY_ROOT "${SK_LIB}")
+# SK_GPP for the g++ adapter files
+set(SK_GPP "${SKM_ROOT}/g++")
+
+# Setup requirements using PkgConfig
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SPLASHKIT_REQUIRED_LIBS REQUIRED sdl2 sdl2_ttf sdl2_image sdl2_net sdl2_mixer sdl2_gfx libpng libcurl)
+
+# Setup include paths
+include_directories("${SK_SRC}/include")
+include_directories("${SK_GPP}/include")
+include_directories(${SPLASHKIT_REQUIRED_LIBS_INCLUDE_DIRS})
+
+# FLAGS
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
+
+# MACRO DEFINITIONS #
+add_definitions(-DELPP_THREAD_SAFE)
+
+#### END SETUP ####
 
 # SOURCE FILES
 file(GLOB C_SOURCE_FILES
@@ -35,59 +56,17 @@ file(GLOB SOURCE_FILES
     "${SK_SRC}/easylogging++.cc"
 )
 
-# SKSDK FILE INCLUDES
-include_directories("${SKM_ROOT}/source/include")
-
-# LINUX PROJECT FLAGS
-find_package(PNG REQUIRED)
-find_package(CURL REQUIRED)
-include_directories(${PNG_INCLUDE_DIR})
-
-# Fix clang not compiling because being_code.h doesn't exit
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    include_directories("/usr/include/SDL2")
-endif()
-
-SET(LINUX "true")
-set(LIB_FLAGS "-lSDL2 \
-               -lSDL2_mixer \
-               -lSDL2_ttf \
-               -lSDL2_gfx \
-               -lSDL2_image \
-               -lSDL2_net \
-               -lpthread \
-               -lbz2 \
-               -lFLAC \
-               -lvorbis \
-               -lz \
-               -lvorbisfile \
-               -lmikmod \
-               -logg \
-               -lwebp \
-               -lfreetype \
-               -lcurl \
-               -lncurses \
-               -ldl")
-
-# FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
-
-# MACRO DEFINITIONS #
-add_definitions(-DELPP_THREAD_SAFE)
-
-#### END SETUP ####
-
-#### SplashKit++ Adapter ####
-set(SKM_GPP "${SKM_ROOT}/g++")
-include_directories("${SKM_GPP}/include")
+# Adapter SOURCE
 file(GLOB SPLASHKITCPP_SOURCE_FILES
-  "${SKM_GPP}/src/*.cpp"
+  "${SK_GPP}/src/*.cpp"
 )
 
 #### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES} "${SPLASHKITCPP_SOURCE_FILES}")
-target_link_libraries(SplashKit ${LIB_FLAGS})
 
-target_link_libraries(SplashKit ${PNG_LIBRARY})
+target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS})
+if (APPLE)
+    target_link_libraries(SplashKit "-framework CoreFoundation")
+endif()
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
