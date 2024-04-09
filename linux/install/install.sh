@@ -5,6 +5,8 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
+# Suppress the splashkit not found error (we're installing splashkit)
+mkdir -p "$SKM_PATH/lib/linux"
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 if [ "$SK_OS" = "linux" ] || ( echo "${*}" | grep '\-\-no-os-detect' ); then
