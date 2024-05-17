@@ -9,7 +9,7 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 if [ "$SK_OS" = "linux" ] || ( echo "${*}" | grep '\-\-no-os-detect' ); then
   : # All good - no op and continue
-elif [ "$SK_OS" = "macos" ] || [ "$SK_OS" = "win64" ] || [ "$SK_OS" = "win32" ]; then
+elif [ "$SK_OS" = "macos" ] || [ "$SK_OS" = "win64" ]; then
   echo "Linux install only available on Linux"
   exit 1
 else
@@ -30,7 +30,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Compiling SplashKit..."
-make 
+make
 if [ $? -ne 0 ]; then
   echo "Compilation failed"
   exit $?

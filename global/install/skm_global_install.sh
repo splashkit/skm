@@ -27,11 +27,6 @@ elif [ "$SK_OS" = "linux" ]; then
     LIB_FILE="${SKM_PATH}/lib/linux/libSplashKit.so"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
-elif [ "$SK_OS" = "win32" ]; then
-    LIB_FILE="${SKM_PATH}/lib/win32/SplashKit.dll"
-    WIN_OUT_DIR="${WINDIR}/System32"
-    LIB_DEST="/mingw32/lib"
-    INC_DEST="/mingw32/include"
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
     WIN_OUT_DIR="${WINDIR}/System32"
@@ -102,25 +97,19 @@ fi
 
 echo "Testing install"
 
-if [ "$SK_OS" = "macos" ]; then
-    clang++ "${APP_PATH}/test.cpp" -l SplashKit -o "${APP_PATH}/test"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to compile test program"
-        exit 1
-    fi
-elif [ "$SK_OS" = "linux" ]; then
-    g++ "${APP_PATH}/test.cpp" -l SplashKit -o "${APP_PATH}/test"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to compile test program"
-        exit 1
-    fi
-elif [ "$IS_WINDOWS" = true ]; then
-    g++ "${APP_PATH}/test.cpp" -lSplashKit -o "${APP_PATH}/test"
+if command -v clang++ &> /dev/null; then
+    COMPILER_EXE=clang++
+elif command -v g++ &> /dev/null; then
+    COMPILER_EXE=g++
+else
+    echo "No C/C++ compiler found, skipping test"
+    exit 0
+fi
 
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to compile test program"
-        exit 1
-    fi
+${COMPILER_EXE} "${APP_PATH}/test.cpp" -l SplashKit -o "${APP_PATH}/test"
+if [ ! $? -eq 0 ]; then
+    echo "Failed to compile test program"
+    exit 1
 fi
 
 "${APP_PATH}/test"

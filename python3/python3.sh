@@ -13,9 +13,7 @@ else
     PYTHONPATH="$APP_PATH"
 fi
 
-if [ "$SK_OS" = "win32" ]; then
-    PATH="$DYLIB_PATH$PATH" PYTHONPATH="$PYTHONPATH" python3 $*
-elif [ "$SK_OS" = "win64" ]; then
+if [ "$SK_OS" = "win64" ]; then
     PATH="$DYLIB_PATH:$PATH" PYTHONPATH="$PYTHONPATH" python3 $*
 elif [ "$SK_OS" = "macos" ]; then
     DYLD_LIBRARY_PATH="$DYLIB_PATH" PYTHONPATH="$PYTHONPATH" python3 $*

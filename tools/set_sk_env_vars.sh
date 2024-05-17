@@ -2,12 +2,14 @@
 
 if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
     if [ "$MSYSTEM" = "MINGW32" ]; then
-        export SK_OS="win32"
+        echo "The 32bit version of MSys is no longer supported"
+        echo "Please run in MinGW64 terminal"
+        exit 1
     elif [ "$MSYSTEM" = "MINGW64" ]; then
         export SK_OS="win64"
     else
         echo "Unable to detect Windows version..."
-        echo "Please run in MinGw64 or MinGw32 terminal"
+        echo "Please run in MinGW64 terminal"
         exit 1
     fi
 elif [ `uname` = "Darwin" ]; then
@@ -19,11 +21,7 @@ else
     exit 1
 fi
 
-if [ $SK_OS = "win32" ]; then
-    export DYLIB_PATH=`cd "$SKM_PATH/lib/win32"; pwd -W`
-    export DYLIB_PATH_MSYS=`cd "$SKM_PATH/lib/win32"; pwd`
-    export IS_WINDOWS=true
-elif [ $SK_OS = "win64" ]; then
+if [ $SK_OS = "win64" ]; then
     export DYLIB_PATH=`cd "$SKM_PATH/lib/win64"; pwd -W`
     export DYLIB_PATH_MSYS=`cd "$SKM_PATH/lib/win64"; pwd`
     export IS_WINDOWS=true

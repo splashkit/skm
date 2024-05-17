@@ -5,6 +5,11 @@ GIT_SKM_REPO=https://github.com/splashkit/skm.git
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
+if [[ `uname` = MINGW32* ]]; then
+    echo MinGW32 is no longer supported. Please install using the MinGW64 terminal
+    exit 1
+fi
+
 if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
     if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
         setx MSYS2_PATH_TYPE inherit
@@ -47,21 +52,6 @@ if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
 fi
 
 export PATH="$INSTALL_PATH:$PATH"
-
-if [[ `uname` = MINGW32* ]]; then
-    #Export to path -- for current terminal
-    export PATH="$HOME/.splashkit/lib:$PATH"
-    export PATH="$HOME/.splashkit/lib/win32:$PATH"
-    export PATH="$HOME/.splashkit:$PATH"
-
-    #Export path for new terminals
-    export ORIGINAL_PATH="$HOME/.splashkit/lib:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$HOME/.splashkit/lib/win32:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$HOME/.splashkit:$ORIGINAL_PATH"
-
-    # Set path
-    setx PATH "$ORIGINAL_PATH"
-fi
 
 if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
     #Export to path -- for current terminal
