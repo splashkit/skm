@@ -55,14 +55,17 @@ export PATH="$INSTALL_PATH:$PATH"
 
 if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
     #Export to path -- for current terminal
-    export PATH="$HOME/.splashkit/lib:$PATH"
     export PATH="$HOME/.splashkit/lib/win64:$PATH"
     export PATH="$HOME/.splashkit:$PATH"
 
     #Export path for new terminals
-    export ORIGINAL_PATH="$HOME/.splashkit/lib:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit/lib/win64:$ORIGINAL_PATH"
     export ORIGINAL_PATH="$HOME/.splashkit:$ORIGINAL_PATH"
+
+    #Export paths for mingw64 compilers
+    COMPILER_PATH="/mingw64/bin"
+    export PATH="$COMPILER_PATH:$PATH"
+    export ORIGINAL_PATH="$COMPILER_PATH:$ORIGINAL_PATH"
 
     # Set path
     setx PATH "$ORIGINAL_PATH"
