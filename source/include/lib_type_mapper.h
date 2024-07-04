@@ -27,6 +27,7 @@
 #include "graphics.h"
 #include "images.h"
 #include "input.h"
+#include "interface.h"
 #include "json.h"
 #include "keyboard_input.h"
 #include "line_drawing.h"
@@ -145,6 +146,8 @@ int __sklib__to_sklib_font_style(font_style v);
 font_style __sklib__to_font_style(int v);
 int __sklib__to_sklib_http_status_code(http_status_code v);
 http_status_code __sklib__to_http_status_code(int v);
+int __sklib__to_sklib_interface_style(interface_style v);
+interface_style __sklib__to_interface_style(int v);
 int __sklib__to_sklib_pin_modes(pin_modes v);
 pin_modes __sklib__to_pin_modes(int v);
 int __sklib__to_sklib_pin_values(pin_values v);
