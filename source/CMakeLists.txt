@@ -1,6 +1,4 @@
-#
 # CMake file for generating the splashkit core library
-#
 
 cmake_minimum_required(VERSION 3.5)
 project(SplashKit)
@@ -11,9 +9,52 @@ if (WIN32 OR MSYS OR MINGW)
     return ()
 elseif (APPLE)
     set(PATH_SUFFIX "macos")
-else  ( )
+else()
     set(PATH_SUFFIX "linux")
-    SET(LINUX "true")
+
+    # Detect if the platform is Raspberry Pi
+    set(RASPBERRY_PI FALSE)
+
+    # Method 1: Check for Raspberry Pi specific file
+    if(EXISTS "/proc/device-tree/model")
+        file(READ "/proc/device-tree/model" DEVICE_MODEL)
+        if(DEVICE_MODEL MATCHES "Raspberry Pi")
+            set(RASPBERRY_PI TRUE)
+        endif()
+    endif()
+
+    # Method 2: Check for ARM architecture and Broadcom chip
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|aarch64)")
+        if(EXISTS "/proc/cpuinfo")
+            file(READ "/proc/cpuinfo" CPU_INFO)
+            if(CPU_INFO MATCHES "BCM[0-9]+")
+                set(RASPBERRY_PI TRUE)
+            endif()
+        endif()
+    endif()
+
+    if(RASPBERRY_PI)
+        message("-- Raspberry Pi Detected")
+
+        # RASPBERRY PI SETUP
+        # Locate Pigpio library
+        find_path(BCM_HOST_INCLUDE_DIR NAMES bcm_host.h PATHS "/opt/vc/include")
+        find_path(PIGPIOD_INCLUDE_DIR NAMES pigpiod_if2.h PATHS "/usr/include")
+        find_library(PIGPIOD_IF2_LIB NAMES pigpiod_if2 HINTS "/usr/lib")
+        find_library(PIGPIO_LIB NAMES pigpio HINTS "/usr/lib")
+
+        # Handle Pigpio library finding
+        include(FindPackageHandleStandardArgs)
+        find_package_handle_standard_args(PIGPIO DEFAULT_MSG PIGPIOD_INCLUDE_DIR PIGPIOD_IF2_LIB PIGPIO_LIB)
+
+        if(PIGPIO_FOUND)
+            message("-- Pigpio libraries found")
+            include_directories(${PIGPIOD_INCLUDE_DIR})
+            add_definitions(-DRASPBERRY_PI)
+        else()
+            message(WARNING "-- Pigpio libraries NOT found. Some features may be unavailable.")
+        endif()
+    endif()
 endif()
 
 # SK Directories relative to cmake project
@@ -43,29 +84,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
 # MACRO DEFINITIONS #
 add_definitions(-DELPP_THREAD_SAFE)
 
-# RASPBERRY PI SETUP #
-if(LINUX)
-    find_path(BCM_HOST_INCLUDE_DIR NAMES ncm_host.h PATHS "opt/vc/include")
-
-    if(BCM_HOST_INCLUDE_DIR)
-        message("-- Raspberry Pi Detected")
-
-        find_path(PIGPIOD_INCLUDE_DIR NAMES pigpiod_if2.h HINTS /usr/include)
-        find_library(PIGPIOD_IF2_LIB NAMES libpigpiod_if2.so HINTS /usr/lib)
-
-        include(FindPackageHandleStandardArgs)
-        find_package_handle_standard_args(PIGPIO DEFAULT_MSG PIGPIOD_INCLUDE_DIR PIGPIOD_IF2_LIB)
-
-        if(PIGPIO_FOUND)
-            message("-- Pigpio library found")
-            include_directories(${PIGPIOD_INCLUDE_DIR})
-            add_definitions(-DRASPBERRY_PI)
-        else()
-            message("-- Pigpio library NOT found")
-        endif()
-    endif()
-endif()
-
 #### END SETUP ####
 
 # SOURCE FILES
@@ -85,15 +103,17 @@ file(GLOB SPLASHKITCPP_SOURCE_FILES
 )
 
 #### SplashKit SHARED LIBRARY ####
-add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${OS_SOURCE_FILES} ${INCLUDE_FILES} "${SPLASHKITCPP_SOURCE_FILES}")
+add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${SPLASHKITCPP_SOURCE_FILES})
 
-target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS})
-if (APPLE)
-    target_link_libraries(SplashKit "-framework CoreFoundation")
+# Link libraries based on platform
+if (RASPBERRY_PI AND PIGPIO_FOUND)
+    target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS} ${PIGPIOD_IF2_LIB})
+else()
+    target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS})
 endif()
 
-if(PIGPIO_FOUND)
-    target_link_libraries(SplashKit ${PIGPIOD_IF2_LIB})
+if (APPLE)
+    target_link_libraries(SplashKit "-framework CoreFoundation")
 endif()
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
