@@ -38,7 +38,6 @@ else()
 
         # RASPBERRY PI SETUP
         # Locate Pigpio library
-        find_path(BCM_HOST_INCLUDE_DIR NAMES bcm_host.h PATHS "/opt/vc/include")
         find_path(PIGPIOD_INCLUDE_DIR NAMES pigpiod_if2.h PATHS "/usr/include")
         find_library(PIGPIOD_IF2_LIB NAMES pigpiod_if2 HINTS "/usr/lib")
         find_library(PIGPIO_LIB NAMES pigpio HINTS "/usr/lib")
