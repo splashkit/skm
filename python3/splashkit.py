@@ -1,19 +1,20 @@
 from ctypes import *
 from enum import Enum
 from platform import system
+import os
 
 if system() == 'Darwin':
   # macOS uses .dylib extension
-  cdll.LoadLibrary("libSplashKit.dylib")
-  sklib = CDLL("libsplashkit.dylib")
+  cdll.LoadLibrary("/usr/local/lib/libSplashKit.dylib")
+  sklib = CDLL("/usr/local/lib/libSplashKit.dylib")
 elif system() == 'Linux':
   # Linux uses .so extension
   cdll.LoadLibrary("libSplashKit.so")
   sklib = CDLL("libSplashKit.so")
 else:
   # Windows uses .dll extension:
-  cdll.LoadLibrary("libSplashKit.dll")
-  sklib = CDLL("libsplashkit.dll")
+  cdll.LoadLibrary("C:\msys64\home\\" + os.getlogin() + "\.splashkit\lib\win64\SplashKit.dll")
+  sklib = CDLL("splashkit.dll")
 
 class _sklib_string(Structure):
     _fields_ = [
@@ -1223,7 +1224,7 @@ def __skadapter__update_from_vector_bool(v, __skreturn):
 
     sklib.__sklib__free__sklib_vector_bool(v)
 def __skadapter__to_sklib_string(s):
-    return _sklib_string(s)
+    return _sklib_string(s.replace('\r',''))
 
 sklib.__sklib__free__sklib_string.argtypes = [ _sklib_string ]
 sklib.__sklib__free__sklib_string.restype = None
@@ -4092,11 +4093,11 @@ def length_of ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__length_of__string_ref(__skparam__text)
     return __skadapter__to_int(__skreturn)
-def replace_all ( text, substr, newText ):
+def replace_all ( text, substr, replacement ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skparam__substr = __skadapter__to_sklib_string(substr)
-    __skparam__newText = __skadapter__to_sklib_string(newtext)
-    __skreturn = sklib.__sklib__replace_all__string_ref__string_ref__string_ref(__skparam__text, __skparam__substr, __skparam__newText)
+    __skparam__replacement = __skadapter__to_sklib_string(replacement)
+    __skreturn = sklib.__sklib__replace_all__string_ref__string_ref__string_ref(__skparam__text, __skparam__substr, __skparam__replacement)
     return __skadapter__to_string(__skreturn)
 def split ( text, delimiter ):
     __skparam__text = __skadapter__to_sklib_string(text)
