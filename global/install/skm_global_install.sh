@@ -5,6 +5,8 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
+PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
+
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo "Attempting to install the SplashKit C++ libraries to /usr/local/lib/splashkit"
@@ -23,15 +25,43 @@ if [ "$SK_OS" = "macos" ]; then
     LIB_FILE="${SKM_PATH}/lib/macos/libSplashKit.dylib"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
+
+    # macOS Python3 global install
+    if command -v python3 &> /dev/null; then
+        if command -v brew &> /dev/null; then
+            PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+        else
+            echo "Homebrew is not installed. Install homebrew and python3 using homebrew and run this script again"
+        fi
+    else
+        echo "Python is not installed. Install python3 using homebrew and run this script again."
+    fi
+
 elif [ "$SK_OS" = "linux" ]; then
     LIB_FILE="${SKM_PATH}/lib/linux/libSplashKit.so"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
+
+    # Linux/WSL Python3 global install
+    if command -v python3 &> /dev/null; then
+        PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
+    else
+        echo "Python is not installed. Install python3 and run this script again."
+    fi
+
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
     WIN_OUT_DIR="${WINDIR}/System32"
     LIB_DEST="/mingw64/lib"
     INC_DEST="/mingw64/include"
+
+    # Windows (mingw64) Python3 global install
+    if command -v python3 &> /dev/null; then
+        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+    else
+        echo "Python is not installed. Install python3 and run this script again."
+    fi
+
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -73,6 +103,14 @@ fi
 $PRIVILEGED cp "${APP_PATH}/splashkit.h" ${INC_DEST}
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit header to ${INC_DEST}"
+    exit 1
+fi
+
+# Copy splashkit python file to global location
+echo "Copying splashkit.py to "${PYTHON_LIB}""
+$PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
+if [ ! $? -eq 0 ]; then
+    echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
     exit 1
 fi
 
