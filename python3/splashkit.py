@@ -3,18 +3,44 @@ from enum import Enum
 from platform import system
 import os
 
+# default with no path
+lib_path = ""
+
 if system() == 'Darwin':
-  # macOS uses .dylib extension
-  cdll.LoadLibrary("/usr/local/lib/libSplashKit.dylib")
-  sklib = CDLL("/usr/local/lib/libSplashKit.dylib")
+    # macOS uses .dylib extension
+    file_extension = ".dylib"
+    file_name = "libSplashKit"
+    # find path to use -> ["global/path", "splashkit/path"]
+    paths = ["/usr/local/lib/", os.path.expanduser("~") + "/.splashkit/lib/macos/"]
+    for path in paths:
+        if (os.path.isdir(path)):
+            lib_path = path
+            break
 elif system() == 'Linux':
-  # Linux uses .so extension
-  cdll.LoadLibrary("libSplashKit.so")
-  sklib = CDLL("libSplashKit.so")
+    # Linux uses .so extension
+    file_extension = ".so"
+    file_name = "libSplashKit"
+    # using default lib_path for now
+    # # find path to use -> ["global/path", "splashkit/path"]
+    # paths = ["/usr/local/lib/", os.path.expanduser("~") + "/.splashkit/lib/macos/"]
+    # for path in paths:
+    #     if (os.path.isdir(path)):
+    #         lib_path = path
+    #         break
 else:
-  # Windows uses .dll extension:
-  cdll.LoadLibrary("C:\msys64\home\\" + os.getlogin() + "\.splashkit\lib\win64\SplashKit.dll")
-  sklib = CDLL("splashkit.dll")
+    # Windows uses .dll extension:
+    file_extension = ".dll"
+    file_name = "SplashKit"
+    # find path to use -> ["global/path", "splashkit/path"]
+    paths = ["C:/msys64/mingw64/lib/", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/"]
+    for path in paths:
+        if (os.path.isdir(path)):
+            lib_path = path
+            break
+
+# load the library
+cdll.LoadLibrary(lib_path + file_name + file_extension)
+sklib = CDLL(lib_path + file_name + file_extension)
 
 class _sklib_string(Structure):
     _fields_ = [
