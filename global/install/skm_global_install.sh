@@ -86,11 +86,19 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
 fi
 
 echo "Copying files to "${LIB_DEST}""
-
-$PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit library to $LIB_DEST"
-    exit 1
+# Copy all library files for mingw/msys2
+if [ "$SK_OS" = "win64" ]; then
+    $PRIVILEGED cp "${SKM_PATH}/lib/win64/"* "$LIB_DEST"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit library files to $LIB_DEST"
+        exit 1
+    fi
+else
+    $PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit library to $LIB_DEST"
+        exit 1
+    fi
 fi
 
 echo "Copying files to ${INC_DEST}/splashkit"
