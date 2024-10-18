@@ -1,19 +1,27 @@
 from ctypes import *
 from enum import Enum
 from platform import system
+import os
+
+search_paths = []
 
 if system() == 'Darwin':
-  # macOS uses .dylib extension
-  cdll.LoadLibrary("libSplashKit.dylib")
-  sklib = CDLL("libsplashkit.dylib")
+    # macOS uses .dylib extension
+    search_paths = ["/usr/local/lib/libSplashKit.dylib", os.path.expanduser("~") + "/.splashkit/lib/macos/libSplashKit.dylib"]
 elif system() == 'Linux':
-  # Linux uses .so extension
-  cdll.LoadLibrary("libSplashKit.so")
-  sklib = CDLL("libSplashKit.so")
+    # Linux uses .so extension
+    search_paths = ["/usr/local/lib/libSplashKit.so", os.path.expanduser("~") + "/.splashkit/lib/linux/libSplashKit.so"]
 else:
-  # Windows uses .dll extension:
-  cdll.LoadLibrary("libSplashKit.dll")
-  sklib = CDLL("libsplashkit.dll")
+    # Windows uses .dll extension
+    search_paths = ["C:/msys64/mingw64/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
+
+# find path to use -> format above is: ["global/path", ".splashkit/path"]
+for path in search_paths:
+    if (os.path.isfile(path)):
+        # load the library
+        cdll.LoadLibrary(path)
+        sklib = CDLL(path)
+        break
 
 class _sklib_string(Structure):
     _fields_ = [
@@ -1223,7 +1231,7 @@ def __skadapter__update_from_vector_bool(v, __skreturn):
 
     sklib.__sklib__free__sklib_vector_bool(v)
 def __skadapter__to_sklib_string(s):
-    return _sklib_string(s)
+    return _sklib_string(s.replace('\r',''))
 
 sklib.__sklib__free__sklib_string.argtypes = [ _sklib_string ]
 sklib.__sklib__free__sklib_string.restype = None
