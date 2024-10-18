@@ -3,44 +3,25 @@ from enum import Enum
 from platform import system
 import os
 
-# default with no path
-lib_path = ""
+search_paths = []
 
 if system() == 'Darwin':
     # macOS uses .dylib extension
-    file_extension = ".dylib"
-    file_name = "libSplashKit"
-    # find path to use -> ["global/path", "splashkit/path"]
-    paths = ["/usr/local/lib/", os.path.expanduser("~") + "/.splashkit/lib/macos/"]
-    for path in paths:
-        if (os.path.isdir(path)):
-            lib_path = path
-            break
+    search_paths = ["/usr/local/lib/libSplashKit.dylib", os.path.expanduser("~") + "/.splashkit/lib/macos/libSplashKit.dylib"]
 elif system() == 'Linux':
     # Linux uses .so extension
-    file_extension = ".so"
-    file_name = "libSplashKit"
-    # using default lib_path for now
-    # # find path to use -> ["global/path", "splashkit/path"]
-    # paths = ["/usr/local/lib/", os.path.expanduser("~") + "/.splashkit/lib/macos/"]
-    # for path in paths:
-    #     if (os.path.isdir(path)):
-    #         lib_path = path
-    #         break
+    search_paths = ["/usr/local/lib/libSplashKit.so", os.path.expanduser("~") + "/.splashkit/lib/linux/libSplashKit.so"]
 else:
-    # Windows uses .dll extension:
-    file_extension = ".dll"
-    file_name = "SplashKit"
-    # find path to use -> ["global/path", "splashkit/path"]
-    paths = ["C:/msys64/mingw64/lib/", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/"]
-    for path in paths:
-        if (os.path.isdir(path)):
-            lib_path = path
-            break
+    # Windows uses .dll extension
+    search_paths = ["C:/msys64/mingw64/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
 
-# load the library
-cdll.LoadLibrary(lib_path + file_name + file_extension)
-sklib = CDLL(lib_path + file_name + file_extension)
+# find path to use -> format above is: ["global/path", ".splashkit/path"]
+for path in search_paths:
+    if (os.path.isfile(path)):
+        # load the library
+        cdll.LoadLibrary(path)
+        sklib = CDLL(path)
+        break
 
 class _sklib_string(Structure):
     _fields_ = [
@@ -4119,11 +4100,11 @@ def length_of ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__length_of__string_ref(__skparam__text)
     return __skadapter__to_int(__skreturn)
-def replace_all ( text, substr, replacement ):
+def replace_all ( text, substr, newText ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skparam__substr = __skadapter__to_sklib_string(substr)
-    __skparam__replacement = __skadapter__to_sklib_string(replacement)
-    __skreturn = sklib.__sklib__replace_all__string_ref__string_ref__string_ref(__skparam__text, __skparam__substr, __skparam__replacement)
+    __skparam__newText = __skadapter__to_sklib_string(newtext)
+    __skreturn = sklib.__sklib__replace_all__string_ref__string_ref__string_ref(__skparam__text, __skparam__substr, __skparam__newText)
     return __skadapter__to_string(__skreturn)
 def split ( text, delimiter ):
     __skparam__text = __skadapter__to_sklib_string(text)
