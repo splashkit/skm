@@ -2,6 +2,12 @@
     <img width="150px" src="https://github.com/thoth-tech/.github/blob/main/images/splashkit.png"/>
 </p>
 
+![GitHub contributors](https://img.shields.io/github/contributors/splashkit/skm?label=Contributors&color=F5A623)
+![GitHub issues](https://img.shields.io/github/issues/splashkit/skm?label=Issues&color=F5A623)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/splashkit/skm?label=Pull%20Requests&color=F5A623)
+![Forks](https://img.shields.io/github/forks/splashkit/skm?label=Forks&color=F5A623)
+![Stars](https://img.shields.io/github/stars/splashkit/skm?label=Stars&color=F5A623)
+
 # SplashKit Manager (SKM)
 
 **SplashKit Manager** (SKM) is a command-line interface (CLI) and app tool designed for installing, managing, and building projects with the SplashKit SDK. With SKM, you can easily create, compile, and run SplashKit projects, making it a streamlined tool for beginners and experienced developers alike.
