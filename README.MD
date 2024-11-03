@@ -34,7 +34,7 @@ SKM is designed to simplify the process of creating, compiling, and running prog
 
 ## Installation
 
-For installation instructions, refer to the official SplashKit [Installation Guide](http://www.splashkit.io/articles/installation/).
+For installation instructions, refer to the official SplashKit [Installation Guide](https://splashkit.io/installation/).
 
 ## API Reference
 
