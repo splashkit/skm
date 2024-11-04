@@ -2,7 +2,7 @@
     <img width="150px" src="https://github.com/thoth-tech/.github/blob/main/images/splashkit.png"/>
 </p>
 
-### Splashkit Stats
+### [Splashkit](https://github.com/splashkit/skm) Stats
 
 [![GitHub contributors](https://img.shields.io/github/contributors/splashkit/skm?label=Contributors&color=F5A623)](https://github.com/splashkit/skm/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/splashkit/skm?label=Issues&color=F5A623)](https://github.com/splashkit/skm/issues)
@@ -10,7 +10,7 @@
 [![Forks](https://img.shields.io/github/forks/splashkit/skm?label=Forks&color=F5A623)](https://github.com/splashkit/skm/network/members)
 [![Stars](https://img.shields.io/github/stars/splashkit/skm?label=Stars&color=F5A623)](https://github.com/splashkit/skm/stargazers)
 
-### Thoth Tech Stats
+### [Thoth Tech](https://github.com/thoth-tech/skm) Stats
 
 [![GitHub contributors](https://img.shields.io/github/contributors/thoth-tech/skm?label=Contributors&color=F5A623)](https://github.com/thoth-tech/skm/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/thoth-tech/skm?label=Issues&color=F5A623)](https://github.com/thoth-tech/skm/issues)
