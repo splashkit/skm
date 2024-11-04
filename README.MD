@@ -2,6 +2,16 @@
     <img width="150px" src="https://github.com/thoth-tech/.github/blob/main/images/splashkit.png"/>
 </p>
 
+### Splashkit Stats
+
+![GitHub contributors](https://img.shields.io/github/contributors/splashkit/skm?label=Contributors&color=F5A623)
+![GitHub issues](https://img.shields.io/github/issues/splashkit/skm?label=Issues&color=F5A623)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/splashkit/skm?label=Pull%20Requests&color=F5A623)
+![Forks](https://img.shields.io/github/forks/splashkit/skm?label=Forks&color=F5A623)
+![Stars](https://img.shields.io/github/stars/splashkit/skm?label=Stars&color=F5A623)
+
+### Thoth Tech Stats
+
 ![GitHub contributors](https://img.shields.io/github/contributors/thoth-tech/skm?label=Contributors&color=F5A623)
 ![GitHub issues](https://img.shields.io/github/issues/thoth-tech/skm?label=Issues&color=F5A623)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/thoth-tech/skm?label=Pull%20Requests&color=F5A623)
