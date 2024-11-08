@@ -54,21 +54,25 @@ fi
 export PATH="$INSTALL_PATH:$PATH"
 
 if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
-    #Export to path -- for current terminal
-    export PATH="$HOME/.splashkit/lib/win64:$PATH"
-    export PATH="$HOME/.splashkit:$PATH"
+    # List of PATHS added in splashkit install
+    SK_PATHS=("`cd /mingw64/bin; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
+    
+    # Get Windows path and remove splashkit-added path elements
+    ORIGINAL_WIN_PATH=`powershell.exe -Command "[System.Environment]::GetEnvironmentVariable('PATH','User')"`
 
-    #Export path for new terminals
-    export ORIGINAL_PATH="$HOME/.splashkit/lib/win64:$ORIGINAL_PATH"
-    export ORIGINAL_PATH="$HOME/.splashkit:$ORIGINAL_PATH"
+    # Create string for splashKit paths
+    SK_PATHS_STR=""
+    for i in ${!SK_PATHS[@]}; do
+        SK_PATH="${SK_PATHS[$i]}"
+        SK_PATH="${SK_PATH////\\}"
+        SK_PATHS_STR+="$SK_PATH;"
+    done
 
-    #Export paths for mingw64 compilers
-    COMPILER_PATH="/mingw64/bin"
-    export PATH="$COMPILER_PATH:$PATH"
-    export ORIGINAL_PATH="$COMPILER_PATH:$ORIGINAL_PATH"
+    # Create string for new windows path with splashkit paths added
+    NEW_WIN_PATH="$SK_PATHS_STR$ORIGINAL_WIN_PATH"
 
-    # Set path
-    setx PATH "$ORIGINAL_PATH"
+    # Set updated Windows path
+    powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$NEW_WIN_PATH\",'User')"
 fi
 
 if [[ `uname` = Linux ]]; then
