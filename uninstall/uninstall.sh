@@ -141,6 +141,25 @@ if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
     fi
 fi
 
+# Remove splashkit paths from Windows User PATH if using Windows(MSYS2)
+if [ $SK_OS = "win64" ]; then
+    # List of PATHS added in splashkit install
+    SK_PATHS=("`cd /mingw64/bin; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
+
+    # Update paths in SK_PATHS to replace / with \
+    for i in ${!SK_PATHS[@]}; do
+        SK_PATH="${SK_PATHS[$i]}"
+        SK_PATH="${SK_PATH////\\}"
+        SK_PATHS[$i]=$SK_PATH
+    done
+
+    # Get Windows path and remove splashkit-added path elements
+    ORIGINAL_WIN_PATH=`powershell.exe -Command "([System.Environment]::GetEnvironmentVariable('PATH','User').Split(';') | Where-Object { (\\$_ -ne '${SK_PATHS[0]}' -and \\$_ -ne '${SK_PATHS[1]}' -and \\$_ -ne '${SK_PATHS[2]}') }) -join ';'"`
+
+    # Set updated Windows path
+    powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$ORIGINAL_WIN_PATH\",'User')"
+fi
+
 # Remove .splashkit folder
 echo "Removing .splashkit folder from "${INSTALL_PATH}""
 rm -rf ${INSTALL_PATH}
