@@ -8,11 +8,21 @@ else
 
     echo "OVERVIEW: run python3 with SplashKit settings"
     echo
-    echo "USAGE: skm python3 [options] [input]"
+    echo "USAGE: python3 [options] [input]"
     echo 
     echo "Runs python3 with the required SplashKit settings and any additional options and input files."
     echo
-    echo "Example usage:"
+    echo "Example usage (${bold}with global install${normal}):"
+    echo "    Run a 'program.py' file using"
+    echo "    ${bold}python3 program.py${normal}"
+    echo
+    echo "    Run an interactive python3 REPL"
+    echo "    ${bold}python3${normal}"
+    echo 
+    echo "    Output options for python3"
+    echo "    ${bold}python3 --help${normal}"
+    echo
+    echo "Example usage (${bold}without global install${normal}):"
     echo "    Run a 'program.py' file using"
     echo "    ${bold}skm python3 program.py${normal}"
     echo
@@ -21,5 +31,6 @@ else
     echo 
     echo "    Output options for python3"
     echo "    ${bold}skm python3 --help${normal}"
+
 fi
 
