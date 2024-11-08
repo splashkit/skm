@@ -18,14 +18,13 @@
 [![Forks](https://img.shields.io/github/forks/thoth-tech/skm?label=Forks&color=F5A623)](https://github.com/thoth-tech/skm/network/members)
 [![Stars](https://img.shields.io/github/stars/thoth-tech/skm?label=Stars&color=F5A623)](https://github.com/thoth-tech/skm/stargazers)
 
-
 # SplashKit Manager (SKM)
 
 **SplashKit Manager** (SKM) is a command-line interface (CLI) and app tool designed for installing, managing, and building projects with the SplashKit SDK. With SKM, you can easily create, compile, and run SplashKit projects, making it a streamlined tool for beginners and experienced developers alike.
 
 ## Usage Example
 
-To get started with a new SplashKit project, follow these steps:
+To start a new SplashKit project in C++, follow these steps:
 
 ```bash
 # Navigate to your projects directory
@@ -45,37 +44,59 @@ skm clang++ *.cpp -o HelloWorld
 ./HelloWorld
 ```
 
-## Motivation
+## Key Commands
 
-SKM is designed to simplify the process of creating, compiling, and running programs that use the SplashKit library, eliminating the need for manual configuration and setup. It makes SplashKit accessible for developers of all skill levels by automating common tasks.
+- **`skm install`**: Installs the latest version of SplashKit.
+- **`skm update`**: Checks for and installs the latest version of SplashKit if available.
+- **`skm help`**: Displays a list of available commands and their usage.
+- **`skm uninstall`**: Uninstalls SplashKit Manager.
 
-## Installation
+## Full Command List
 
-For installation instructions, refer to the official SplashKit [Installation Guide](https://splashkit.io/installation/).
+### Project Management and Setup
 
-## API Reference
+- **`skm new <language>`**: Initializes a new SplashKit project in the current directory for the specified language (e.g., `c++`, `python`).  
+  - *Note*: Use `skm dotnet new` for .NET projects.
 
-### Managing SplashKit Installation
+- **`skm resources`**: Creates the resources folders used by SplashKit for assets like images, sounds, etc.
 
-- **`skm install`**: Installs the latest version of SplashKit, making it available for project use.
-- **`skm update`**: Checks for updates and installs the latest version of SplashKit if a newer version is available.
+### Compilers and Environment-Specific Commands
 
-### Managing SplashKit Projects
+- **`skm clang++ <args>`**: Runs the clang++ (or g++) compiler with the specified arguments and SplashKit settings.  
+  - Example: `skm clang++ program.cpp -o HelloWorld` then `./HelloWorld`
+  
+- **`skm g++ <args>`**: Runs the g++ compiler with SplashKit-specific options and any additional arguments.
 
-- **`skm new <language>`**: Initializes the current directory as a new SplashKit project for the specified language (e.g., `c++`, `python`).
-    - **Note**: For `.NET` projects, use `skm dotnet new`, as `.NET Core` has its own project initialization process.
-- **`skm <compiler> <args>`**: Compiles the project by calling the associated compiler with SplashKit-specific options and any additional arguments provided.
+- **`skm fpc <args>`**: Runs the Free Pascal compiler with SplashKit-specific options.
 
-## Contributors
+- **`python3 <args>`**: Runs Python with SplashKit settings (SplashKit is installed globally for Python, so `skm` is not needed).  
+  - Example: `python3 program.py`
 
-- [Jake Renzella](https://github.com/jakerenzella)
-- Alex Cummaudo
-- [Andrew Cain](https://github.com/macite/)
+- **`skm dotnet <args>`**: Runs the .NET command line tool with SplashKit-specific settings.
+
+### Platform-Specific Commands
+
+- **`skm linux`**: Installs SplashKit for Linux distributions.
+  - Example: `skm linux install`
+
+- **`skm macos`**: Installs SplashKit for macOS.
+  - Example: `skm macos install`
+
+### Utility Commands
+
+- **`skm global`**: Sets up SplashKit for global installation, enabling it to work across multiple projects.
+
+- **`skm revert`**: Downgrades to an earlier version of SplashKit.
+
+- **`skm fix`**: Corrects path issues in SplashKit project files, resolving common setup issues.
+
+- **`skm help [command]`**: Displays usage information for `skm` commands.
+  - Examples: `skm help`, `skm help clang++` or `skm help python3`
+
+## Contributor Guide
+
+We welcome contributions to SplashKit Manager! Whether you're reporting an issue, suggesting new features, or submitting code, all contributions help improve SKM. To contribute, please open a pull request or start a discussion in the repository.
 
 ## License
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, modify, and/or distribute it for any purpose, with or without fee, provided that the above copyright notice and this permission notice appear in all copies.
-
-## Contributing
-
-We welcome contributions to help improve SplashKit Manager (SKM)! Whether you want to report an issue, suggest a new feature, or submit code changes, all contributions are appreciated. Feel free to open a pull request or start a discussion in the repository – together, we can make SKM better for everyone!
+This software is free to use, copy, modify, and distribute for any purpose, with or without fee. Please ensure the copyright notice and permission are included in all copies.
