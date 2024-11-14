@@ -2,6 +2,7 @@ from ctypes import *
 from enum import Enum
 from platform import system
 import os
+import sys
 
 search_paths = []
 
@@ -13,7 +14,7 @@ elif system() == 'Linux':
     search_paths = ["/usr/local/lib/libSplashKit.so", os.path.expanduser("~") + "/.splashkit/lib/linux/libSplashKit.so"]
 else:
     # Windows uses .dll extension
-    search_paths = ["C:/msys64/mingw64/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
+    search_paths = [sys.prefix + "/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
 
 # find path to use -> format above is: ["global/path", ".splashkit/path"]
 for path in search_paths:

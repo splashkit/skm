@@ -54,8 +54,18 @@ fi
 export PATH="$INSTALL_PATH:$PATH"
 
 if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
+    # Detect MSYS2 shell
+    SHELL_PATH=""
+    if [ "$MSYSTEM" = "MINGW64" ]; then
+        SHELL_PATH="/mingw64/bin"
+    elif [ "$MSYSTEM" = "CLANG64" ]; then
+        SHELL_PATH="/clang64/bin"
+    elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+        SHELL_PATH="/clangarm64/bin"
+    fi
+    
     # List of PATHS added in splashkit install
-    SK_PATHS=("`cd /mingw64/bin; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
+    SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
     
     # Get Windows path and remove splashkit-added path elements
     ORIGINAL_WIN_PATH=`powershell.exe -Command "[System.Environment]::GetEnvironmentVariable('PATH','User')"`
@@ -73,6 +83,9 @@ if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
 
     # Set updated Windows path
     powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$NEW_WIN_PATH\",'User')"
+
+    echo "Run the following to install the required pacman packages for splashkit:"
+    echo "${bold}skm windows install${normal}"
 fi
 
 if [[ `uname` = Linux ]]; then

@@ -44,16 +44,26 @@ elif [ "$SK_OS" = "linux" ]; then
         echo "For Python support: Please install python3, then run this script again."
     fi
 elif [ "$SK_OS" = "win64" ]; then
-    LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    WIN_OUT_DIR="${WINDIR}/System32"
-    LIB_DEST="/mingw64/lib"
-    INC_DEST="/mingw64/include"
+    # WIN_OUT_DIR="${WINDIR}/System32"
+    if [ "$MSYSTEM" = "MINGW64" ]; then
+        LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+        LIB_DEST="/mingw64/lib"
+        INC_DEST="/mingw64/include"
+    elif [ "$MSYSTEM" = "CLANG64" ]; then
+        LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+        LIB_DEST="/clang64/lib"
+        INC_DEST="/clang64/include"
+    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    #     LIB_DEST="/clangarm64/lib"
+    #     INC_DEST="/clangarm64/include"
+    fi
 
-    # Check if python3 installed on Windows (mingw64)
+    # Check if python3 installed on Windows
     if command -v python3 &> /dev/null; then
         HAS_PYTHON3=true
     else
-        echo "For Python support: Please install python3 using "pacman -S mingw-w64-x86_64-python", then run this script again."
+        echo "For Python support: Please install python3, then run this script again."
     fi
 else
     echo "Unable to detect operating system..."
@@ -73,8 +83,14 @@ if [ "$HAS_PYTHON3" = true ]; then
         # Linux/WSL Python3 global install path
         PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
     elif [ "$SK_OS" = "win64" ]; then
-        # Windows (mingw64) Python3 global install path
-        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        # Windows Python3 global install path
+        if [ "$MSYSTEM" = "MINGW64" ]; then
+            PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        elif [ "$MSYSTEM" = "CLANG64" ]; then
+            PYTHON_LIB="/clang64/lib/python${PYTHON_VERSION}"
+        # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+        #     PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
+        fi
     fi
 fi
 
@@ -143,9 +159,6 @@ if [ "$SK_OS" = "linux" ]; then
 elif [ "$SK_OS" = "macos" ]; then
     echo "Setting library location"
     sudo install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
-elif [ "$SK_OS" = "win64" ]; then
-    echo "Installing required dependencies"
-    pacman -S --needed --noconfirm --disable-download-timeout mingw-w64-x86_64-clang mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-civetweb
 fi
 
 echo "Testing install"
