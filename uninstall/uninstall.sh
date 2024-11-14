@@ -8,6 +8,8 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 SKM_PATH=`cd "$APP_PATH/.."; pwd`
 
+HAS_PYTHON3=false
+
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo "Attempting to uninstall SplashKit libraries"
@@ -20,8 +22,6 @@ else
     PRIVILEGED="sudo"
 fi
 
-PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
-
 # Get directories for each OS
 echo "Detecting operating system..."
 if [ "$SK_OS" = "macos" ]; then
@@ -29,32 +29,29 @@ if [ "$SK_OS" = "macos" ]; then
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
 
-    # macOS Python3 global install
+    # Check if python3 installed on macOS
     if command -v python3 &> /dev/null && command -v brew &> /dev/null; then
-        PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+        HAS_PYTHON3=true
     fi
-
 elif [ "$SK_OS" = "linux" ]; then
     LIB_FILE="/usr/local/lib/libSplashKit.so"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
 
-    # Linux/WSL Python3 global install
+    # Check if python3 installed on Linux/WSL
     if command -v python3 &> /dev/null; then
-        PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
+        HAS_PYTHON3=true
     fi
-
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="/mingw64/lib/SplashKit.dll"
     LIB_SRC="${SKM_PATH}/lib/win64"
     LIB_DEST="/mingw64/lib"
     INC_DEST="/mingw64/include"
 
-    # Windows (mingw64) Python3 global install
+    # Check if python3 installed on Windows (mingw64)
     if command -v python3 &> /dev/null; then
-        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        HAS_PYTHON3=true
     fi
-
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -102,13 +99,31 @@ if [ -f "${LIB_FILE}" ]; then
     fi
 fi
 
-# Remove splashkit python file from global location if python3 is installed
-if [ -f "${PYTHON_LIB}/splashkit.py" ]; then
-    echo "Removing splashkit.py to "${PYTHON_LIB}""
-    $PRIVILEGED rm -f "${PYTHON_LIB}/splashkit.py"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to remove splashkit.py from ${PYTHON_LIB}"
-        exit 1
+# Get python3 directory for each OS if installed
+if [ "$HAS_PYTHON3" = true ]; then
+    PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
+    
+    echo "Detecting python3 version to set global path"
+
+    if [ "$SK_OS" = "macos" ]; then
+        # macOS Python3 global install path
+        PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+    elif [ "$SK_OS" = "linux" ]; then
+        # Linux/WSL Python3 global install path
+        PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
+    elif [ "$SK_OS" = "win64" ]; then
+        # Windows (mingw64) Python3 global install path
+        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+    fi
+
+    # Remove splashkit python file from global location if python3 is installed
+    if [ -f "${PYTHON_LIB}/splashkit.py" ]; then
+        echo "Removing splashkit.py from "${PYTHON_LIB}""
+        $PRIVILEGED rm -f "${PYTHON_LIB}/splashkit.py"
+        if [ ! $? -eq 0 ]; then
+            echo "Failed to remove splashkit.py from ${PYTHON_LIB}"
+            exit 1
+        fi
     fi
 fi
 
