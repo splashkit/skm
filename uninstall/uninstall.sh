@@ -43,10 +43,20 @@ elif [ "$SK_OS" = "linux" ]; then
         HAS_PYTHON3=true
     fi
 elif [ "$SK_OS" = "win64" ]; then
-    LIB_FILE="/mingw64/lib/SplashKit.dll"
-    LIB_SRC="${SKM_PATH}/lib/win64"
-    LIB_DEST="/mingw64/lib"
-    INC_DEST="/mingw64/include"
+    # WIN_OUT_DIR="${WINDIR}/System32"
+    if [ "$MSYSTEM" = "MINGW64" ]; then
+        LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+        LIB_DEST="/mingw64/lib"
+        INC_DEST="/mingw64/include"
+    elif [ "$MSYSTEM" = "CLANG64" ]; then
+        LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+        LIB_DEST="/clang64/lib"
+        INC_DEST="/clang64/include"
+    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    #     LIB_DEST="/clangarm64/lib"
+    #     INC_DEST="/clangarm64/include"
+    fi
 
     # Check if python3 installed on Windows (mingw64)
     if command -v python3 &> /dev/null; then
@@ -79,23 +89,12 @@ fi
 
 # Remove splashkit library file
 if [ -f "${LIB_FILE}" ]; then
-    if [ "$SK_OS" = "win64" ]; then
-        # Remove all splashkit related library files for mingw/msys2
-        echo "Removing splashkit files from "${LIB_DEST}""
-        cd $LIB_SRC
-        find . -type f -exec rm -rf $LIB_DEST/{} \;
-        if [ ! $? -eq 0 ]; then
-            echo "Failed to remove SplashKit library files from $LIB_DEST"
-            exit 1
-        fi
-    else
-        # Remove splashkit library file on macos and linux
-        echo "Removing splashkit file from "${LIB_DEST}""
-        $PRIVILEGED rm -f "$LIB_FILE"
-        if [ ! $? -eq 0 ]; then
-            echo "Failed to remove SplashKit library from $LIB_DEST"
-            exit 1
-        fi
+    # Remove splashkit library file on macos and linux
+    echo "Removing splashkit file from "${LIB_DEST}""
+    $PRIVILEGED rm -f "$LIB_FILE"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to remove SplashKit library from $LIB_DEST"
+        exit 1
     fi
 fi
 
@@ -112,8 +111,14 @@ if [ "$HAS_PYTHON3" = true ]; then
         # Linux/WSL Python3 global install path
         PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
     elif [ "$SK_OS" = "win64" ]; then
-        # Windows (mingw64) Python3 global install path
-        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+       # Windows Python3 global install path
+        if [ "$MSYSTEM" = "MINGW64" ]; then
+            PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        elif [ "$MSYSTEM" = "CLANG64" ]; then
+            PYTHON_LIB="/clang64/lib/python${PYTHON_VERSION}"
+        # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+        #     PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
+        fi
     fi
 
     # Remove splashkit python file from global location if python3 is installed
@@ -158,8 +163,18 @@ fi
 
 # Remove splashkit paths from Windows User PATH if using Windows(MSYS2)
 if [ $SK_OS = "win64" ]; then
+    # Detect MSYS2 shell
+    SHELL_PATH=""
+    if [ "$MSYSTEM" = "MINGW64" ]; then
+        SHELL_PATH="/mingw64/bin"
+    elif [ "$MSYSTEM" = "CLANG64" ]; then
+        SHELL_PATH="/clang64/bin"
+    elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+        SHELL_PATH="/clangarm64/bin"
+    fi
+    
     # List of PATHS added in splashkit install
-    SK_PATHS=("`cd /mingw64/bin; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
+    SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
 
     # Update paths in SK_PATHS to replace / with \
     for i in ${!SK_PATHS[@]}; do
