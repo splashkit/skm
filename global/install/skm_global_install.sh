@@ -89,7 +89,7 @@ fi
 
 if [ "$SK_OS" = "linux" ]; then
     echo "Updating library config cache"
-    $PRIVILEGED ldconfig
+    $PRIVILEGED ldconfig /usr/local/lib
 elif [ "$SK_OS" = "macos" ]; then
     echo "Setting library location"
     sudo install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
