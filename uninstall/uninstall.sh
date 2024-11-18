@@ -98,6 +98,12 @@ if [ -f "${LIB_FILE}" ]; then
     fi
 fi
 
+# Remove conf file to link libraries added to /usr/local/lib directory
+if [ "$SK_OS" = "linux" ]; then
+    echo "Removing splashkit.conf file from /etc/ld.so.conf.d/"
+    $PRIVILEGED rm -f "/etc/ld.so.conf.d/splashkit.conf"
+fi
+
 # Get python3 directory for each OS if installed
 if [ "$HAS_PYTHON3" = true ]; then
     PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
