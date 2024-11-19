@@ -54,15 +54,18 @@ fi
 export PATH="$INSTALL_PATH:$PATH"
 
 if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
+    SHELL_PATH="/mingw64/bin"
+
+    # Section below commented out for further testing
     # Detect MSYS2 shell
-    SHELL_PATH=""
-    if [ "$MSYSTEM" = "MINGW64" ]; then
-        SHELL_PATH="/mingw64/bin"
-    elif [ "$MSYSTEM" = "CLANG64" ]; then
-        SHELL_PATH="/clang64/bin"
-    elif [ "$MSYSTEM" = "CLANGARM64" ]; then
-        SHELL_PATH="/clangarm64/bin"
-    fi
+    # SHELL_PATH=""
+    # if [ "$MSYSTEM" = "MINGW64" ]; then
+    #     SHELL_PATH="/mingw64/bin"
+    # elif [ "$MSYSTEM" = "CLANG64" ]; then
+    #     SHELL_PATH="/clang64/bin"
+    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+    #     SHELL_PATH="/clangarm64/bin"
+    # fi
     
     # List of PATHS added in splashkit install
     SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
