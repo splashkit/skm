@@ -21,5 +21,8 @@ else
     echo 
     echo "    Output options for python3"
     echo "    ${bold}skm python3 --help${normal}"
+    echo
+    echo "Note: If you have run ${bold}skm global install${normal}), you can run SplashKit python code with the regular python commands (without \"skm\")"
+
 fi
 

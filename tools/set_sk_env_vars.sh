@@ -7,9 +7,13 @@ if [ "`uname -o 2>>/dev/null`" = "Msys" ]; then
         exit 1
     elif [ "$MSYSTEM" = "MINGW64" ]; then
         export SK_OS="win64"
+    elif [ "$MSYSTEM" = "CLANG64" ]; then
+        export SK_OS="win64"
+    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+    #     export SK_OS="winARM"
     else
         echo "Unable to detect Windows version..."
-        echo "Please run in MinGW64 terminal"
+        # echo "Please run in MinGW64 terminal"
         exit 1
     fi
 elif [ `uname` = "Darwin" ]; then
