@@ -14,6 +14,8 @@
 
 ### [Thoth Tech](https://github.com/thoth-tech/skm) Stats
 
+Thoth Tech is a people-focused educational technology company dedicated to empowering students and educators through innovative tools. As a capstone company in Deakin University's capstone subjects, Thoth Tech provides real-world learning opportunities and contributes significantly to projects like SplashKit, enhancing its capabilities and resources.
+
 [![GitHub contributors](https://img.shields.io/github/contributors/thoth-tech/skm?label=Contributors&color=F5A623)](https://github.com/thoth-tech/skm/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/thoth-tech/skm?label=Issues&color=F5A623)](https://github.com/thoth-tech/skm/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/thoth-tech/skm?label=Pull%20Requests&color=F5A623)](https://github.com/thoth-tech/skm/pulls)
@@ -22,7 +24,7 @@
 
 **SplashKit Manager** (SKM) is a command-line interface (CLI) and app tool designed for installing, managing, and building projects with the SplashKit SDK. With SKM, you can easily create, compile, and run SplashKit projects, making it a streamlined tool for beginners and experienced developers alike.
 
-## Usage Example
+## Usage SplashKit
 
 To start a new SplashKit project in C++, follow these steps:
 
