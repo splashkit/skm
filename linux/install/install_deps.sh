@@ -33,7 +33,7 @@ detect_distro () {
 
 install_deps () {
   case $1 in
-	ARCH )
+	ARCH | MANJARO )
 	  echo Installing depencies with Arch Linux method
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
 	  echo   pacman -S --needed base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang
@@ -41,8 +41,10 @@ install_deps () {
 	  ;;
     DEBIAN | UBUNTU | KALI | RASPBIAN | LINUXMINT )
 	  echo Installing depencies with $1 method
-	  echo You are about to be prompt for your sudo password to install the dependencies using the following command:
+	  echo You are about to be prompt for your sudo password to install the dependencies using the following commands:
+	  echo   apt-get update
 	  echo   apt-get install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang
+	  sudo apt-get update
 	  sudo apt-get install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang
 	  ;;
 	FEDORA )

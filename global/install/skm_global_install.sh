@@ -5,6 +5,8 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
+HAS_PYTHON3=false
+
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo "Attempting to install the SplashKit C++ libraries to /usr/local/lib/splashkit"
@@ -28,10 +30,25 @@ elif [ "$SK_OS" = "linux" ]; then
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
 elif [ "$SK_OS" = "win64" ]; then
+    # WIN_OUT_DIR="${WINDIR}/System32"
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    WIN_OUT_DIR="${WINDIR}/System32"
     LIB_DEST="/mingw64/lib"
     INC_DEST="/mingw64/include"
+
+    # Section below commented out for further testing
+    # if [ "$MSYSTEM" = "MINGW64" ]; then
+    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    #     LIB_DEST="/mingw64/lib"
+    #     INC_DEST="/mingw64/include"
+    # elif [ "$MSYSTEM" = "CLANG64" ]; then
+    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    #     LIB_DEST="/clang64/lib"
+    #     INC_DEST="/clang64/include"
+    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    #     LIB_DEST="/clangarm64/lib"
+    #     INC_DEST="/clangarm64/include"
+    # fi
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -56,7 +73,6 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
 fi
 
 echo "Copying files to "${LIB_DEST}""
-
 $PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit library to $LIB_DEST"
@@ -76,6 +92,56 @@ if [ ! $? -eq 0 ]; then
     exit 1
 fi
 
+
+echo "Checking if python is installed..."
+
+# Check if python3 installed
+if command -v python3 &> /dev/null; then
+    # Check for brew python on macOS
+    if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null; then
+        HAS_PYTHON3=false
+        echo "For Python support: Please install python3 using brew (Homebrew), then run this script again."
+    else
+        HAS_PYTHON3=true
+    fi
+else
+    echo "For Python support: Please install python3, then run this script again."
+fi
+
+# Get python3 directory for each OS if installed
+if [ "$HAS_PYTHON3" = true ]; then
+    echo "Detecting python3 version to set global path.."
+    
+    PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
+
+    # Python3 global install path
+    if [ "$SK_OS" = "macos" ]; then
+        PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+    elif [ "$SK_OS" = "linux" ]; then
+        PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
+    elif [ "$SK_OS" = "win64" ]; then
+        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+
+        # Section below commented out for further testing
+        # if [ "$MSYSTEM" = "MINGW64" ]; then
+        #     PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        # elif [ "$MSYSTEM" = "CLANG64" ]; then
+        #     PYTHON_LIB="/clang64/lib/python${PYTHON_VERSION}"
+        # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
+        #     PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
+        # fi
+    fi
+
+    # Copy splashkit python file to global location
+    echo "Copying splashkit.py to "${PYTHON_LIB}""
+
+    $PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
+        exit 1
+    fi
+fi
+
 # We cant install but it should be on the path anyway...
 #
 # # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
@@ -89,6 +155,10 @@ fi
 
 if [ "$SK_OS" = "linux" ]; then
     echo "Updating library config cache"
+    # Add /usr/local/lib to ld search paths using conf file
+    touch "${SKM_PATH}/linux/splashkit.conf"
+    echo "/usr/local/lib" >> "${SKM_PATH}/linux/splashkit.conf"
+    $PRIVILEGED mv "${SKM_PATH}/linux/splashkit.conf /etc/ld.so.conf.d/splashkit.conf"
     $PRIVILEGED ldconfig
 elif [ "$SK_OS" = "macos" ]; then
     echo "Setting library location"
