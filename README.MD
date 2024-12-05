@@ -1,10 +1,10 @@
 # SplashKit Manager (SKM)
 
-<p align="left">
-    <img width="150px" src="https://github.com/thoth-tech/.github/blob/main/images/splashkit.png"/>
-</p>
+<img width="150px" align="right" src="https://github.com/thoth-tech/.github/blob/main/images/splashkit.png" alt="SplashKit Logo"/>
 
-### [Splashkit](https://github.com/splashkit/skm) Stats
+**SplashKit Manager** (SKM) is a command-line interface (CLI) and app tool designed for installing, managing, and building projects with the SplashKit SDK. With SKM, you can easily create, compile, and run SplashKit projects, making it a streamlined tool for beginners and experienced developers alike.
+
+[splashkit/skm](https://github.com/splashkit/skm)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/splashkit/skm?label=Contributors&color=F5A623)](https://github.com/splashkit/skm/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/splashkit/skm?label=Issues&color=F5A623)](https://github.com/splashkit/skm/issues)
@@ -12,9 +12,7 @@
 [![Forks](https://img.shields.io/github/forks/splashkit/skm?label=Forks&color=F5A623)](https://github.com/splashkit/skm/network/members)
 [![Stars](https://img.shields.io/github/stars/splashkit/skm?label=Stars&color=F5A623)](https://github.com/splashkit/skm/stargazers)
 
-### [Thoth Tech](https://github.com/thoth-tech/skm) Stats
-
-Thoth Tech is a people-focused educational technology company dedicated to empowering students and educators through innovative tools. As a capstone company in Deakin University's capstone subjects, Thoth Tech provides real-world learning opportunities and contributes significantly to projects like SplashKit, enhancing its capabilities and resources.
+[thoth-tech/skm](https://github.com/thoth-tech/skm)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/thoth-tech/skm?label=Contributors&color=F5A623)](https://github.com/thoth-tech/skm/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/thoth-tech/skm?label=Issues&color=F5A623)](https://github.com/thoth-tech/skm/issues)
@@ -22,7 +20,9 @@ Thoth Tech is a people-focused educational technology company dedicated to empow
 [![Forks](https://img.shields.io/github/forks/thoth-tech/skm?label=Forks&color=F5A623)](https://github.com/thoth-tech/skm/network/members)
 [![Stars](https://img.shields.io/github/stars/thoth-tech/skm?label=Stars&color=F5A623)](https://github.com/thoth-tech/skm/stargazers)
 
-**SplashKit Manager** (SKM) is a command-line interface (CLI) and app tool designed for installing, managing, and building projects with the SplashKit SDK. With SKM, you can easily create, compile, and run SplashKit projects, making it a streamlined tool for beginners and experienced developers alike.
+**\* SplashKit Development in Thoth Tech**
+
+Thoth Tech is a people-focused educational technology company within Deakin University's capstone program which provides real-world learning opportunities and allows students to contribute significantly to projects like SplashKit, enhancing its capabilities and resources.
 
 ## Usage SplashKit
 
