@@ -6,7 +6,7 @@ use std::{
     mem::{forget, zeroed, MaybeUninit},
     os::raw::{c_char, c_int},
     ptr::{null_mut},
-    sync::{OnceLock},
+    cell::{RefCell},
 };
 
 type __sklib_ptr = *mut c_void;
@@ -15,70 +15,172 @@ type __sklib_ptr = *mut c_void;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum KeyCode {
     UnknownKey = 0,    BackspaceKey = 8,    TabKey = 9,    ClearKey = 12,    ReturnKey = 13,    PauseKey = 19,    EscapeKey = 27,    SpaceKey = 32,    ExclaimKey = 33,    DoubleQuoteKey = 34,    HashKey = 35,    DollarKey = 36,    AmpersandKey = 38,    QuoteKey = 39,    LeftParenKey = 40,    RightParenKey = 41,    AsteriskKey = 42,    PlusKey = 43,    CommaKey = 44,    MinusKey = 45,    PeriodKey = 46,    SlashKey = 47,    Num0Key = 48,    Num1Key = 49,    Num2Key = 50,    Num3Key = 51,    Num4Key = 52,    Num5Key = 53,    Num6Key = 54,    Num7Key = 55,    Num8Key = 56,    Num9Key = 57,    ColonKey = 58,    SemiColonKey = 59,    LessKey = 60,    EqualsKey = 61,    GreaterKey = 62,    QuestionKey = 63,    AtKey = 64,    LeftBracketKey = 91,    BackslashKey = 92,    RightBracketKey = 93,    CaretKey = 94,    UnderscoreKey = 95,    BackquoteKey = 96,    AKey = 97,    BKey = 98,    CKey = 99,    DKey = 100,    EKey = 101,    FKey = 102,    GKey = 103,    HKey = 104,    IKey = 105,    JKey = 106,    KKey = 107,    LKey = 108,    MKey = 109,    NKey = 110,    OKey = 111,    PKey = 112,    QKey = 113,    RKey = 114,    SKey = 115,    TKey = 116,    UKey = 117,    VKey = 118,    WKey = 119,    XKey = 120,    YKey = 121,    ZKey = 122,    DeleteKey = 127,    Keypad0 = 256,    Keypad1 = 257,    Keypad2 = 258,    Keypad3 = 259,    Keypad4 = 260,    Keypad5 = 261,    Keypad6 = 262,    Keypad7 = 263,    Keypad8 = 264,    Keypad9 = 265,    KeypadPeriod = 266,    KeypadDivide = 267,    KeypadMultiply = 268,    KeypadMinus = 269,    KeypadPlus = 270,    KeypadEnter = 271,    KeypadEquals = 272,    UpKey = 273,    DownKey = 274,    RightKey = 275,    LeftKey = 276,    InsertKey = 277,    HomeKey = 278,    EndKey = 279,    PageUpKey = 280,    PageDownKey = 281,    F1Key = 282,    F2Key = 283,    F3Key = 284,    F4Key = 285,    F5Key = 286,    F6Key = 287,    F7Key = 288,    F8Key = 289,    F9Key = 290,    F10Key = 291,    F11Key = 292,    F12Key = 293,    F13Key = 294,    F14Key = 295,    F15Key = 296,    NumLockKey = 300,    CapsLockKey = 301,    ScrollLockKey = 302,    RightShiftKey = 303,    LeftShiftKey = 304,    RightCtrlKey = 305,    LeftCtrlKey = 306,    RightAltKey = 307,    LeftAltKey = 308,    LeftSuperKey = 311,    RightSuperKey = 312,    ModeKey = 313,    HelpKey = 315,    SysReqKey = 317,    MenuKey = 319,    PowerKey = 320,}
+
+impl From<i32> for KeyCode {
+    fn from(v: i32) -> Self {
+        __skadapter__to_key_code(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum LogLevel {
     None,    Info,    Debug,    Warning,    Error,    Fatal,}
+
+impl From<i32> for LogLevel {
+    fn from(v: i32) -> Self {
+        __skadapter__to_log_level(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum LogMode {
     LogNone,    LogConsole,    LogFileOnly,    LogConsoleAndFile,}
+
+impl From<i32> for LogMode {
+    fn from(v: i32) -> Self {
+        __skadapter__to_log_mode(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MouseButton {
     NoButton,    LeftButton,    MiddleButton,    RightButton,    MouseX1Button,    MouseX2Button,}
+
+impl From<i32> for MouseButton {
+    fn from(v: i32) -> Self {
+        __skadapter__to_mouse_button(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ConnectionType {
     TCP,    UDP,    Unknown,}
+
+impl From<i32> for ConnectionType {
+    fn from(v: i32) -> Self {
+        __skadapter__to_connection_type(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ResourceKind {
     AnimationResource,    BundleResource,    FontResource,    ImageResource,    JsonResource,    MusicResource,    ServerResource,    SoundResource,    TimerResource,    OtherResource,}
+
+impl From<i32> for ResourceKind {
+    fn from(v: i32) -> Self {
+        __skadapter__to_resource_kind(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum CollisionTestKind {
     PixelCollisions,    AabbCollisions,}
+
+impl From<i32> for CollisionTestKind {
+    fn from(v: i32) -> Self {
+        __skadapter__to_collision_test_kind(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SpriteEventKind {
     SpriteArrivedEvent,    SpriteAnimationEndedEvent,    SpriteTouchedEvent,    SpriteClickedEvent,}
+
+impl From<i32> for SpriteEventKind {
+    fn from(v: i32) -> Self {
+        __skadapter__to_sprite_event_kind(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum DrawingDest {
     DrawToScreen,    DrawToWorld,    DrawDefault,}
+
+impl From<i32> for DrawingDest {
+    fn from(v: i32) -> Self {
+        __skadapter__to_drawing_dest(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum FontStyle {
     NormalFont = 0,    BoldFont = 1,    ItalicFont = 2,    UnderlineFont = 4,}
+
+impl From<i32> for FontStyle {
+    fn from(v: i32) -> Self {
+        __skadapter__to_font_style(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum HttpStatusCode {
     HttpStatusOk = 200,    HttpStatusCreated = 201,    HttpStatusNoContent = 204,    HttpStatusMovedPermanently = 301,    HttpStatusFound = 302,    HttpStatusSeeOther = 303,    HttpStatusBadRequest = 400,    HttpStatusUnauthorized = 401,    HttpStatusForbidden = 403,    HttpStatusNotFound = 404,    HttpStatusMethodNotAllowed = 405,    HttpStatusRequestTimeout = 408,    HttpStatusConflict = 409,    HttpStatusInternalServerError = 500,    HttpStatusNotImplemented = 501,    HttpStatusServiceUnavailable = 503,}
+
+impl From<i32> for HttpStatusCode {
+    fn from(v: i32) -> Self {
+        __skadapter__to_http_status_code(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum InterfaceStyle {
     FlatDarkStyle = 0,    ShadedDarkStyle = 1,    FlatLightStyle = 2,    ShadedLightStyle = 3,    Bubble = 4,    BubbleMulticolored = 5,}
+
+impl From<i32> for InterfaceStyle {
+    fn from(v: i32) -> Self {
+        __skadapter__to_interface_style(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum PinModes {
     GpioInput = 0,    GpioOutput = 1,    GpioAlt0 = 4,    GpioAlt1 = 5,    GpioAlt2 = 6,    GpioAlt3 = 7,    GpioAlt4 = 3,    GpioAlt5 = 2,}
+
+impl From<i32> for PinModes {
+    fn from(v: i32) -> Self {
+        __skadapter__to_pin_modes(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum PinValues {
     GpioLow = 0,    GpioHigh = 1,}
+
+impl From<i32> for PinValues {
+    fn from(v: i32) -> Self {
+        __skadapter__to_pin_values(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Pins {
     Pin1 = 1,    Pin2 = 2,    Pin3 = 3,    Pin4 = 4,    Pin5 = 5,    Pin6 = 6,    Pin7 = 7,    Pin8 = 8,    Pin9 = 9,    Pin10 = 10,    Pin11 = 11,    Pin12 = 12,    Pin13 = 13,    Pin14 = 14,    Pin15 = 15,    Pin16 = 16,    Pin17 = 17,    Pin18 = 18,    Pin19 = 19,    Pin20 = 20,    Pin21 = 21,    Pin22 = 22,    Pin23 = 23,    Pin24 = 24,    Pin25 = 25,    Pin26 = 26,    Pin27 = 27,    Pin28 = 28,    Pin29 = 29,    Pin30 = 30,    Pin31 = 31,    Pin32 = 32,    Pin33 = 33,    Pin34 = 34,    Pin35 = 35,    Pin36 = 36,    Pin37 = 37,    Pin38 = 38,    Pin39 = 39,    Pin40 = 40,}
+
+impl From<i32> for Pins {
+    fn from(v: i32) -> Self {
+        __skadapter__to_pins(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum PullUpDown {
     PudOff = 0,    PudDown = 1,    PudUp = 2,}
+
+impl From<i32> for PullUpDown {
+    fn from(v: i32) -> Self {
+        __skadapter__to_pull_up_down(v)
+    }
+}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum HttpMethod {
     HttpGetMethod,    HttpPostMethod,    HttpPutMethod,    HttpDeleteMethod,    HttpOptionsMethod,    HttpTraceMethod,    UnknownHttpMethod,}
+
+impl From<i32> for HttpMethod {
+    fn from(v: i32) -> Self {
+        __skadapter__to_http_method(v)
+    }
+}
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 pub struct __sklib_matrix_2d {
@@ -415,153 +517,16 @@ impl Vector2D {
         *self == Self::default()
     }
 }
-pub type KeyCallback = extern "C" fn(i32) -> ();
-pub type FreeNotifier = extern "C" fn(__sklib_ptr) -> ();
-pub type SpriteEventHandler = extern "C" fn(__sklib_ptr, i32) -> ();
-pub type SpriteFloatFunction = extern "C" fn(__sklib_ptr, f32) -> ();
-pub type SpriteFunction = extern "C" fn(__sklib_ptr) -> ();
-
-static KEYCALLBACK_WRAPPER: OnceLock<Box<dyn Fn(i32) -> () + Send + Sync>> = OnceLock::new();
-
-pub struct KeyCallbackWrapper {
-    callback: Box<dyn Fn(i32) -> () + Send + Sync>
-}
-
-impl KeyCallbackWrapper {
-    pub fn new<F>(callback: F) -> KeyCallback    where
-        F: Fn(i32) -> () + Send + Sync + 'static
-    {
-        let boxed_callback = Box::new(callback);
-        KEYCALLBACK_WRAPPER.get_or_init(|| boxed_callback);
-        
-        extern "C" fn wrapper_fn(
-            code: i32,
-        ) -> () {
-             if let Some(callback) = KEYCALLBACK_WRAPPER.get() {
-                callback(
-                    __skadapter__to_int(code))
-            } else {
-                Default::default()
-            }
-        }
-        wrapper_fn
-    }
-}
-
-
-static FREENOTIFIER_WRAPPER: OnceLock<Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>> = OnceLock::new();
-
-pub struct FreeNotifierWrapper {
-    callback: Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>
-}
-
-impl FreeNotifierWrapper {
-    pub fn new<F>(callback: F) -> FreeNotifier    where
-        F: Fn(__sklib_ptr) -> () + Send + Sync + 'static
-    {
-        let boxed_callback = Box::new(callback);
-        FREENOTIFIER_WRAPPER.get_or_init(|| boxed_callback);
-        
-        extern "C" fn wrapper_fn(
-            pointer: __sklib_ptr,
-        ) -> () {
-             if let Some(callback) = FREENOTIFIER_WRAPPER.get() {
-                callback(
-                    pointer)
-            } else {
-                Default::default()
-            }
-        }
-        wrapper_fn
-    }
-}
-
-
-static SPRITEEVENTHANDLER_WRAPPER: OnceLock<Box<dyn Fn(__sklib_ptr, i32) -> () + Send + Sync>> = OnceLock::new();
-
-pub struct SpriteEventHandlerWrapper {
-    callback: Box<dyn Fn(__sklib_ptr, i32) -> () + Send + Sync>
-}
-
-impl SpriteEventHandlerWrapper {
-    pub fn new<F>(callback: F) -> SpriteEventHandler    where
-        F: Fn(__sklib_ptr, i32) -> () + Send + Sync + 'static
-    {
-        let boxed_callback = Box::new(callback);
-        SPRITEEVENTHANDLER_WRAPPER.get_or_init(|| boxed_callback);
-        
-        extern "C" fn wrapper_fn(
-            s: __sklib_ptr,
-            evt: i32,
-        ) -> () {
-             if let Some(callback) = SPRITEEVENTHANDLER_WRAPPER.get() {
-                callback(
-                    s,                    __skadapter__to_int(evt))
-            } else {
-                Default::default()
-            }
-        }
-        wrapper_fn
-    }
-}
-
-
-static SPRITEFLOATFUNCTION_WRAPPER: OnceLock<Box<dyn Fn(__sklib_ptr, f32) -> () + Send + Sync>> = OnceLock::new();
-
-pub struct SpriteFloatFunctionWrapper {
-    callback: Box<dyn Fn(__sklib_ptr, f32) -> () + Send + Sync>
-}
-
-impl SpriteFloatFunctionWrapper {
-    pub fn new<F>(callback: F) -> SpriteFloatFunction    where
-        F: Fn(__sklib_ptr, f32) -> () + Send + Sync + 'static
-    {
-        let boxed_callback = Box::new(callback);
-        SPRITEFLOATFUNCTION_WRAPPER.get_or_init(|| boxed_callback);
-        
-        extern "C" fn wrapper_fn(
-            s: __sklib_ptr,
-            f: f32,
-        ) -> () {
-             if let Some(callback) = SPRITEFLOATFUNCTION_WRAPPER.get() {
-                callback(
-                    s,                    __skadapter__to_float(f))
-            } else {
-                Default::default()
-            }
-        }
-        wrapper_fn
-    }
-}
-
-
-static SPRITEFUNCTION_WRAPPER: OnceLock<Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>> = OnceLock::new();
-
-pub struct SpriteFunctionWrapper {
-    callback: Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>
-}
-
-impl SpriteFunctionWrapper {
-    pub fn new<F>(callback: F) -> SpriteFunction    where
-        F: Fn(__sklib_ptr) -> () + Send + Sync + 'static
-    {
-        let boxed_callback = Box::new(callback);
-        SPRITEFUNCTION_WRAPPER.get_or_init(|| boxed_callback);
-        
-        extern "C" fn wrapper_fn(
-            s: __sklib_ptr,
-        ) -> () {
-             if let Some(callback) = SPRITEFUNCTION_WRAPPER.get() {
-                callback(
-                    s)
-            } else {
-                Default::default()
-            }
-        }
-        wrapper_fn
-    }
-}
-
+pub type KeyCallback = Box<dyn Fn(i32) -> () + Send + Sync>;
+pub type __sklib_key_callback = extern "C" fn(i32) -> ();
+pub type FreeNotifier = Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>;
+pub type __sklib_free_notifier = extern "C" fn(__sklib_ptr) -> ();
+pub type SpriteEventHandler = Box<dyn Fn(__sklib_ptr, i32) -> () + Send + Sync>;
+pub type __sklib_sprite_event_handler = extern "C" fn(__sklib_ptr, i32) -> ();
+pub type SpriteFloatFunction = Box<dyn Fn(__sklib_ptr, f32) -> () + Send + Sync>;
+pub type __sklib_sprite_float_function = extern "C" fn(__sklib_ptr, f32) -> ();
+pub type SpriteFunction = Box<dyn Fn(__sklib_ptr) -> () + Send + Sync>;
+pub type __sklib_sprite_function = extern "C" fn(__sklib_ptr) -> ();
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Json {
     ptr: __sklib_ptr,
@@ -3446,15 +3411,15 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__deregister_callback_on_key_down__key_callback_ptr"]
-    fn __sklib__deregister_callback_on_key_down__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__deregister_callback_on_key_down__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__deregister_callback_on_key_typed__key_callback_ptr"]
-    fn __sklib__deregister_callback_on_key_typed__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__deregister_callback_on_key_typed__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__deregister_callback_on_key_up__key_callback_ptr"]
-    fn __sklib__deregister_callback_on_key_up__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__deregister_callback_on_key_up__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__key_down__key_code"]
@@ -3483,15 +3448,15 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__register_callback_on_key_down__key_callback_ptr"]
-    fn __sklib__register_callback_on_key_down__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__register_callback_on_key_down__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__register_callback_on_key_typed__key_callback_ptr"]
-    fn __sklib__register_callback_on_key_typed__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__register_callback_on_key_typed__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__register_callback_on_key_up__key_callback_ptr"]
-    fn __sklib__register_callback_on_key_up__key_callback_ptr(callback: KeyCallback);
+    fn __sklib__register_callback_on_key_up__key_callback_ptr(callback: __sklib_key_callback);
 }
 extern "C" {
     #[link_name = "__sklib__draw_line__color__line_ref"]
@@ -4808,7 +4773,7 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__deregister_free_notifier__free_notifier_ptr"]
-    fn __sklib__deregister_free_notifier__free_notifier_ptr(handler: FreeNotifier);
+    fn __sklib__deregister_free_notifier__free_notifier_ptr(handler: __sklib_free_notifier);
 }
 extern "C" {
     #[link_name = "__sklib__path_to_resource__string_ref__resource_kind"]
@@ -4827,7 +4792,7 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__register_free_notifier__free_notifier_ptr"]
-    fn __sklib__register_free_notifier__free_notifier_ptr(r#fn: FreeNotifier);
+    fn __sklib__register_free_notifier__free_notifier_ptr(r#fn: __sklib_free_notifier);
 }
 extern "C" {
     #[link_name = "__sklib__set_resources_path__string_ref"]
@@ -4931,15 +4896,15 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__call_for_all_sprites__sprite_float_function_ptr__float"]
-    fn __sklib__call_for_all_sprites__sprite_float_function_ptr__float(r#fn: SpriteFloatFunction, val: f32);
+    fn __sklib__call_for_all_sprites__sprite_float_function_ptr__float(r#fn: __sklib_sprite_float_function, val: f32);
 }
 extern "C" {
     #[link_name = "__sklib__call_for_all_sprites__sprite_function_ptr"]
-    fn __sklib__call_for_all_sprites__sprite_function_ptr(r#fn: SpriteFunction);
+    fn __sklib__call_for_all_sprites__sprite_function_ptr(r#fn: __sklib_sprite_function);
 }
 extern "C" {
     #[link_name = "__sklib__call_on_sprite_event__sprite_event_handler_ptr"]
-    fn __sklib__call_on_sprite_event__sprite_event_handler_ptr(handler: SpriteEventHandler);
+    fn __sklib__call_on_sprite_event__sprite_event_handler_ptr(handler: __sklib_sprite_event_handler);
 }
 extern "C" {
     #[link_name = "__sklib__center_point__sprite"]
@@ -5099,7 +5064,7 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__sprite_call_on_event__sprite__sprite_event_handler_ptr"]
-    fn __sklib__sprite_call_on_event__sprite__sprite_event_handler_ptr(s: __sklib_ptr, handler: SpriteEventHandler);
+    fn __sklib__sprite_call_on_event__sprite__sprite_event_handler_ptr(s: __sklib_ptr, handler: __sklib_sprite_event_handler);
 }
 extern "C" {
     #[link_name = "__sklib__sprite_circle__sprite"]
@@ -5429,7 +5394,7 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__sprite_stop_calling_on_event__sprite__sprite_event_handler_ptr"]
-    fn __sklib__sprite_stop_calling_on_event__sprite__sprite_event_handler_ptr(s: __sklib_ptr, handler: SpriteEventHandler);
+    fn __sklib__sprite_stop_calling_on_event__sprite__sprite_event_handler_ptr(s: __sklib_ptr, handler: __sklib_sprite_event_handler);
 }
 extern "C" {
     #[link_name = "__sklib__sprite_toggle_layer_visible__sprite__string_ref"]
@@ -5496,7 +5461,7 @@ extern "C" {
 }
 extern "C" {
     #[link_name = "__sklib__stop_calling_on_sprite_event__sprite_event_handler_ptr"]
-    fn __sklib__stop_calling_on_sprite_event__sprite_event_handler_ptr(handler: SpriteEventHandler);
+    fn __sklib__stop_calling_on_sprite_event__sprite_event_handler_ptr(handler: __sklib_sprite_event_handler);
 }
 extern "C" {
     #[link_name = "__sklib__update_all_sprites"]
@@ -7330,15 +7295,15 @@ pub(crate) fn __skadapter__to_vector_2d(v: __sklib_vector_2d) -> Vector2D {
 #[repr(C)]
 pub(crate) struct __sklib_vector_string {
     data_from_app: *mut __sklib_string,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut __sklib_string,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_string {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7358,16 +7323,16 @@ pub(crate) fn __skadapter__free__sklib_vector_string(v: &mut __sklib_vector_stri
     if !v.data_from_app.is_null() {
         unsafe {
             for i in 0..v.size_from_app {
-                __skadapter__free__sklib_string(*v.data_from_app.add(i));
+                __skadapter__free__sklib_string(*v.data_from_app.add(i as usize));
             }
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_string(v: Vec<String>) -> __sklib_vector_string {
-    let result = __sklib_vector_string::new(v.len());
+    let result = __sklib_vector_string::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_string(item.clone());
@@ -7377,10 +7342,10 @@ pub(crate) fn __skadapter__to_sklib_vector_string(v: Vec<String>) -> __sklib_vec
 }
 
 pub(crate) fn __skadapter__to_vector_string(v: __sklib_vector_string) -> Vec<String> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_string(item));
         }
         __sklib__free__sklib_vector_string(v);
@@ -7392,7 +7357,7 @@ pub(crate) fn __skadapter__update_from_vector_string(v: __sklib_vector_string, r
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_string(item));
         }
         __sklib__free__sklib_vector_string(v);
@@ -7401,15 +7366,15 @@ pub(crate) fn __skadapter__update_from_vector_string(v: __sklib_vector_string, r
 #[repr(C)]
 pub(crate) struct __sklib_vector_line {
     data_from_app: *mut __sklib_line,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut __sklib_line,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_line {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7428,14 +7393,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_line(v: &mut __sklib_vector_line) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_line(v: Vec<Line>) -> __sklib_vector_line {
-    let result = __sklib_vector_line::new(v.len());
+    let result = __sklib_vector_line::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_line(item.clone());
@@ -7445,10 +7410,10 @@ pub(crate) fn __skadapter__to_sklib_vector_line(v: Vec<Line>) -> __sklib_vector_
 }
 
 pub(crate) fn __skadapter__to_vector_line(v: __sklib_vector_line) -> Vec<Line> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_line(item));
         }
         __sklib__free__sklib_vector_line(v);
@@ -7460,7 +7425,7 @@ pub(crate) fn __skadapter__update_from_vector_line(v: __sklib_vector_line, resul
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_line(item));
         }
         __sklib__free__sklib_vector_line(v);
@@ -7469,15 +7434,15 @@ pub(crate) fn __skadapter__update_from_vector_line(v: __sklib_vector_line, resul
 #[repr(C)]
 pub(crate) struct __sklib_vector_int8_t {
     data_from_app: *mut i8,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut i8,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_int8_t {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7496,14 +7461,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_int8_t(v: &mut __sklib_vector_int8_t) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_int8_t(v: Vec<i8>) -> __sklib_vector_int8_t {
-    let result = __sklib_vector_int8_t::new(v.len());
+    let result = __sklib_vector_int8_t::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_int8_t(item.clone());
@@ -7513,10 +7478,10 @@ pub(crate) fn __skadapter__to_sklib_vector_int8_t(v: Vec<i8>) -> __sklib_vector_
 }
 
 pub(crate) fn __skadapter__to_vector_int8_t(v: __sklib_vector_int8_t) -> Vec<i8> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_int8_t(item));
         }
         __sklib__free__sklib_vector_int8_t(v);
@@ -7528,7 +7493,7 @@ pub(crate) fn __skadapter__update_from_vector_int8_t(v: __sklib_vector_int8_t, r
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_int8_t(item));
         }
         __sklib__free__sklib_vector_int8_t(v);
@@ -7537,15 +7502,15 @@ pub(crate) fn __skadapter__update_from_vector_int8_t(v: __sklib_vector_int8_t, r
 #[repr(C)]
 pub(crate) struct __sklib_vector_triangle {
     data_from_app: *mut __sklib_triangle,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut __sklib_triangle,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_triangle {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7564,14 +7529,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_triangle(v: &mut __sklib_vector_triangle) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_triangle(v: Vec<Triangle>) -> __sklib_vector_triangle {
-    let result = __sklib_vector_triangle::new(v.len());
+    let result = __sklib_vector_triangle::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_triangle(item.clone());
@@ -7581,10 +7546,10 @@ pub(crate) fn __skadapter__to_sklib_vector_triangle(v: Vec<Triangle>) -> __sklib
 }
 
 pub(crate) fn __skadapter__to_vector_triangle(v: __sklib_vector_triangle) -> Vec<Triangle> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_triangle(item));
         }
         __sklib__free__sklib_vector_triangle(v);
@@ -7596,7 +7561,7 @@ pub(crate) fn __skadapter__update_from_vector_triangle(v: __sklib_vector_triangl
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_triangle(item));
         }
         __sklib__free__sklib_vector_triangle(v);
@@ -7605,15 +7570,15 @@ pub(crate) fn __skadapter__update_from_vector_triangle(v: __sklib_vector_triangl
 #[repr(C)]
 pub(crate) struct __sklib_vector_double {
     data_from_app: *mut f64,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut f64,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_double {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7632,14 +7597,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_double(v: &mut __sklib_vector_double) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_double(v: Vec<f64>) -> __sklib_vector_double {
-    let result = __sklib_vector_double::new(v.len());
+    let result = __sklib_vector_double::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_double(item.clone());
@@ -7649,10 +7614,10 @@ pub(crate) fn __skadapter__to_sklib_vector_double(v: Vec<f64>) -> __sklib_vector
 }
 
 pub(crate) fn __skadapter__to_vector_double(v: __sklib_vector_double) -> Vec<f64> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_double(item));
         }
         __sklib__free__sklib_vector_double(v);
@@ -7664,7 +7629,7 @@ pub(crate) fn __skadapter__update_from_vector_double(v: __sklib_vector_double, r
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_double(item));
         }
         __sklib__free__sklib_vector_double(v);
@@ -7673,15 +7638,15 @@ pub(crate) fn __skadapter__update_from_vector_double(v: __sklib_vector_double, r
 #[repr(C)]
 pub(crate) struct __sklib_vector_json {
     data_from_app: *mut __sklib_ptr,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut __sklib_ptr,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_json {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7700,14 +7665,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_json(v: &mut __sklib_vector_json) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_json(v: Vec<Json>) -> __sklib_vector_json {
-    let result = __sklib_vector_json::new(v.len());
+    let result = __sklib_vector_json::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_json(item.clone());
@@ -7717,10 +7682,10 @@ pub(crate) fn __skadapter__to_sklib_vector_json(v: Vec<Json>) -> __sklib_vector_
 }
 
 pub(crate) fn __skadapter__to_vector_json(v: __sklib_vector_json) -> Vec<Json> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_json(item));
         }
         __sklib__free__sklib_vector_json(v);
@@ -7732,7 +7697,7 @@ pub(crate) fn __skadapter__update_from_vector_json(v: __sklib_vector_json, resul
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_json(item));
         }
         __sklib__free__sklib_vector_json(v);
@@ -7741,15 +7706,15 @@ pub(crate) fn __skadapter__update_from_vector_json(v: __sklib_vector_json, resul
 #[repr(C)]
 pub(crate) struct __sklib_vector_bool {
     data_from_app: *mut i32,
-    size_from_app: usize,
+    size_from_app: u32,
     data_from_lib: *mut i32,
-    size_from_lib: usize,
+    size_from_lib: u32,
 }
 
 impl __sklib_vector_bool {
-    pub fn new(size: usize) -> Self {
-        let mut vec = Vec::with_capacity(size);
-        vec.resize(size, unsafe { zeroed() });
+    pub fn new(size: u32) -> Self {
+        let mut vec = Vec::with_capacity(size as usize);
+        vec.resize(size as usize, unsafe { zeroed() });
         let ptr = vec.as_mut_ptr();
         forget(vec);
         Self {
@@ -7768,14 +7733,14 @@ extern "C" {
 pub(crate) fn __skadapter__free__sklib_vector_bool(v: &mut __sklib_vector_bool) {
     if !v.data_from_app.is_null() {
         unsafe {
-            Vec::from_raw_parts(v.data_from_app, v.size_from_app, v.size_from_app);
+            Vec::from_raw_parts(v.data_from_app, v.size_from_app as usize, v.size_from_app as usize);
         }
         v.data_from_app = null_mut();
     }
 }
 
 pub(crate) fn __skadapter__to_sklib_vector_bool(v: Vec<bool>) -> __sklib_vector_bool {
-    let result = __sklib_vector_bool::new(v.len());
+    let result = __sklib_vector_bool::new(v.len() as u32);
     for (i, item) in v.iter().enumerate() {
         unsafe {
             *result.data_from_app.add(i) = __skadapter__to_sklib_bool(item.clone());
@@ -7785,10 +7750,10 @@ pub(crate) fn __skadapter__to_sklib_vector_bool(v: Vec<bool>) -> __sklib_vector_
 }
 
 pub(crate) fn __skadapter__to_vector_bool(v: __sklib_vector_bool) -> Vec<bool> {
-    let mut result = Vec::with_capacity(v.size_from_lib);
+    let mut result = Vec::with_capacity(v.size_from_lib as usize);
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_bool(item));
         }
         __sklib__free__sklib_vector_bool(v);
@@ -7800,7 +7765,7 @@ pub(crate) fn __skadapter__update_from_vector_bool(v: __sklib_vector_bool, resul
     result.clear();
     unsafe {
         for i in 0..v.size_from_lib {
-            let item = (*v.data_from_lib.add(i)).clone();
+            let item = (*v.data_from_lib.add(i as usize)).clone();
             result.push(__skadapter__to_bool(item));
         }
         __sklib__free__sklib_vector_bool(v);
@@ -7857,24 +7822,116 @@ pub(crate) fn __skadapter__free__sklib_string(_s: __sklib_string) {
     // The actual freeing is handled by the C library
 }
 #[inline]
-pub(crate) fn __skadapter__to_sklib_key_callback(v: KeyCallback) -> KeyCallback {
-    v
+pub(crate) fn __skadapter__to_sklib_key_callback(callback: KeyCallback) -> __sklib_key_callback {
+    thread_local! {
+        static CALLBACK: RefCell<Option<KeyCallback>> = RefCell::new(None);
+    }
+    
+    CALLBACK.with(|cell| {
+        *cell.borrow_mut() = Some(callback);
+    });
+
+    extern "C" fn wrapper(
+        code: i32,
+    ) -> () {
+        CALLBACK.with(|cell| {
+            if let Some(cb) = &*cell.borrow() {
+                cb(
+                    __skadapter__to_int(code)                )
+            }
+        })
+    }
+    wrapper
 }
 #[inline]
-pub(crate) fn __skadapter__to_sklib_free_notifier(v: FreeNotifier) -> FreeNotifier {
-    v
+pub(crate) fn __skadapter__to_sklib_free_notifier(callback: FreeNotifier) -> __sklib_free_notifier {
+    thread_local! {
+        static CALLBACK: RefCell<Option<FreeNotifier>> = RefCell::new(None);
+    }
+    
+    CALLBACK.with(|cell| {
+        *cell.borrow_mut() = Some(callback);
+    });
+
+    extern "C" fn wrapper(
+        pointer: __sklib_ptr,
+    ) -> () {
+        CALLBACK.with(|cell| {
+            if let Some(cb) = &*cell.borrow() {
+                cb(
+                    pointer                )
+            }
+        })
+    }
+    wrapper
 }
 #[inline]
-pub(crate) fn __skadapter__to_sklib_sprite_event_handler(v: SpriteEventHandler) -> SpriteEventHandler {
-    v
+pub(crate) fn __skadapter__to_sklib_sprite_event_handler(callback: SpriteEventHandler) -> __sklib_sprite_event_handler {
+    thread_local! {
+        static CALLBACK: RefCell<Option<SpriteEventHandler>> = RefCell::new(None);
+    }
+    
+    CALLBACK.with(|cell| {
+        *cell.borrow_mut() = Some(callback);
+    });
+
+    extern "C" fn wrapper(
+        s: __sklib_ptr,
+        evt: i32,
+    ) -> () {
+        CALLBACK.with(|cell| {
+            if let Some(cb) = &*cell.borrow() {
+                cb(
+                    s,                    __skadapter__to_int(evt)                )
+            }
+        })
+    }
+    wrapper
 }
 #[inline]
-pub(crate) fn __skadapter__to_sklib_sprite_float_function(v: SpriteFloatFunction) -> SpriteFloatFunction {
-    v
+pub(crate) fn __skadapter__to_sklib_sprite_float_function(callback: SpriteFloatFunction) -> __sklib_sprite_float_function {
+    thread_local! {
+        static CALLBACK: RefCell<Option<SpriteFloatFunction>> = RefCell::new(None);
+    }
+    
+    CALLBACK.with(|cell| {
+        *cell.borrow_mut() = Some(callback);
+    });
+
+    extern "C" fn wrapper(
+        s: __sklib_ptr,
+        f: f32,
+    ) -> () {
+        CALLBACK.with(|cell| {
+            if let Some(cb) = &*cell.borrow() {
+                cb(
+                    s,                    __skadapter__to_float(f)                )
+            }
+        })
+    }
+    wrapper
 }
 #[inline]
-pub(crate) fn __skadapter__to_sklib_sprite_function(v: SpriteFunction) -> SpriteFunction {
-    v
+pub(crate) fn __skadapter__to_sklib_sprite_function(callback: SpriteFunction) -> __sklib_sprite_function {
+    thread_local! {
+        static CALLBACK: RefCell<Option<SpriteFunction>> = RefCell::new(None);
+    }
+    
+    CALLBACK.with(|cell| {
+        *cell.borrow_mut() = Some(callback);
+    });
+
+    extern "C" fn wrapper(
+        s: __sklib_ptr,
+    ) -> () {
+        CALLBACK.with(|cell| {
+            if let Some(cb) = &*cell.borrow() {
+                cb(
+                    s                )
+            }
+        })
+    }
+    wrapper
 }
 #[inline]
 pub(crate) fn __skadapter__to_sklib_ptr(v: __sklib_ptr) -> __sklib_ptr {

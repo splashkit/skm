@@ -140,6 +140,21 @@ if [ "$HAS_PYTHON3" = true ]; then
         echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
         exit 1
     fi
+
+    # Add Python path to environment
+    if [ "$HAS_PYTHON3" = true ]; then
+        PYTHON_PATH="${SKM_PATH}/python3"
+        
+        if [ "$SK_OS" = "macos" ] || [ "$SK_OS" = "linux" ]; then
+            # Add to /etc/profile.d/ for Linux/Mac
+            echo "export PYTHONPATH=${PYTHON_PATH}:\$PYTHONPATH" | $PRIVILEGED tee /etc/profile.d/splashkit.sh > /dev/null
+        elif [ "$SK_OS" = "win64" ]; then
+            # Add to Windows system environment
+            PYTHON_PATH_WIN=`cd "$PYTHON_PATH"; pwd -W`
+            PYTHON_PATH_WIN="${PYTHON_PATH_WIN////\\}"
+            powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PYTHONPATH',\"$PYTHON_PATH_WIN;\$env:PYTHONPATH\",'Machine')"
+        fi
+    fi
 fi
 
 # We cant install but it should be on the path anyway...
