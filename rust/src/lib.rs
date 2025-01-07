@@ -8818,7 +8818,7 @@ pub fn fill_circle_on_window_with_options(destination: Window, clr: Color, x: f6
         __sklib__fill_circle_on_window__window__color__double__double__double__drawing_options(__skparam__destination, __skparam__clr, __skparam__x, __skparam__y, __skparam__radius, __skparam__opts);
     }
 }
-pub fn center_point(c: Circle) -> Point2D {
+pub fn center_point_of_circle(c: Circle) -> Point2D {
     let __skparam__c = __skadapter__to_sklib_circle(c);
     unsafe {
         let __skreturn = __sklib__center_point__circle_ref(__skparam__c);
@@ -14548,7 +14548,7 @@ pub fn call_on_sprite_event(handler: SpriteEventHandler) {
         __sklib__call_on_sprite_event__sprite_event_handler_ptr(__skparam__handler);
     }
 }
-pub fn center_point(s: Sprite) -> Point2D {
+pub fn center_point_of_sprite(s: Sprite) -> Point2D {
     let __skparam__s = __skadapter__to_sklib_sprite(s);
     unsafe {
         let __skreturn = __sklib__center_point__sprite(__skparam__s);
