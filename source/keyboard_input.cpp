@@ -92,6 +92,7 @@ namespace splashkit_lib
             _keys_just_typed[keycode] = true;
             _raise_key_event(_on_key_typed, keycode);
         }
+         _key_pressed = true; 
         _raise_key_event(_on_key_down, keycode);
     }
 

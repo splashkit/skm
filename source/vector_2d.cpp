@@ -116,7 +116,9 @@ namespace splashkit_lib
 
     double angle_between(const vector_2d &v1, const vector_2d &v2)
     {
-        return vector_angle( vector_subtract(v2, v1) );
+        double dot = dot_product(v1, v2);
+        double det = v1.x * v2.y - v1.y * v2.x;
+        return rad_to_deg(atan2(det, dot));
     }
 
     vector_2d vector_normal(const vector_2d &v)
@@ -132,14 +134,14 @@ namespace splashkit_lib
         return { -v.y / magnitude, v.x / magnitude };
     }
 
-    double vector_magnitude_sqared(const vector_2d &v)
+    double vector_magnitude_squared(const vector_2d &v)
     {
         return (v.x * v.x) + (v.y * v.y);
     }
 
     double vector_magnitude(const vector_2d &v)
     {
-        return sqrt(vector_magnitude_sqared(v));
+        return sqrt(vector_magnitude_squared(v));
     }
 
     vector_2d vector_limit(const vector_2d &v, double limit)
