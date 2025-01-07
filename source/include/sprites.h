@@ -1228,6 +1228,7 @@ namespace splashkit_lib
      *
      * @attribute class sprite
      * @attribute getter center_point
+     * @attribute suffix of_sprite
      */
     point_2d center_point(sprite s);
 

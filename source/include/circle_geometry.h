@@ -99,6 +99,8 @@ namespace splashkit_lib
      *
      * @param c   The circle to get the center point
      * @returns   The center point of the circle
+     * 
+     * @attribute suffix of_circle
      */
     point_2d center_point(const circle &c);
 

@@ -4344,7 +4344,7 @@ def fill_circle_on_window_with_options ( destination, clr, x, y, radius, opts ):
     __skparam__radius = __skadapter__to_sklib_double(radius)
     __skparam__opts = __skadapter__to_sklib_drawing_options(opts)
     sklib.__sklib__fill_circle_on_window__window__color__double__double__double__drawing_options(__skparam__destination, __skparam__clr, __skparam__x, __skparam__y, __skparam__radius, __skparam__opts)
-def center_point ( c ):
+def center_point_of_circle ( c ):
     __skparam__c = __skadapter__to_sklib_circle(c)
     __skreturn = sklib.__sklib__center_point__circle_ref(__skparam__c)
     return __skadapter__to_point_2d(__skreturn)
@@ -7731,7 +7731,7 @@ def call_for_all_sprites ( fn ):
 def call_on_sprite_event ( handler ):
     __skparam__handler = __skadapter__to_sklib_sprite_event_handler(handler)
     sklib.__sklib__call_on_sprite_event__sprite_event_handler_ptr(__skparam__handler)
-def center_point ( s ):
+def center_point_of_sprite ( s ):
     __skparam__s = __skadapter__to_sklib_sprite(s)
     __skreturn = sklib.__sklib__center_point__sprite(__skparam__s)
     return __skadapter__to_point_2d(__skreturn)
