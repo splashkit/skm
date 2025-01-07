@@ -8818,7 +8818,7 @@ pub fn fill_circle_on_window_with_options(destination: Window, clr: Color, x: f6
         __sklib__fill_circle_on_window__window__color__double__double__double__drawing_options(__skparam__destination, __skparam__clr, __skparam__x, __skparam__y, __skparam__radius, __skparam__opts);
     }
 }
-pub fn center_point_of_circle(c: Circle) -> Point2D {
+pub fn center_point(c: Circle) -> Point2D {
     let __skparam__c = __skadapter__to_sklib_circle(c);
     unsafe {
         let __skreturn = __sklib__center_point__circle_ref(__skparam__c);
@@ -12484,7 +12484,7 @@ pub fn init_custom_logger(mode: LogMode) {
         __sklib__init_custom_logger__log_mode(__skparam__mode);
     }
 }
-pub fn init_custom_logger__name_override_mode(app_name: String, override_prev_log: bool, mode: LogMode) {
+pub fn init_custom_logger_name_override_mode(app_name: String, override_prev_log: bool, mode: LogMode) {
     let __skparam__app_name = __skadapter__to_sklib_string(app_name);
     let __skparam__override_prev_log = __skadapter__to_sklib_bool(override_prev_log);
     let __skparam__mode = __skadapter__to_sklib_log_mode(mode);
@@ -14548,7 +14548,7 @@ pub fn call_on_sprite_event(handler: SpriteEventHandler) {
         __sklib__call_on_sprite_event__sprite_event_handler_ptr(__skparam__handler);
     }
 }
-pub fn center_point_of_sprite(s: Sprite) -> Point2D {
+pub fn center_point(s: Sprite) -> Point2D {
     let __skparam__s = __skadapter__to_sklib_sprite(s);
     unsafe {
         let __skreturn = __sklib__center_point__sprite(__skparam__s);
@@ -16038,14 +16038,14 @@ pub fn free_timer(to_free: Timer) {
         __sklib__free_timer__timer(__skparam__to_free);
     }
 }
-pub fn has_timer__named(name: String) -> bool {
+pub fn has_timer_named(name: String) -> bool {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         let __skreturn = __sklib__has_timer__string(__skparam__name);
         __skadapter__to_bool(__skreturn)
     }
 }
-pub fn pause_timer__named(name: String) {
+pub fn pause_timer_named(name: String) {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         __sklib__pause_timer__string(__skparam__name);
@@ -16057,7 +16057,7 @@ pub fn pause_timer(to_pause: Timer) {
         __sklib__pause_timer__timer(__skparam__to_pause);
     }
 }
-pub fn reset_timer__named(name: String) {
+pub fn reset_timer_named(name: String) {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         __sklib__reset_timer__string(__skparam__name);
@@ -16069,7 +16069,7 @@ pub fn reset_timer(tmr: Timer) {
         __sklib__reset_timer__timer(__skparam__tmr);
     }
 }
-pub fn resume_timer__named(name: String) {
+pub fn resume_timer_named(name: String) {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         __sklib__resume_timer__string(__skparam__name);
@@ -16081,7 +16081,7 @@ pub fn resume_timer(to_resume: Timer) {
         __sklib__resume_timer__timer(__skparam__to_resume);
     }
 }
-pub fn start_timer__named(name: String) {
+pub fn start_timer_named(name: String) {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         __sklib__start_timer__string(__skparam__name);
@@ -16093,7 +16093,7 @@ pub fn start_timer(to_start: Timer) {
         __sklib__start_timer__timer(__skparam__to_start);
     }
 }
-pub fn stop_timer__named(name: String) {
+pub fn stop_timer_named(name: String) {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         __sklib__stop_timer__string(__skparam__name);
@@ -16112,7 +16112,7 @@ pub fn timer_named(name: String) -> Timer {
         __skadapter__to_timer(__skreturn)
     }
 }
-pub fn timer_paused__named(name: String) -> bool {
+pub fn timer_paused_named(name: String) -> bool {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         let __skreturn = __sklib__timer_paused__string(__skparam__name);
@@ -16126,7 +16126,7 @@ pub fn timer_paused(to_get: Timer) -> bool {
         __skadapter__to_bool(__skreturn)
     }
 }
-pub fn timer_started__named(name: String) -> bool {
+pub fn timer_started_named(name: String) -> bool {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         let __skreturn = __sklib__timer_started__string(__skparam__name);
@@ -16140,7 +16140,7 @@ pub fn timer_started(to_get: Timer) -> bool {
         __skadapter__to_bool(__skreturn)
     }
 }
-pub fn timer_ticks__named(name: String) -> u32 {
+pub fn timer_ticks_named(name: String) -> u32 {
     let __skparam__name = __skadapter__to_sklib_string(name);
     unsafe {
         let __skreturn = __sklib__timer_ticks__string(__skparam__name);
@@ -16426,7 +16426,7 @@ pub fn triangle_from(p1: Point2D, p2: Point2D, p3: Point2D) -> Triangle {
         __skadapter__to_triangle(__skreturn)
     }
 }
-pub fn triangle_from__from_coordinates(x1: f64, y1: f64, x2: f64, y2: f64, x3: f64, y3: f64) -> Triangle {
+pub fn triangle_from_coordinates(x1: f64, y1: f64, x2: f64, y2: f64, x3: f64, y3: f64) -> Triangle {
     let __skparam__x1 = __skadapter__to_sklib_double(x1);
     let __skparam__y1 = __skadapter__to_sklib_double(y1);
     let __skparam__x2 = __skadapter__to_sklib_double(x2);
