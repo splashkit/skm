@@ -6504,7 +6504,7 @@ def close_log_process (  ):
 def init_custom_logger ( mode ):
     __skparam__mode = __skadapter__to_sklib_log_mode(mode)
     sklib.__sklib__init_custom_logger__log_mode(__skparam__mode)
-def init_custom_logger__name_override_mode ( app_name, override_prev_log, mode ):
+def init_custom_logger_name_override_mode ( app_name, override_prev_log, mode ):
     __skparam__app_name = __skadapter__to_sklib_string(app_name)
     __skparam__override_prev_log = __skadapter__to_sklib_bool(override_prev_log)
     __skparam__mode = __skadapter__to_sklib_log_mode(mode)
@@ -8624,35 +8624,35 @@ def free_all_timers (  ):
 def free_timer ( to_free ):
     __skparam__to_free = __skadapter__to_sklib_timer(to_free)
     sklib.__sklib__free_timer__timer(__skparam__to_free)
-def has_timer__named ( name ):
+def has_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__has_timer__string(__skparam__name)
     return __skadapter__to_bool(__skreturn)
-def pause_timer__named ( name ):
+def pause_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     sklib.__sklib__pause_timer__string(__skparam__name)
 def pause_timer ( to_pause ):
     __skparam__to_pause = __skadapter__to_sklib_timer(to_pause)
     sklib.__sklib__pause_timer__timer(__skparam__to_pause)
-def reset_timer__named ( name ):
+def reset_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     sklib.__sklib__reset_timer__string(__skparam__name)
 def reset_timer ( tmr ):
     __skparam__tmr = __skadapter__to_sklib_timer(tmr)
     sklib.__sklib__reset_timer__timer(__skparam__tmr)
-def resume_timer__named ( name ):
+def resume_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     sklib.__sklib__resume_timer__string(__skparam__name)
 def resume_timer ( to_resume ):
     __skparam__to_resume = __skadapter__to_sklib_timer(to_resume)
     sklib.__sklib__resume_timer__timer(__skparam__to_resume)
-def start_timer__named ( name ):
+def start_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     sklib.__sklib__start_timer__string(__skparam__name)
 def start_timer ( to_start ):
     __skparam__to_start = __skadapter__to_sklib_timer(to_start)
     sklib.__sklib__start_timer__timer(__skparam__to_start)
-def stop_timer__named ( name ):
+def stop_timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     sklib.__sklib__stop_timer__string(__skparam__name)
 def stop_timer ( to_stop ):
@@ -8662,7 +8662,7 @@ def timer_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__timer_named__string(__skparam__name)
     return __skadapter__to_timer(__skreturn)
-def timer_paused__named ( name ):
+def timer_paused_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__timer_paused__string(__skparam__name)
     return __skadapter__to_bool(__skreturn)
@@ -8670,7 +8670,7 @@ def timer_paused ( to_get ):
     __skparam__to_get = __skadapter__to_sklib_timer(to_get)
     __skreturn = sklib.__sklib__timer_paused__timer(__skparam__to_get)
     return __skadapter__to_bool(__skreturn)
-def timer_started__named ( name ):
+def timer_started_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__timer_started__string(__skparam__name)
     return __skadapter__to_bool(__skreturn)
@@ -8678,7 +8678,7 @@ def timer_started ( to_get ):
     __skparam__to_get = __skadapter__to_sklib_timer(to_get)
     __skreturn = sklib.__sklib__timer_started__timer(__skparam__to_get)
     return __skadapter__to_bool(__skreturn)
-def timer_ticks__named ( name ):
+def timer_ticks_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__timer_ticks__string(__skparam__name)
     return __skadapter__to_unsigned_int(__skreturn)
@@ -8880,7 +8880,7 @@ def triangle_from ( p1, p2, p3 ):
     __skparam__p3 = __skadapter__to_sklib_point_2d(p3)
     __skreturn = sklib.__sklib__triangle_from__point_2d_ref__point_2d_ref__point_2d_ref(__skparam__p1, __skparam__p2, __skparam__p3)
     return __skadapter__to_triangle(__skreturn)
-def triangle_from__from_coordinates ( x1, y1, x2, y2, x3, y3 ):
+def triangle_from_coordinates ( x1, y1, x2, y2, x3, y3 ):
     __skparam__x1 = __skadapter__to_sklib_double(x1)
     __skparam__y1 = __skadapter__to_sklib_double(y1)
     __skparam__x2 = __skadapter__to_sklib_double(x2)
