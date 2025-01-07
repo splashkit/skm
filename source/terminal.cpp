@@ -65,7 +65,7 @@ namespace splashkit_lib
 
     void write_line(char data)
     {
-        write_line(std::to_string(data));
+        write_line(std::string(1, data));
     }
 
     string read_line()
