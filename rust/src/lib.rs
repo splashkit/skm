@@ -286,7 +286,7 @@ impl __sklib_color {
         unsafe { uninit.assume_init() }
     }
 }
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy)]
 pub struct Color {
     pub r: f32,
     pub g: f32,
@@ -305,6 +305,14 @@ impl Color {
     }
     pub fn is_null(&self) -> bool {
         *self == Self::default()
+    }
+}
+impl PartialEq for Color {
+    fn eq(&self, other: &Self) -> bool {
+        (self.r - other.r).abs() < 0.004 &&
+        (self.g - other.g).abs() < 0.004 &&
+        (self.b - other.b).abs() < 0.004 &&
+        (self.a - other.a).abs() < 0.004
     }
 }
 #[repr(C)]
