@@ -7,11 +7,10 @@ SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
-# Create src directory if it doesn't exist
-if [ ! -d src ]; then
-    mkdir src
+if [ "$SK_OS" = "macos" ]; then
+    cp -r -n "${APP_PATH}/files/" .
+else
+    cp -r -n "${APP_PATH}/files/" -T .
 fi
 
-# Replace SPLASHKIT_PATH in Cargo.toml with actual path
-SPLASHKIT_RUST_PATH="${HOME}/.splashkit/rust"
-sed -i "s|SPLASHKIT_PATH|${SPLASHKIT_RUST_PATH}|" Cargo.toml
+"$SKM_PATH/fix/cargo/skm_fix_cargo.sh"

@@ -197,7 +197,7 @@ if command -v cargo &> /dev/null; then
     echo "Rust support detected..."
     
     # Create Rust installation directory
-    RUST_LIB="${HOME}/.splashkit/rust"
+    RUST_LIB="${HOME}/.splashkit/cargo"
     if [ ! -d "${RUST_LIB}/src" ]; then
         echo "Creating directory ${RUST_LIB}/src"
         mkdir -p "${RUST_LIB}/src"
@@ -205,9 +205,9 @@ if command -v cargo &> /dev/null; then
 
     # Copy Rust files
     echo "Copying Rust files to ${RUST_LIB}"
-    cp "${SKM_PATH}/rust/src/lib.rs" "${RUST_LIB}/src/"
-    cp "${SKM_PATH}/rust/build.rs" "${RUST_LIB}/"
-    cp "${SKM_PATH}/rust/Cargo.toml" "${RUST_LIB}/"
+    cp "${SKM_PATH}/cargo/src/lib.rs" "${RUST_LIB}/src/"
+    cp "${SKM_PATH}/cargo/src/build.rs" "${RUST_LIB}/"
+    cp "${SKM_PATH}/cargo/src/Cargo.toml" "${RUST_LIB}/"
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy Rust files to ${RUST_LIB}"
         exit 1
