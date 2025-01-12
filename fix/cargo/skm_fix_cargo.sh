@@ -7,11 +7,14 @@ SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
-# Create src directory if it doesn't exist
-if [ ! -d src ]; then
-    mkdir src
-fi
+# Set Rust library path
+RUST_LIB="${HOME}/.splashkit/cargo"
 
 # Replace SPLASHKIT_PATH in Cargo.toml with actual path
-SPLASHKIT_RUST_PATH="${HOME}/.splashkit/cargo"
-sed -i "s|SPLASHKIT_PATH|${SPLASHKIT_RUST_PATH}|" Cargo.toml
+if [ -f "Cargo.toml" ]; then
+    if [ "$SK_OS" = "macos" ]; then
+        sed -i '' "s|SPLASHKIT_PATH|${RUST_LIB}|g" Cargo.toml
+    else
+        sed -i "s|SPLASHKIT_PATH|${RUST_LIB}|g" Cargo.toml
+    fi
+fi
