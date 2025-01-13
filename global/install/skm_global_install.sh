@@ -191,27 +191,3 @@ fi
 rm "${APP_PATH}/test"
 
 echo "Done"
-
-# Check if Rust is installed
-if command -v cargo &> /dev/null; then
-    echo "Rust support detected..."
-    
-    # Create Rust installation directory
-    RUST_LIB="${HOME}/.splashkit/cargo"
-    if [ ! -d "${RUST_LIB}/src" ]; then
-        echo "Creating directory ${RUST_LIB}/src"
-        mkdir -p "${RUST_LIB}/src"
-    fi
-
-    # Copy Rust files
-    echo "Copying Rust files to ${RUST_LIB}"
-    cp "${SKM_PATH}/cargo/src/lib.rs" "${RUST_LIB}/src/"
-    cp "${SKM_PATH}/cargo/src/build.rs" "${RUST_LIB}/"
-    cp "${SKM_PATH}/cargo/src/Cargo.toml" "${RUST_LIB}/"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy Rust files to ${RUST_LIB}"
-        exit 1
-    fi
-else
-    echo "For Rust support: Please install Rust and Cargo, then run this script again."
-fi
