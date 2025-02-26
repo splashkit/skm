@@ -428,7 +428,8 @@ namespace splashkit_lib
             MU_OPT_NOINTERACT|MU_OPT_NOSCROLL
         );
         mu_get_current_container(ctx)->zindex = -1;
-        sk_interface_set_layout(1,{0},0);
+        int widths[] = {0};
+        sk_interface_set_layout(1,widths,0);
     }
 
     void sk_interface_end()
@@ -581,14 +582,14 @@ namespace splashkit_lib
         mu_pop_id(ctx);
     }
 
-    bool sk_interface_header(const string& label)
+    bool sk_interface_header(const string& label_text)
     {
-        return mu_header(ctx, label.c_str());
+        return mu_header(ctx, label_text.c_str());
     }
 
-    void sk_interface_label(const string& label)
+    void sk_interface_label(const string& label_text)
     {
-        mu_label(ctx, label.c_str());
+        mu_label(ctx, label_text.c_str());
     }
 
     void sk_interface_text(const string& text)
@@ -596,18 +597,18 @@ namespace splashkit_lib
         mu_text(ctx, text.c_str());
     }
 
-    bool sk_interface_button(const string& label, int icon)
+    bool sk_interface_button(const string& label_text, int icon)
     {
-        update_elements_changed(mu_button_ex(ctx, label.c_str(), icon, MU_OPT_ALIGNCENTER));
+        update_elements_changed(mu_button_ex(ctx, label_text.c_str(), icon, MU_OPT_ALIGNCENTER));
         return element_confirmed;
     }
 
-    bool sk_interface_checkbox(const string& label, const bool& value)
+    bool sk_interface_checkbox(const string& label_text, const bool& value)
     {
         sk_interface_push_ptr_id((void*)&value);
 
         int temp_value = value;
-        update_elements_changed(mu_checkbox(ctx, label.c_str(), &temp_value));
+        update_elements_changed(mu_checkbox(ctx, label_text.c_str(), &temp_value));
 
         sk_interface_pop_id();
         return temp_value;

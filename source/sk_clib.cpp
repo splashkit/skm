@@ -259,11 +259,11 @@ int __sklib__length_of__string_ref(const __sklib_string text) {
     int __skreturn = length_of(__skparam__text);
     return __sklib__to_int(__skreturn);
 }
-__sklib_string __sklib__replace_all__string_ref__string_ref__string_ref(const __sklib_string text, const __sklib_string substr, const __sklib_string newText) {
+__sklib_string __sklib__replace_all__string_ref__string_ref__string_ref(const __sklib_string text, const __sklib_string substr, const __sklib_string new_text) {
     string __skparam__text = __sklib__to_string(text);
     string __skparam__substr = __sklib__to_string(substr);
-    string __skparam__newText = __sklib__to_string(newText);
-    string __skreturn = replace_all(__skparam__text, __skparam__substr, __skparam__newText);
+    string __skparam__new_text = __sklib__to_string(new_text);
+    string __skreturn = replace_all(__skparam__text, __skparam__substr, __skparam__new_text);
     return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_vector_string __sklib__split__string_ref__char(const __sklib_string text, char delimiter) {
@@ -571,6 +571,20 @@ float __sklib__circle_radius__circle(const __sklib_circle c) {
     float __skreturn = circle_radius(__skparam__c);
     return __sklib__to_float(__skreturn);
 }
+int __sklib__circle_triangle_intersect__circle_ref__triangle_ref(const __sklib_circle c, const __sklib_triangle tri) {
+    circle __skparam__c = __sklib__to_circle(c);
+    triangle __skparam__tri = __sklib__to_triangle(tri);
+    bool __skreturn = circle_triangle_intersect(__skparam__c, __skparam__tri);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__circle_triangle_intersect__circle_ref__triangle_ref__point_2d_ref(const __sklib_circle c, const __sklib_triangle tri, __sklib_point_2d *p) {
+    circle __skparam__c = __sklib__to_circle(c);
+    triangle __skparam__tri = __sklib__to_triangle(tri);
+    point_2d __skparam__p = __sklib__to_point_2d(*p);
+    bool __skreturn = circle_triangle_intersect(__skparam__c, __skparam__tri, __skparam__p);
+    *p = __sklib__to_sklib_point_2d(__skparam__p);
+    return __sklib__to_int(__skreturn);
+}
 float __sklib__circle_x__circle_ref(const __sklib_circle c) {
     circle __skparam__c = __sklib__to_circle(c);
     float __skreturn = circle_x(__skparam__c);
@@ -613,6 +627,12 @@ __sklib_point_2d __sklib__closest_point_on_rect_from_circle__circle_ref__rectang
     circle __skparam__c = __sklib__to_circle(c);
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
     point_2d __skreturn = closest_point_on_rect_from_circle(__skparam__c, __skparam__rect);
+    return __sklib__to_sklib_point_2d(__skreturn);
+}
+__sklib_point_2d __sklib__closest_point_on_triangle_from_circle__circle_ref__triangle_ref(const __sklib_circle c, const __sklib_triangle tri) {
+    circle __skparam__c = __sklib__to_circle(c);
+    triangle __skparam__tri = __sklib__to_triangle(tri);
+    point_2d __skreturn = closest_point_on_triangle_from_circle(__skparam__c, __skparam__tri);
     return __sklib__to_sklib_point_2d(__skreturn);
 }
 __sklib_point_2d __sklib__distant_point_on_circle__point_2d_ref__circle_ref(const __sklib_point_2d pt, const __sklib_circle c) {
@@ -859,6 +879,59 @@ int __sklib__bitmap_point_collision__bitmap__int__double__double__double__double
     bool __skreturn = bitmap_point_collision(__skparam__bmp, __skparam__cell, __skparam__bmp_x, __skparam__bmp_y, __skparam__x, __skparam__y);
     return __sklib__to_int(__skreturn);
 }
+int __sklib__bitmap_quad_collision__bitmap__int__matrix_2d_ref__quad_ref(__sklib_bitmap bmp, int cell, const __sklib_matrix_2d translation, const __sklib_quad q) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    int __skparam__cell = __sklib__to_int(cell);
+    matrix_2d __skparam__translation = __sklib__to_matrix_2d(translation);
+    quad __skparam__q = __sklib__to_quad(q);
+    bool __skreturn = bitmap_quad_collision(__skparam__bmp, __skparam__cell, __skparam__translation, __skparam__q);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__bitmap_ray_collision__bitmap__point_2d_ref__point_2d_ref__vector_2d_ref(__sklib_bitmap bmp, const __sklib_point_2d pt, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    point_2d __skparam__pt = __sklib__to_point_2d(pt);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = bitmap_ray_collision(__skparam__bmp, __skparam__pt, __skparam__origin, __skparam__heading);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__bitmap_ray_collision__bitmap__double__double__point_2d_ref__vector_2d_ref(__sklib_bitmap bmp, double x, double y, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    double __skparam__x = __sklib__to_double(x);
+    double __skparam__y = __sklib__to_double(y);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = bitmap_ray_collision(__skparam__bmp, __skparam__x, __skparam__y, __skparam__origin, __skparam__heading);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__bitmap_ray_collision__bitmap__int__matrix_2d_ref__point_2d_ref__vector_2d_ref(__sklib_bitmap bmp, int cell, const __sklib_matrix_2d translation, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    int __skparam__cell = __sklib__to_int(cell);
+    matrix_2d __skparam__translation = __sklib__to_matrix_2d(translation);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = bitmap_ray_collision(__skparam__bmp, __skparam__cell, __skparam__translation, __skparam__origin, __skparam__heading);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__bitmap_ray_collision__bitmap__int__point_2d_ref__point_2d_ref__vector_2d_ref(__sklib_bitmap bmp, int cell, const __sklib_point_2d pt, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    int __skparam__cell = __sklib__to_int(cell);
+    point_2d __skparam__pt = __sklib__to_point_2d(pt);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = bitmap_ray_collision(__skparam__bmp, __skparam__cell, __skparam__pt, __skparam__origin, __skparam__heading);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__bitmap_ray_collision__bitmap__int__double__double__point_2d_ref__vector_2d_ref(__sklib_bitmap bmp, int cell, double x, double y, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
+    int __skparam__cell = __sklib__to_int(cell);
+    double __skparam__x = __sklib__to_double(x);
+    double __skparam__y = __sklib__to_double(y);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = bitmap_ray_collision(__skparam__bmp, __skparam__cell, __skparam__x, __skparam__y, __skparam__origin, __skparam__heading);
+    return __sklib__to_int(__skreturn);
+}
 int __sklib__bitmap_rectangle_collision__bitmap__point_2d_ref__rectangle_ref(__sklib_bitmap bmp, const __sklib_point_2d pt, const __sklib_rectangle rect) {
     bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
     point_2d __skparam__pt = __sklib__to_point_2d(pt);
@@ -934,6 +1007,13 @@ int __sklib__sprite_point_collision__sprite__point_2d_ref(__sklib_sprite s, cons
     sprite __skparam__s = __sklib__to_sprite(s);
     point_2d __skparam__pt = __sklib__to_point_2d(pt);
     bool __skreturn = sprite_point_collision(__skparam__s, __skparam__pt);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__sprite_ray_collision__sprite__point_2d_ref__vector_2d_ref(__sklib_sprite s, const __sklib_point_2d origin, const __sklib_vector_2d heading) {
+    sprite __skparam__s = __sklib__to_sprite(s);
+    point_2d __skparam__origin = __sklib__to_point_2d(origin);
+    vector_2d __skparam__heading = __sklib__to_vector_2d(heading);
+    bool __skreturn = sprite_ray_collision(__skparam__s, __skparam__origin, __skparam__heading);
     return __sklib__to_int(__skreturn);
 }
 int __sklib__sprite_rectangle_collision__sprite__rectangle_ref(__sklib_sprite s, const __sklib_rectangle rect) {
@@ -2355,17 +2435,17 @@ int __sklib__bitmap_button__bitmap__drawing_options(__sklib_bitmap bmp, __sklib_
     bool __skreturn = bitmap_button(__skparam__bmp, __skparam__opts);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__bitmap_button__string_ref__bitmap(const __sklib_string label, __sklib_bitmap bmp) {
-    string __skparam__label = __sklib__to_string(label);
+int __sklib__bitmap_button__string_ref__bitmap(const __sklib_string label_text, __sklib_bitmap bmp) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
-    bool __skreturn = bitmap_button(__skparam__label, __skparam__bmp);
+    bool __skreturn = bitmap_button(__skparam__label_text, __skparam__bmp);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__bitmap_button__string_ref__bitmap__drawing_options(const __sklib_string label, __sklib_bitmap bmp, __sklib_drawing_options opts) {
-    string __skparam__label = __sklib__to_string(label);
+int __sklib__bitmap_button__string_ref__bitmap__drawing_options(const __sklib_string label_text, __sklib_bitmap bmp, __sklib_drawing_options opts) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     bitmap __skparam__bmp = __sklib__to_bitmap(bmp);
     drawing_options __skparam__opts = __sklib__to_drawing_options(opts);
-    bool __skreturn = bitmap_button(__skparam__label, __skparam__bmp, __skparam__opts);
+    bool __skreturn = bitmap_button(__skparam__label_text, __skparam__bmp, __skparam__opts);
     return __sklib__to_int(__skreturn);
 }
 int __sklib__button__string_ref__rectangle_ref(const __sklib_string text, const __sklib_rectangle rect) {
@@ -2379,10 +2459,10 @@ int __sklib__button__string_ref(const __sklib_string text) {
     bool __skreturn = button(__skparam__text);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__button__string_ref__string_ref(const __sklib_string label, const __sklib_string text) {
-    string __skparam__label = __sklib__to_string(label);
+int __sklib__button__string_ref__string_ref(const __sklib_string label_text, const __sklib_string text) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     string __skparam__text = __sklib__to_string(text);
-    bool __skreturn = button(__skparam__label, __skparam__text);
+    bool __skreturn = button(__skparam__label_text, __skparam__text);
     return __sklib__to_int(__skreturn);
 }
 int __sklib__checkbox__string_ref__bool_ref__rectangle_ref(const __sklib_string text, const int value, const __sklib_rectangle rect) {
@@ -2398,11 +2478,11 @@ int __sklib__checkbox__string_ref__bool_ref(const __sklib_string text, const int
     bool __skreturn = checkbox(__skparam__text, __skparam__value);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__checkbox__string_ref__string_ref__bool_ref(const __sklib_string label, const __sklib_string text, const int value) {
-    string __skparam__label = __sklib__to_string(label);
+int __sklib__checkbox__string_ref__string_ref__bool_ref(const __sklib_string label_text, const __sklib_string text, const int value) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     string __skparam__text = __sklib__to_string(text);
     bool __skparam__value = __sklib__to_bool(value);
-    bool __skreturn = checkbox(__skparam__label, __skparam__text, __skparam__value);
+    bool __skreturn = checkbox(__skparam__label_text, __skparam__text, __skparam__value);
     return __sklib__to_int(__skreturn);
 }
 __sklib_color __sklib__color_slider__color_ref__rectangle_ref(const __sklib_color clr, const __sklib_rectangle rect) {
@@ -2416,10 +2496,10 @@ __sklib_color __sklib__color_slider__color_ref(const __sklib_color clr) {
     color __skreturn = color_slider(__skparam__clr);
     return __sklib__to_sklib_color(__skreturn);
 }
-__sklib_color __sklib__color_slider__string_ref__color_ref(const __sklib_string label, const __sklib_color clr) {
-    string __skparam__label = __sklib__to_string(label);
+__sklib_color __sklib__color_slider__string_ref__color_ref(const __sklib_string label_text, const __sklib_color clr) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     color __skparam__clr = __sklib__to_color(clr);
-    color __skreturn = color_slider(__skparam__label, __skparam__clr);
+    color __skreturn = color_slider(__skparam__label_text, __skparam__clr);
     return __sklib__to_sklib_color(__skreturn);
 }
 void __sklib__disable_interface() {
@@ -2443,9 +2523,9 @@ void __sklib__end_popup__string_ref(const __sklib_string name) {
     string __skparam__name = __sklib__to_string(name);
     end_popup(__skparam__name);
 }
-void __sklib__end_treenode__string_ref(const __sklib_string label) {
-    string __skparam__label = __sklib__to_string(label);
-    end_treenode(__skparam__label);
+void __sklib__end_treenode__string_ref(const __sklib_string label_text) {
+    string __skparam__label_text = __sklib__to_string(label_text);
+    end_treenode(__skparam__label_text);
 }
 void __sklib__enter_column() {
     enter_column();
@@ -2454,9 +2534,9 @@ int __sklib__get_interface_label_width() {
     int __skreturn = get_interface_label_width();
     return __sklib__to_int(__skreturn);
 }
-int __sklib__header__string_ref(const __sklib_string label) {
-    string __skparam__label = __sklib__to_string(label);
-    bool __skreturn = header(__skparam__label);
+int __sklib__header__string_ref(const __sklib_string label_text) {
+    string __skparam__label_text = __sklib__to_string(label_text);
+    bool __skreturn = header(__skparam__label_text);
     return __sklib__to_int(__skreturn);
 }
 __sklib_color __sklib__hsb_color_slider__color_ref__rectangle_ref(const __sklib_color clr, const __sklib_rectangle rect) {
@@ -2470,10 +2550,10 @@ __sklib_color __sklib__hsb_color_slider__color_ref(const __sklib_color clr) {
     color __skreturn = hsb_color_slider(__skparam__clr);
     return __sklib__to_sklib_color(__skreturn);
 }
-__sklib_color __sklib__hsb_color_slider__string_ref__color_ref(const __sklib_string label, const __sklib_color clr) {
-    string __skparam__label = __sklib__to_string(label);
+__sklib_color __sklib__hsb_color_slider__string_ref__color_ref(const __sklib_string label_text, const __sklib_color clr) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     color __skparam__clr = __sklib__to_color(clr);
-    color __skreturn = hsb_color_slider(__skparam__label, __skparam__clr);
+    color __skreturn = hsb_color_slider(__skparam__label_text, __skparam__clr);
     return __sklib__to_sklib_color(__skreturn);
 }
 int __sklib__interface_enabled() {
@@ -2484,14 +2564,14 @@ void __sklib__interface_style_panel__rectangle_ref(const __sklib_rectangle initi
     rectangle __skparam__initial_rectangle = __sklib__to_rectangle(initial_rectangle);
     interface_style_panel(__skparam__initial_rectangle);
 }
-void __sklib__label__string_ref(const __sklib_string text) {
+void __sklib__label_element__string_ref(const __sklib_string text) {
     string __skparam__text = __sklib__to_string(text);
-    label(__skparam__text);
+    label_element(__skparam__text);
 }
-void __sklib__label__string_ref__rectangle_ref(const __sklib_string text, const __sklib_rectangle rect) {
+void __sklib__label_element__string_ref__rectangle_ref(const __sklib_string text, const __sklib_rectangle rect) {
     string __skparam__text = __sklib__to_string(text);
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    label(__skparam__text, __skparam__rect);
+    label_element(__skparam__text, __skparam__rect);
 }
 int __sklib__last_element_changed() {
     bool __skreturn = last_element_changed();
@@ -2517,11 +2597,11 @@ float __sklib__number_box__float_ref__float(const float value, float step) {
     float __skreturn = number_box(__skparam__value, __skparam__step);
     return __sklib__to_float(__skreturn);
 }
-float __sklib__number_box__string_ref__float_ref__float(const __sklib_string label, const float value, float step) {
-    string __skparam__label = __sklib__to_string(label);
+float __sklib__number_box__string_ref__float_ref__float(const __sklib_string label_text, const float value, float step) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     float __skparam__value = __sklib__to_float(value);
     float __skparam__step = __sklib__to_float(step);
-    float __skreturn = number_box(__skparam__label, __skparam__value, __skparam__step);
+    float __skreturn = number_box(__skparam__label_text, __skparam__value, __skparam__step);
     return __sklib__to_float(__skreturn);
 }
 void __sklib__open_popup__string_ref(const __sklib_string name) {
@@ -2640,12 +2720,12 @@ float __sklib__slider__float_ref__float__float(const float value, float min_valu
     float __skreturn = slider(__skparam__value, __skparam__min_value, __skparam__max_value);
     return __sklib__to_float(__skreturn);
 }
-float __sklib__slider__string_ref__float_ref__float__float(const __sklib_string label, const float value, float min_value, float max_value) {
-    string __skparam__label = __sklib__to_string(label);
+float __sklib__slider__string_ref__float_ref__float__float(const __sklib_string label_text, const float value, float min_value, float max_value) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     float __skparam__value = __sklib__to_float(value);
     float __skparam__min_value = __sklib__to_float(min_value);
     float __skparam__max_value = __sklib__to_float(max_value);
-    float __skreturn = slider(__skparam__label, __skparam__value, __skparam__min_value, __skparam__max_value);
+    float __skreturn = slider(__skparam__label_text, __skparam__value, __skparam__min_value, __skparam__max_value);
     return __sklib__to_float(__skreturn);
 }
 void __sklib__split_into_columns__int(int count) {
@@ -2686,9 +2766,9 @@ int __sklib__start_popup__string_ref(const __sklib_string name) {
     bool __skreturn = start_popup(__skparam__name);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__start_treenode__string_ref(const __sklib_string label) {
-    string __skparam__label = __sklib__to_string(label);
-    bool __skreturn = start_treenode(__skparam__label);
+int __sklib__start_treenode__string_ref(const __sklib_string label_text) {
+    string __skparam__label_text = __sklib__to_string(label_text);
+    bool __skreturn = start_treenode(__skparam__label_text);
     return __sklib__to_int(__skreturn);
 }
 __sklib_string __sklib__text_box__string_ref(const __sklib_string value) {
@@ -2702,10 +2782,10 @@ __sklib_string __sklib__text_box__string_ref__rectangle_ref(const __sklib_string
     string __skreturn = text_box(__skparam__value, __skparam__rect);
     return __sklib__to_sklib_string(__skreturn);
 }
-__sklib_string __sklib__text_box__string_ref__string_ref(const __sklib_string label, const __sklib_string value) {
-    string __skparam__label = __sklib__to_string(label);
+__sklib_string __sklib__text_box__string_ref__string_ref(const __sklib_string label_text, const __sklib_string value) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     string __skparam__value = __sklib__to_string(value);
-    string __skreturn = text_box(__skparam__label, __skparam__value);
+    string __skreturn = text_box(__skparam__label_text, __skparam__value);
     return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_json __sklib__create_json() {
@@ -3418,9 +3498,9 @@ int __sklib__music_valid__music(__sklib_music m) {
     bool __skreturn = music_valid(__skparam__m);
     return __sklib__to_int(__skreturn);
 }
-float __sklib__music_volume() {
-    float __skreturn = music_volume();
-    return __sklib__to_float(__skreturn);
+double __sklib__music_volume() {
+    double __skreturn = music_volume();
+    return __sklib__to_double(__skreturn);
 }
 void __sklib__pause_music() {
     pause_music();
@@ -3443,17 +3523,17 @@ void __sklib__play_music__music__int(__sklib_music data, int times) {
     int __skparam__times = __sklib__to_int(times);
     play_music(__skparam__data, __skparam__times);
 }
-void __sklib__play_music__music__int__float(__sklib_music data, int times, float volume) {
+void __sklib__play_music__music__int__double(__sklib_music data, int times, double volume) {
     music __skparam__data = __sklib__to_music(data);
     int __skparam__times = __sklib__to_int(times);
-    float __skparam__volume = __sklib__to_float(volume);
+    double __skparam__volume = __sklib__to_double(volume);
     play_music(__skparam__data, __skparam__times, __skparam__volume);
 }
 void __sklib__resume_music() {
     resume_music();
 }
-void __sklib__set_music_volume__float(float volume) {
-    float __skparam__volume = __sklib__to_float(volume);
+void __sklib__set_music_volume__double(double volume) {
+    double __skparam__volume = __sklib__to_double(volume);
     set_music_volume(__skparam__volume);
 }
 void __sklib__stop_music() {
@@ -3651,6 +3731,11 @@ int __sklib__is_connection_open__connection(__sklib_connection con) {
 int __sklib__is_connection_open__string_ref(const __sklib_string name) {
     string __skparam__name = __sklib__to_string(name);
     bool __skreturn = is_connection_open(__skparam__name);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__is_valid_ipv4__string_ref(const __sklib_string ip) {
+    string __skparam__ip = __sklib__to_string(ip);
+    bool __skreturn = is_valid_ipv4(__skparam__ip);
     return __sklib__to_int(__skreturn);
 }
 __sklib_connection __sklib__last_connection__string_ref(const __sklib_string name) {
@@ -4053,11 +4138,11 @@ float __sklib__point_point_angle__point_2d_ref__point_2d_ref(const __sklib_point
     float __skreturn = point_point_angle(__skparam__pt1, __skparam__pt2);
     return __sklib__to_float(__skreturn);
 }
-float __sklib__point_point_distance__point_2d_ref__point_2d_ref(const __sklib_point_2d pt1, const __sklib_point_2d pt2) {
+double __sklib__point_point_distance__point_2d_ref__point_2d_ref(const __sklib_point_2d pt1, const __sklib_point_2d pt2) {
     point_2d __skparam__pt1 = __sklib__to_point_2d(pt1);
     point_2d __skparam__pt2 = __sklib__to_point_2d(pt2);
-    float __skreturn = point_point_distance(__skparam__pt1, __skparam__pt2);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = point_point_distance(__skparam__pt1, __skparam__pt2);
+    return __sklib__to_double(__skreturn);
 }
 __sklib_string __sklib__point_to_string__point_2d_ref(const __sklib_point_2d pt) {
     point_2d __skparam__pt = __sklib__to_point_2d(pt);
@@ -4083,6 +4168,13 @@ int __sklib__same_point__point_2d_ref__point_2d_ref(const __sklib_point_2d pt1, 
     point_2d __skparam__pt2 = __sklib__to_point_2d(pt2);
     bool __skreturn = same_point(__skparam__pt1, __skparam__pt2);
     return __sklib__to_int(__skreturn);
+}
+__sklib_quad __sklib__quad_from__point_2d_ref__point_2d_ref__double(const __sklib_point_2d line_origin, const __sklib_point_2d line_end, double width) {
+    point_2d __skparam__line_origin = __sklib__to_point_2d(line_origin);
+    point_2d __skparam__line_end = __sklib__to_point_2d(line_end);
+    double __skparam__width = __sklib__to_double(width);
+    quad __skreturn = quad_from(__skparam__line_origin, __skparam__line_end, __skparam__width);
+    return __sklib__to_sklib_quad(__skreturn);
 }
 __sklib_quad __sklib__quad_from__point_2d_ref__point_2d_ref__point_2d_ref__point_2d_ref(const __sklib_point_2d p1, const __sklib_point_2d p2, const __sklib_point_2d p3, const __sklib_point_2d p4) {
     point_2d __skparam__p1 = __sklib__to_point_2d(p1);
@@ -4488,10 +4580,10 @@ __sklib_rectangle __sklib__rectangle_around__triangle_ref(const __sklib_triangle
     rectangle __skreturn = rectangle_around(__skparam__t);
     return __sklib__to_sklib_rectangle(__skreturn);
 }
-float __sklib__rectangle_bottom__rectangle_ref(const __sklib_rectangle rect) {
+double __sklib__rectangle_bottom__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    float __skreturn = rectangle_bottom(__skparam__rect);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = rectangle_bottom(__skparam__rect);
+    return __sklib__to_double(__skreturn);
 }
 __sklib_point_2d __sklib__rectangle_center__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
@@ -4519,10 +4611,10 @@ __sklib_rectangle __sklib__rectangle_from__double__double__double__double(double
     rectangle __skreturn = rectangle_from(__skparam__x, __skparam__y, __skparam__width, __skparam__height);
     return __sklib__to_sklib_rectangle(__skreturn);
 }
-float __sklib__rectangle_left__rectangle_ref(const __sklib_rectangle rect) {
+double __sklib__rectangle_left__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    float __skreturn = rectangle_left(__skparam__rect);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = rectangle_left(__skparam__rect);
+    return __sklib__to_double(__skreturn);
 }
 __sklib_rectangle __sklib__rectangle_offset_by__rectangle_ref__vector_2d_ref(const __sklib_rectangle rect, const __sklib_vector_2d offset) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
@@ -4530,20 +4622,20 @@ __sklib_rectangle __sklib__rectangle_offset_by__rectangle_ref__vector_2d_ref(con
     rectangle __skreturn = rectangle_offset_by(__skparam__rect, __skparam__offset);
     return __sklib__to_sklib_rectangle(__skreturn);
 }
-float __sklib__rectangle_right__rectangle_ref(const __sklib_rectangle rect) {
+double __sklib__rectangle_right__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    float __skreturn = rectangle_right(__skparam__rect);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = rectangle_right(__skparam__rect);
+    return __sklib__to_double(__skreturn);
 }
 __sklib_string __sklib__rectangle_to_string__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
     string __skreturn = rectangle_to_string(__skparam__rect);
     return __sklib__to_sklib_string(__skreturn);
 }
-float __sklib__rectangle_top__rectangle_ref(const __sklib_rectangle rect) {
+double __sklib__rectangle_top__rectangle_ref(const __sklib_rectangle rect) {
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    float __skreturn = rectangle_top(__skparam__rect);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = rectangle_top(__skparam__rect);
+    return __sklib__to_double(__skreturn);
 }
 int __sklib__rectangles_intersect__rectangle_ref__rectangle_ref(const __sklib_rectangle rect1, const __sklib_rectangle rect2) {
     rectangle __skparam__rect1 = __sklib__to_rectangle(rect1);
@@ -4609,9 +4701,9 @@ void __sklib__play_sound_effect__string_ref(const __sklib_string name) {
     string __skparam__name = __sklib__to_string(name);
     play_sound_effect(__skparam__name);
 }
-void __sklib__play_sound_effect__string_ref__float(const __sklib_string name, float volume) {
+void __sklib__play_sound_effect__string_ref__double(const __sklib_string name, double volume) {
     string __skparam__name = __sklib__to_string(name);
-    float __skparam__volume = __sklib__to_float(volume);
+    double __skparam__volume = __sklib__to_double(volume);
     play_sound_effect(__skparam__name, __skparam__volume);
 }
 void __sklib__play_sound_effect__string_ref__int(const __sklib_string name, int times) {
@@ -4619,19 +4711,19 @@ void __sklib__play_sound_effect__string_ref__int(const __sklib_string name, int 
     int __skparam__times = __sklib__to_int(times);
     play_sound_effect(__skparam__name, __skparam__times);
 }
-void __sklib__play_sound_effect__string_ref__int__float(const __sklib_string name, int times, float volume) {
+void __sklib__play_sound_effect__string_ref__int__double(const __sklib_string name, int times, double volume) {
     string __skparam__name = __sklib__to_string(name);
     int __skparam__times = __sklib__to_int(times);
-    float __skparam__volume = __sklib__to_float(volume);
+    double __skparam__volume = __sklib__to_double(volume);
     play_sound_effect(__skparam__name, __skparam__times, __skparam__volume);
 }
 void __sklib__play_sound_effect__sound_effect(__sklib_sound_effect effect) {
     sound_effect __skparam__effect = __sklib__to_sound_effect(effect);
     play_sound_effect(__skparam__effect);
 }
-void __sklib__play_sound_effect__sound_effect__float(__sklib_sound_effect effect, float volume) {
+void __sklib__play_sound_effect__sound_effect__double(__sklib_sound_effect effect, double volume) {
     sound_effect __skparam__effect = __sklib__to_sound_effect(effect);
-    float __skparam__volume = __sklib__to_float(volume);
+    double __skparam__volume = __sklib__to_double(volume);
     play_sound_effect(__skparam__effect, __skparam__volume);
 }
 void __sklib__play_sound_effect__sound_effect__int(__sklib_sound_effect effect, int times) {
@@ -4639,10 +4731,10 @@ void __sklib__play_sound_effect__sound_effect__int(__sklib_sound_effect effect, 
     int __skparam__times = __sklib__to_int(times);
     play_sound_effect(__skparam__effect, __skparam__times);
 }
-void __sklib__play_sound_effect__sound_effect__int__float(__sklib_sound_effect effect, int times, float volume) {
+void __sklib__play_sound_effect__sound_effect__int__double(__sklib_sound_effect effect, int times, double volume) {
     sound_effect __skparam__effect = __sklib__to_sound_effect(effect);
     int __skparam__times = __sklib__to_int(times);
-    float __skparam__volume = __sklib__to_float(volume);
+    double __skparam__volume = __sklib__to_double(volume);
     play_sound_effect(__skparam__effect, __skparam__times, __skparam__volume);
 }
 __sklib_string __sklib__sound_effect_filename__sound_effect(__sklib_sound_effect effect) {
@@ -4695,11 +4787,6 @@ void __sklib__call_for_all_sprites__sprite_function_ptr(__sklib_sprite_function 
 void __sklib__call_on_sprite_event__sprite_event_handler_ptr(__sklib_sprite_event_handler *handler) {
     sprite_event_handler *__skparam__handler = handler;
     call_on_sprite_event(__skparam__handler);
-}
-__sklib_point_2d __sklib__center_point__sprite(__sklib_sprite s) {
-    sprite __skparam__s = __sklib__to_sprite(s);
-    point_2d __skreturn = center_point(__skparam__s);
-    return __sklib__to_sklib_point_2d(__skreturn);
 }
 __sklib_sprite __sklib__create_sprite__bitmap(__sklib_bitmap layer) {
     bitmap __skparam__layer = __sklib__to_bitmap(layer);
@@ -4877,6 +4964,11 @@ void __sklib__sprite_call_on_event__sprite__sprite_event_handler_ptr(__sklib_spr
     sprite_event_handler *__skparam__handler = handler;
     sprite_call_on_event(__skparam__s, __skparam__handler);
 }
+__sklib_point_2d __sklib__sprite_center_point__sprite(__sklib_sprite s) {
+    sprite __skparam__s = __sklib__to_sprite(s);
+    point_2d __skreturn = sprite_center_point(__skparam__s);
+    return __sklib__to_sklib_point_2d(__skreturn);
+}
 __sklib_circle __sklib__sprite_circle__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
     circle __skreturn = sprite_circle(__skparam__s);
@@ -4912,15 +5004,15 @@ __sklib_rectangle __sklib__sprite_current_cell_rectangle__sprite(__sklib_sprite 
     rectangle __skreturn = sprite_current_cell_rectangle(__skparam__s);
     return __sklib__to_sklib_rectangle(__skreturn);
 }
-float __sklib__sprite_dx__sprite(__sklib_sprite s) {
+double __sklib__sprite_dx__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skreturn = sprite_dx(__skparam__s);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = sprite_dx(__skparam__s);
+    return __sklib__to_double(__skreturn);
 }
-float __sklib__sprite_dy__sprite(__sklib_sprite s) {
+double __sklib__sprite_dy__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skreturn = sprite_dy(__skparam__s);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = sprite_dy(__skparam__s);
+    return __sklib__to_double(__skreturn);
 }
 int __sklib__sprite_has_value__sprite__string(__sklib_sprite s, __sklib_string name) {
     sprite __skparam__s = __sklib__to_sprite(s);
@@ -5140,14 +5232,14 @@ void __sklib__sprite_set_collision_kind__sprite__collision_test_kind(__sklib_spr
     collision_test_kind __skparam__value = __sklib__to_collision_test_kind(value);
     sprite_set_collision_kind(__skparam__s, __skparam__value);
 }
-void __sklib__sprite_set_dx__sprite__float(__sklib_sprite s, float value) {
+void __sklib__sprite_set_dx__sprite__double(__sklib_sprite s, double value) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skparam__value = __sklib__to_float(value);
+    double __skparam__value = __sklib__to_double(value);
     sprite_set_dx(__skparam__s, __skparam__value);
 }
-void __sklib__sprite_set_dy__sprite__float(__sklib_sprite s, float value) {
+void __sklib__sprite_set_dy__sprite__double(__sklib_sprite s, double value) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skparam__value = __sklib__to_float(value);
+    double __skparam__value = __sklib__to_double(value);
     sprite_set_dy(__skparam__s, __skparam__value);
 }
 void __sklib__sprite_set_heading__sprite__float(__sklib_sprite s, float value) {
@@ -5192,9 +5284,9 @@ void __sklib__sprite_set_scale__sprite__float(__sklib_sprite s, float value) {
     float __skparam__value = __sklib__to_float(value);
     sprite_set_scale(__skparam__s, __skparam__value);
 }
-void __sklib__sprite_set_speed__sprite__float(__sklib_sprite s, float value) {
+void __sklib__sprite_set_speed__sprite__double(__sklib_sprite s, double value) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skparam__value = __sklib__to_float(value);
+    double __skparam__value = __sklib__to_double(value);
     sprite_set_speed(__skparam__s, __skparam__value);
 }
 void __sklib__sprite_set_value__sprite__string_ref__float(__sklib_sprite s, const __sklib_string name, float val) {
@@ -5208,14 +5300,14 @@ void __sklib__sprite_set_velocity__sprite__vector_2d_ref(__sklib_sprite s, const
     vector_2d __skparam__value = __sklib__to_vector_2d(value);
     sprite_set_velocity(__skparam__s, __skparam__value);
 }
-void __sklib__sprite_set_x__sprite__float(__sklib_sprite s, float value) {
+void __sklib__sprite_set_x__sprite__double(__sklib_sprite s, double value) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skparam__value = __sklib__to_float(value);
+    double __skparam__value = __sklib__to_double(value);
     sprite_set_x(__skparam__s, __skparam__value);
 }
-void __sklib__sprite_set_y__sprite__float(__sklib_sprite s, float value) {
+void __sklib__sprite_set_y__sprite__double(__sklib_sprite s, double value) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skparam__value = __sklib__to_float(value);
+    double __skparam__value = __sklib__to_double(value);
     sprite_set_y(__skparam__s, __skparam__value);
 }
 int __sklib__sprite_show_layer__sprite__string_ref(__sklib_sprite s, const __sklib_string name) {
@@ -5230,10 +5322,10 @@ int __sklib__sprite_show_layer__sprite__int(__sklib_sprite s, int id) {
     int __skreturn = sprite_show_layer(__skparam__s, __skparam__id);
     return __sklib__to_int(__skreturn);
 }
-float __sklib__sprite_speed__sprite(__sklib_sprite s) {
+double __sklib__sprite_speed__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skreturn = sprite_speed(__skparam__s);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = sprite_speed(__skparam__s);
+    return __sklib__to_double(__skreturn);
 }
 void __sklib__sprite_start_animation__sprite__string_ref(__sklib_sprite s, const __sklib_string named) {
     sprite __skparam__s = __sklib__to_sprite(s);
@@ -5322,15 +5414,15 @@ int __sklib__sprite_width__sprite(__sklib_sprite s) {
     int __skreturn = sprite_width(__skparam__s);
     return __sklib__to_int(__skreturn);
 }
-float __sklib__sprite_x__sprite(__sklib_sprite s) {
+double __sklib__sprite_x__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skreturn = sprite_x(__skparam__s);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = sprite_x(__skparam__s);
+    return __sklib__to_double(__skreturn);
 }
-float __sklib__sprite_y__sprite(__sklib_sprite s) {
+double __sklib__sprite_y__sprite(__sklib_sprite s) {
     sprite __skparam__s = __sklib__to_sprite(s);
-    float __skreturn = sprite_y(__skparam__s);
-    return __sklib__to_float(__skreturn);
+    double __skreturn = sprite_y(__skparam__s);
+    return __sklib__to_double(__skreturn);
 }
 void __sklib__stop_calling_on_sprite_event__sprite_event_handler_ptr(__sklib_sprite_event_handler *handler) {
     sprite_event_handler *__skparam__handler = handler;
@@ -6217,9 +6309,9 @@ double __sklib__vector_magnitude__vector_2d_ref(const __sklib_vector_2d v) {
     double __skreturn = vector_magnitude(__skparam__v);
     return __sklib__to_double(__skreturn);
 }
-double __sklib__vector_magnitude_sqared__vector_2d_ref(const __sklib_vector_2d v) {
+double __sklib__vector_magnitude_squared__vector_2d_ref(const __sklib_vector_2d v) {
     vector_2d __skparam__v = __sklib__to_vector_2d(v);
-    double __skreturn = vector_magnitude_sqared(__skparam__v);
+    double __skreturn = vector_magnitude_squared(__skparam__v);
     return __sklib__to_double(__skreturn);
 }
 __sklib_vector_2d __sklib__vector_multiply__vector_2d_ref__double(const __sklib_vector_2d v1, double s) {
