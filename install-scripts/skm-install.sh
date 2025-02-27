@@ -36,7 +36,26 @@ if [ -d "${INSTALL_PATH}" ]; then
     exit 1
 fi
 
-git clone --depth 1 --branch master $GIT_SKM_REPO "${INSTALL_PATH}"
+BRANCH_NAME="master" #default
+
+# Check if branch name arg given (1st arg)
+if [ "$1" ]; then
+    BRANCH_NAME=$1
+fi
+
+# Check if git repo URL given (2nd arg)
+if [ "$2" ]; then
+    GIT_SKM_REPO=$2
+fi
+
+# Output arg details if testing
+if [[ $BRANCH_NAME != "master" ]] || [[ $GIT_SKM_REPO != "https://github.com/splashkit/skm.git" ]]; then
+    echo "SplashKit installation testing.."
+    echo "Installing from $GIT_SKM_REPO"
+    echo "Using $BRANCH_NAME branch."
+fi
+
+git clone --depth 1 --branch $BRANCH_NAME $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add SKM app to path without needing sudo
 
