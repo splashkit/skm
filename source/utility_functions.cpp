@@ -587,4 +587,5 @@ namespace splashkit_lib
     double lin_interp(double v0, double v1, double t) {
         return v0 * (1.0 - t) + v1 * t;
     }
+
 }
