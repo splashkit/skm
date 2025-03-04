@@ -13,8 +13,7 @@ detect_msys2_shell () {
 		if [ "$MSYSTEM" = "MINGW64" ]; then
 			export DISTRO_ID=$MSYSTEM
 		else
-			echo "Unable to detect Windows version..."
-			echo "Please run in MINGW64 terminal"
+			echo "Unable to detect Windows version. Please run in \"MINGW64\" terminal (not MSYS2 or UCRT terminals)"
 		fi
 	else
 		echo "Unable to install dependencies in Git Bash terminal"

@@ -51,3 +51,5 @@ ${APP_PATH}/install_deps.sh
 # echo "SplashKit Installed"
 
 echo "SplashKit Dependencies Installed"
+
+"${SKM_PATH}/global/install/skm_global_install.sh"
