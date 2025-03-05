@@ -61,15 +61,15 @@ git clone --depth 1 --branch $BRANCH_NAME $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add to .bashrc if using bash
 if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
-    chmod +x ~/.bash_profile
+    chmod +w ~/.bash_profile
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
-    chmod +x ~/.bashrc
+    chmod +w ~/.bashrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
 fi
 
 # Add to .zshrc if using zsh
 if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
-    chmod +x ~/.zshrc
+    chmod +w ~/.zshrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
 fi
 
