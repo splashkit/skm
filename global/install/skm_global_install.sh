@@ -6,6 +6,7 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
 HAS_PYTHON3=false
+HAS_DOTNET=false
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
@@ -69,6 +70,34 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
     if [ ! $? -eq 0 ]; then
         echo "Failed to create directory ${INC_DEST}/splashkit"
         exit 1
+    fi
+fi
+
+if [ "$SK_OS" = "macos" ]; then
+    echo "Checking if dotnet is installed..."
+    if command -v dotnet &> /dev/null; then
+        HAS_DOTNET=true
+    else
+        echo ".NET SDK not installed. This may cause issues with \"dotnet run\" command. Please install .NET 8, then run this script again."
+    fi
+
+    if [ "$HAS_DOTNET" = true ]; then
+        echo "\"dotnet\" command found. Checking version..."
+        # Check for .NET 9.0
+        DOTNET_VERSION=`dotnet --version`
+        DOTNET_9=`echo "$DOTNET_VERSION" | grep 9.0 | sed 's/..$//'`
+        if [[ $DOTNET_9 == *"9.0"* ]]; then
+            # dotnet share library path for macOS (temporary fix)
+            DOTNET_LIB="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/${DOTNET_9}"
+
+            # Copy splashkit python file to global location
+            echo "Copying "$LIB_FILE" to ${DOTNET_LIB}"
+            $PRIVILEGED cp -f "$LIB_FILE" "$DOTNET_LIB"
+            if [ ! $? -eq 0 ]; then
+                echo "Failed to copy "$LIB_FILE" to ${PYTHON_LIB}"
+                exit 1
+            fi
+        fi
     fi
 fi
 
