@@ -136,6 +136,25 @@ if [ "$HAS_PYTHON3" = true ]; then
     fi
 fi
 
+if [ "$SK_OS" = "macos" ]; then
+    if command -v dotnet &> /dev/null; then
+        # Check for .NET 9.0
+        DOTNET_VERSION=`dotnet --version`
+        DOTNET_9=`echo "$DOTNET_VERSION" | grep 9.0 | sed 's/..$//'`
+        if [[ $DOTNET_9 == *"9.0"* ]]; then
+            # dotnet share library path for macOS (temporary fix)
+            DOTNET_LIB="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/${DOTNET_9}"
+
+            # Remove library file from dotnet share location
+            echo "Removing "$LIB_FILE" from ${DOTNET_LIB}"
+            $PRIVILEGED rm -f "${DOTNET_LIB}/libSplashKit.dylib"
+            if [ ! $? -eq 0 ]; then
+                echo "Failed to remove libSplashKit.dylib from ${DOTNET_LIB}"
+                exit 1
+            fi
+        fi
+    fi
+fi
 
 # Remove conf file to link libraries added to /usr/local/lib directory
 if [ "$SK_OS" = "linux" ]; then
