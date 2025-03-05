@@ -22,8 +22,6 @@ fi
 
 ${APP_PATH}/install_deps.sh
 
-SKM_PATH="~/.splashkit"
-
 echo "Configuring SplashKit"
 cd "${SKM_PATH}/source"
 pwd
