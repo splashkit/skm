@@ -61,8 +61,6 @@ git clone --depth 1 --branch $BRANCH_NAME $GIT_SKM_REPO "${INSTALL_PATH}"
 
 # Add to .bashrc if using bash
 if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
-    chmod a=rw ~/.bash_profile
-    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
     chmod a=rw ~/.bashrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc

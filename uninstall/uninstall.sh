@@ -173,12 +173,6 @@ if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Lin
     else
         sed -i "\|export PATH=\"$INSTALL_PATH:\$PATH\"|d" ~/.bashrc
     fi
-    echo "Removing ${bold}export PATH=\"$INSTALL_PATH:\$PATH\"${normal} from ~/.bash_profile"
-    if [ $SK_OS = "macos" ]; then
-        sed -i '' "\|export PATH=\"$INSTALL_PATH:\$PATH\"|d" ~/.bash_profile
-    else
-        sed -i "\|export PATH=\"$INSTALL_PATH:\$PATH\"|d" ~/.bash_profile
-    fi
 fi
 
 # Remove splashkit path from .zshrc if using zsh
