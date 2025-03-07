@@ -73,6 +73,7 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
     fi
 fi
 
+# Copy library file to dotnet runtime folders
 if [ "$SK_OS" = "macos" ]; then
     echo "Checking if dotnet is installed..."
     if command -v dotnet &> /dev/null; then
@@ -83,25 +84,17 @@ if [ "$SK_OS" = "macos" ]; then
 
     if [ "$HAS_DOTNET" = true ]; then
         echo "\"dotnet\" command found. Checking version..."
-        # Check for .NET 9.0
-        DOTNET_VERSION=`dotnet --version`
-        DOTNET_8=`echo "$DOTNET_VERSION" | grep 8.0 | sed 's/..$//'`
-        DOTNET_9=`echo "$DOTNET_VERSION" | grep 9.0 | sed 's/..$//'`
-        if [[ $DOTNET_9 == *"9.0"* ]]; then
-            # dotnet share library path for macOS (temporary fix)
-            DOTNET_LIB="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/${DOTNET_9}"
-        elif [[ $DOTNET_8 == *"8.0"* ]]; then
-            # dotnet share library path for macOS (temporary fix)
-            DOTNET_LIB="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/${DOTNET_8}"
-        fi
-
-        # Copy splashkit library file to global location
-        echo "Copying "$LIB_FILE" to ${DOTNET_LIB}"
-        $PRIVILEGED cp -f "$LIB_FILE" "$DOTNET_LIB"
-        if [ ! $? -eq 0 ]; then
-            echo "Failed to copy "$LIB_FILE" to ${DOTNET_LIB}"
-            exit 1
-        fi
+        DOTNET_PATH=`sudo find /usr/local -name Microsoft.NETCore.App`
+        for f in $DOTNET_PATH/*; do
+            if [ -d "$f" ]; then
+                echo "Copying "$LIB_FILE" to $f"
+                $PRIVILEGED cp -f "$LIB_FILE" "$f"
+                if [ ! $? -eq 0 ]; then
+                    echo "Failed to copy "$LIB_FILE" to $f"
+                    exit 1
+                fi
+            fi
+        done
     fi
 fi
 
