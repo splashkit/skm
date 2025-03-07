@@ -138,20 +138,18 @@ fi
 
 if [ "$SK_OS" = "macos" ]; then
     if command -v dotnet &> /dev/null; then
-        # Check for .NET 9.0
-        DOTNET_VERSION=`dotnet --version`
-        DOTNET_9=`echo "$DOTNET_VERSION" | grep 9.0 | sed 's/..$//'`
-        if [[ $DOTNET_9 == *"9.0"* ]]; then
-            # dotnet share library path for macOS (temporary fix)
-            DOTNET_LIB="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/${DOTNET_9}"
-
-            # Remove library file from dotnet share location
-            echo "Removing "$LIB_FILE" from ${DOTNET_LIB}"
-            $PRIVILEGED rm -f "${DOTNET_LIB}/libSplashKit.dylib"
-            if [ ! $? -eq 0 ]; then
-                echo "Failed to remove libSplashKit.dylib from ${DOTNET_LIB}"
-                exit 1
-            fi
+        if [ "$HAS_DOTNET" = true ]; then
+            DOTNET_PATH=`sudo find /usr/local -name Microsoft.NETCore.App`
+            for f in $DOTNET_PATH/*; do
+                if [ -d "$f" ]; then
+                    echo "Removing "libSplashKit.dylib" from $f"
+                    $PRIVILEGED rm -f "$f/libSplashKit.dylib"
+                    if [ ! $? -eq 0 ]; then
+                        echo "Failed to remove "libSplashKit.dylib" from $f"
+                        exit 1
+                    fi
+                fi
+            done
         fi
     fi
 fi
