@@ -216,45 +216,7 @@ class FontStyle(Enum):
     bold_font = 1
     italic_font = 2
     underline_font = 4
-class HttpStatusCode(Enum):
-    http_status_ok = 200
-    http_status_created = 201
-    http_status_no_content = 204
-    http_status_moved_permanently = 301
-    http_status_found = 302
-    http_status_see_other = 303
-    http_status_bad_request = 400
-    http_status_unauthorized = 401
-    http_status_forbidden = 403
-    http_status_not_found = 404
-    http_status_method_not_allowed = 405
-    http_status_request_timeout = 408
-    http_status_conflict = 409
-    http_status_internal_server_error = 500
-    http_status_not_implemented = 501
-    http_status_service_unavailable = 503
-class InterfaceStyle(Enum):
-    flat_dark_style = 0
-    shaded_dark_style = 1
-    flat_light_style = 2
-    shaded_light_style = 3
-    bubble = 4
-    bubble_multicolored = 5
-class PinModes(Enum):
-    gpio_input = 0
-    gpio_output = 1
-    gpio_alt0 = 4
-    gpio_alt1 = 5
-    gpio_alt2 = 6
-    gpio_alt3 = 7
-    gpio_alt4 = 3
-    gpio_alt5 = 2
-    gpio_default_mode = 1
-class PinValues(Enum):
-    gpio_low = 0
-    gpio_high = 1
-    gpio_default_value = 1
-class Pins(Enum):
+class GpioPin(Enum):
     pin_1 = 1
     pin_2 = 2
     pin_3 = 3
@@ -295,6 +257,44 @@ class Pins(Enum):
     pin_38 = 38
     pin_39 = 39
     pin_40 = 40
+class GpioPinMode(Enum):
+    gpio_input = 0
+    gpio_output = 1
+    gpio_alt0 = 4
+    gpio_alt1 = 5
+    gpio_alt2 = 6
+    gpio_alt3 = 7
+    gpio_alt4 = 3
+    gpio_alt5 = 2
+    gpio_default_mode = -1
+class GpioPinValue(Enum):
+    gpio_default_value = -1
+    gpio_low = 0
+    gpio_high = 1
+class HttpStatusCode(Enum):
+    http_status_ok = 200
+    http_status_created = 201
+    http_status_no_content = 204
+    http_status_moved_permanently = 301
+    http_status_found = 302
+    http_status_see_other = 303
+    http_status_bad_request = 400
+    http_status_unauthorized = 401
+    http_status_forbidden = 403
+    http_status_not_found = 404
+    http_status_method_not_allowed = 405
+    http_status_request_timeout = 408
+    http_status_conflict = 409
+    http_status_internal_server_error = 500
+    http_status_not_implemented = 501
+    http_status_service_unavailable = 503
+class InterfaceStyle(Enum):
+    flat_dark_style = 0
+    shaded_dark_style = 1
+    flat_light_style = 2
+    shaded_light_style = 3
+    bubble = 4
+    bubble_multicolored = 5
 class PullUpDown(Enum):
     pud_off = 0
     pud_down = 1
@@ -861,6 +861,30 @@ def __skadapter__to_font_style(v):
 def __skadapter__to_sklib_font_style(v):
     return c_int(v.value)
 
+def __skadapter__to_gpio_pin(v):
+    if isinstance(v, GpioPin):
+        return v
+    return GpioPin(v)
+
+def __skadapter__to_sklib_gpio_pin(v):
+    return c_int(v.value)
+
+def __skadapter__to_gpio_pin_mode(v):
+    if isinstance(v, GpioPinMode):
+        return v
+    return GpioPinMode(v)
+
+def __skadapter__to_sklib_gpio_pin_mode(v):
+    return c_int(v.value)
+
+def __skadapter__to_gpio_pin_value(v):
+    if isinstance(v, GpioPinValue):
+        return v
+    return GpioPinValue(v)
+
+def __skadapter__to_sklib_gpio_pin_value(v):
+    return c_int(v.value)
+
 def __skadapter__to_http_status_code(v):
     if isinstance(v, HttpStatusCode):
         return v
@@ -875,30 +899,6 @@ def __skadapter__to_interface_style(v):
     return InterfaceStyle(v)
 
 def __skadapter__to_sklib_interface_style(v):
-    return c_int(v.value)
-
-def __skadapter__to_pin_modes(v):
-    if isinstance(v, PinModes):
-        return v
-    return PinModes(v)
-
-def __skadapter__to_sklib_pin_modes(v):
-    return c_int(v.value)
-
-def __skadapter__to_pin_values(v):
-    if isinstance(v, PinValues):
-        return v
-    return PinValues(v)
-
-def __skadapter__to_sklib_pin_values(v):
-    return c_int(v.value)
-
-def __skadapter__to_pins(v):
-    if isinstance(v, Pins):
-        return v
-    return Pins(v)
-
-def __skadapter__to_sklib_pins(v):
     return c_int(v.value)
 
 def __skadapter__to_pull_up_down(v):
@@ -1631,26 +1631,66 @@ sklib.__sklib__close_audio.argtypes = [  ]
 sklib.__sklib__close_audio.restype = None
 sklib.__sklib__open_audio.argtypes = [  ]
 sklib.__sklib__open_audio.restype = None
+sklib.__sklib__base64_decode__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__base64_decode__string_ref.restype = _sklib_string
+sklib.__sklib__base64_encode__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__base64_encode__string_ref.restype = _sklib_string
+sklib.__sklib__bin_to_dec__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__bin_to_dec__string_ref.restype = c_uint
+sklib.__sklib__bin_to_hex__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__bin_to_hex__string_ref.restype = _sklib_string
+sklib.__sklib__bin_to_oct__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__bin_to_oct__string_ref.restype = _sklib_string
 sklib.__sklib__contains__string_ref__string_ref.argtypes = [ _sklib_string, _sklib_string ]
 sklib.__sklib__contains__string_ref__string_ref.restype = c_int32
 sklib.__sklib__convert_to_double__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__convert_to_double__string_ref.restype = c_double
 sklib.__sklib__convert_to_integer__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__convert_to_integer__string_ref.restype = c_int
+sklib.__sklib__dec_to_bin__unsigned_int.argtypes = [ c_uint ]
+sklib.__sklib__dec_to_bin__unsigned_int.restype = _sklib_string
+sklib.__sklib__dec_to_oct__unsigned_int.argtypes = [ c_uint ]
+sklib.__sklib__dec_to_oct__unsigned_int.restype = _sklib_string
+sklib.__sklib__greatest_common_divisor__int__int.argtypes = [ c_int, c_int ]
+sklib.__sklib__greatest_common_divisor__int__int.restype = c_int
+sklib.__sklib__hex_to_bin__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__hex_to_bin__string_ref.restype = _sklib_string
+sklib.__sklib__hex_to_dec__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__hex_to_dec__string_ref.restype = c_uint
+sklib.__sklib__hex_to_oct__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__hex_to_oct__string_ref.restype = _sklib_string
 sklib.__sklib__index_of__string_ref__string_ref.argtypes = [ _sklib_string, _sklib_string ]
 sklib.__sklib__index_of__string_ref__string_ref.restype = c_int
+sklib.__sklib__is_binary__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__is_binary__string_ref.restype = c_int32
 sklib.__sklib__is_double__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__is_double__string_ref.restype = c_int32
+sklib.__sklib__is_hex__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__is_hex__string_ref.restype = c_int32
 sklib.__sklib__is_integer__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__is_integer__string_ref.restype = c_int32
 sklib.__sklib__is_number__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__is_number__string_ref.restype = c_int32
+sklib.__sklib__is_octal__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__is_octal__string_ref.restype = c_int32
+sklib.__sklib__is_prime_number__int.argtypes = [ c_int ]
+sklib.__sklib__is_prime_number__int.restype = c_int32
+sklib.__sklib__least_common_multiple__int__int.argtypes = [ c_int, c_int ]
+sklib.__sklib__least_common_multiple__int__int.restype = c_int
 sklib.__sklib__length_of__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__length_of__string_ref.restype = c_int
+sklib.__sklib__oct_to_bin__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__oct_to_bin__string_ref.restype = _sklib_string
+sklib.__sklib__oct_to_dec__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__oct_to_dec__string_ref.restype = c_uint
+sklib.__sklib__oct_to_hex__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__oct_to_hex__string_ref.restype = _sklib_string
 sklib.__sklib__replace_all__string_ref__string_ref__string_ref.argtypes = [ _sklib_string, _sklib_string, _sklib_string ]
 sklib.__sklib__replace_all__string_ref__string_ref__string_ref.restype = _sklib_string
 sklib.__sklib__split__string_ref__char.argtypes = [ _sklib_string, c_char ]
 sklib.__sklib__split__string_ref__char.restype = _sklib_vector_string
+sklib.__sklib__square_root__int.argtypes = [ c_int ]
+sklib.__sklib__square_root__int.restype = c_double
 sklib.__sklib__to_lowercase__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__to_lowercase__string_ref.restype = _sklib_string
 sklib.__sklib__to_uppercase__string_ref.argtypes = [ _sklib_string ]
@@ -3085,6 +3125,8 @@ sklib.__sklib__hex_str_to_ipv4__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__hex_str_to_ipv4__string_ref.restype = _sklib_string
 sklib.__sklib__hex_to_dec_string__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__hex_to_dec_string__string_ref.restype = _sklib_string
+sklib.__sklib__hex_to_mac__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__hex_to_mac__string_ref.restype = _sklib_string
 sklib.__sklib__ipv4_to_dec__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__ipv4_to_dec__string_ref.restype = c_uint
 sklib.__sklib__ipv4_to_hex__string_ref.argtypes = [ _sklib_string ]
@@ -3095,10 +3137,14 @@ sklib.__sklib__is_connection_open__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__is_connection_open__string_ref.restype = c_int32
 sklib.__sklib__is_valid_ipv4__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__is_valid_ipv4__string_ref.restype = c_int32
+sklib.__sklib__is_valid_mac__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__is_valid_mac__string_ref.restype = c_int32
 sklib.__sklib__last_connection__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__last_connection__string_ref.restype = c_void_p
 sklib.__sklib__last_connection__server_socket.argtypes = [ c_void_p ]
 sklib.__sklib__last_connection__server_socket.restype = c_void_p
+sklib.__sklib__mac_to_hex__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__mac_to_hex__string_ref.restype = _sklib_string
 sklib.__sklib__message_connection__message.argtypes = [ c_void_p ]
 sklib.__sklib__message_connection__message.restype = c_void_p
 sklib.__sklib__message_count__server_socket.argtypes = [ c_void_p ]
@@ -3277,30 +3323,50 @@ sklib.__sklib__has_gpio.argtypes = [  ]
 sklib.__sklib__has_gpio.restype = c_int32
 sklib.__sklib__raspi_cleanup.argtypes = [  ]
 sklib.__sklib__raspi_cleanup.restype = None
-sklib.__sklib__raspi_get_mode__pins.argtypes = [ c_int ]
-sklib.__sklib__raspi_get_mode__pins.restype = c_int
+sklib.__sklib__raspi_get_mode__gpio_pin.argtypes = [ c_int ]
+sklib.__sklib__raspi_get_mode__gpio_pin.restype = c_int
 sklib.__sklib__raspi_init.argtypes = [  ]
 sklib.__sklib__raspi_init.restype = None
-sklib.__sklib__raspi_read__pins.argtypes = [ c_int ]
-sklib.__sklib__raspi_read__pins.restype = c_int
-sklib.__sklib__raspi_set_mode__pins__pin_modes.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_set_mode__pins__pin_modes.restype = None
-sklib.__sklib__raspi_set_pull_up_down__pins__pull_up_down.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_set_pull_up_down__pins__pull_up_down.restype = None
-sklib.__sklib__raspi_set_pwm_dutycycle__pins__int.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_set_pwm_dutycycle__pins__int.restype = None
-sklib.__sklib__raspi_set_pwm_frequency__pins__int.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_set_pwm_frequency__pins__int.restype = None
-sklib.__sklib__raspi_set_pwm_range__pins__int.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_set_pwm_range__pins__int.restype = None
+sklib.__sklib__raspi_read__gpio_pin.argtypes = [ c_int ]
+sklib.__sklib__raspi_read__gpio_pin.restype = c_int
+sklib.__sklib__raspi_set_mode__gpio_pin__gpio_pin_mode.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_set_mode__gpio_pin__gpio_pin_mode.restype = None
+sklib.__sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down.restype = None
+sklib.__sklib__raspi_set_pwm_dutycycle__gpio_pin__int.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_set_pwm_dutycycle__gpio_pin__int.restype = None
+sklib.__sklib__raspi_set_pwm_frequency__gpio_pin__int.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_set_pwm_frequency__gpio_pin__int.restype = None
+sklib.__sklib__raspi_set_pwm_range__gpio_pin__int.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_set_pwm_range__gpio_pin__int.restype = None
 sklib.__sklib__raspi_spi_close__int.argtypes = [ c_int ]
 sklib.__sklib__raspi_spi_close__int.restype = c_int
 sklib.__sklib__raspi_spi_open__int__int__int.argtypes = [ c_int, c_int, c_int ]
 sklib.__sklib__raspi_spi_open__int__int__int.restype = c_int
 sklib.__sklib__raspi_spi_transfer__int__string__string__int.argtypes = [ c_int, _sklib_string, _sklib_string, c_int ]
 sklib.__sklib__raspi_spi_transfer__int__string__string__int.restype = c_int
-sklib.__sklib__raspi_write__pins__pin_values.argtypes = [ c_int, c_int ]
-sklib.__sklib__raspi_write__pins__pin_values.restype = None
+sklib.__sklib__raspi_write__gpio_pin__gpio_pin_value.argtypes = [ c_int, c_int ]
+sklib.__sklib__raspi_write__gpio_pin__gpio_pin_value.restype = None
+sklib.__sklib__remote_raspi_cleanup__connection.argtypes = [ c_void_p ]
+sklib.__sklib__remote_raspi_cleanup__connection.restype = c_int32
+sklib.__sklib__remote_raspi_get_mode__connection__gpio_pin.argtypes = [ c_void_p, c_int ]
+sklib.__sklib__remote_raspi_get_mode__connection__gpio_pin.restype = c_int
+sklib.__sklib__remote_raspi_init__string_ref__string_ref__unsigned_short.argtypes = [ _sklib_string, _sklib_string, c_ushort ]
+sklib.__sklib__remote_raspi_init__string_ref__string_ref__unsigned_short.restype = c_void_p
+sklib.__sklib__remote_raspi_read__connection__gpio_pin.argtypes = [ c_void_p, c_int ]
+sklib.__sklib__remote_raspi_read__connection__gpio_pin.restype = c_int
+sklib.__sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode.restype = None
+sklib.__sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down.restype = None
+sklib.__sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int.restype = None
+sklib.__sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int.restype = None
+sklib.__sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int.restype = None
+sklib.__sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value.argtypes = [ c_void_p, c_int, c_int ]
+sklib.__sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value.restype = None
 sklib.__sklib__draw_quad__color__quad_ref.argtypes = [ _sklib_color, _sklib_quad ]
 sklib.__sklib__draw_quad__color__quad_ref.restype = None
 sklib.__sklib__draw_quad__color__quad_ref__drawing_options_ref.argtypes = [ _sklib_color, _sklib_quad, _sklib_drawing_options ]
@@ -4401,6 +4467,26 @@ def close_audio (  ):
     sklib.__sklib__close_audio()
 def open_audio (  ):
     sklib.__sklib__open_audio()
+def base64_decode ( input ):
+    __skparam__input = __skadapter__to_sklib_string(input)
+    __skreturn = sklib.__sklib__base64_decode__string_ref(__skparam__input)
+    return __skadapter__to_string(__skreturn)
+def base64_encode ( input ):
+    __skparam__input = __skadapter__to_sklib_string(input)
+    __skreturn = sklib.__sklib__base64_encode__string_ref(__skparam__input)
+    return __skadapter__to_string(__skreturn)
+def bin_to_dec ( bin ):
+    __skparam__bin = __skadapter__to_sklib_string(bin)
+    __skreturn = sklib.__sklib__bin_to_dec__string_ref(__skparam__bin)
+    return __skadapter__to_unsigned_int(__skreturn)
+def bin_to_hex ( bin_str ):
+    __skparam__bin_str = __skadapter__to_sklib_string(bin_str)
+    __skreturn = sklib.__sklib__bin_to_hex__string_ref(__skparam__bin_str)
+    return __skadapter__to_string(__skreturn)
+def bin_to_oct ( bin_str ):
+    __skparam__bin_str = __skadapter__to_sklib_string(bin_str)
+    __skreturn = sklib.__sklib__bin_to_oct__string_ref(__skparam__bin_str)
+    return __skadapter__to_string(__skreturn)
 def contains ( text, subtext ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skparam__subtext = __skadapter__to_sklib_string(subtext)
@@ -4414,14 +4500,47 @@ def convert_to_integer ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__convert_to_integer__string_ref(__skparam__text)
     return __skadapter__to_int(__skreturn)
+def dec_to_bin ( dec ):
+    __skparam__dec = __skadapter__to_sklib_unsigned_int(dec)
+    __skreturn = sklib.__sklib__dec_to_bin__unsigned_int(__skparam__dec)
+    return __skadapter__to_string(__skreturn)
+def dec_to_oct ( decimal_value ):
+    __skparam__decimal_value = __skadapter__to_sklib_unsigned_int(decimal_value)
+    __skreturn = sklib.__sklib__dec_to_oct__unsigned_int(__skparam__decimal_value)
+    return __skadapter__to_string(__skreturn)
+def greatest_common_divisor ( number1, number2 ):
+    __skparam__number1 = __skadapter__to_sklib_int(number1)
+    __skparam__number2 = __skadapter__to_sklib_int(number2)
+    __skreturn = sklib.__sklib__greatest_common_divisor__int__int(__skparam__number1, __skparam__number2)
+    return __skadapter__to_int(__skreturn)
+def hex_to_bin ( hex_str ):
+    __skparam__hex_str = __skadapter__to_sklib_string(hex_str)
+    __skreturn = sklib.__sklib__hex_to_bin__string_ref(__skparam__hex_str)
+    return __skadapter__to_string(__skreturn)
+def hex_to_dec ( hex_string ):
+    __skparam__hex_string = __skadapter__to_sklib_string(hex_string)
+    __skreturn = sklib.__sklib__hex_to_dec__string_ref(__skparam__hex_string)
+    return __skadapter__to_unsigned_int(__skreturn)
+def hex_to_oct ( hex_str ):
+    __skparam__hex_str = __skadapter__to_sklib_string(hex_str)
+    __skreturn = sklib.__sklib__hex_to_oct__string_ref(__skparam__hex_str)
+    return __skadapter__to_string(__skreturn)
 def index_of ( text, subtext ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skparam__subtext = __skadapter__to_sklib_string(subtext)
     __skreturn = sklib.__sklib__index_of__string_ref__string_ref(__skparam__text, __skparam__subtext)
     return __skadapter__to_int(__skreturn)
+def is_binary ( bin_str ):
+    __skparam__bin_str = __skadapter__to_sklib_string(bin_str)
+    __skreturn = sklib.__sklib__is_binary__string_ref(__skparam__bin_str)
+    return __skadapter__to_bool(__skreturn)
 def is_double ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__is_double__string_ref(__skparam__text)
+    return __skadapter__to_bool(__skreturn)
+def is_hex ( hex_str ):
+    __skparam__hex_str = __skadapter__to_sklib_string(hex_str)
+    __skreturn = sklib.__sklib__is_hex__string_ref(__skparam__hex_str)
     return __skadapter__to_bool(__skreturn)
 def is_integer ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
@@ -4431,10 +4550,35 @@ def is_number ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__is_number__string_ref(__skparam__text)
     return __skadapter__to_bool(__skreturn)
+def is_octal ( octal_str ):
+    __skparam__octal_str = __skadapter__to_sklib_string(octal_str)
+    __skreturn = sklib.__sklib__is_octal__string_ref(__skparam__octal_str)
+    return __skadapter__to_bool(__skreturn)
+def is_prime_number ( number ):
+    __skparam__number = __skadapter__to_sklib_int(number)
+    __skreturn = sklib.__sklib__is_prime_number__int(__skparam__number)
+    return __skadapter__to_bool(__skreturn)
+def least_common_multiple ( number1, number2 ):
+    __skparam__number1 = __skadapter__to_sklib_int(number1)
+    __skparam__number2 = __skadapter__to_sklib_int(number2)
+    __skreturn = sklib.__sklib__least_common_multiple__int__int(__skparam__number1, __skparam__number2)
+    return __skadapter__to_int(__skreturn)
 def length_of ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__length_of__string_ref(__skparam__text)
     return __skadapter__to_int(__skreturn)
+def oct_to_bin ( octal_str ):
+    __skparam__octal_str = __skadapter__to_sklib_string(octal_str)
+    __skreturn = sklib.__sklib__oct_to_bin__string_ref(__skparam__octal_str)
+    return __skadapter__to_string(__skreturn)
+def oct_to_dec ( octal_string ):
+    __skparam__octal_string = __skadapter__to_sklib_string(octal_string)
+    __skreturn = sklib.__sklib__oct_to_dec__string_ref(__skparam__octal_string)
+    return __skadapter__to_unsigned_int(__skreturn)
+def oct_to_hex ( oct_str ):
+    __skparam__oct_str = __skadapter__to_sklib_string(oct_str)
+    __skreturn = sklib.__sklib__oct_to_hex__string_ref(__skparam__oct_str)
+    return __skadapter__to_string(__skreturn)
 def replace_all ( text, substr, new_text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skparam__substr = __skadapter__to_sklib_string(substr)
@@ -4446,6 +4590,10 @@ def split ( text, delimiter ):
     __skparam__delimiter = __skadapter__to_sklib_char(delimiter)
     __skreturn = sklib.__sklib__split__string_ref__char(__skparam__text, __skparam__delimiter)
     return __skadapter__to_vector_string(__skreturn)
+def square_root ( number ):
+    __skparam__number = __skadapter__to_sklib_int(number)
+    __skreturn = sklib.__sklib__square_root__int(__skparam__number)
+    return __skadapter__to_double(__skreturn)
 def to_lowercase ( text ):
     __skparam__text = __skadapter__to_sklib_string(text)
     __skreturn = sklib.__sklib__to_lowercase__string_ref(__skparam__text)
@@ -7629,6 +7777,10 @@ def hex_to_dec_string ( a_hex ):
     __skparam__a_hex = __skadapter__to_sklib_string(a_hex)
     __skreturn = sklib.__sklib__hex_to_dec_string__string_ref(__skparam__a_hex)
     return __skadapter__to_string(__skreturn)
+def hex_to_mac ( hex_str ):
+    __skparam__hex_str = __skadapter__to_sklib_string(hex_str)
+    __skreturn = sklib.__sklib__hex_to_mac__string_ref(__skparam__hex_str)
+    return __skadapter__to_string(__skreturn)
 def ipv4_to_dec ( a_ip ):
     __skparam__a_ip = __skadapter__to_sklib_string(a_ip)
     __skreturn = sklib.__sklib__ipv4_to_dec__string_ref(__skparam__a_ip)
@@ -7649,6 +7801,10 @@ def is_valid_ipv4 ( ip ):
     __skparam__ip = __skadapter__to_sklib_string(ip)
     __skreturn = sklib.__sklib__is_valid_ipv4__string_ref(__skparam__ip)
     return __skadapter__to_bool(__skreturn)
+def is_valid_mac ( mac_address ):
+    __skparam__mac_address = __skadapter__to_sklib_string(mac_address)
+    __skreturn = sklib.__sklib__is_valid_mac__string_ref(__skparam__mac_address)
+    return __skadapter__to_bool(__skreturn)
 def last_connection_named ( name ):
     __skparam__name = __skadapter__to_sklib_string(name)
     __skreturn = sklib.__sklib__last_connection__string_ref(__skparam__name)
@@ -7657,6 +7813,10 @@ def last_connection ( server ):
     __skparam__server = __skadapter__to_sklib_server_socket(server)
     __skreturn = sklib.__sklib__last_connection__server_socket(__skparam__server)
     return __skadapter__to_connection(__skreturn)
+def mac_to_hex ( mac_address ):
+    __skparam__mac_address = __skadapter__to_sklib_string(mac_address)
+    __skreturn = sklib.__sklib__mac_to_hex__string_ref(__skparam__mac_address)
+    return __skadapter__to_string(__skreturn)
 def message_connection ( msg ):
     __skparam__msg = __skadapter__to_sklib_message(msg)
     __skreturn = sklib.__sklib__message_connection__message(__skparam__msg)
@@ -8086,35 +8246,35 @@ def has_gpio (  ):
 def raspi_cleanup (  ):
     sklib.__sklib__raspi_cleanup()
 def raspi_get_mode ( pin ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
-    __skreturn = sklib.__sklib__raspi_get_mode__pins(__skparam__pin)
-    return __skadapter__to_pin_modes(__skreturn)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skreturn = sklib.__sklib__raspi_get_mode__gpio_pin(__skparam__pin)
+    return __skadapter__to_gpio_pin_mode(__skreturn)
 def raspi_init (  ):
     sklib.__sklib__raspi_init()
 def raspi_read ( pin ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
-    __skreturn = sklib.__sklib__raspi_read__pins(__skparam__pin)
-    return __skadapter__to_pin_values(__skreturn)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skreturn = sklib.__sklib__raspi_read__gpio_pin(__skparam__pin)
+    return __skadapter__to_gpio_pin_value(__skreturn)
 def raspi_set_mode ( pin, mode ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
-    __skparam__mode = __skadapter__to_sklib_pin_modes(mode)
-    sklib.__sklib__raspi_set_mode__pins__pin_modes(__skparam__pin, __skparam__mode)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__mode = __skadapter__to_sklib_gpio_pin_mode(mode)
+    sklib.__sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(__skparam__pin, __skparam__mode)
 def raspi_set_pull_up_down ( pin, pud ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
     __skparam__pud = __skadapter__to_sklib_pull_up_down(pud)
-    sklib.__sklib__raspi_set_pull_up_down__pins__pull_up_down(__skparam__pin, __skparam__pud)
+    sklib.__sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(__skparam__pin, __skparam__pud)
 def raspi_set_pwm_dutycycle ( pin, dutycycle ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
     __skparam__dutycycle = __skadapter__to_sklib_int(dutycycle)
-    sklib.__sklib__raspi_set_pwm_dutycycle__pins__int(__skparam__pin, __skparam__dutycycle)
+    sklib.__sklib__raspi_set_pwm_dutycycle__gpio_pin__int(__skparam__pin, __skparam__dutycycle)
 def raspi_set_pwm_frequency ( pin, frequency ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
     __skparam__frequency = __skadapter__to_sklib_int(frequency)
-    sklib.__sklib__raspi_set_pwm_frequency__pins__int(__skparam__pin, __skparam__frequency)
+    sklib.__sklib__raspi_set_pwm_frequency__gpio_pin__int(__skparam__pin, __skparam__frequency)
 def raspi_set_pwm_range ( pin, range ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
     __skparam__range = __skadapter__to_sklib_int(range)
-    sklib.__sklib__raspi_set_pwm_range__pins__int(__skparam__pin, __skparam__range)
+    sklib.__sklib__raspi_set_pwm_range__gpio_pin__int(__skparam__pin, __skparam__range)
 def raspi_spi_close ( handle ):
     __skparam__handle = __skadapter__to_sklib_int(handle)
     __skreturn = sklib.__sklib__raspi_spi_close__int(__skparam__handle)
@@ -8133,9 +8293,59 @@ def raspi_spi_transfer ( handle, sendBuf, recvBuf, count ):
     __skreturn = sklib.__sklib__raspi_spi_transfer__int__string__string__int(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count)
     return __skadapter__to_int(__skreturn)
 def raspi_write ( pin, value ):
-    __skparam__pin = __skadapter__to_sklib_pins(pin)
-    __skparam__value = __skadapter__to_sklib_pin_values(value)
-    sklib.__sklib__raspi_write__pins__pin_values(__skparam__pin, __skparam__value)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__value = __skadapter__to_sklib_gpio_pin_value(value)
+    sklib.__sklib__raspi_write__gpio_pin__gpio_pin_value(__skparam__pin, __skparam__value)
+def remote_raspi_cleanup ( pi ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skreturn = sklib.__sklib__remote_raspi_cleanup__connection(__skparam__pi)
+    return __skadapter__to_bool(__skreturn)
+def remote_raspi_get_mode ( pi, pin ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skreturn = sklib.__sklib__remote_raspi_get_mode__connection__gpio_pin(__skparam__pi, __skparam__pin)
+    return __skadapter__to_gpio_pin_mode(__skreturn)
+def remote_raspi_init ( name, host, port ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skparam__host = __skadapter__to_sklib_string(host)
+    __skparam__port = __skadapter__to_sklib_unsigned_short(port)
+    __skreturn = sklib.__sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(__skparam__name, __skparam__host, __skparam__port)
+    return __skadapter__to_connection(__skreturn)
+def remote_raspi_read ( pi, pin ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skreturn = sklib.__sklib__remote_raspi_read__connection__gpio_pin(__skparam__pi, __skparam__pin)
+    return __skadapter__to_gpio_pin_value(__skreturn)
+def remote_raspi_set_mode ( pi, pin, mode ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__mode = __skadapter__to_sklib_gpio_pin_mode(mode)
+    sklib.__sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(__skparam__pi, __skparam__pin, __skparam__mode)
+def remote_raspi_set_pull_up_down ( pi, pin, pud ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__pud = __skadapter__to_sklib_pull_up_down(pud)
+    sklib.__sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(__skparam__pi, __skparam__pin, __skparam__pud)
+def remote_raspi_set_pwm_dutycycle ( pi, pin, dutycycle ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__dutycycle = __skadapter__to_sklib_int(dutycycle)
+    sklib.__sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__dutycycle)
+def remote_raspi_set_pwm_frequency ( pi, pin, frequency ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__frequency = __skadapter__to_sklib_int(frequency)
+    sklib.__sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__frequency)
+def remote_raspi_set_pwm_range ( pi, pin, range ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__range = __skadapter__to_sklib_int(range)
+    sklib.__sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__range)
+def remote_raspi_write ( pi, pin, value ):
+    __skparam__pi = __skadapter__to_sklib_connection(pi)
+    __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
+    __skparam__value = __skadapter__to_sklib_gpio_pin_value(value)
+    sklib.__sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__skparam__pi, __skparam__pin, __skparam__value)
 def draw_quad ( clr, q ):
     __skparam__clr = __skadapter__to_sklib_color(clr)
     __skparam__q = __skadapter__to_sklib_quad(q)

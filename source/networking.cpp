@@ -1289,7 +1289,6 @@ namespace splashkit_lib
         return "127.0.0.1";
     }
 
-
     bool is_valid_ipv4(const string &ip)
     {
         const std::regex ip_pattern("^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\."
@@ -1299,4 +1298,60 @@ namespace splashkit_lib
         return std::regex_match(ip, ip_pattern);
     }
     
+    bool is_valid_mac(const string &mac_address)
+    {
+        string octet = "([0-9A-Fa-f]{2})";
+        string mac_pattern = "^" + octet + ":" + octet + ":" + octet + ":" + octet + ":" + octet + ":" + octet + "$";
+
+        std::regex mac_regex(mac_pattern);
+
+        return regex_match(mac_address, mac_regex);
+    }
+
+    string mac_to_hex(const string &mac_address)
+    {
+        if (!is_valid_mac(mac_address))
+        {
+            LOG(ERROR) << "Cannot convert invalid MAC address to hex: " << mac_address;
+            return "";
+        }
+
+        stringstream hex_string;
+        hex_string << "0x";
+
+        string::size_type lastpos = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            string::size_type pos = mac_address.find(':', lastpos);
+            string token = pos == string::npos ? mac_address.substr(lastpos) : mac_address.substr(lastpos, pos - lastpos);
+
+            hex_string << setw(2) << setfill('0') << uppercase << hex << stoi(token, nullptr, 16);
+
+            lastpos = pos + 1;
+        }
+
+        return hex_string.str();
+    }
+
+    string hex_to_mac(const string &hex_str)
+    {
+        if (hex_str.substr(0, 2) != "0x" || hex_str.length() != 14)
+        {
+            LOG(ERROR) << "Invalid hex string format: " << hex_str;
+            return "";
+        }
+
+        stringstream mac_string;
+
+        for (size_t i = 2; i < hex_str.size(); i += 2)
+        {
+            if (i > 2)
+            {
+                mac_string << ":";
+            }
+            mac_string << hex_str.substr(i, 2);
+        }
+
+        return mac_string.str();
+    }
 }

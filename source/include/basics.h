@@ -135,6 +135,239 @@ namespace splashkit_lib
      * @returns         An array of strings
      */
     vector<string> split(const string &text, char delimiter);
-}
 
+    /**
+     * @brief Checks if a string is a valid binary string
+     *
+     * A binary string is a string that contains only '0' and '1' characters.
+     *
+     * @param bin_str Binary string to check
+     *
+     * @returns True if the string is a valid binary string, false otherwise
+     */
+    bool is_binary(const string &bin_str);
+
+    /**
+     * @brief Checks if a string is a valid hexadecimal string
+     *
+     * A hexadecimal string is a string that contains only characters from '0' to '9'
+     * and 'A' to 'F' (or 'a' to 'f').
+     *
+     * @param hex_str Hexadecimal string to check
+     *
+     * @returns True if the string is a valid hexadecimal string, false otherwise
+     */
+    bool is_hex(const string &hex_str);
+
+    /**
+     * @brief Checks if a string is a valid octal string
+     *
+     * An octal string is a string that contains only characters from '0' to '7'.
+     *
+     * @param octal_str Octal string to check
+     *
+     * @returns True if the string is a valid octal string, false otherwise
+     */
+    bool is_octal(const string &octal_str);
+    
+    /**
+     * @brief Converts a decimal (unsigned integer) to a binary string
+     *
+     * Converts the provided unsigned integer into a binary string.
+     * For example, 10 will be converted to "1010".
+     *
+     * @param dec Decimal (unsigned integer) to convert
+     *
+     * @returns Binary string representation of the decimal
+     */
+    string dec_to_bin(unsigned int dec);
+
+    /**
+     * @brief Converts a binary string to a decimal (unsigned integer)
+     *
+     * Converts the provided binary string into an unsigned integer.
+     * For example, "1010" will be converted to 10.
+     *
+     * @param bin Binary string to convert
+     *
+     * @returns Decimal (unsigned integer) representation of the binary string, or 0 if the string is not a valid binary string
+     */
+    unsigned int bin_to_dec(const string &bin);
+
+    /**
+     * @brief Converts a hexadecimal string to a binary string
+     *
+     * Converts the provided hexadecimal string into its binary string representation.
+     * For example, "A" will be converted to "1010".
+     *
+     * @param hex_str Hexadecimal string to convert
+     *
+     * @returns Binary string representation of the hexadecimal string, or an empty string if the string is not a valid hexadecimal string
+     */
+    string hex_to_bin(const string &hex_str);
+
+    /**
+     * @brief Converts a binary string to a hexadecimal string
+     *
+     * Converts the provided binary string into a hexadecimal string representation.
+     * For example, "1010" will be converted to "A".
+     *
+     * @param bin_str Binary string to convert
+     *
+     * @returns Hexadecimal string representation of the binary string, or an empty string if the string is not a valid binary string
+     */
+    string bin_to_hex(const string &bin_str);
+
+    /**
+     * @brief Converts a decimal (unsigned integer) to an octal string
+     *
+     * Converts the provided decimal value into its octal string representation.
+     * For example, 64 will be converted to "100".
+     *
+     * @param decimal_value Decimal (unsigned integer) to convert
+     *
+     * @returns Octal string representation of the decimal value, or "0" if the value is 0
+     */
+    string dec_to_oct(unsigned int decimal_value);
+
+    /**
+     * @brief Converts an octal string to a decimal (unsigned integer)
+     *
+     * Converts the provided octal string into its decimal representation.
+     * For example, "100" will be converted to 64.
+     *
+     * @param octal_string Octal string to convert
+     *
+     * @returns Decimal (unsigned integer) representation of the octal string, or 0 if the string is not a valid octal string
+     */
+    unsigned int oct_to_dec(const string &octal_string);
+
+    /**
+     * @brief Converts an octal string to a binary string
+     *
+     * Converts the provided octal string into its binary string representation.
+     * For example, "12" will be converted to "1010".
+     *
+     * @param octal_str Octal string to convert
+     *
+     * @returns Binary string representation of the octal string, or an empty string if the string is not a valid octal string
+     */
+    string oct_to_bin(const string &octal_str);
+
+    /**
+     * @brief Converts a binary string to an octal string
+     *
+     * Converts the provided binary string into its octal string representation.
+     * For example, "1010" will be converted to "12".
+     *
+     * @param bin_str Binary string to convert
+     *
+     * @returns Octal string representation of the binary string, or an empty string if the string is not a valid binary string
+     */
+    string bin_to_oct(const string &bin_str);
+
+    /**
+     * @brief Converts a hexadecimal string to an octal string
+     *
+     * Converts the provided hexadecimal string into its octal string representation.
+     * For example, "A" will be converted to "12".
+     *
+     * @param hex_str Hexadecimal string to convert
+     *
+     * @returns Octal string representation of the hexadecimal string, or an empty string if the string is not a valid hexadecimal string
+     */
+    string hex_to_oct(const string &hex_str);
+
+    /**
+     * @brief Convert a hexadecimal string to its numeric value.
+     * 
+     * @param hex_string the data to convert
+     * 
+     * @return unsigned int the numeric value of the hex string
+     */
+    unsigned int hex_to_dec(const string &hex_string);
+
+    /**
+     * @brief Converts an octal string to a hexadecimal string
+     *
+     * Converts the provided octal string into its hexadecimal string representation.
+     * For example, "12" will be converted to "A".
+     *
+     * @param oct_str Octal string to convert
+     *
+     * @returns Hexadecimal string representation of the octal string, or an empty string if the string is not a valid octal string
+     */
+    string oct_to_hex(const string &oct_str);
+
+    /**
+     * @brief Encodes a string to Base64 format
+     *
+     * Converts the provided string into its Base64 encoded representation.
+     * For example, "Man" will be converted to "TWFu".
+     *
+     * @param input String to encode
+     *
+     * @returns Base64 encoded string
+     */
+    string base64_encode(const string &input);
+
+    /**
+     * @brief Decodes a Base64 encoded string
+     *
+     * Converts the provided Base64 encoded string back to its original form.
+     * For example, "TWFu" will be converted to "Man".
+     *
+     * @param input Base64 encoded string to decode
+     *
+     * @returns Decoded original string
+     */
+    string base64_decode(const string &input);
+
+    /**
+     * @brief Calculates the square root of a number
+     *
+     * Calculates the square root of the provided number using the Newton-Raphson method.
+     *
+     * @param number Number to calculate the square root of
+     *
+     * @returns Square root of the number
+     */
+    double square_root(int number);
+
+    /**
+     * @brief Checks if a number is a prime number
+     *
+     * A prime number is a number greater than 1 that has no positive divisors other than 1 and itself.
+     *
+     * @param number Number to check
+     *
+     * @returns True if the number is a prime number, false otherwise
+     */
+    bool is_prime_number(int number);
+
+    /**
+     * @brief Calculates the greatest common divisor of two numbers
+     *
+     * The greatest common divisor (GCD) of two numbers is the largest positive integer that divides both numbers without a remainder.
+     *
+     * @param number1 First number
+     * @param number2 Second number
+     *
+     * @returns Greatest common divisor of the two numbers, or 0 if either of the numbers is not a valid integer above 0
+     */
+    int greatest_common_divisor(int number1, int number2);
+
+    /**
+     * @brief Calculates the least common multiple of two numbers
+     *
+     * The least common multiple (LCM) of two numbers is the smallest positive integer that is divisible by both numbers.
+     *
+     * @param number1 First number
+     * @param number2 Second number
+     *
+     * @returns Least common multiple of the two numbers, or 0 if either of the numbers is not a valid integer above 0
+     */
+    int least_common_multiple(int number1, int number2);
+
+}
 #endif /* basics_hpp */

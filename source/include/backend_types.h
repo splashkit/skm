@@ -311,5 +311,37 @@ namespace splashkit_lib
 
         vector<animation>   anim_objs;         // The animations created from this script
     };
+
+    // See https://abyz.me.uk/rpi/pigpio/sif.html for more information on these.
+    // Archive link: https://web.archive.org/web/20240423160319/https://abyz.me.uk/rpi/pigpio/sif.html
+    typedef struct sk_pigpio_cmd_t
+    {
+        // 0 is a valid value for these, so we assign -1 and let it overflow
+        // thus ensuring that the command struct does not start with valid values. 
+        uint32_t cmd_code = ((uint32_t)-1);
+        uint32_t param1 = ((uint32_t)-1);
+        uint32_t param2 = ((uint32_t)-1);
+        union
+        {
+            uint32_t param3;
+            uint32_t ext_len; // This is only used for particular commands
+            uint32_t result;
+        };
+    } sk_pigpio_cmd_t;
+
+    enum sk_pigpio_cmd_codes
+    {
+        GPIO_CMD_SET_MODE = 0,
+        GPIO_CMD_GET_MODE,
+        GPIO_CMD_SET_PUD,
+        GPIO_CMD_READ,
+        GPIO_CMD_WRITE,
+        GPIO_CMD_SET_PWM_DUTYCYCLE,
+        GPIO_CMD_SET_PWM_RANGE,
+        GPIO_CMD_SET_PWM_FREQ,
+        GPIO_CMD_CLEAR_BANK_1 = 12
+
+    };
+
 }
 #endif /* BackendTypes_h */

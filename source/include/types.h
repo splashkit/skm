@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 using std::string;
 using std::vector;
@@ -360,7 +361,7 @@ namespace splashkit_lib
      * @constant PIN_39   Ground
      * @constant PIN_40   GPIO21 / SCLK (PCM)
      */
-    enum pins
+    enum gpio_pin
     {
         PIN_1 = 1,
         PIN_2 = 2,
@@ -403,7 +404,6 @@ namespace splashkit_lib
         PIN_39 = 39,
         PIN_40 = 40,
     };
-#include <cstdint>
 
     /**
      * GPIO Pin Modes:
@@ -418,7 +418,7 @@ namespace splashkit_lib
      * @constant GPIO_ALT5    Alternate function mode 5.
      * @constant GPIO_DEFAULT_MODE  Default mode.
      */
-    enum pin_modes
+    enum gpio_pin_mode
     {
         GPIO_INPUT = 0,
         GPIO_OUTPUT = 1,
@@ -434,15 +434,15 @@ namespace splashkit_lib
     /**
      * GPIO Pin Values:
      *
+     * @constant GPIO_DEFAULT_VALUE  Default value, indicates error.
      * @constant GPIO_LOW   Logic low (0).
      * @constant GPIO_HIGH  Logic high (1).
-     * @constant GPIO_DEFAULT_VALUE  Default value.
      */
-    enum pin_values
+    enum gpio_pin_value
     {
+        GPIO_DEFAULT_VALUE = -1,
         GPIO_LOW = 0,
-        GPIO_HIGH = 1,
-        GPIO_DEFAULT_VALUE = -1
+        GPIO_HIGH = 1
     };
 
     /**

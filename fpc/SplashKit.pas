@@ -227,47 +227,7 @@ type FontStyle = (
   ITALIC_FONT = 2,
   UNDERLINE_FONT = 4
 );
-type HttpStatusCode = (
-  HTTP_STATUS_OK = 200,
-  HTTP_STATUS_CREATED = 201,
-  HTTP_STATUS_NO_CONTENT = 204,
-  HTTP_STATUS_MOVED_PERMANENTLY = 301,
-  HTTP_STATUS_FOUND = 302,
-  HTTP_STATUS_SEE_OTHER = 303,
-  HTTP_STATUS_BAD_REQUEST = 400,
-  HTTP_STATUS_UNAUTHORIZED = 401,
-  HTTP_STATUS_FORBIDDEN = 403,
-  HTTP_STATUS_NOT_FOUND = 404,
-  HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
-  HTTP_STATUS_REQUEST_TIMEOUT = 408,
-  HTTP_STATUS_CONFLICT = 409,
-  HTTP_STATUS_INTERNAL_SERVER_ERROR = 500,
-  HTTP_STATUS_NOT_IMPLEMENTED = 501,
-  HTTP_STATUS_SERVICE_UNAVAILABLE = 503
-);
-type InterfaceStyle = (
-  FLAT_DARK_STYLE = 0,
-  SHADED_DARK_STYLE = 1,
-  FLAT_LIGHT_STYLE = 2,
-  SHADED_LIGHT_STYLE = 3,
-  BUBBLE = 4,
-  BUBBLE_MULTICOLORED = 5
-);
-type PinModes = (
-  GPIO_INPUT = 0,
-  GPIO_OUTPUT = 1,
-  GPIO_ALT5 = 2,
-  GPIO_ALT4 = 3,
-  GPIO_ALT0 = 4,
-  GPIO_ALT1 = 5,
-  GPIO_ALT2 = 6,
-  GPIO_ALT3 = 7
-);
-type PinValues = (
-  GPIO_LOW = 0,
-  GPIO_HIGH = 1
-);
-type Pins = (
+type GpioPin = (
   PIN_1 = 1,
   PIN_2 = 2,
   PIN_3 = 3,
@@ -308,6 +268,48 @@ type Pins = (
   PIN_38 = 38,
   PIN_39 = 39,
   PIN_40 = 40
+);
+type GpioPinMode = (
+  GPIO_DEFAULT_MODE = -1,
+  GPIO_INPUT = 0,
+  GPIO_OUTPUT = 1,
+  GPIO_ALT5 = 2,
+  GPIO_ALT4 = 3,
+  GPIO_ALT0 = 4,
+  GPIO_ALT1 = 5,
+  GPIO_ALT2 = 6,
+  GPIO_ALT3 = 7
+);
+type GpioPinValue = (
+  GPIO_DEFAULT_VALUE = -1,
+  GPIO_LOW = 0,
+  GPIO_HIGH = 1
+);
+type HttpStatusCode = (
+  HTTP_STATUS_OK = 200,
+  HTTP_STATUS_CREATED = 201,
+  HTTP_STATUS_NO_CONTENT = 204,
+  HTTP_STATUS_MOVED_PERMANENTLY = 301,
+  HTTP_STATUS_FOUND = 302,
+  HTTP_STATUS_SEE_OTHER = 303,
+  HTTP_STATUS_BAD_REQUEST = 400,
+  HTTP_STATUS_UNAUTHORIZED = 401,
+  HTTP_STATUS_FORBIDDEN = 403,
+  HTTP_STATUS_NOT_FOUND = 404,
+  HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
+  HTTP_STATUS_REQUEST_TIMEOUT = 408,
+  HTTP_STATUS_CONFLICT = 409,
+  HTTP_STATUS_INTERNAL_SERVER_ERROR = 500,
+  HTTP_STATUS_NOT_IMPLEMENTED = 501,
+  HTTP_STATUS_SERVICE_UNAVAILABLE = 503
+);
+type InterfaceStyle = (
+  FLAT_DARK_STYLE = 0,
+  SHADED_DARK_STYLE = 1,
+  FLAT_LIGHT_STYLE = 2,
+  SHADED_LIGHT_STYLE = 3,
+  BUBBLE = 4,
+  BUBBLE_MULTICOLORED = 5
 );
 type PullUpDown = (
   PUD_OFF = 0,
@@ -458,16 +460,36 @@ procedure UpdateAnimation(anim: Animation; pct: Single);
 function AudioReady(): Boolean;
 procedure CloseAudio();
 procedure OpenAudio();
+function Base64Decode(const input: String): String;
+function Base64Encode(const input: String): String;
+function BinToDec(const bin: String): Cardinal;
+function BinToHex(const binStr: String): String;
+function BinToOct(const binStr: String): String;
 function Contains(const text: String; const subtext: String): Boolean;
 function ConvertToDouble(const text: String): Double;
 function ConvertToInteger(const text: String): Integer;
+function DecToBin(dec: Cardinal): String;
+function DecToOct(decimalValue: Cardinal): String;
+function GreatestCommonDivisor(number1: Integer; number2: Integer): Integer;
+function HexToBin(const hexStr: String): String;
+function HexToDec(const hexString: String): Cardinal;
+function HexToOct(const hexStr: String): String;
 function IndexOf(const text: String; const subtext: String): Integer;
+function IsBinary(const binStr: String): Boolean;
 function IsDouble(const text: String): Boolean;
+function IsHex(const hexStr: String): Boolean;
 function IsInteger(const text: String): Boolean;
 function IsNumber(const text: String): Boolean;
+function IsOctal(const octalStr: String): Boolean;
+function IsPrimeNumber(number: Integer): Boolean;
+function LeastCommonMultiple(number1: Integer; number2: Integer): Integer;
 function LengthOf(const text: String): Integer;
+function OctToBin(const octalStr: String): String;
+function OctToDec(const octalString: String): Cardinal;
+function OctToHex(const octStr: String): String;
 function ReplaceAll(const text: String; const substr: String; const newText: String): String;
 function Split(const text: String; delimiter: Char): ArrayOfString;
+function SquareRoot(number: Integer): Double;
 function ToLowercase(const text: String): String;
 function ToUppercase(const text: String): String;
 function Trim(const text: String): String;
@@ -1185,13 +1207,16 @@ function HasNewConnections(): Boolean;
 function HasServer(const name: String): Boolean;
 function HexStrToIpv4(const aHex: String): String;
 function HexToDecString(const aHex: String): String;
+function HexToMac(const hexStr: String): String;
 function Ipv4ToDec(const aIP: String): Cardinal;
 function Ipv4ToHex(const aIP: String): String;
 function IsConnectionOpen(con: Connection): Boolean;
 function IsConnectionOpen(const name: String): Boolean;
 function IsValidIpv4(const ip: String): Boolean;
+function IsValidMac(const macAddress: String): Boolean;
 function LastConnection(const name: String): Connection;
 function LastConnection(server: ServerSocket): Connection;
+function MacToHex(const macAddress: String): String;
 function MessageConnection(msg: Message): Connection;
 function MessageCount(svr: ServerSocket): Cardinal;
 function MessageCount(aConnection: Connection): Cardinal;
@@ -1281,18 +1306,28 @@ function Rnd(): Single;
 function Rnd(ubound: Integer): Integer;
 function HasGpio(): Boolean;
 procedure RaspiCleanup();
-function RaspiGetMode(pin: Pins): PinModes;
+function RaspiGetMode(pin: GpioPin): GpioPinMode;
 procedure RaspiInit();
-function RaspiRead(pin: Pins): PinValues;
-procedure RaspiSetMode(pin: Pins; mode: PinModes);
-procedure RaspiSetPullUpDown(pin: Pins; pud: PullUpDown);
-procedure RaspiSetPwmDutycycle(pin: Pins; dutycycle: Integer);
-procedure RaspiSetPwmFrequency(pin: Pins; frequency: Integer);
-procedure RaspiSetPwmRange(pin: Pins; range: Integer);
+function RaspiRead(pin: GpioPin): GpioPinValue;
+procedure RaspiSetMode(pin: GpioPin; mode: GpioPinMode);
+procedure RaspiSetPullUpDown(pin: GpioPin; pud: PullUpDown);
+procedure RaspiSetPwmDutycycle(pin: GpioPin; dutycycle: Integer);
+procedure RaspiSetPwmFrequency(pin: GpioPin; frequency: Integer);
+procedure RaspiSetPwmRange(pin: GpioPin; range: Integer);
 function RaspiSpiClose(handle: Integer): Integer;
 function RaspiSpiOpen(channel: Integer; speed: Integer; spiFlags: Integer): Integer;
 function RaspiSpiTransfer(handle: Integer; sendbuf: String; recvbuf: String; count: Integer): Integer;
-procedure RaspiWrite(pin: Pins; value: PinValues);
+procedure RaspiWrite(pin: GpioPin; value: GpioPinValue);
+function RemoteRaspiCleanup(pi: Connection): Boolean;
+function RemoteRaspiGetMode(pi: Connection; pin: GpioPin): GpioPinMode;
+function RemoteRaspiInit(const name: String; const host: String; port: Word): Connection;
+function RemoteRaspiRead(pi: Connection; pin: GpioPin): GpioPinValue;
+procedure RemoteRaspiSetMode(pi: Connection; pin: GpioPin; mode: GpioPinMode);
+procedure RemoteRaspiSetPullUpDown(pi: Connection; pin: GpioPin; pud: PullUpDown);
+procedure RemoteRaspiSetPwmDutycycle(pi: Connection; pin: GpioPin; dutycycle: Integer);
+procedure RemoteRaspiSetPwmFrequency(pi: Connection; pin: GpioPin; frequency: Integer);
+procedure RemoteRaspiSetPwmRange(pi: Connection; pin: GpioPin; range: Integer);
+procedure RemoteRaspiWrite(pi: Connection; pin: GpioPin; value: GpioPinValue);
 procedure DrawQuad(clr: Color; const q: Quad);
 procedure DrawQuad(clr: Color; const q: Quad; const opts: DrawingOptions);
 procedure DrawQuadOnBitmap(destination: Bitmap; clr: Color; const q: Quad);
@@ -2160,6 +2195,30 @@ function __skadapter__to_sklib_font_style(v: FontStyle): LongInt;
 begin
   result := Integer(v);
 end;
+function __skadapter__to_gpio_pin(v: LongInt): GpioPin;
+begin
+  result := GpioPin(v);
+end;
+function __skadapter__to_sklib_gpio_pin(v: GpioPin): LongInt;
+begin
+  result := Integer(v);
+end;
+function __skadapter__to_gpio_pin_mode(v: LongInt): GpioPinMode;
+begin
+  result := GpioPinMode(v);
+end;
+function __skadapter__to_sklib_gpio_pin_mode(v: GpioPinMode): LongInt;
+begin
+  result := Integer(v);
+end;
+function __skadapter__to_gpio_pin_value(v: LongInt): GpioPinValue;
+begin
+  result := GpioPinValue(v);
+end;
+function __skadapter__to_sklib_gpio_pin_value(v: GpioPinValue): LongInt;
+begin
+  result := Integer(v);
+end;
 function __skadapter__to_http_status_code(v: LongInt): HttpStatusCode;
 begin
   result := HttpStatusCode(v);
@@ -2173,30 +2232,6 @@ begin
   result := InterfaceStyle(v);
 end;
 function __skadapter__to_sklib_interface_style(v: InterfaceStyle): LongInt;
-begin
-  result := Integer(v);
-end;
-function __skadapter__to_pin_modes(v: LongInt): PinModes;
-begin
-  result := PinModes(v);
-end;
-function __skadapter__to_sklib_pin_modes(v: PinModes): LongInt;
-begin
-  result := Integer(v);
-end;
-function __skadapter__to_pin_values(v: LongInt): PinValues;
-begin
-  result := PinValues(v);
-end;
-function __skadapter__to_sklib_pin_values(v: PinValues): LongInt;
-begin
-  result := Integer(v);
-end;
-function __skadapter__to_pins(v: LongInt): Pins;
-begin
-  result := Pins(v);
-end;
-function __skadapter__to_sklib_pins(v: Pins): LongInt;
 begin
   result := Integer(v);
 end;
@@ -2919,16 +2954,36 @@ procedure __sklib__update_animation__animation__float(anim: __sklib_ptr; pct: Si
 function __sklib__audio_ready(): LongInt; cdecl; external;
 procedure __sklib__close_audio(); cdecl; external;
 procedure __sklib__open_audio(); cdecl; external;
+function __sklib__base64_decode__string_ref(const input: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__base64_encode__string_ref(const input: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__bin_to_dec__string_ref(const bin: __sklib_string): Cardinal; cdecl; external;
+function __sklib__bin_to_hex__string_ref(const binStr: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__bin_to_oct__string_ref(const binStr: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__contains__string_ref__string_ref(const text: __sklib_string; const subtext: __sklib_string): LongInt; cdecl; external;
 function __sklib__convert_to_double__string_ref(const text: __sklib_string): Double; cdecl; external;
 function __sklib__convert_to_integer__string_ref(const text: __sklib_string): Integer; cdecl; external;
+function __sklib__dec_to_bin__unsigned_int(dec: Cardinal): __sklib_string; cdecl; external;
+function __sklib__dec_to_oct__unsigned_int(decimalValue: Cardinal): __sklib_string; cdecl; external;
+function __sklib__greatest_common_divisor__int__int(number1: Integer; number2: Integer): Integer; cdecl; external;
+function __sklib__hex_to_bin__string_ref(const hexStr: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__hex_to_dec__string_ref(const hexString: __sklib_string): Cardinal; cdecl; external;
+function __sklib__hex_to_oct__string_ref(const hexStr: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__index_of__string_ref__string_ref(const text: __sklib_string; const subtext: __sklib_string): Integer; cdecl; external;
+function __sklib__is_binary__string_ref(const binStr: __sklib_string): LongInt; cdecl; external;
 function __sklib__is_double__string_ref(const text: __sklib_string): LongInt; cdecl; external;
+function __sklib__is_hex__string_ref(const hexStr: __sklib_string): LongInt; cdecl; external;
 function __sklib__is_integer__string_ref(const text: __sklib_string): LongInt; cdecl; external;
 function __sklib__is_number__string_ref(const text: __sklib_string): LongInt; cdecl; external;
+function __sklib__is_octal__string_ref(const octalStr: __sklib_string): LongInt; cdecl; external;
+function __sklib__is_prime_number__int(number: Integer): LongInt; cdecl; external;
+function __sklib__least_common_multiple__int__int(number1: Integer; number2: Integer): Integer; cdecl; external;
 function __sklib__length_of__string_ref(const text: __sklib_string): Integer; cdecl; external;
+function __sklib__oct_to_bin__string_ref(const octalStr: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__oct_to_dec__string_ref(const octalString: __sklib_string): Cardinal; cdecl; external;
+function __sklib__oct_to_hex__string_ref(const octStr: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__replace_all__string_ref__string_ref__string_ref(const text: __sklib_string; const substr: __sklib_string; const newText: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__split__string_ref__char(const text: __sklib_string; delimiter: Char): __sklib_vector_string; cdecl; external;
+function __sklib__square_root__int(number: Integer): Double; cdecl; external;
 function __sklib__to_lowercase__string_ref(const text: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__to_uppercase__string_ref(const text: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__trim__string_ref(const text: __sklib_string): __sklib_string; cdecl; external;
@@ -3646,13 +3701,16 @@ function __sklib__has_new_connections(): LongInt; cdecl; external;
 function __sklib__has_server__string_ref(const name: __sklib_string): LongInt; cdecl; external;
 function __sklib__hex_str_to_ipv4__string_ref(const aHex: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__hex_to_dec_string__string_ref(const aHex: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__hex_to_mac__string_ref(const hexStr: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__ipv4_to_dec__string_ref(const aIP: __sklib_string): Cardinal; cdecl; external;
 function __sklib__ipv4_to_hex__string_ref(const aIP: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__is_connection_open__connection(con: __sklib_ptr): LongInt; cdecl; external;
 function __sklib__is_connection_open__string_ref(const name: __sklib_string): LongInt; cdecl; external;
 function __sklib__is_valid_ipv4__string_ref(const ip: __sklib_string): LongInt; cdecl; external;
+function __sklib__is_valid_mac__string_ref(const macAddress: __sklib_string): LongInt; cdecl; external;
 function __sklib__last_connection__string_ref(const name: __sklib_string): __sklib_ptr; cdecl; external;
 function __sklib__last_connection__server_socket(server: __sklib_ptr): __sklib_ptr; cdecl; external;
+function __sklib__mac_to_hex__string_ref(const macAddress: __sklib_string): __sklib_string; cdecl; external;
 function __sklib__message_connection__message(msg: __sklib_ptr): __sklib_ptr; cdecl; external;
 function __sklib__message_count__server_socket(svr: __sklib_ptr): Cardinal; cdecl; external;
 function __sklib__message_count__connection(aConnection: __sklib_ptr): Cardinal; cdecl; external;
@@ -3742,18 +3800,28 @@ function __sklib__rnd(): Single; cdecl; external;
 function __sklib__rnd__int(ubound: Integer): Integer; cdecl; external;
 function __sklib__has_gpio(): LongInt; cdecl; external;
 procedure __sklib__raspi_cleanup(); cdecl; external;
-function __sklib__raspi_get_mode__pins(pin: LongInt): LongInt; cdecl; external;
+function __sklib__raspi_get_mode__gpio_pin(pin: LongInt): LongInt; cdecl; external;
 procedure __sklib__raspi_init(); cdecl; external;
-function __sklib__raspi_read__pins(pin: LongInt): LongInt; cdecl; external;
-procedure __sklib__raspi_set_mode__pins__pin_modes(pin: LongInt; mode: LongInt); cdecl; external;
-procedure __sklib__raspi_set_pull_up_down__pins__pull_up_down(pin: LongInt; pud: LongInt); cdecl; external;
-procedure __sklib__raspi_set_pwm_dutycycle__pins__int(pin: LongInt; dutycycle: Integer); cdecl; external;
-procedure __sklib__raspi_set_pwm_frequency__pins__int(pin: LongInt; frequency: Integer); cdecl; external;
-procedure __sklib__raspi_set_pwm_range__pins__int(pin: LongInt; range: Integer); cdecl; external;
+function __sklib__raspi_read__gpio_pin(pin: LongInt): LongInt; cdecl; external;
+procedure __sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(pin: LongInt; mode: LongInt); cdecl; external;
+procedure __sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(pin: LongInt; pud: LongInt); cdecl; external;
+procedure __sklib__raspi_set_pwm_dutycycle__gpio_pin__int(pin: LongInt; dutycycle: Integer); cdecl; external;
+procedure __sklib__raspi_set_pwm_frequency__gpio_pin__int(pin: LongInt; frequency: Integer); cdecl; external;
+procedure __sklib__raspi_set_pwm_range__gpio_pin__int(pin: LongInt; range: Integer); cdecl; external;
 function __sklib__raspi_spi_close__int(handle: Integer): Integer; cdecl; external;
 function __sklib__raspi_spi_open__int__int__int(channel: Integer; speed: Integer; spiFlags: Integer): Integer; cdecl; external;
 function __sklib__raspi_spi_transfer__int__string__string__int(handle: Integer; sendbuf: __sklib_string; recvbuf: __sklib_string; count: Integer): Integer; cdecl; external;
-procedure __sklib__raspi_write__pins__pin_values(pin: LongInt; value: LongInt); cdecl; external;
+procedure __sklib__raspi_write__gpio_pin__gpio_pin_value(pin: LongInt; value: LongInt); cdecl; external;
+function __sklib__remote_raspi_cleanup__connection(pi: __sklib_ptr): LongInt; cdecl; external;
+function __sklib__remote_raspi_get_mode__connection__gpio_pin(pi: __sklib_ptr; pin: LongInt): LongInt; cdecl; external;
+function __sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(const name: __sklib_string; const host: __sklib_string; port: Word): __sklib_ptr; cdecl; external;
+function __sklib__remote_raspi_read__connection__gpio_pin(pi: __sklib_ptr; pin: LongInt): LongInt; cdecl; external;
+procedure __sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(pi: __sklib_ptr; pin: LongInt; mode: LongInt); cdecl; external;
+procedure __sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(pi: __sklib_ptr; pin: LongInt; pud: LongInt); cdecl; external;
+procedure __sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(pi: __sklib_ptr; pin: LongInt; dutycycle: Integer); cdecl; external;
+procedure __sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(pi: __sklib_ptr; pin: LongInt; frequency: Integer); cdecl; external;
+procedure __sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(pi: __sklib_ptr; pin: LongInt; range: Integer); cdecl; external;
+procedure __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(pi: __sklib_ptr; pin: LongInt; value: LongInt); cdecl; external;
 procedure __sklib__draw_quad__color__quad_ref(clr: __sklib_color; const q: __sklib_quad); cdecl; external;
 procedure __sklib__draw_quad__color__quad_ref__drawing_options_ref(clr: __sklib_color; const q: __sklib_quad; const opts: __sklib_drawing_options); cdecl; external;
 procedure __sklib__draw_quad_on_bitmap__bitmap__color__quad_ref(destination: __sklib_ptr; clr: __sklib_color; const q: __sklib_quad); cdecl; external;
@@ -4597,6 +4665,51 @@ procedure OpenAudio();
 begin
   __sklib__open_audio();
 end;
+function Base64Decode(const input: String): String;
+var
+  __skparam__input: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__input := __skadapter__to_sklib_string(input);
+  __skreturn := __sklib__base64_decode__string_ref(__skparam__input);
+  result := __skadapter__to_string(__skreturn);
+end;
+function Base64Encode(const input: String): String;
+var
+  __skparam__input: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__input := __skadapter__to_sklib_string(input);
+  __skreturn := __sklib__base64_encode__string_ref(__skparam__input);
+  result := __skadapter__to_string(__skreturn);
+end;
+function BinToDec(const bin: String): Cardinal;
+var
+  __skparam__bin: __sklib_string;
+  __skreturn: Cardinal;
+begin
+  __skparam__bin := __skadapter__to_sklib_string(bin);
+  __skreturn := __sklib__bin_to_dec__string_ref(__skparam__bin);
+  result := __skadapter__to_unsigned_int(__skreturn);
+end;
+function BinToHex(const binStr: String): String;
+var
+  __skparam__bin_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__bin_str := __skadapter__to_sklib_string(binStr);
+  __skreturn := __sklib__bin_to_hex__string_ref(__skparam__bin_str);
+  result := __skadapter__to_string(__skreturn);
+end;
+function BinToOct(const binStr: String): String;
+var
+  __skparam__bin_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__bin_str := __skadapter__to_sklib_string(binStr);
+  __skreturn := __sklib__bin_to_oct__string_ref(__skparam__bin_str);
+  result := __skadapter__to_string(__skreturn);
+end;
 function Contains(const text: String; const subtext: String): Boolean;
 var
   __skparam__text: __sklib_string;
@@ -4626,6 +4739,62 @@ begin
   __skreturn := __sklib__convert_to_integer__string_ref(__skparam__text);
   result := __skadapter__to_int(__skreturn);
 end;
+function DecToBin(dec: Cardinal): String;
+var
+  __skparam__dec: Cardinal;
+  __skreturn: __sklib_string;
+begin
+  __skparam__dec := __skadapter__to_sklib_unsigned_int(dec);
+  __skreturn := __sklib__dec_to_bin__unsigned_int(__skparam__dec);
+  result := __skadapter__to_string(__skreturn);
+end;
+function DecToOct(decimalValue: Cardinal): String;
+var
+  __skparam__decimal_value: Cardinal;
+  __skreturn: __sklib_string;
+begin
+  __skparam__decimal_value := __skadapter__to_sklib_unsigned_int(decimalValue);
+  __skreturn := __sklib__dec_to_oct__unsigned_int(__skparam__decimal_value);
+  result := __skadapter__to_string(__skreturn);
+end;
+function GreatestCommonDivisor(number1: Integer; number2: Integer): Integer;
+var
+  __skparam__number1: Integer;
+  __skparam__number2: Integer;
+  __skreturn: Integer;
+begin
+  __skparam__number1 := __skadapter__to_sklib_int(number1);
+  __skparam__number2 := __skadapter__to_sklib_int(number2);
+  __skreturn := __sklib__greatest_common_divisor__int__int(__skparam__number1, __skparam__number2);
+  result := __skadapter__to_int(__skreturn);
+end;
+function HexToBin(const hexStr: String): String;
+var
+  __skparam__hex_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__hex_str := __skadapter__to_sklib_string(hexStr);
+  __skreturn := __sklib__hex_to_bin__string_ref(__skparam__hex_str);
+  result := __skadapter__to_string(__skreturn);
+end;
+function HexToDec(const hexString: String): Cardinal;
+var
+  __skparam__hex_string: __sklib_string;
+  __skreturn: Cardinal;
+begin
+  __skparam__hex_string := __skadapter__to_sklib_string(hexString);
+  __skreturn := __sklib__hex_to_dec__string_ref(__skparam__hex_string);
+  result := __skadapter__to_unsigned_int(__skreturn);
+end;
+function HexToOct(const hexStr: String): String;
+var
+  __skparam__hex_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__hex_str := __skadapter__to_sklib_string(hexStr);
+  __skreturn := __sklib__hex_to_oct__string_ref(__skparam__hex_str);
+  result := __skadapter__to_string(__skreturn);
+end;
 function IndexOf(const text: String; const subtext: String): Integer;
 var
   __skparam__text: __sklib_string;
@@ -4637,6 +4806,15 @@ begin
   __skreturn := __sklib__index_of__string_ref__string_ref(__skparam__text, __skparam__subtext);
   result := __skadapter__to_int(__skreturn);
 end;
+function IsBinary(const binStr: String): Boolean;
+var
+  __skparam__bin_str: __sklib_string;
+  __skreturn: LongInt;
+begin
+  __skparam__bin_str := __skadapter__to_sklib_string(binStr);
+  __skreturn := __sklib__is_binary__string_ref(__skparam__bin_str);
+  result := __skadapter__to_bool(__skreturn);
+end;
 function IsDouble(const text: String): Boolean;
 var
   __skparam__text: __sklib_string;
@@ -4644,6 +4822,15 @@ var
 begin
   __skparam__text := __skadapter__to_sklib_string(text);
   __skreturn := __sklib__is_double__string_ref(__skparam__text);
+  result := __skadapter__to_bool(__skreturn);
+end;
+function IsHex(const hexStr: String): Boolean;
+var
+  __skparam__hex_str: __sklib_string;
+  __skreturn: LongInt;
+begin
+  __skparam__hex_str := __skadapter__to_sklib_string(hexStr);
+  __skreturn := __sklib__is_hex__string_ref(__skparam__hex_str);
   result := __skadapter__to_bool(__skreturn);
 end;
 function IsInteger(const text: String): Boolean;
@@ -4664,6 +4851,35 @@ begin
   __skreturn := __sklib__is_number__string_ref(__skparam__text);
   result := __skadapter__to_bool(__skreturn);
 end;
+function IsOctal(const octalStr: String): Boolean;
+var
+  __skparam__octal_str: __sklib_string;
+  __skreturn: LongInt;
+begin
+  __skparam__octal_str := __skadapter__to_sklib_string(octalStr);
+  __skreturn := __sklib__is_octal__string_ref(__skparam__octal_str);
+  result := __skadapter__to_bool(__skreturn);
+end;
+function IsPrimeNumber(number: Integer): Boolean;
+var
+  __skparam__number: Integer;
+  __skreturn: LongInt;
+begin
+  __skparam__number := __skadapter__to_sklib_int(number);
+  __skreturn := __sklib__is_prime_number__int(__skparam__number);
+  result := __skadapter__to_bool(__skreturn);
+end;
+function LeastCommonMultiple(number1: Integer; number2: Integer): Integer;
+var
+  __skparam__number1: Integer;
+  __skparam__number2: Integer;
+  __skreturn: Integer;
+begin
+  __skparam__number1 := __skadapter__to_sklib_int(number1);
+  __skparam__number2 := __skadapter__to_sklib_int(number2);
+  __skreturn := __sklib__least_common_multiple__int__int(__skparam__number1, __skparam__number2);
+  result := __skadapter__to_int(__skreturn);
+end;
 function LengthOf(const text: String): Integer;
 var
   __skparam__text: __sklib_string;
@@ -4672,6 +4888,33 @@ begin
   __skparam__text := __skadapter__to_sklib_string(text);
   __skreturn := __sklib__length_of__string_ref(__skparam__text);
   result := __skadapter__to_int(__skreturn);
+end;
+function OctToBin(const octalStr: String): String;
+var
+  __skparam__octal_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__octal_str := __skadapter__to_sklib_string(octalStr);
+  __skreturn := __sklib__oct_to_bin__string_ref(__skparam__octal_str);
+  result := __skadapter__to_string(__skreturn);
+end;
+function OctToDec(const octalString: String): Cardinal;
+var
+  __skparam__octal_string: __sklib_string;
+  __skreturn: Cardinal;
+begin
+  __skparam__octal_string := __skadapter__to_sklib_string(octalString);
+  __skreturn := __sklib__oct_to_dec__string_ref(__skparam__octal_string);
+  result := __skadapter__to_unsigned_int(__skreturn);
+end;
+function OctToHex(const octStr: String): String;
+var
+  __skparam__oct_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__oct_str := __skadapter__to_sklib_string(octStr);
+  __skreturn := __sklib__oct_to_hex__string_ref(__skparam__oct_str);
+  result := __skadapter__to_string(__skreturn);
 end;
 function ReplaceAll(const text: String; const substr: String; const newText: String): String;
 var
@@ -4696,6 +4939,15 @@ begin
   __skparam__delimiter := __skadapter__to_sklib_char(delimiter);
   __skreturn := __sklib__split__string_ref__char(__skparam__text, __skparam__delimiter);
   result := __skadapter__to_vector_string(__skreturn);
+end;
+function SquareRoot(number: Integer): Double;
+var
+  __skparam__number: Integer;
+  __skreturn: Double;
+begin
+  __skparam__number := __skadapter__to_sklib_int(number);
+  __skreturn := __sklib__square_root__int(__skparam__number);
+  result := __skadapter__to_double(__skreturn);
 end;
 function ToLowercase(const text: String): String;
 var
@@ -11718,6 +11970,15 @@ begin
   __skreturn := __sklib__hex_to_dec_string__string_ref(__skparam__a_hex);
   result := __skadapter__to_string(__skreturn);
 end;
+function HexToMac(const hexStr: String): String;
+var
+  __skparam__hex_str: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__hex_str := __skadapter__to_sklib_string(hexStr);
+  __skreturn := __sklib__hex_to_mac__string_ref(__skparam__hex_str);
+  result := __skadapter__to_string(__skreturn);
+end;
 function Ipv4ToDec(const aIP: String): Cardinal;
 var
   __skparam__a_ip: __sklib_string;
@@ -11763,6 +12024,15 @@ begin
   __skreturn := __sklib__is_valid_ipv4__string_ref(__skparam__ip);
   result := __skadapter__to_bool(__skreturn);
 end;
+function IsValidMac(const macAddress: String): Boolean;
+var
+  __skparam__mac_address: __sklib_string;
+  __skreturn: LongInt;
+begin
+  __skparam__mac_address := __skadapter__to_sklib_string(macAddress);
+  __skreturn := __sklib__is_valid_mac__string_ref(__skparam__mac_address);
+  result := __skadapter__to_bool(__skreturn);
+end;
 function LastConnection(const name: String): Connection;
 var
   __skparam__name: __sklib_string;
@@ -11780,6 +12050,15 @@ begin
   __skparam__server := __skadapter__to_sklib_server_socket(server);
   __skreturn := __sklib__last_connection__server_socket(__skparam__server);
   result := __skadapter__to_connection(__skreturn);
+end;
+function MacToHex(const macAddress: String): String;
+var
+  __skparam__mac_address: __sklib_string;
+  __skreturn: __sklib_string;
+begin
+  __skparam__mac_address := __skadapter__to_sklib_string(macAddress);
+  __skreturn := __sklib__mac_to_hex__string_ref(__skparam__mac_address);
+  result := __skadapter__to_string(__skreturn);
 end;
 function MessageConnection(msg: Message): Connection;
 var
@@ -12721,72 +13000,72 @@ procedure RaspiCleanup();
 begin
   __sklib__raspi_cleanup();
 end;
-function RaspiGetMode(pin: Pins): PinModes;
+function RaspiGetMode(pin: GpioPin): GpioPinMode;
 var
   __skparam__pin: LongInt;
   __skreturn: LongInt;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
-  __skreturn := __sklib__raspi_get_mode__pins(__skparam__pin);
-  result := __skadapter__to_pin_modes(__skreturn);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skreturn := __sklib__raspi_get_mode__gpio_pin(__skparam__pin);
+  result := __skadapter__to_gpio_pin_mode(__skreturn);
 end;
 procedure RaspiInit();
 begin
   __sklib__raspi_init();
 end;
-function RaspiRead(pin: Pins): PinValues;
+function RaspiRead(pin: GpioPin): GpioPinValue;
 var
   __skparam__pin: LongInt;
   __skreturn: LongInt;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
-  __skreturn := __sklib__raspi_read__pins(__skparam__pin);
-  result := __skadapter__to_pin_values(__skreturn);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skreturn := __sklib__raspi_read__gpio_pin(__skparam__pin);
+  result := __skadapter__to_gpio_pin_value(__skreturn);
 end;
-procedure RaspiSetMode(pin: Pins; mode: PinModes);
+procedure RaspiSetMode(pin: GpioPin; mode: GpioPinMode);
 var
   __skparam__pin: LongInt;
   __skparam__mode: LongInt;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
-  __skparam__mode := __skadapter__to_sklib_pin_modes(mode);
-  __sklib__raspi_set_mode__pins__pin_modes(__skparam__pin, __skparam__mode);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__mode := __skadapter__to_sklib_gpio_pin_mode(mode);
+  __sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(__skparam__pin, __skparam__mode);
 end;
-procedure RaspiSetPullUpDown(pin: Pins; pud: PullUpDown);
+procedure RaspiSetPullUpDown(pin: GpioPin; pud: PullUpDown);
 var
   __skparam__pin: LongInt;
   __skparam__pud: LongInt;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
   __skparam__pud := __skadapter__to_sklib_pull_up_down(pud);
-  __sklib__raspi_set_pull_up_down__pins__pull_up_down(__skparam__pin, __skparam__pud);
+  __sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(__skparam__pin, __skparam__pud);
 end;
-procedure RaspiSetPwmDutycycle(pin: Pins; dutycycle: Integer);
+procedure RaspiSetPwmDutycycle(pin: GpioPin; dutycycle: Integer);
 var
   __skparam__pin: LongInt;
   __skparam__dutycycle: Integer;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
   __skparam__dutycycle := __skadapter__to_sklib_int(dutycycle);
-  __sklib__raspi_set_pwm_dutycycle__pins__int(__skparam__pin, __skparam__dutycycle);
+  __sklib__raspi_set_pwm_dutycycle__gpio_pin__int(__skparam__pin, __skparam__dutycycle);
 end;
-procedure RaspiSetPwmFrequency(pin: Pins; frequency: Integer);
+procedure RaspiSetPwmFrequency(pin: GpioPin; frequency: Integer);
 var
   __skparam__pin: LongInt;
   __skparam__frequency: Integer;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
   __skparam__frequency := __skadapter__to_sklib_int(frequency);
-  __sklib__raspi_set_pwm_frequency__pins__int(__skparam__pin, __skparam__frequency);
+  __sklib__raspi_set_pwm_frequency__gpio_pin__int(__skparam__pin, __skparam__frequency);
 end;
-procedure RaspiSetPwmRange(pin: Pins; range: Integer);
+procedure RaspiSetPwmRange(pin: GpioPin; range: Integer);
 var
   __skparam__pin: LongInt;
   __skparam__range: Integer;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
   __skparam__range := __skadapter__to_sklib_int(range);
-  __sklib__raspi_set_pwm_range__pins__int(__skparam__pin, __skparam__range);
+  __sklib__raspi_set_pwm_range__gpio_pin__int(__skparam__pin, __skparam__range);
 end;
 function RaspiSpiClose(handle: Integer): Integer;
 var
@@ -12825,14 +13104,124 @@ begin
   __skreturn := __sklib__raspi_spi_transfer__int__string__string__int(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count);
   result := __skadapter__to_int(__skreturn);
 end;
-procedure RaspiWrite(pin: Pins; value: PinValues);
+procedure RaspiWrite(pin: GpioPin; value: GpioPinValue);
 var
   __skparam__pin: LongInt;
   __skparam__value: LongInt;
 begin
-  __skparam__pin := __skadapter__to_sklib_pins(pin);
-  __skparam__value := __skadapter__to_sklib_pin_values(value);
-  __sklib__raspi_write__pins__pin_values(__skparam__pin, __skparam__value);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__value := __skadapter__to_sklib_gpio_pin_value(value);
+  __sklib__raspi_write__gpio_pin__gpio_pin_value(__skparam__pin, __skparam__value);
+end;
+function RemoteRaspiCleanup(pi: Connection): Boolean;
+var
+  __skparam__pi: __sklib_ptr;
+  __skreturn: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skreturn := __sklib__remote_raspi_cleanup__connection(__skparam__pi);
+  result := __skadapter__to_bool(__skreturn);
+end;
+function RemoteRaspiGetMode(pi: Connection; pin: GpioPin): GpioPinMode;
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skreturn: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skreturn := __sklib__remote_raspi_get_mode__connection__gpio_pin(__skparam__pi, __skparam__pin);
+  result := __skadapter__to_gpio_pin_mode(__skreturn);
+end;
+function RemoteRaspiInit(const name: String; const host: String; port: Word): Connection;
+var
+  __skparam__name: __sklib_string;
+  __skparam__host: __sklib_string;
+  __skparam__port: Word;
+  __skreturn: __sklib_ptr;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skparam__host := __skadapter__to_sklib_string(host);
+  __skparam__port := __skadapter__to_sklib_unsigned_short(port);
+  __skreturn := __sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(__skparam__name, __skparam__host, __skparam__port);
+  result := __skadapter__to_connection(__skreturn);
+end;
+function RemoteRaspiRead(pi: Connection; pin: GpioPin): GpioPinValue;
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skreturn: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skreturn := __sklib__remote_raspi_read__connection__gpio_pin(__skparam__pi, __skparam__pin);
+  result := __skadapter__to_gpio_pin_value(__skreturn);
+end;
+procedure RemoteRaspiSetMode(pi: Connection; pin: GpioPin; mode: GpioPinMode);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__mode: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__mode := __skadapter__to_sklib_gpio_pin_mode(mode);
+  __sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(__skparam__pi, __skparam__pin, __skparam__mode);
+end;
+procedure RemoteRaspiSetPullUpDown(pi: Connection; pin: GpioPin; pud: PullUpDown);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__pud: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__pud := __skadapter__to_sklib_pull_up_down(pud);
+  __sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(__skparam__pi, __skparam__pin, __skparam__pud);
+end;
+procedure RemoteRaspiSetPwmDutycycle(pi: Connection; pin: GpioPin; dutycycle: Integer);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__dutycycle: Integer;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__dutycycle := __skadapter__to_sklib_int(dutycycle);
+  __sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__dutycycle);
+end;
+procedure RemoteRaspiSetPwmFrequency(pi: Connection; pin: GpioPin; frequency: Integer);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__frequency: Integer;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__frequency := __skadapter__to_sklib_int(frequency);
+  __sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__frequency);
+end;
+procedure RemoteRaspiSetPwmRange(pi: Connection; pin: GpioPin; range: Integer);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__range: Integer;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__range := __skadapter__to_sklib_int(range);
+  __sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__range);
+end;
+procedure RemoteRaspiWrite(pi: Connection; pin: GpioPin; value: GpioPinValue);
+var
+  __skparam__pi: __sklib_ptr;
+  __skparam__pin: LongInt;
+  __skparam__value: LongInt;
+begin
+  __skparam__pi := __skadapter__to_sklib_connection(pi);
+  __skparam__pin := __skadapter__to_sklib_gpio_pin(pin);
+  __skparam__value := __skadapter__to_sklib_gpio_pin_value(value);
+  __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__skparam__pi, __skparam__pin, __skparam__value);
 end;
 procedure DrawQuad(clr: Color; const q: Quad);
 var

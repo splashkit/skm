@@ -114,6 +114,21 @@ namespace SplashKitSDK
     private static FontStyle __skadapter__to_font_style(int v) { return (FontStyle)v; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int __skadapter__to_sklib_gpio_pin(GpioPin v) { return (int)v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static GpioPin __skadapter__to_gpio_pin(int v) { return (GpioPin)v; }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int __skadapter__to_sklib_gpio_pin_mode(GpioPinMode v) { return (int)v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static GpioPinMode __skadapter__to_gpio_pin_mode(int v) { return (GpioPinMode)v; }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int __skadapter__to_sklib_gpio_pin_value(GpioPinValue v) { return (int)v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static GpioPinValue __skadapter__to_gpio_pin_value(int v) { return (GpioPinValue)v; }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int __skadapter__to_sklib_http_status_code(HttpStatusCode v) { return (int)v; }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static HttpStatusCode __skadapter__to_http_status_code(int v) { return (HttpStatusCode)v; }
@@ -122,21 +137,6 @@ namespace SplashKitSDK
     private static int __skadapter__to_sklib_interface_style(InterfaceStyle v) { return (int)v; }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static InterfaceStyle __skadapter__to_interface_style(int v) { return (InterfaceStyle)v; }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int __skadapter__to_sklib_pin_modes(PinModes v) { return (int)v; }
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static PinModes __skadapter__to_pin_modes(int v) { return (PinModes)v; }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int __skadapter__to_sklib_pin_values(PinValues v) { return (int)v; }
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static PinValues __skadapter__to_pin_values(int v) { return (PinValues)v; }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int __skadapter__to_sklib_pins(Pins v) { return (int)v; }
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static Pins __skadapter__to_pins(int v) { return (Pins)v; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int __skadapter__to_sklib_pull_up_down(PullUpDown v) { return (int)v; }
@@ -1152,6 +1152,21 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__open_audio", CharSet=CharSet.Ansi)]
     private static extern void __sklib__open_audio();
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__base64_decode__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__base64_decode__string_ref(__sklib_string input);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__base64_encode__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__base64_encode__string_ref(__sklib_string input);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__bin_to_dec__string_ref", CharSet=CharSet.Ansi)]
+    private static extern uint __sklib__bin_to_dec__string_ref(__sklib_string bin);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__bin_to_hex__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__bin_to_hex__string_ref(__sklib_string binStr);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__bin_to_oct__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__bin_to_oct__string_ref(__sklib_string binStr);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__contains__string_ref__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__contains__string_ref__string_ref(__sklib_string text, __sklib_string subtext);
 
@@ -1161,11 +1176,35 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__convert_to_integer__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__convert_to_integer__string_ref(__sklib_string text);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__dec_to_bin__unsigned_int", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__dec_to_bin__unsigned_int(uint dec);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__dec_to_oct__unsigned_int", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__dec_to_oct__unsigned_int(uint decimalValue);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__greatest_common_divisor__int__int", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__greatest_common_divisor__int__int(int number1, int number2);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__hex_to_bin__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__hex_to_bin__string_ref(__sklib_string hexStr);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__hex_to_dec__string_ref", CharSet=CharSet.Ansi)]
+    private static extern uint __sklib__hex_to_dec__string_ref(__sklib_string hexString);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__hex_to_oct__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__hex_to_oct__string_ref(__sklib_string hexStr);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__index_of__string_ref__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__index_of__string_ref__string_ref(__sklib_string text, __sklib_string subtext);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_binary__string_ref", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__is_binary__string_ref(__sklib_string binStr);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_double__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__is_double__string_ref(__sklib_string text);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_hex__string_ref", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__is_hex__string_ref(__sklib_string hexStr);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_integer__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__is_integer__string_ref(__sklib_string text);
@@ -1173,14 +1212,35 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_number__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__is_number__string_ref(__sklib_string text);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_octal__string_ref", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__is_octal__string_ref(__sklib_string octalStr);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_prime_number__int", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__is_prime_number__int(int number);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__least_common_multiple__int__int", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__least_common_multiple__int__int(int number1, int number2);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__length_of__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__length_of__string_ref(__sklib_string text);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__oct_to_bin__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__oct_to_bin__string_ref(__sklib_string octalStr);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__oct_to_dec__string_ref", CharSet=CharSet.Ansi)]
+    private static extern uint __sklib__oct_to_dec__string_ref(__sklib_string octalString);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__oct_to_hex__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__oct_to_hex__string_ref(__sklib_string octStr);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__replace_all__string_ref__string_ref__string_ref", CharSet=CharSet.Ansi)]
     private static extern __sklib_string __sklib__replace_all__string_ref__string_ref__string_ref(__sklib_string text, __sklib_string substr, __sklib_string newText);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__split__string_ref__char", CharSet=CharSet.Ansi)]
     private static extern __sklib_vector_string __sklib__split__string_ref__char(__sklib_string text, char delimiter);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__square_root__int", CharSet=CharSet.Ansi)]
+    private static extern double __sklib__square_root__int(int number);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__to_lowercase__string_ref", CharSet=CharSet.Ansi)]
     private static extern __sklib_string __sklib__to_lowercase__string_ref(__sklib_string text);
@@ -3333,6 +3393,9 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__hex_to_dec_string__string_ref", CharSet=CharSet.Ansi)]
     private static extern __sklib_string __sklib__hex_to_dec_string__string_ref(__sklib_string aHex);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__hex_to_mac__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__hex_to_mac__string_ref(__sklib_string hexStr);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__ipv4_to_dec__string_ref", CharSet=CharSet.Ansi)]
     private static extern uint __sklib__ipv4_to_dec__string_ref(__sklib_string aIP);
 
@@ -3348,11 +3411,17 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_valid_ipv4__string_ref", CharSet=CharSet.Ansi)]
     private static extern int __sklib__is_valid_ipv4__string_ref(__sklib_string ip);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__is_valid_mac__string_ref", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__is_valid_mac__string_ref(__sklib_string macAddress);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__last_connection__string_ref", CharSet=CharSet.Ansi)]
     private static extern __sklib_ptr __sklib__last_connection__string_ref(__sklib_string name);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__last_connection__server_socket", CharSet=CharSet.Ansi)]
     private static extern __sklib_ptr __sklib__last_connection__server_socket(__sklib_ptr server);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__mac_to_hex__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__mac_to_hex__string_ref(__sklib_string macAddress);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__message_connection__message", CharSet=CharSet.Ansi)]
     private static extern __sklib_ptr __sklib__message_connection__message(__sklib_ptr msg);
@@ -3621,29 +3690,29 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_cleanup", CharSet=CharSet.Ansi)]
     private static extern void __sklib__raspi_cleanup();
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_get_mode__pins", CharSet=CharSet.Ansi)]
-    private static extern int __sklib__raspi_get_mode__pins(int pin);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_get_mode__gpio_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__raspi_get_mode__gpio_pin(int pin);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_init", CharSet=CharSet.Ansi)]
     private static extern void __sklib__raspi_init();
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_read__pins", CharSet=CharSet.Ansi)]
-    private static extern int __sklib__raspi_read__pins(int pin);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_read__gpio_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__raspi_read__gpio_pin(int pin);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_mode__pins__pin_modes", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_set_mode__pins__pin_modes(int pin, int mode);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_mode__gpio_pin__gpio_pin_mode", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(int pin, int mode);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pull_up_down__pins__pull_up_down", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_set_pull_up_down__pins__pull_up_down(int pin, int pud);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(int pin, int pud);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_dutycycle__pins__int", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_set_pwm_dutycycle__pins__int(int pin, int dutycycle);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_dutycycle__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_set_pwm_dutycycle__gpio_pin__int(int pin, int dutycycle);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_frequency__pins__int", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_set_pwm_frequency__pins__int(int pin, int frequency);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_frequency__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_set_pwm_frequency__gpio_pin__int(int pin, int frequency);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_range__pins__int", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_set_pwm_range__pins__int(int pin, int range);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_set_pwm_range__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_set_pwm_range__gpio_pin__int(int pin, int range);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_spi_close__int", CharSet=CharSet.Ansi)]
     private static extern int __sklib__raspi_spi_close__int(int handle);
@@ -3654,8 +3723,38 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_spi_transfer__int__string__string__int", CharSet=CharSet.Ansi)]
     private static extern int __sklib__raspi_spi_transfer__int__string__string__int(int handle, __sklib_string sendbuf, __sklib_string recvbuf, int count);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_write__pins__pin_values", CharSet=CharSet.Ansi)]
-    private static extern void __sklib__raspi_write__pins__pin_values(int pin, int value);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_write__gpio_pin__gpio_pin_value", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__raspi_write__gpio_pin__gpio_pin_value(int pin, int value);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_cleanup__connection", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__remote_raspi_cleanup__connection(__sklib_ptr pi);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_get_mode__connection__gpio_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__remote_raspi_get_mode__connection__gpio_pin(__sklib_ptr pi, int pin);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_init__string_ref__string_ref__unsigned_short", CharSet=CharSet.Ansi)]
+    private static extern __sklib_ptr __sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(__sklib_string name, __sklib_string host, ushort port);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_read__connection__gpio_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__remote_raspi_read__connection__gpio_pin(__sklib_ptr pi, int pin);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(__sklib_ptr pi, int pin, int mode);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(__sklib_ptr pi, int pin, int pud);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(__sklib_ptr pi, int pin, int dutycycle);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(__sklib_ptr pi, int pin, int frequency);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(__sklib_ptr pi, int pin, int range);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__sklib_ptr pi, int pin, int value);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__draw_quad__color__quad_ref", CharSet=CharSet.Ansi)]
     private static extern void __sklib__draw_quad__color__quad_ref(__sklib_color clr, __sklib_quad q);
@@ -5624,6 +5723,76 @@ namespace SplashKitSDK
       __sklib__open_audio();
     }
     /// <summary>
+    /// Converts the provided Base64 encoded string back to its original form. For example, "TWFu" will be converted to "Man".
+    /// </summary>
+    /// <param name="input"> Base64 encoded string to decode</param>
+    /// <returns>Decoded original string</returns>
+    public static string Base64Decode(string input)
+    {
+      __sklib_string __skparam__input;
+      __sklib_string __skreturn;
+      __skparam__input = __skadapter__to_sklib_string(input);
+      __skreturn = __sklib__base64_decode__string_ref(__skparam__input);
+    __skadapter__free__sklib_string(ref __skparam__input);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided string into its Base64 encoded representation. For example, "Man" will be converted to "TWFu".
+    /// </summary>
+    /// <param name="input"> String to encode</param>
+    /// <returns>Base64 encoded string</returns>
+    public static string Base64Encode(string input)
+    {
+      __sklib_string __skparam__input;
+      __sklib_string __skreturn;
+      __skparam__input = __skadapter__to_sklib_string(input);
+      __skreturn = __sklib__base64_encode__string_ref(__skparam__input);
+    __skadapter__free__sklib_string(ref __skparam__input);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided binary string into an unsigned integer. For example, "1010" will be converted to 10.
+    /// </summary>
+    /// <param name="bin"> Binary string to convert</param>
+    /// <returns>Decimal (unsigned integer) representation of the binary string, or 0 if the string is not a valid binary string</returns>
+    public static uint BinToDec(string bin)
+    {
+      __sklib_string __skparam__bin;
+      uint __skreturn;
+      __skparam__bin = __skadapter__to_sklib_string(bin);
+      __skreturn = __sklib__bin_to_dec__string_ref(__skparam__bin);
+    __skadapter__free__sklib_string(ref __skparam__bin);
+      return __skadapter__to_unsigned_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided binary string into a hexadecimal string representation. For example, "1010" will be converted to "A".
+    /// </summary>
+    /// <param name="binStr"> Binary string to convert</param>
+    /// <returns>Hexadecimal string representation of the binary string, or an empty string if the string is not a valid binary string</returns>
+    public static string BinToHex(string binStr)
+    {
+      __sklib_string __skparam__bin_str;
+      __sklib_string __skreturn;
+      __skparam__bin_str = __skadapter__to_sklib_string(binStr);
+      __skreturn = __sklib__bin_to_hex__string_ref(__skparam__bin_str);
+    __skadapter__free__sklib_string(ref __skparam__bin_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided binary string into its octal string representation. For example, "1010" will be converted to "12".
+    /// </summary>
+    /// <param name="binStr"> Binary string to convert</param>
+    /// <returns>Octal string representation of the binary string, or an empty string if the string is not a valid binary string</returns>
+    public static string BinToOct(string binStr)
+    {
+      __sklib_string __skparam__bin_str;
+      __sklib_string __skreturn;
+      __skparam__bin_str = __skadapter__to_sklib_string(binStr);
+      __skreturn = __sklib__bin_to_oct__string_ref(__skparam__bin_str);
+    __skadapter__free__sklib_string(ref __skparam__bin_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
     /// Returns true if the string contains the substring.
     /// </summary>
     /// <param name="text"> The text to search</param>
@@ -5670,6 +5839,90 @@ namespace SplashKitSDK
       return __skadapter__to_int(__skreturn);
     }
     /// <summary>
+    /// Converts the provided unsigned integer into a binary string. For example, 10 will be converted to "1010".
+    /// </summary>
+    /// <param name="dec"> Decimal (unsigned integer) to convert</param>
+    /// <returns>Binary string representation of the decimal</returns>
+    public static string DecToBin(uint dec)
+    {
+      uint __skparam__dec;
+      __sklib_string __skreturn;
+      __skparam__dec = __skadapter__to_sklib_unsigned_int(dec);
+      __skreturn = __sklib__dec_to_bin__unsigned_int(__skparam__dec);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided decimal value into its octal string representation. For example, 64 will be converted to "100".
+    /// </summary>
+    /// <param name="decimalValue"> Decimal (unsigned integer) to convert</param>
+    /// <returns>Octal string representation of the decimal value, or "0" if the value is 0</returns>
+    public static string DecToOct(uint decimalValue)
+    {
+      uint __skparam__decimal_value;
+      __sklib_string __skreturn;
+      __skparam__decimal_value = __skadapter__to_sklib_unsigned_int(decimalValue);
+      __skreturn = __sklib__dec_to_oct__unsigned_int(__skparam__decimal_value);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// The greatest common divisor (GCD) of two numbers is the largest positive integer that divides both numbers without a remainder.
+    /// </summary>
+    /// <param name="number1"> First number</param>
+    /// <param name="number2"> Second number</param>
+    /// <returns>Greatest common divisor of the two numbers, or 0 if either of the numbers is not a valid integer above 0</returns>
+    public static int GreatestCommonDivisor(int number1, int number2)
+    {
+      int __skparam__number1;
+      int __skparam__number2;
+      int __skreturn;
+      __skparam__number1 = __skadapter__to_sklib_int(number1);
+      __skparam__number2 = __skadapter__to_sklib_int(number2);
+      __skreturn = __sklib__greatest_common_divisor__int__int(__skparam__number1, __skparam__number2);
+      return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided hexadecimal string into its binary string representation. For example, "A" will be converted to "1010".
+    /// </summary>
+    /// <param name="hexStr"> Hexadecimal string to convert</param>
+    /// <returns>Binary string representation of the hexadecimal string, or an empty string if the string is not a valid hexadecimal string</returns>
+    public static string HexToBin(string hexStr)
+    {
+      __sklib_string __skparam__hex_str;
+      __sklib_string __skreturn;
+      __skparam__hex_str = __skadapter__to_sklib_string(hexStr);
+      __skreturn = __sklib__hex_to_bin__string_ref(__skparam__hex_str);
+    __skadapter__free__sklib_string(ref __skparam__hex_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hexString"> the data to convert</param>
+    /// <returns>unsigned int the numeric value of the hex string</returns>
+    public static uint HexToDec(string hexString)
+    {
+      __sklib_string __skparam__hex_string;
+      uint __skreturn;
+      __skparam__hex_string = __skadapter__to_sklib_string(hexString);
+      __skreturn = __sklib__hex_to_dec__string_ref(__skparam__hex_string);
+    __skadapter__free__sklib_string(ref __skparam__hex_string);
+      return __skadapter__to_unsigned_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided hexadecimal string into its octal string representation. For example, "A" will be converted to "12".
+    /// </summary>
+    /// <param name="hexStr"> Hexadecimal string to convert</param>
+    /// <returns>Octal string representation of the hexadecimal string, or an empty string if the string is not a valid hexadecimal string</returns>
+    public static string HexToOct(string hexStr)
+    {
+      __sklib_string __skparam__hex_str;
+      __sklib_string __skreturn;
+      __skparam__hex_str = __skadapter__to_sklib_string(hexStr);
+      __skreturn = __sklib__hex_to_oct__string_ref(__skparam__hex_str);
+    __skadapter__free__sklib_string(ref __skparam__hex_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
     /// Returns the index of the first occurrence of the substring in the text.
     /// </summary>
     /// <param name="text"> The text to search</param>
@@ -5688,6 +5941,20 @@ namespace SplashKitSDK
       return __skadapter__to_int(__skreturn);
     }
     /// <summary>
+    /// A binary string is a string that contains only '0' and '1' characters.
+    /// </summary>
+    /// <param name="binStr"> Binary string to check</param>
+    /// <returns>True if the string is a valid binary string, false otherwise</returns>
+    public static bool IsBinary(string binStr)
+    {
+      __sklib_string __skparam__bin_str;
+      int __skreturn;
+      __skparam__bin_str = __skadapter__to_sklib_string(binStr);
+      __skreturn = __sklib__is_binary__string_ref(__skparam__bin_str);
+    __skadapter__free__sklib_string(ref __skparam__bin_str);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
     /// Checks if a string contains a number.
     /// </summary>
     /// <param name="text"> The text to check.</param>
@@ -5699,6 +5966,20 @@ namespace SplashKitSDK
       __skparam__text = __skadapter__to_sklib_string(text);
       __skreturn = __sklib__is_double__string_ref(__skparam__text);
     __skadapter__free__sklib_string(ref __skparam__text);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
+    /// A hexadecimal string is a string that contains only characters from '0' to '9' and 'A' to 'F' (or 'a' to 'f').
+    /// </summary>
+    /// <param name="hexStr"> Hexadecimal string to check</param>
+    /// <returns>True if the string is a valid hexadecimal string, false otherwise</returns>
+    public static bool IsHex(string hexStr)
+    {
+      __sklib_string __skparam__hex_str;
+      int __skreturn;
+      __skparam__hex_str = __skadapter__to_sklib_string(hexStr);
+      __skreturn = __sklib__is_hex__string_ref(__skparam__hex_str);
+    __skadapter__free__sklib_string(ref __skparam__hex_str);
       return __skadapter__to_bool(__skreturn);
     }
     /// <summary>
@@ -5730,6 +6011,49 @@ namespace SplashKitSDK
       return __skadapter__to_bool(__skreturn);
     }
     /// <summary>
+    /// An octal string is a string that contains only characters from '0' to '7'.
+    /// </summary>
+    /// <param name="octalStr"> Octal string to check</param>
+    /// <returns>True if the string is a valid octal string, false otherwise</returns>
+    public static bool IsOctal(string octalStr)
+    {
+      __sklib_string __skparam__octal_str;
+      int __skreturn;
+      __skparam__octal_str = __skadapter__to_sklib_string(octalStr);
+      __skreturn = __sklib__is_octal__string_ref(__skparam__octal_str);
+    __skadapter__free__sklib_string(ref __skparam__octal_str);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
+    /// A prime number is a number greater than 1 that has no positive divisors other than 1 and itself.
+    /// </summary>
+    /// <param name="number"> Number to check</param>
+    /// <returns>True if the number is a prime number, false otherwise</returns>
+    public static bool IsPrimeNumber(int number)
+    {
+      int __skparam__number;
+      int __skreturn;
+      __skparam__number = __skadapter__to_sklib_int(number);
+      __skreturn = __sklib__is_prime_number__int(__skparam__number);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
+    /// The least common multiple (LCM) of two numbers is the smallest positive integer that is divisible by both numbers.
+    /// </summary>
+    /// <param name="number1"> First number</param>
+    /// <param name="number2"> Second number</param>
+    /// <returns>Least common multiple of the two numbers, or 0 if either of the numbers is not a valid integer above 0</returns>
+    public static int LeastCommonMultiple(int number1, int number2)
+    {
+      int __skparam__number1;
+      int __skparam__number2;
+      int __skreturn;
+      __skparam__number1 = __skadapter__to_sklib_int(number1);
+      __skparam__number2 = __skadapter__to_sklib_int(number2);
+      __skreturn = __sklib__least_common_multiple__int__int(__skparam__number1, __skparam__number2);
+      return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
     /// Returns the length of a string in characters.
     /// </summary>
     /// <param name="text"> The text to get the length of</param>
@@ -5742,6 +6066,48 @@ namespace SplashKitSDK
       __skreturn = __sklib__length_of__string_ref(__skparam__text);
     __skadapter__free__sklib_string(ref __skparam__text);
       return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided octal string into its binary string representation. For example, "12" will be converted to "1010".
+    /// </summary>
+    /// <param name="octalStr"> Octal string to convert</param>
+    /// <returns>Binary string representation of the octal string, or an empty string if the string is not a valid octal string</returns>
+    public static string OctToBin(string octalStr)
+    {
+      __sklib_string __skparam__octal_str;
+      __sklib_string __skreturn;
+      __skparam__octal_str = __skadapter__to_sklib_string(octalStr);
+      __skreturn = __sklib__oct_to_bin__string_ref(__skparam__octal_str);
+    __skadapter__free__sklib_string(ref __skparam__octal_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided octal string into its decimal representation. For example, "100" will be converted to 64.
+    /// </summary>
+    /// <param name="octalString"> Octal string to convert</param>
+    /// <returns>Decimal (unsigned integer) representation of the octal string, or 0 if the string is not a valid octal string</returns>
+    public static uint OctToDec(string octalString)
+    {
+      __sklib_string __skparam__octal_string;
+      uint __skreturn;
+      __skparam__octal_string = __skadapter__to_sklib_string(octalString);
+      __skreturn = __sklib__oct_to_dec__string_ref(__skparam__octal_string);
+    __skadapter__free__sklib_string(ref __skparam__octal_string);
+      return __skadapter__to_unsigned_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts the provided octal string into its hexadecimal string representation. For example, "12" will be converted to "A".
+    /// </summary>
+    /// <param name="octStr"> Octal string to convert</param>
+    /// <returns>Hexadecimal string representation of the octal string, or an empty string if the string is not a valid octal string</returns>
+    public static string OctToHex(string octStr)
+    {
+      __sklib_string __skparam__oct_str;
+      __sklib_string __skreturn;
+      __skparam__oct_str = __skadapter__to_sklib_string(octStr);
+      __skreturn = __sklib__oct_to_hex__string_ref(__skparam__oct_str);
+    __skadapter__free__sklib_string(ref __skparam__oct_str);
+      return __skadapter__to_string(__skreturn);
     }
     /// <summary>
     /// Replace all occurrences of a substring in a string with another string.
@@ -5781,6 +6147,19 @@ namespace SplashKitSDK
       __skreturn = __sklib__split__string_ref__char(__skparam__text, __skparam__delimiter);
     __skadapter__free__sklib_string(ref __skparam__text);
       return __skadapter__to_vector_string(__skreturn);
+    }
+    /// <summary>
+    /// Calculates the square root of the provided number using the Newton-Raphson method.
+    /// </summary>
+    /// <param name="number"> Number to calculate the square root of</param>
+    /// <returns>Square root of the number</returns>
+    public static double SquareRoot(int number)
+    {
+      int __skparam__number;
+      double __skreturn;
+      __skparam__number = __skadapter__to_sklib_int(number);
+      __skreturn = __sklib__square_root__int(__skparam__number);
+      return __skadapter__to_double(__skreturn);
     }
     /// <summary>
     /// Return a lowercase version of the passed in string.
@@ -16096,6 +16475,20 @@ namespace SplashKitSDK
       return __skadapter__to_string(__skreturn);
     }
     /// <summary>
+    /// Converts a hexadecimal representation of a MAC address back to its standard format. e.g. 01:23:45:67:89:AB from 0x0123456789AB
+    /// </summary>
+    /// <param name="hexStr"> hexadecimal string to convert</param>
+    /// <returns>MAC address as a string in the format XX:XX:XX:XX:XX:XX</returns>
+    public static string HexToMac(string hexStr)
+    {
+      __sklib_string __skparam__hex_str;
+      __sklib_string __skreturn;
+      __skparam__hex_str = __skadapter__to_sklib_string(hexStr);
+      __skreturn = __sklib__hex_to_mac__string_ref(__skparam__hex_str);
+    __skadapter__free__sklib_string(ref __skparam__hex_str);
+      return __skadapter__to_string(__skreturn);
+    }
+    /// <summary>
     /// Encodes the supplied ipv4 address string (in format X.X.X.X) into a single integer e.g. 127.0.0.1 into 2130706433
     /// </summary>
     /// <param name="aIP"> ipv4 address to encode</param>
@@ -16165,6 +16558,20 @@ namespace SplashKitSDK
       return __skadapter__to_bool(__skreturn);
     }
     /// <summary>
+    /// Checks if the supplied MAC address is valid.
+    /// </summary>
+    /// <param name="macAddress"> MAC address to check</param>
+    /// <returns>true if the MAC address is valid</returns>
+    public static bool IsValidMac(string macAddress)
+    {
+      __sklib_string __skparam__mac_address;
+      int __skreturn;
+      __skparam__mac_address = __skadapter__to_sklib_string(macAddress);
+      __skreturn = __sklib__is_valid_mac__string_ref(__skparam__mac_address);
+    __skadapter__free__sklib_string(ref __skparam__mac_address);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
     /// Gets the last client that connected to a server.
     /// </summary>
     /// <param name="name"> The name of the server to check</param>
@@ -16190,6 +16597,20 @@ namespace SplashKitSDK
       __skparam__server = __skadapter__to_sklib_server_socket(server);
       __skreturn = __sklib__last_connection__server_socket(__skparam__server);
       return __skadapter__to_connection(__skreturn);
+    }
+    /// <summary>
+    /// Converts a MAC address into its hexadecimal representation. e.g. 0x0123456789AB from 01:23:45:67:89:AB
+    /// </summary>
+    /// <param name="macAddress"> MAC address to convert</param>
+    /// <returns>hexadecimal representation of MAC address as a string</returns>
+    public static string MacToHex(string macAddress)
+    {
+      __sklib_string __skparam__mac_address;
+      __sklib_string __skreturn;
+      __skparam__mac_address = __skadapter__to_sklib_string(macAddress);
+      __skreturn = __sklib__mac_to_hex__string_ref(__skparam__mac_address);
+    __skadapter__free__sklib_string(ref __skparam__mac_address);
+      return __skadapter__to_string(__skreturn);
     }
     /// <summary>
     /// Returns the connection that sent a message.
@@ -17578,13 +17999,13 @@ namespace SplashKitSDK
     /// </summary>
     /// <param name="pin"> The pin to get the mode for.</param>
     /// <returns>The mode of the pin.</returns>
-    public static PinModes RaspiGetMode(Pins pin)
+    public static GpioPinMode RaspiGetMode(GpioPin pin)
     {
       int __skparam__pin;
       int __skreturn;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
-      __skreturn = __sklib__raspi_get_mode__pins(__skparam__pin);
-      return __skadapter__to_pin_modes(__skreturn);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skreturn = __sklib__raspi_get_mode__gpio_pin(__skparam__pin);
+      return __skadapter__to_gpio_pin_mode(__skreturn);
     }
     /// <summary>
     /// This function initializes the GPIO library for use. It should be called before any other GPIO functions.
@@ -17598,78 +18019,78 @@ namespace SplashKitSDK
     /// </summary>
     /// <param name="pin"> The pin to read the value from.</param>
     /// <returns>The value read from the pin.</returns>
-    public static PinValues RaspiRead(Pins pin)
+    public static GpioPinValue RaspiRead(GpioPin pin)
     {
       int __skparam__pin;
       int __skreturn;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
-      __skreturn = __sklib__raspi_read__pins(__skparam__pin);
-      return __skadapter__to_pin_values(__skreturn);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skreturn = __sklib__raspi_read__gpio_pin(__skparam__pin);
+      return __skadapter__to_gpio_pin_value(__skreturn);
     }
     /// <summary>
     /// This function sets the mode of the specified pin to the specified mode.
     /// </summary>
     /// <param name="pin"> The pin to set the mode for.</param>
     /// <param name="mode"> The mode to set for the pin.</param>
-    public static void RaspiSetMode(Pins pin, PinModes mode)
+    public static void RaspiSetMode(GpioPin pin, GpioPinMode mode)
     {
       int __skparam__pin;
       int __skparam__mode;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
-      __skparam__mode = __skadapter__to_sklib_pin_modes(mode);
-      __sklib__raspi_set_mode__pins__pin_modes(__skparam__pin, __skparam__mode);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__mode = __skadapter__to_sklib_gpio_pin_mode(mode);
+      __sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(__skparam__pin, __skparam__mode);
     }
     /// <summary>
     /// This function sets the pull-up/down mode for the specified pin.
     /// </summary>
     /// <param name="pin"> The pin to set the pull up/down mode for.</param>
     /// <param name="pud"> The pull up/down mode to set for the pin.</param>
-    public static void RaspiSetPullUpDown(Pins pin, PullUpDown pud)
+    public static void RaspiSetPullUpDown(GpioPin pin, PullUpDown pud)
     {
       int __skparam__pin;
       int __skparam__pud;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
       __skparam__pud = __skadapter__to_sklib_pull_up_down(pud);
-      __sklib__raspi_set_pull_up_down__pins__pull_up_down(__skparam__pin, __skparam__pud);
+      __sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(__skparam__pin, __skparam__pud);
     }
     /// <summary>
     /// This function sets the PWM duty cycle for the specified pin.
     /// </summary>
     /// <param name="pin"> The pin to set the PWM duty cycle for.</param>
     /// <param name="dutycycle"> The PWM duty cycle to set for the pin.</param>
-    public static void RaspiSetPwmDutycycle(Pins pin, int dutycycle)
+    public static void RaspiSetPwmDutycycle(GpioPin pin, int dutycycle)
     {
       int __skparam__pin;
       int __skparam__dutycycle;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
       __skparam__dutycycle = __skadapter__to_sklib_int(dutycycle);
-      __sklib__raspi_set_pwm_dutycycle__pins__int(__skparam__pin, __skparam__dutycycle);
+      __sklib__raspi_set_pwm_dutycycle__gpio_pin__int(__skparam__pin, __skparam__dutycycle);
     }
     /// <summary>
     /// This function sets the PWM frequency for the specified pin.
     /// </summary>
     /// <param name="pin"> The pin to set the PWM frequency for.</param>
     /// <param name="frequency"> The PWM frequency to set for the pin.</param>
-    public static void RaspiSetPwmFrequency(Pins pin, int frequency)
+    public static void RaspiSetPwmFrequency(GpioPin pin, int frequency)
     {
       int __skparam__pin;
       int __skparam__frequency;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
       __skparam__frequency = __skadapter__to_sklib_int(frequency);
-      __sklib__raspi_set_pwm_frequency__pins__int(__skparam__pin, __skparam__frequency);
+      __sklib__raspi_set_pwm_frequency__gpio_pin__int(__skparam__pin, __skparam__frequency);
     }
     /// <summary>
-    /// This function sets the PWM range for the specified pin.
+    /// This function sets the PWM range for the specified pin. Valid values for the range are 25 - 40000
     /// </summary>
     /// <param name="pin"> The pin to set the PWM range for.</param>
     /// <param name="range"> The PWM range to set for the pin.</param>
-    public static void RaspiSetPwmRange(Pins pin, int range)
+    public static void RaspiSetPwmRange(GpioPin pin, int range)
     {
       int __skparam__pin;
       int __skparam__range;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
       __skparam__range = __skadapter__to_sklib_int(range);
-      __sklib__raspi_set_pwm_range__pins__int(__skparam__pin, __skparam__range);
+      __sklib__raspi_set_pwm_range__gpio_pin__int(__skparam__pin, __skparam__range);
     }
     /// <summary>
     /// This function closes SPI communication on a particular channel.
@@ -17732,13 +18153,175 @@ namespace SplashKitSDK
     /// </summary>
     /// <param name="pin"> The pin to write the value to.</param>
     /// <param name="value"> The value to write to the pin.</param>
-    public static void RaspiWrite(Pins pin, PinValues value)
+    public static void RaspiWrite(GpioPin pin, GpioPinValue value)
     {
       int __skparam__pin;
       int __skparam__value;
-      __skparam__pin = __skadapter__to_sklib_pins(pin);
-      __skparam__value = __skadapter__to_sklib_pin_values(value);
-      __sklib__raspi_write__pins__pin_values(__skparam__pin, __skparam__value);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__value = __skadapter__to_sklib_gpio_pin_value(value);
+      __sklib__raspi_write__gpio_pin__gpio_pin_value(__skparam__pin, __skparam__value);
+    }
+    /// <summary>
+    /// This function closes the connection to the remote Raspberry Pi and releases any resources associated with it.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <returns>true if the cleanup was successful, false otherwise.</returns>
+    public static bool RemoteRaspiCleanup(Connection pi)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skreturn;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skreturn = __sklib__remote_raspi_cleanup__connection(__skparam__pi);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
+    /// This function retrieves the mode of a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to get the mode for.</param>
+    /// <returns>The mode of the pin.</returns>
+    public static GpioPinMode RemoteRaspiGetMode(Connection pi, GpioPin pin)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skreturn;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skreturn = __sklib__remote_raspi_get_mode__connection__gpio_pin(__skparam__pi, __skparam__pin);
+      return __skadapter__to_gpio_pin_mode(__skreturn);
+    }
+    /// <summary>
+    /// This function initialises a connection to a remote Raspberry Pi using the specified name, host, and port.
+    /// </summary>
+    /// <param name="name"> The name of the connection.</param>
+    /// <param name="host"> The host address of the Raspberry Pi.</param>
+    /// <param name="port"> The port to use for the connection.</param>
+    /// <returns>The connection object used to communicate with the remote Raspberry Pi.</returns>
+    public static Connection RemoteRaspiInit(string name, string host, ushort port)
+    {
+      __sklib_string __skparam__name;
+      __sklib_string __skparam__host;
+      ushort __skparam__port;
+      __sklib_ptr __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skparam__host = __skadapter__to_sklib_string(host);
+      __skparam__port = __skadapter__to_sklib_unsigned_short(port);
+      __skreturn = __sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(__skparam__name, __skparam__host, __skparam__port);
+    __skadapter__free__sklib_string(ref __skparam__name);
+    __skadapter__free__sklib_string(ref __skparam__host);
+      return __skadapter__to_connection(__skreturn);
+    }
+    /// <summary>
+    /// This function reads the value from a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to read the value from.</param>
+    /// <returns>The value read from the pin.</returns>
+    public static GpioPinValue RemoteRaspiRead(Connection pi, GpioPin pin)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skreturn;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skreturn = __sklib__remote_raspi_read__connection__gpio_pin(__skparam__pi, __skparam__pin);
+      return __skadapter__to_gpio_pin_value(__skreturn);
+    }
+    /// <summary>
+    /// This function sets the mode of a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to set the mode for.</param>
+    /// <param name="mode"> The mode to set for the pin.</param>
+    public static void RemoteRaspiSetMode(Connection pi, GpioPin pin, GpioPinMode mode)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__mode;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__mode = __skadapter__to_sklib_gpio_pin_mode(mode);
+      __sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(__skparam__pi, __skparam__pin, __skparam__mode);
+    }
+    /// <summary>
+    /// This function sets the pull-up/down mode of a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to set the pull up/down mode for.</param>
+    /// <param name="pud"> The pull up/down mode to set for the pin.</param>
+    public static void RemoteRaspiSetPullUpDown(Connection pi, GpioPin pin, PullUpDown pud)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__pud;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__pud = __skadapter__to_sklib_pull_up_down(pud);
+      __sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(__skparam__pi, __skparam__pin, __skparam__pud);
+    }
+    /// <summary>
+    /// This function sets the PWM duty cycle for a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to set the PWM duty cycle for.</param>
+    /// <param name="dutycycle"> The PWM duty cycle to set for the pin.</param>
+    public static void RemoteRaspiSetPwmDutycycle(Connection pi, GpioPin pin, int dutycycle)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__dutycycle;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__dutycycle = __skadapter__to_sklib_int(dutycycle);
+      __sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__dutycycle);
+    }
+    /// <summary>
+    /// This function sets the PWM frequency for a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to set the PWM frequency for.</param>
+    /// <param name="frequency"> The PWM frequency to set for the pin.</param>
+    public static void RemoteRaspiSetPwmFrequency(Connection pi, GpioPin pin, int frequency)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__frequency;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__frequency = __skadapter__to_sklib_int(frequency);
+      __sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__frequency);
+    }
+    /// <summary>
+    /// This function sets the PWM range for a specific pin on a remote Raspberry Pi. Valid values for the range are 25 - 40000
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to set the PWM range for.</param>
+    /// <param name="range"> The PWM range to set for the pin.</param>
+    public static void RemoteRaspiSetPwmRange(Connection pi, GpioPin pin, int range)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__range;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__range = __skadapter__to_sklib_int(range);
+      __sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(__skparam__pi, __skparam__pin, __skparam__range);
+    }
+    /// <summary>
+    /// This function writes a specified value to a specific pin on a remote Raspberry Pi.
+    /// </summary>
+    /// <param name="pi"> The connection object to the remote Raspberry Pi.</param>
+    /// <param name="pin"> The pin to write the value to.</param>
+    /// <param name="value"> The value to write to the pin.</param>
+    public static void RemoteRaspiWrite(Connection pi, GpioPin pin, GpioPinValue value)
+    {
+      __sklib_ptr __skparam__pi;
+      int __skparam__pin;
+      int __skparam__value;
+      __skparam__pi = __skadapter__to_sklib_connection(pi);
+      __skparam__pin = __skadapter__to_sklib_gpio_pin(pin);
+      __skparam__value = __skadapter__to_sklib_gpio_pin_value(value);
+      __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__skparam__pi, __skparam__pin, __skparam__value);
     }
     /// <summary>
     /// Draw a quad to the current window.
@@ -25063,53 +25646,7 @@ namespace SplashKitSDK
     ItalicFont = 2,
     UnderlineFont = 4
   }
-  public enum HttpStatusCode
-  {
-    HttpStatusOk = 200,
-    HttpStatusCreated = 201,
-    HttpStatusNoContent = 204,
-    HttpStatusMovedPermanently = 301,
-    HttpStatusFound = 302,
-    HttpStatusSeeOther = 303,
-    HttpStatusBadRequest = 400,
-    HttpStatusUnauthorized = 401,
-    HttpStatusForbidden = 403,
-    HttpStatusNotFound = 404,
-    HttpStatusMethodNotAllowed = 405,
-    HttpStatusRequestTimeout = 408,
-    HttpStatusConflict = 409,
-    HttpStatusInternalServerError = 500,
-    HttpStatusNotImplemented = 501,
-    HttpStatusServiceUnavailable = 503
-  }
-  public enum InterfaceStyle
-  {
-    FlatDarkStyle = 0,
-    ShadedDarkStyle = 1,
-    FlatLightStyle = 2,
-    ShadedLightStyle = 3,
-    Bubble = 4,
-    BubbleMulticolored = 5
-  }
-  public enum PinModes
-  {
-    GpioInput = 0,
-    GpioOutput = 1,
-    GpioAlt0 = 4,
-    GpioAlt1 = 5,
-    GpioAlt2 = 6,
-    GpioAlt3 = 7,
-    GpioAlt4 = 3,
-    GpioAlt5 = 2,
-    GpioDefaultMode = 1
-  }
-  public enum PinValues
-  {
-    GpioLow = 0,
-    GpioHigh = 1,
-    GpioDefaultValue = 1
-  }
-  public enum Pins
+  public enum GpioPin
   {
     Pin1 = 1,
     Pin2 = 2,
@@ -25151,6 +25688,52 @@ namespace SplashKitSDK
     Pin38 = 38,
     Pin39 = 39,
     Pin40 = 40
+  }
+  public enum GpioPinMode
+  {
+    GpioInput = 0,
+    GpioOutput = 1,
+    GpioAlt0 = 4,
+    GpioAlt1 = 5,
+    GpioAlt2 = 6,
+    GpioAlt3 = 7,
+    GpioAlt4 = 3,
+    GpioAlt5 = 2,
+    GpioDefaultMode = -1
+  }
+  public enum GpioPinValue
+  {
+    GpioDefaultValue = -1,
+    GpioLow = 0,
+    GpioHigh = 1
+  }
+  public enum HttpStatusCode
+  {
+    HttpStatusOk = 200,
+    HttpStatusCreated = 201,
+    HttpStatusNoContent = 204,
+    HttpStatusMovedPermanently = 301,
+    HttpStatusFound = 302,
+    HttpStatusSeeOther = 303,
+    HttpStatusBadRequest = 400,
+    HttpStatusUnauthorized = 401,
+    HttpStatusForbidden = 403,
+    HttpStatusNotFound = 404,
+    HttpStatusMethodNotAllowed = 405,
+    HttpStatusRequestTimeout = 408,
+    HttpStatusConflict = 409,
+    HttpStatusInternalServerError = 500,
+    HttpStatusNotImplemented = 501,
+    HttpStatusServiceUnavailable = 503
+  }
+  public enum InterfaceStyle
+  {
+    FlatDarkStyle = 0,
+    ShadedDarkStyle = 1,
+    FlatLightStyle = 2,
+    ShadedLightStyle = 3,
+    Bubble = 4,
+    BubbleMulticolored = 5
   }
   public enum PullUpDown
   {

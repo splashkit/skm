@@ -217,6 +217,31 @@ void __sklib__close_audio() {
 void __sklib__open_audio() {
     open_audio();
 }
+__sklib_string __sklib__base64_decode__string_ref(const __sklib_string input) {
+    string __skparam__input = __sklib__to_string(input);
+    string __skreturn = base64_decode(__skparam__input);
+    return __sklib__to_sklib_string(__skreturn);
+}
+__sklib_string __sklib__base64_encode__string_ref(const __sklib_string input) {
+    string __skparam__input = __sklib__to_string(input);
+    string __skreturn = base64_encode(__skparam__input);
+    return __sklib__to_sklib_string(__skreturn);
+}
+unsigned int __sklib__bin_to_dec__string_ref(const __sklib_string bin) {
+    string __skparam__bin = __sklib__to_string(bin);
+    unsigned int __skreturn = bin_to_dec(__skparam__bin);
+    return __sklib__to_unsigned_int(__skreturn);
+}
+__sklib_string __sklib__bin_to_hex__string_ref(const __sklib_string bin_str) {
+    string __skparam__bin_str = __sklib__to_string(bin_str);
+    string __skreturn = bin_to_hex(__skparam__bin_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
+__sklib_string __sklib__bin_to_oct__string_ref(const __sklib_string bin_str) {
+    string __skparam__bin_str = __sklib__to_string(bin_str);
+    string __skreturn = bin_to_oct(__skparam__bin_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
 int __sklib__contains__string_ref__string_ref(const __sklib_string text, const __sklib_string subtext) {
     string __skparam__text = __sklib__to_string(text);
     string __skparam__subtext = __sklib__to_string(subtext);
@@ -233,15 +258,56 @@ int __sklib__convert_to_integer__string_ref(const __sklib_string text) {
     int __skreturn = convert_to_integer(__skparam__text);
     return __sklib__to_int(__skreturn);
 }
+__sklib_string __sklib__dec_to_bin__unsigned_int(unsigned int dec) {
+    unsigned int __skparam__dec = __sklib__to_unsigned_int(dec);
+    string __skreturn = dec_to_bin(__skparam__dec);
+    return __sklib__to_sklib_string(__skreturn);
+}
+__sklib_string __sklib__dec_to_oct__unsigned_int(unsigned int decimal_value) {
+    unsigned int __skparam__decimal_value = __sklib__to_unsigned_int(decimal_value);
+    string __skreturn = dec_to_oct(__skparam__decimal_value);
+    return __sklib__to_sklib_string(__skreturn);
+}
+int __sklib__greatest_common_divisor__int__int(int number1, int number2) {
+    int __skparam__number1 = __sklib__to_int(number1);
+    int __skparam__number2 = __sklib__to_int(number2);
+    int __skreturn = greatest_common_divisor(__skparam__number1, __skparam__number2);
+    return __sklib__to_int(__skreturn);
+}
+__sklib_string __sklib__hex_to_bin__string_ref(const __sklib_string hex_str) {
+    string __skparam__hex_str = __sklib__to_string(hex_str);
+    string __skreturn = hex_to_bin(__skparam__hex_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
+unsigned int __sklib__hex_to_dec__string_ref(const __sklib_string hex_string) {
+    string __skparam__hex_string = __sklib__to_string(hex_string);
+    unsigned int __skreturn = hex_to_dec(__skparam__hex_string);
+    return __sklib__to_unsigned_int(__skreturn);
+}
+__sklib_string __sklib__hex_to_oct__string_ref(const __sklib_string hex_str) {
+    string __skparam__hex_str = __sklib__to_string(hex_str);
+    string __skreturn = hex_to_oct(__skparam__hex_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
 int __sklib__index_of__string_ref__string_ref(const __sklib_string text, const __sklib_string subtext) {
     string __skparam__text = __sklib__to_string(text);
     string __skparam__subtext = __sklib__to_string(subtext);
     int __skreturn = index_of(__skparam__text, __skparam__subtext);
     return __sklib__to_int(__skreturn);
 }
+int __sklib__is_binary__string_ref(const __sklib_string bin_str) {
+    string __skparam__bin_str = __sklib__to_string(bin_str);
+    bool __skreturn = is_binary(__skparam__bin_str);
+    return __sklib__to_int(__skreturn);
+}
 int __sklib__is_double__string_ref(const __sklib_string text) {
     string __skparam__text = __sklib__to_string(text);
     bool __skreturn = is_double(__skparam__text);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__is_hex__string_ref(const __sklib_string hex_str) {
+    string __skparam__hex_str = __sklib__to_string(hex_str);
+    bool __skreturn = is_hex(__skparam__hex_str);
     return __sklib__to_int(__skreturn);
 }
 int __sklib__is_integer__string_ref(const __sklib_string text) {
@@ -254,10 +320,41 @@ int __sklib__is_number__string_ref(const __sklib_string text) {
     bool __skreturn = is_number(__skparam__text);
     return __sklib__to_int(__skreturn);
 }
+int __sklib__is_octal__string_ref(const __sklib_string octal_str) {
+    string __skparam__octal_str = __sklib__to_string(octal_str);
+    bool __skreturn = is_octal(__skparam__octal_str);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__is_prime_number__int(int number) {
+    int __skparam__number = __sklib__to_int(number);
+    bool __skreturn = is_prime_number(__skparam__number);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__least_common_multiple__int__int(int number1, int number2) {
+    int __skparam__number1 = __sklib__to_int(number1);
+    int __skparam__number2 = __sklib__to_int(number2);
+    int __skreturn = least_common_multiple(__skparam__number1, __skparam__number2);
+    return __sklib__to_int(__skreturn);
+}
 int __sklib__length_of__string_ref(const __sklib_string text) {
     string __skparam__text = __sklib__to_string(text);
     int __skreturn = length_of(__skparam__text);
     return __sklib__to_int(__skreturn);
+}
+__sklib_string __sklib__oct_to_bin__string_ref(const __sklib_string octal_str) {
+    string __skparam__octal_str = __sklib__to_string(octal_str);
+    string __skreturn = oct_to_bin(__skparam__octal_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
+unsigned int __sklib__oct_to_dec__string_ref(const __sklib_string octal_string) {
+    string __skparam__octal_string = __sklib__to_string(octal_string);
+    unsigned int __skreturn = oct_to_dec(__skparam__octal_string);
+    return __sklib__to_unsigned_int(__skreturn);
+}
+__sklib_string __sklib__oct_to_hex__string_ref(const __sklib_string oct_str) {
+    string __skparam__oct_str = __sklib__to_string(oct_str);
+    string __skreturn = oct_to_hex(__skparam__oct_str);
+    return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_string __sklib__replace_all__string_ref__string_ref__string_ref(const __sklib_string text, const __sklib_string substr, const __sklib_string new_text) {
     string __skparam__text = __sklib__to_string(text);
@@ -271,6 +368,11 @@ __sklib_vector_string __sklib__split__string_ref__char(const __sklib_string text
     char __skparam__delimiter = __sklib__to_char(delimiter);
     vector<string> __skreturn = split(__skparam__text, __skparam__delimiter);
     return __sklib__to_sklib_vector_string(__skreturn);
+}
+double __sklib__square_root__int(int number) {
+    int __skparam__number = __sklib__to_int(number);
+    double __skreturn = square_root(__skparam__number);
+    return __sklib__to_double(__skreturn);
 }
 __sklib_string __sklib__to_lowercase__string_ref(const __sklib_string text) {
     string __skparam__text = __sklib__to_string(text);
@@ -4172,6 +4274,11 @@ __sklib_string __sklib__hex_to_dec_string__string_ref(const __sklib_string a_hex
     string __skreturn = hex_to_dec_string(__skparam__a_hex);
     return __sklib__to_sklib_string(__skreturn);
 }
+__sklib_string __sklib__hex_to_mac__string_ref(const __sklib_string hex_str) {
+    string __skparam__hex_str = __sklib__to_string(hex_str);
+    string __skreturn = hex_to_mac(__skparam__hex_str);
+    return __sklib__to_sklib_string(__skreturn);
+}
 unsigned int __sklib__ipv4_to_dec__string_ref(const __sklib_string a_ip) {
     string __skparam__a_ip = __sklib__to_string(a_ip);
     unsigned int __skreturn = ipv4_to_dec(__skparam__a_ip);
@@ -4197,6 +4304,11 @@ int __sklib__is_valid_ipv4__string_ref(const __sklib_string ip) {
     bool __skreturn = is_valid_ipv4(__skparam__ip);
     return __sklib__to_int(__skreturn);
 }
+int __sklib__is_valid_mac__string_ref(const __sklib_string mac_address) {
+    string __skparam__mac_address = __sklib__to_string(mac_address);
+    bool __skreturn = is_valid_mac(__skparam__mac_address);
+    return __sklib__to_int(__skreturn);
+}
 __sklib_connection __sklib__last_connection__string_ref(const __sklib_string name) {
     string __skparam__name = __sklib__to_string(name);
     connection __skreturn = last_connection(__skparam__name);
@@ -4206,6 +4318,11 @@ __sklib_connection __sklib__last_connection__server_socket(__sklib_server_socket
     server_socket __skparam__server = __sklib__to_server_socket(server);
     connection __skreturn = last_connection(__skparam__server);
     return __sklib__to_sklib_connection(__skreturn);
+}
+__sklib_string __sklib__mac_to_hex__string_ref(const __sklib_string mac_address) {
+    string __skparam__mac_address = __sklib__to_string(mac_address);
+    string __skreturn = mac_to_hex(__skparam__mac_address);
+    return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_connection __sklib__message_connection__message(__sklib_message msg) {
     message __skparam__msg = __sklib__to_message(msg);
@@ -4724,41 +4841,41 @@ int __sklib__has_gpio() {
 void __sklib__raspi_cleanup() {
     raspi_cleanup();
 }
-int __sklib__raspi_get_mode__pins(int pin) {
-    pins __skparam__pin = __sklib__to_pins(pin);
-    pin_modes __skreturn = raspi_get_mode(__skparam__pin);
+int __sklib__raspi_get_mode__gpio_pin(int pin) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_mode __skreturn = raspi_get_mode(__skparam__pin);
     return __sklib__to_int(__skreturn);
 }
 void __sklib__raspi_init() {
     raspi_init();
 }
-int __sklib__raspi_read__pins(int pin) {
-    pins __skparam__pin = __sklib__to_pins(pin);
-    pin_values __skreturn = raspi_read(__skparam__pin);
+int __sklib__raspi_read__gpio_pin(int pin) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_value __skreturn = raspi_read(__skparam__pin);
     return __sklib__to_int(__skreturn);
 }
-void __sklib__raspi_set_mode__pins__pin_modes(int pin, int mode) {
-    pins __skparam__pin = __sklib__to_pins(pin);
-    pin_modes __skparam__mode = __sklib__to_pin_modes(mode);
+void __sklib__raspi_set_mode__gpio_pin__gpio_pin_mode(int pin, int mode) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_mode __skparam__mode = __sklib__to_gpio_pin_mode(mode);
     raspi_set_mode(__skparam__pin, __skparam__mode);
 }
-void __sklib__raspi_set_pull_up_down__pins__pull_up_down(int pin, int pud) {
-    pins __skparam__pin = __sklib__to_pins(pin);
+void __sklib__raspi_set_pull_up_down__gpio_pin__pull_up_down(int pin, int pud) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
     pull_up_down __skparam__pud = __sklib__to_pull_up_down(pud);
     raspi_set_pull_up_down(__skparam__pin, __skparam__pud);
 }
-void __sklib__raspi_set_pwm_dutycycle__pins__int(int pin, int dutycycle) {
-    pins __skparam__pin = __sklib__to_pins(pin);
+void __sklib__raspi_set_pwm_dutycycle__gpio_pin__int(int pin, int dutycycle) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
     int __skparam__dutycycle = __sklib__to_int(dutycycle);
     raspi_set_pwm_dutycycle(__skparam__pin, __skparam__dutycycle);
 }
-void __sklib__raspi_set_pwm_frequency__pins__int(int pin, int frequency) {
-    pins __skparam__pin = __sklib__to_pins(pin);
+void __sklib__raspi_set_pwm_frequency__gpio_pin__int(int pin, int frequency) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
     int __skparam__frequency = __sklib__to_int(frequency);
     raspi_set_pwm_frequency(__skparam__pin, __skparam__frequency);
 }
-void __sklib__raspi_set_pwm_range__pins__int(int pin, int range) {
-    pins __skparam__pin = __sklib__to_pins(pin);
+void __sklib__raspi_set_pwm_range__gpio_pin__int(int pin, int range) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
     int __skparam__range = __sklib__to_int(range);
     raspi_set_pwm_range(__skparam__pin, __skparam__range);
 }
@@ -4782,10 +4899,70 @@ int __sklib__raspi_spi_transfer__int__string__string__int(int handle, __sklib_st
     int __skreturn = raspi_spi_transfer(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count);
     return __sklib__to_int(__skreturn);
 }
-void __sklib__raspi_write__pins__pin_values(int pin, int value) {
-    pins __skparam__pin = __sklib__to_pins(pin);
-    pin_values __skparam__value = __sklib__to_pin_values(value);
+void __sklib__raspi_write__gpio_pin__gpio_pin_value(int pin, int value) {
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_value __skparam__value = __sklib__to_gpio_pin_value(value);
     raspi_write(__skparam__pin, __skparam__value);
+}
+int __sklib__remote_raspi_cleanup__connection(__sklib_connection pi) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    bool __skreturn = remote_raspi_cleanup(__skparam__pi);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__remote_raspi_get_mode__connection__gpio_pin(__sklib_connection pi, int pin) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_mode __skreturn = remote_raspi_get_mode(__skparam__pi, __skparam__pin);
+    return __sklib__to_int(__skreturn);
+}
+__sklib_connection __sklib__remote_raspi_init__string_ref__string_ref__unsigned_short(const __sklib_string name, const __sklib_string host, unsigned short port) {
+    string __skparam__name = __sklib__to_string(name);
+    string __skparam__host = __sklib__to_string(host);
+    unsigned short __skparam__port = __sklib__to_unsigned_short(port);
+    connection __skreturn = remote_raspi_init(__skparam__name, __skparam__host, __skparam__port);
+    return __sklib__to_sklib_connection(__skreturn);
+}
+int __sklib__remote_raspi_read__connection__gpio_pin(__sklib_connection pi, int pin) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_value __skreturn = remote_raspi_read(__skparam__pi, __skparam__pin);
+    return __sklib__to_int(__skreturn);
+}
+void __sklib__remote_raspi_set_mode__connection__gpio_pin__gpio_pin_mode(__sklib_connection pi, int pin, int mode) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_mode __skparam__mode = __sklib__to_gpio_pin_mode(mode);
+    remote_raspi_set_mode(__skparam__pi, __skparam__pin, __skparam__mode);
+}
+void __sklib__remote_raspi_set_pull_up_down__connection__gpio_pin__pull_up_down(__sklib_connection pi, int pin, int pud) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    pull_up_down __skparam__pud = __sklib__to_pull_up_down(pud);
+    remote_raspi_set_pull_up_down(__skparam__pi, __skparam__pin, __skparam__pud);
+}
+void __sklib__remote_raspi_set_pwm_dutycycle__connection__gpio_pin__int(__sklib_connection pi, int pin, int dutycycle) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    int __skparam__dutycycle = __sklib__to_int(dutycycle);
+    remote_raspi_set_pwm_dutycycle(__skparam__pi, __skparam__pin, __skparam__dutycycle);
+}
+void __sklib__remote_raspi_set_pwm_frequency__connection__gpio_pin__int(__sklib_connection pi, int pin, int frequency) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    int __skparam__frequency = __sklib__to_int(frequency);
+    remote_raspi_set_pwm_frequency(__skparam__pi, __skparam__pin, __skparam__frequency);
+}
+void __sklib__remote_raspi_set_pwm_range__connection__gpio_pin__int(__sklib_connection pi, int pin, int range) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    int __skparam__range = __sklib__to_int(range);
+    remote_raspi_set_pwm_range(__skparam__pi, __skparam__pin, __skparam__range);
+}
+void __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__sklib_connection pi, int pin, int value) {
+    connection __skparam__pi = __sklib__to_connection(pi);
+    gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);
+    gpio_pin_value __skparam__value = __sklib__to_gpio_pin_value(value);
+    remote_raspi_write(__skparam__pi, __skparam__pin, __skparam__value);
 }
 void __sklib__draw_quad__color__quad_ref(__sklib_color clr, const __sklib_quad q) {
     color __skparam__clr = __sklib__to_color(clr);

@@ -900,5 +900,39 @@ namespace splashkit_lib
      */
     bool is_valid_ipv4(const string &ip);
 
+    /**
+     * @brief Checks if a MAC address is valid
+     *
+     * Checks if the supplied MAC address is valid.
+     *
+     * @param mac_address MAC address to check
+     *
+     * @return true if the MAC address is valid
+     */
+    bool is_valid_mac(const string &mac_address);
+
+    /**
+     * @brief Converts a MAC address string to its hexadecimal representation
+     *
+     * Converts a MAC address into its hexadecimal representation.
+     * e.g. 0x0123456789AB from 01:23:45:67:89:AB
+     *
+     * @param mac_address MAC address to convert
+     *
+     * @return hexadecimal representation of MAC address as a string
+     */
+    string mac_to_hex(const string &mac_address);
+
+    /**
+     * @brief Converts a hexadecimal string to a MAC address
+     *
+     * Converts a hexadecimal representation of a MAC address back to its standard format.
+     * e.g. 01:23:45:67:89:AB from 0x0123456789AB
+     *
+     * @param hex_str hexadecimal string to convert
+     *
+     * @return MAC address as a string in the format XX:XX:XX:XX:XX:XX
+     */
+    string hex_to_mac(const string &hex_str);
 }
 #endif //SPLASHKIT_NETWORKING_H

@@ -35,48 +35,6 @@ typedef enum {
     UNDERLINE_FONT = 4
 } font_style;
 typedef enum {
-    HTTP_STATUS_OK = 200,
-    HTTP_STATUS_CREATED = 201,
-    HTTP_STATUS_NO_CONTENT = 204,
-    HTTP_STATUS_MOVED_PERMANENTLY = 301,
-    HTTP_STATUS_FOUND = 302,
-    HTTP_STATUS_SEE_OTHER = 303,
-    HTTP_STATUS_BAD_REQUEST = 400,
-    HTTP_STATUS_UNAUTHORIZED = 401,
-    HTTP_STATUS_FORBIDDEN = 403,
-    HTTP_STATUS_NOT_FOUND = 404,
-    HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
-    HTTP_STATUS_REQUEST_TIMEOUT = 408,
-    HTTP_STATUS_CONFLICT = 409,
-    HTTP_STATUS_INTERNAL_SERVER_ERROR = 500,
-    HTTP_STATUS_NOT_IMPLEMENTED = 501,
-    HTTP_STATUS_SERVICE_UNAVAILABLE = 503
-} http_status_code;
-typedef enum {
-    FLAT_DARK_STYLE = 0,
-    SHADED_DARK_STYLE = 1,
-    FLAT_LIGHT_STYLE = 2,
-    SHADED_LIGHT_STYLE = 3,
-    BUBBLE = 4,
-    BUBBLE_MULTICOLORED = 5
-} interface_style;
-typedef enum {
-    GPIO_INPUT = 0,
-    GPIO_OUTPUT = 1,
-    GPIO_ALT0 = 4,
-    GPIO_ALT1 = 5,
-    GPIO_ALT2 = 6,
-    GPIO_ALT3 = 7,
-    GPIO_ALT4 = 3,
-    GPIO_ALT5 = 2,
-    GPIO_DEFAULT_MODE = 1
-} pin_modes;
-typedef enum {
-    GPIO_LOW = 0,
-    GPIO_HIGH = 1,
-    GPIO_DEFAULT_VALUE = 1
-} pin_values;
-typedef enum {
     PIN_1 = 1,
     PIN_2 = 2,
     PIN_3 = 3,
@@ -117,7 +75,49 @@ typedef enum {
     PIN_38 = 38,
     PIN_39 = 39,
     PIN_40 = 40
-} pins;
+} gpio_pin;
+typedef enum {
+    GPIO_INPUT = 0,
+    GPIO_OUTPUT = 1,
+    GPIO_ALT0 = 4,
+    GPIO_ALT1 = 5,
+    GPIO_ALT2 = 6,
+    GPIO_ALT3 = 7,
+    GPIO_ALT4 = 3,
+    GPIO_ALT5 = 2,
+    GPIO_DEFAULT_MODE = -1
+} gpio_pin_mode;
+typedef enum {
+    GPIO_DEFAULT_VALUE = -1,
+    GPIO_LOW = 0,
+    GPIO_HIGH = 1
+} gpio_pin_value;
+typedef enum {
+    HTTP_STATUS_OK = 200,
+    HTTP_STATUS_CREATED = 201,
+    HTTP_STATUS_NO_CONTENT = 204,
+    HTTP_STATUS_MOVED_PERMANENTLY = 301,
+    HTTP_STATUS_FOUND = 302,
+    HTTP_STATUS_SEE_OTHER = 303,
+    HTTP_STATUS_BAD_REQUEST = 400,
+    HTTP_STATUS_UNAUTHORIZED = 401,
+    HTTP_STATUS_FORBIDDEN = 403,
+    HTTP_STATUS_NOT_FOUND = 404,
+    HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
+    HTTP_STATUS_REQUEST_TIMEOUT = 408,
+    HTTP_STATUS_CONFLICT = 409,
+    HTTP_STATUS_INTERNAL_SERVER_ERROR = 500,
+    HTTP_STATUS_NOT_IMPLEMENTED = 501,
+    HTTP_STATUS_SERVICE_UNAVAILABLE = 503
+} http_status_code;
+typedef enum {
+    FLAT_DARK_STYLE = 0,
+    SHADED_DARK_STYLE = 1,
+    FLAT_LIGHT_STYLE = 2,
+    SHADED_LIGHT_STYLE = 3,
+    BUBBLE = 4,
+    BUBBLE_MULTICOLORED = 5
+} interface_style;
 typedef enum {
     PUD_OFF = 0,
     PUD_DOWN = 1,

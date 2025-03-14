@@ -252,6 +252,24 @@ int __skadapter__to_sklib_font_style(font_style v) {
 font_style __skadapter__to_font_style(int v) {
     return static_cast<font_style>(v);
 }
+int __skadapter__to_sklib_gpio_pin(gpio_pin v) {
+    return static_cast<int>(v);
+}
+gpio_pin __skadapter__to_gpio_pin(int v) {
+    return static_cast<gpio_pin>(v);
+}
+int __skadapter__to_sklib_gpio_pin_mode(gpio_pin_mode v) {
+    return static_cast<int>(v);
+}
+gpio_pin_mode __skadapter__to_gpio_pin_mode(int v) {
+    return static_cast<gpio_pin_mode>(v);
+}
+int __skadapter__to_sklib_gpio_pin_value(gpio_pin_value v) {
+    return static_cast<int>(v);
+}
+gpio_pin_value __skadapter__to_gpio_pin_value(int v) {
+    return static_cast<gpio_pin_value>(v);
+}
 int __skadapter__to_sklib_http_status_code(http_status_code v) {
     return static_cast<int>(v);
 }
@@ -263,24 +281,6 @@ int __skadapter__to_sklib_interface_style(interface_style v) {
 }
 interface_style __skadapter__to_interface_style(int v) {
     return static_cast<interface_style>(v);
-}
-int __skadapter__to_sklib_pin_modes(pin_modes v) {
-    return static_cast<int>(v);
-}
-pin_modes __skadapter__to_pin_modes(int v) {
-    return static_cast<pin_modes>(v);
-}
-int __skadapter__to_sklib_pin_values(pin_values v) {
-    return static_cast<int>(v);
-}
-pin_values __skadapter__to_pin_values(int v) {
-    return static_cast<pin_values>(v);
-}
-int __skadapter__to_sklib_pins(pins v) {
-    return static_cast<int>(v);
-}
-pins __skadapter__to_pins(int v) {
-    return static_cast<pins>(v);
 }
 int __skadapter__to_sklib_pull_up_down(pull_up_down v) {
     return static_cast<int>(v);
