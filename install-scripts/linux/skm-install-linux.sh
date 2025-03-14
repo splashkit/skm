@@ -68,10 +68,9 @@ fi
 
 # Add to .bashrc if using bash and path line is missing for SplashKit inclusion.
 if [ ${SHELL} = "/bin/bash" ]; then
-    echo "Adding \"$INSTALL_PATH\" to your bash profile..."
-    grep -Fqx "export PATH=\"$INSTALL_PATH:\$PATH\"" ~/.bash_profile || echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
+    echo "Adding \"$INSTALL_PATH\" to your .bashrc file..."
     grep -Fqx "export PATH=\"$INSTALL_PATH:\$PATH\"" ~/.bashrc || echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
-    source ~/.bash_profile
+    source ~/.bashrc
 fi
 
 # Add to .zshrc if using zsh and path line is missing for SplashKit inclusion.

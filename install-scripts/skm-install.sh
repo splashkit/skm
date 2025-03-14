@@ -10,13 +10,6 @@ if [[ `uname` = MINGW32* ]]; then
     exit 1
 fi
 
-if [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
-    if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
-        setx MSYS2_PATH_TYPE inherit
-        echo Updated! Please restart your terminal and rerun this script to install SplashKit.
-    fi
-fi
-
 function report_missing_git () {
     if [[ `uname` = Darwin ]]; then
         echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then reinstall."
@@ -57,20 +50,23 @@ fi
 
 git clone --depth 1 --branch $BRANCH_NAME $GIT_SKM_REPO "${INSTALL_PATH}"
 
-# Add SKM app to path without needing sudo
+if [ "$IS_WINDOWS" = true ]; then
+    PRIVILEGED=""
+else
+    PRIVILEGED="sudo"
+fi
 
+# Add SKM app to path
 # Add to .bashrc if using bash
 if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
-    chmod a=rw ~/.bash_profile
-    echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bash_profile
-    chmod a=rw ~/.bashrc
+    $PRIVILEGED chmod a=rw ~/.bashrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc
 fi
 
 # Add to .zshrc if using zsh
 if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
-    chmod a=rw ~/.zshrc
+    $PRIVILEGED chmod a=rw ~/.zshrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
     source ~/.zshrc
 fi
@@ -110,6 +106,11 @@ if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
 
     # Set updated Windows path
     powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$NEW_WIN_PATH\",'User')"
+
+    if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
+        powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('MSYS2_PATH_TYPE',\"inherit\",'User')"
+        # echo Updated! Please restart your terminal and rerun this script to install SplashKit.
+    fi
 
     echo "Run the following to install the required pacman packages for splashkit:"
     echo "${bold}skm windows install${normal}"
