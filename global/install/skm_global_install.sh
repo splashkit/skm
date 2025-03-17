@@ -164,7 +164,7 @@ if [ "$HAS_PYTHON3" = true ]; then
     $PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
-        exit 1
+        # exit 1
     fi
 fi
 
