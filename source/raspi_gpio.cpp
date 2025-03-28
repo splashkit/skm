@@ -58,7 +58,7 @@ namespace splashkit_lib
 #ifdef RASPBERRY_PI
         sk_gpio_init();
 #else
-        cout << "GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "GPIO not supported on this platform";
 #endif
     }
 
@@ -72,7 +72,7 @@ namespace splashkit_lib
             sk_gpio_set_mode(bcmPin, static_cast<int>(mode));
         }
 #else
-        cout << "Unable to set mode - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set mode - GPIO not supported on this platform";
 #endif
     }
 
@@ -82,12 +82,12 @@ namespace splashkit_lib
         int bcmPin = boardToBCM(pin);
         if(bcmPin >= 2)    
         {
-            return static_cast<pin_modes>(sk_gpio_get_mode(bcmPin));
+            return static_cast<gpio_pin_mode>(sk_gpio_get_mode(bcmPin));
         }
         return GPIO_DEFAULT_MODE;
 #else
+        LOG(ERROR) << "Unable to get mode - GPIO not supported on this platform";
         return GPIO_DEFAULT_MODE;
-        cout << "Unable to get mode - GPIO not supported on this platform" << endl;
 #endif
     }
 
@@ -101,7 +101,7 @@ namespace splashkit_lib
             sk_gpio_write(bcmPin, static_cast<int>(value));
         }
 #else
-        cout << "Unable to write pin - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to write pin - GPIO not supported on this platform";
 #endif
     }
 
@@ -112,11 +112,11 @@ namespace splashkit_lib
         int bcmPin = boardToBCM(pin);
         if(bcmPin >= 2)
         {
-            return static_cast<pin_values>(sk_gpio_read(bcmPin));
+            return static_cast<gpio_pin_value>(sk_gpio_read(bcmPin));
         }
         return GPIO_DEFAULT_VALUE;
 #else
-        cout << "Unable to read pin - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to read pin - GPIO not supported on this platform";
         return GPIO_DEFAULT_VALUE;
 #endif
     }
@@ -130,7 +130,7 @@ namespace splashkit_lib
             sk_gpio_set_pull_up_down(bcmPin, static_cast<int>(pud));
         }
 #else
-        cout << "Unable to set pull up/down - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set pull up/down - GPIO not supported on this platform";
 #endif
     }
 
@@ -143,7 +143,7 @@ namespace splashkit_lib
             sk_set_pwm_range(bcmPin, range);
         }
 #else
-        cout << "Unable to set pwm range - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set pwm range - GPIO not supported on this platform";
 #endif
     }
 
@@ -156,7 +156,7 @@ namespace splashkit_lib
             sk_set_pwm_frequency(bcmPin, frequency);
         }
 #else
-        cout << "Unable to set pwm frequency - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set pwm frequency - GPIO not supported on this platform";
 #endif
     }
 
@@ -169,7 +169,7 @@ namespace splashkit_lib
             sk_set_pwm_dutycycle(bcmPin, dutycycle);
         }
 #else
-        cout << "Unable to set pwm dutycycle - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set pwm dutycycle - GPIO not supported on this platform";
 #endif
     }
 	
@@ -180,7 +180,7 @@ namespace splashkit_lib
 	    handle = sk_spi_open(channel, speed, spi_flags);
         return handle;
 #else
-        cout << "Unable to open SPI interface - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to open SPI interface - GPIO not supported on this platform";
         return -1;
 #endif
     }
@@ -190,18 +190,29 @@ namespace splashkit_lib
 #ifdef RASPBERRY_PI
         return sk_spi_close(handle);
 #else
-        cout << "Unable to close SPI interface - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to close SPI interface - GPIO not supported on this platform";
         return -1;
 #endif
     }
 
-    int raspi_spi_transfer(int handle, string sendBuf, string recvBuf, int count)
+    string raspi_spi_transfer(int handle, const string &send, int count, int &bytes_transfered)
     {
 #ifdef RASPBERRY_PI
-        return sk_spi_transfer(handle, sendBuf, recvBuf, count);
+        int len = send.size() > count ? count : send.size();
+        char send_buf[len + 1]{};
+        for(int i = 0; i < len; i++) {
+            send_buf[i] = send[i];
+        }
+
+        char recv_buf[len + 1]{};
+
+        bytes_transfered = sk_spi_transfer(handle, send_buf, recv_buf, len);
+
+        string response(recv_buf);
+        return response;
 #else
-        cout << "Unable to transfer through SPI - GPIO not supported on this platform" << endl;
-        return -1;
+        LOG(ERROR) << "Unable to transfer through SPI - GPIO not supported on this platform";
+        return "";
 #endif
     }
 
@@ -213,7 +224,7 @@ namespace splashkit_lib
        	sk_gpio_clear_bank_1();
     	sk_gpio_cleanup();
 #else
-        cout << "Unable to set cleanup - GPIO not supported on this platform" << endl;
+        LOG(ERROR) << "Unable to set cleanup - GPIO not supported on this platform";
 #endif
     }
 

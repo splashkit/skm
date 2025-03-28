@@ -27,7 +27,7 @@ void raspi_set_pwm_frequency(gpio_pin pin, int frequency);
 void raspi_set_pwm_range(gpio_pin pin, int range);
 int raspi_spi_close(int handle);
 int raspi_spi_open(int channel, int speed, int spi_flags);
-int raspi_spi_transfer(int handle, string sendBuf, string recvBuf, int count);
+string raspi_spi_transfer(int handle, const string &send, int count, int &bytes_transfered);
 void raspi_write(gpio_pin pin, gpio_pin_value value);
 bool remote_raspi_cleanup(connection pi);
 gpio_pin_mode remote_raspi_get_mode(connection pi, gpio_pin pin);

@@ -4891,13 +4891,14 @@ int __sklib__raspi_spi_open__int__int__int(int channel, int speed, int spi_flags
     int __skreturn = raspi_spi_open(__skparam__channel, __skparam__speed, __skparam__spi_flags);
     return __sklib__to_int(__skreturn);
 }
-int __sklib__raspi_spi_transfer__int__string__string__int(int handle, __sklib_string sendBuf, __sklib_string recvBuf, int count) {
+__sklib_string __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(int handle, const __sklib_string send, int count, int *bytes_transfered) {
     int __skparam__handle = __sklib__to_int(handle);
-    string __skparam__sendBuf = __sklib__to_string(sendBuf);
-    string __skparam__recvBuf = __sklib__to_string(recvBuf);
+    string __skparam__send = __sklib__to_string(send);
     int __skparam__count = __sklib__to_int(count);
-    int __skreturn = raspi_spi_transfer(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count);
-    return __sklib__to_int(__skreturn);
+    int __skparam__bytes_transfered = __sklib__to_int(*bytes_transfered);
+    string __skreturn = raspi_spi_transfer(__skparam__handle, __skparam__send, __skparam__count, __skparam__bytes_transfered);
+    *bytes_transfered = __sklib__to_int(__skparam__bytes_transfered);
+    return __sklib__to_sklib_string(__skreturn);
 }
 void __sklib__raspi_write__gpio_pin__gpio_pin_value(int pin, int value) {
     gpio_pin __skparam__pin = __sklib__to_gpio_pin(pin);

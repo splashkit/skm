@@ -3720,8 +3720,8 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_spi_open__int__int__int", CharSet=CharSet.Ansi)]
     private static extern int __sklib__raspi_spi_open__int__int__int(int channel, int speed, int spiFlags);
 
-    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_spi_transfer__int__string__string__int", CharSet=CharSet.Ansi)]
-    private static extern int __sklib__raspi_spi_transfer__int__string__string__int(int handle, __sklib_string sendbuf, __sklib_string recvbuf, int count);
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_spi_transfer__int__string_ref__int__int_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_string __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(int handle, __sklib_string send, int count, ref int bytesTransfered);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__raspi_write__gpio_pin__gpio_pin_value", CharSet=CharSet.Ansi)]
     private static extern void __sklib__raspi_write__gpio_pin__gpio_pin_value(int pin, int value);
@@ -18128,25 +18128,25 @@ namespace SplashKitSDK
     /// This function transfers data through SPI, it sends data from sendBuf and receives it into recvBuf.
     /// </summary>
     /// <param name="handle"> The reference for a specific SPI connection.</param>
-    /// <param name="sendbuf"> The memory buffer for sending data.</param>
-    /// <param name="recvbuf"> The memory buffer for receiving data.</param>
+    /// <param name="send"> The data to send.</param>
     /// <param name="count"> The number of bytes to be transferred.</param>
-    /// <returns>The number of bytes that have actually been transfered.</returns>
-    public static int RaspiSpiTransfer(int handle, string sendbuf, string recvbuf, int count)
+    /// <param name="bytesTransfered"> The number of bytes transferred (output)</param>
+    /// <returns>The data returned from the spi transfer</returns>
+    public static string RaspiSpiTransfer(int handle, string send, int count, ref int bytesTransfered)
     {
       int __skparam__handle;
-      __sklib_string __skparam__sendBuf;
-      __sklib_string __skparam__recvBuf;
+      __sklib_string __skparam__send;
       int __skparam__count;
-      int __skreturn;
+      int __skparam__bytes_transfered;
+      __sklib_string __skreturn;
       __skparam__handle = __skadapter__to_sklib_int(handle);
-      __skparam__sendBuf = __skadapter__to_sklib_string(sendbuf);
-      __skparam__recvBuf = __skadapter__to_sklib_string(recvbuf);
+      __skparam__send = __skadapter__to_sklib_string(send);
       __skparam__count = __skadapter__to_sklib_int(count);
-      __skreturn = __sklib__raspi_spi_transfer__int__string__string__int(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count);
-    __skadapter__free__sklib_string(ref __skparam__sendBuf);
-    __skadapter__free__sklib_string(ref __skparam__recvBuf);
-      return __skadapter__to_int(__skreturn);
+      __skparam__bytes_transfered = __skadapter__to_sklib_int(bytesTransfered);
+      __skreturn = __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(__skparam__handle, __skparam__send, __skparam__count, ref __skparam__bytes_transfered);
+      bytesTransfered = __skadapter__to_int(__skparam__bytes_transfered);
+    __skadapter__free__sklib_string(ref __skparam__send);
+      return __skadapter__to_string(__skreturn);
     }
     /// <summary>
     /// This function writes the specified value to the specified pin.

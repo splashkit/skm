@@ -3343,8 +3343,8 @@ sklib.__sklib__raspi_spi_close__int.argtypes = [ c_int ]
 sklib.__sklib__raspi_spi_close__int.restype = c_int
 sklib.__sklib__raspi_spi_open__int__int__int.argtypes = [ c_int, c_int, c_int ]
 sklib.__sklib__raspi_spi_open__int__int__int.restype = c_int
-sklib.__sklib__raspi_spi_transfer__int__string__string__int.argtypes = [ c_int, _sklib_string, _sklib_string, c_int ]
-sklib.__sklib__raspi_spi_transfer__int__string__string__int.restype = c_int
+sklib.__sklib__raspi_spi_transfer__int__string_ref__int__int_ref.argtypes = [ c_int, _sklib_string, c_int, POINTER(c_int) ]
+sklib.__sklib__raspi_spi_transfer__int__string_ref__int__int_ref.restype = _sklib_string
 sklib.__sklib__raspi_write__gpio_pin__gpio_pin_value.argtypes = [ c_int, c_int ]
 sklib.__sklib__raspi_write__gpio_pin__gpio_pin_value.restype = None
 sklib.__sklib__remote_raspi_cleanup__connection.argtypes = [ c_void_p ]
@@ -8285,13 +8285,14 @@ def raspi_spi_open ( channel, speed, spi_flags ):
     __skparam__spi_flags = __skadapter__to_sklib_int(spi_flags)
     __skreturn = sklib.__sklib__raspi_spi_open__int__int__int(__skparam__channel, __skparam__speed, __skparam__spi_flags)
     return __skadapter__to_int(__skreturn)
-def raspi_spi_transfer ( handle, sendBuf, recvBuf, count ):
+def raspi_spi_transfer ( handle, send, count, bytes_transfered ):
     __skparam__handle = __skadapter__to_sklib_int(handle)
-    __skparam__sendBuf = __skadapter__to_sklib_string(sendbuf)
-    __skparam__recvBuf = __skadapter__to_sklib_string(recvbuf)
+    __skparam__send = __skadapter__to_sklib_string(send)
     __skparam__count = __skadapter__to_sklib_int(count)
-    __skreturn = sklib.__sklib__raspi_spi_transfer__int__string__string__int(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count)
-    return __skadapter__to_int(__skreturn)
+    __skparam__bytes_transfered = __skadapter__to_sklib_int(bytes_transfered)
+    __skreturn = sklib.__sklib__raspi_spi_transfer__int__string_ref__int__int_ref(__skparam__handle, __skparam__send, __skparam__count, byref(__skparam__bytes_transfered))
+    bytes_transfered = __skadapter__to_int(__skparam__bytes_transfered)
+    return __skadapter__to_string(__skreturn)
 def raspi_write ( pin, value ):
     __skparam__pin = __skadapter__to_sklib_gpio_pin(pin)
     __skparam__value = __skadapter__to_sklib_gpio_pin_value(value)
