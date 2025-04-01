@@ -138,12 +138,12 @@ namespace splashkit_lib
      * This function transfers data through SPI, it sends data from sendBuf and receives it into recvBuf.
      *
      * @param handle   The reference for a specific SPI connection.
-     * @param sendBuf  The memory buffer for sending data.
-     * @param recvBuf  The memory buffer for receiving data.
+     * @param send     The data to send.
      * @param count    The number of bytes to be transferred.
-     * @returns        The number of bytes that have actually been transfered.
+     * @param bytes_transfered  The number of bytes transferred (output)
+     * @returns        The data returned from the spi transfer
      */
-    int raspi_spi_transfer(int handle, string sendBuf, string recvBuf, int count);
+    string raspi_spi_transfer(int handle, const string &send, int count, int &bytes_transfered);
 	
     /**
      * @brief Cleans up and releases any resources used by the GPIO library.

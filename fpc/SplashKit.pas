@@ -1316,7 +1316,7 @@ procedure RaspiSetPwmFrequency(pin: GpioPin; frequency: Integer);
 procedure RaspiSetPwmRange(pin: GpioPin; range: Integer);
 function RaspiSpiClose(handle: Integer): Integer;
 function RaspiSpiOpen(channel: Integer; speed: Integer; spiFlags: Integer): Integer;
-function RaspiSpiTransfer(handle: Integer; sendbuf: String; recvbuf: String; count: Integer): Integer;
+function RaspiSpiTransfer(handle: Integer; const send: String; count: Integer; var bytesTransfered: Integer): String;
 procedure RaspiWrite(pin: GpioPin; value: GpioPinValue);
 function RemoteRaspiCleanup(pi: Connection): Boolean;
 function RemoteRaspiGetMode(pi: Connection; pin: GpioPin): GpioPinMode;
@@ -3810,7 +3810,7 @@ procedure __sklib__raspi_set_pwm_frequency__gpio_pin__int(pin: LongInt; frequenc
 procedure __sklib__raspi_set_pwm_range__gpio_pin__int(pin: LongInt; range: Integer); cdecl; external;
 function __sklib__raspi_spi_close__int(handle: Integer): Integer; cdecl; external;
 function __sklib__raspi_spi_open__int__int__int(channel: Integer; speed: Integer; spiFlags: Integer): Integer; cdecl; external;
-function __sklib__raspi_spi_transfer__int__string__string__int(handle: Integer; sendbuf: __sklib_string; recvbuf: __sklib_string; count: Integer): Integer; cdecl; external;
+function __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(handle: Integer; const send: __sklib_string; count: Integer; var bytesTransfered: Integer): __sklib_string; cdecl; external;
 procedure __sklib__raspi_write__gpio_pin__gpio_pin_value(pin: LongInt; value: LongInt); cdecl; external;
 function __sklib__remote_raspi_cleanup__connection(pi: __sklib_ptr): LongInt; cdecl; external;
 function __sklib__remote_raspi_get_mode__connection__gpio_pin(pi: __sklib_ptr; pin: LongInt): LongInt; cdecl; external;
@@ -13089,20 +13089,21 @@ begin
   __skreturn := __sklib__raspi_spi_open__int__int__int(__skparam__channel, __skparam__speed, __skparam__spi_flags);
   result := __skadapter__to_int(__skreturn);
 end;
-function RaspiSpiTransfer(handle: Integer; sendbuf: String; recvbuf: String; count: Integer): Integer;
+function RaspiSpiTransfer(handle: Integer; const send: String; count: Integer; var bytesTransfered: Integer): String;
 var
   __skparam__handle: Integer;
-  __skparam__sendBuf: __sklib_string;
-  __skparam__recvBuf: __sklib_string;
+  __skparam__send: __sklib_string;
   __skparam__count: Integer;
-  __skreturn: Integer;
+  __skparam__bytes_transfered: Integer;
+  __skreturn: __sklib_string;
 begin
   __skparam__handle := __skadapter__to_sklib_int(handle);
-  __skparam__sendBuf := __skadapter__to_sklib_string(sendbuf);
-  __skparam__recvBuf := __skadapter__to_sklib_string(recvbuf);
+  __skparam__send := __skadapter__to_sklib_string(send);
   __skparam__count := __skadapter__to_sklib_int(count);
-  __skreturn := __sklib__raspi_spi_transfer__int__string__string__int(__skparam__handle, __skparam__sendBuf, __skparam__recvBuf, __skparam__count);
-  result := __skadapter__to_int(__skreturn);
+  __skparam__bytes_transfered := __skadapter__to_sklib_int(bytesTransfered);
+  __skreturn := __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(__skparam__handle, __skparam__send, __skparam__count, __skparam__bytes_transfered);
+  bytesTransfered := __skadapter__to_int(__skparam__bytes_transfered);
+  result := __skadapter__to_string(__skreturn);
 end;
 procedure RaspiWrite(pin: GpioPin; value: GpioPinValue);
 var

@@ -1067,7 +1067,7 @@ void __sklib__raspi_set_pwm_frequency__gpio_pin__int(int pin, int frequency);
 void __sklib__raspi_set_pwm_range__gpio_pin__int(int pin, int range);
 int __sklib__raspi_spi_close__int(int handle);
 int __sklib__raspi_spi_open__int__int__int(int channel, int speed, int spi_flags);
-int __sklib__raspi_spi_transfer__int__string__string__int(int handle, __sklib_string sendBuf, __sklib_string recvBuf, int count);
+__sklib_string __sklib__raspi_spi_transfer__int__string_ref__int__int_ref(int handle, const __sklib_string send, int count, int *bytes_transfered);
 void __sklib__raspi_write__gpio_pin__gpio_pin_value(int pin, int value);
 int __sklib__remote_raspi_cleanup__connection(__sklib_connection pi);
 int __sklib__remote_raspi_get_mode__connection__gpio_pin(__sklib_connection pi, int pin);

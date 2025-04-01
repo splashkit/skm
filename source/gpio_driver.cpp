@@ -100,6 +100,10 @@ namespace splashkit_lib
             }
             return result;
         }
+        else
+        {
+            return PI_BAD_GPIO; 
+        }
     }
     void sk_gpio_set_pull_up_down(int pin, int pud)
     {
@@ -181,10 +185,10 @@ namespace splashkit_lib
             return -1;
     }
 
-    int sk_spi_transfer(int handle, char *sendBuf, char *recvBuf, int count)
+    int sk_spi_transfer(int handle, char *send_buf, char *recv_buf, int count)
     {
         if(check_pi())
-            return spi_xfer(pi, handle, sendBuf, recvBuf, count);
+            return spi_xfer(pi, handle, send_buf, recv_buf, count);
         else
             return -1;
     }	
