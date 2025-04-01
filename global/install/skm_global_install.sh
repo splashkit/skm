@@ -135,7 +135,7 @@ else
 fi
 
 # Get python3 directory for each OS if installed
-if [ "$HAS_PYTHON3" = true ]; then
+if [ "$HAS_PYTHON3" = true ] && [ "$(which python3)" = "/opt/homebrew/bin/python3" ]; then
     echo "Detecting python3 version to set global path.."
     
     PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
@@ -159,12 +159,13 @@ if [ "$HAS_PYTHON3" = true ]; then
     fi
 
     # Copy splashkit python file to global location
-    echo "Copying splashkit.py to "${PYTHON_LIB}""
-
-    $PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
-        exit 1
+    if [ -d "$PYTHON_LIB" ]; then
+        echo "Copying splashkit.py to "${PYTHON_LIB}""
+        $PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
+        if [ ! $? -eq 0 ]; then
+            echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
+            exit 1
+        fi
     fi
 fi
 

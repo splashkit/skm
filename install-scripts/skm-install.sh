@@ -91,7 +91,7 @@ if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
     SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
     
     # Get Windows path and remove splashkit-added path elements
-    ORIGINAL_WIN_PATH=`powershell.exe -Command "[System.Environment]::GetEnvironmentVariable('PATH','User')"`
+    ORIGINAL_WIN_PATH=`/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::GetEnvironmentVariable('PATH','User')"`
 
     # Create string for splashKit paths
     SK_PATHS_STR=""
@@ -105,10 +105,10 @@ if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
     NEW_WIN_PATH="$SK_PATHS_STR$ORIGINAL_WIN_PATH"
 
     # Set updated Windows path
-    powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$NEW_WIN_PATH\",'User')"
+    /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$NEW_WIN_PATH\",'User')"
 
     if [[ $MSYS2_PATH_TYPE != 'inherit' ]]; then
-        powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('MSYS2_PATH_TYPE',\"inherit\",'User')"
+        /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('MSYS2_PATH_TYPE',\"inherit\",'User')"
         # echo Updated! Please restart your terminal and rerun this script to install SplashKit.
     fi
 

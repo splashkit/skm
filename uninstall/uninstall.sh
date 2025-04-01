@@ -209,10 +209,10 @@ if [ $SK_OS = "win64" ]; then
     done
 
     # Get Windows path and remove splashkit-added path elements
-    ORIGINAL_WIN_PATH=`powershell.exe -Command "([System.Environment]::GetEnvironmentVariable('PATH','User').Split(';') | Where-Object { (\\$_ -ne '${SK_PATHS[0]}' -and \\$_ -ne '${SK_PATHS[1]}' -and \\$_ -ne '${SK_PATHS[2]}') }) -join ';'"`
+    ORIGINAL_WIN_PATH=`/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "([System.Environment]::GetEnvironmentVariable('PATH','User').Split(';') | Where-Object { (\\$_ -ne '${SK_PATHS[0]}' -and \\$_ -ne '${SK_PATHS[1]}' -and \\$_ -ne '${SK_PATHS[2]}') }) -join ';'"`
 
     # Set updated Windows path
-    powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$ORIGINAL_WIN_PATH\",'User')"
+    /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$ORIGINAL_WIN_PATH\",'User')"
 fi
 
 # Remove .splashkit folder
