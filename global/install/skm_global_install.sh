@@ -124,9 +124,9 @@ echo "Checking if python is installed..."
 # Check if python3 installed
 if command -v python3 &> /dev/null; then
     # Check for brew python on macOS
-    if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null; then
+    if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null && ! command -v conda &> /dev/null; then
         HAS_PYTHON3=false
-        echo "For Python support: Please install python3 using brew (Homebrew), then run this script again."
+        echo "For Python support: Please install python3 using Homebrew or Anaconda3, then run this script again."
     else
         HAS_PYTHON3=true
     fi
@@ -135,14 +135,18 @@ else
 fi
 
 # Get python3 directory for each OS if installed
-if [ "$HAS_PYTHON3" = true ] && [ "$(which python3)" = "/opt/homebrew/bin/python3" ]; then
+if [ "$HAS_PYTHON3" = true ]; then
     echo "Detecting python3 version to set global path.."
     
     PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
 
     # Python3 global install path
     if [ "$SK_OS" = "macos" ]; then
-        PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+        if [ "$(which python3)" = "/opt/homebrew/bin/python3" ]; then
+            PYTHON_LIB="/opt/homebrew/lib/python${PYTHON_VERSION}/site-packages"
+        elif [ "$(which python3)" = "/opt/anaconda3/bin/python3" ]; then
+            PYTHON_LIB="/opt/anaconda3/lib/python${PYTHON_VERSION}/site-packages"
+        fi
     elif [ "$SK_OS" = "linux" ]; then
         PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
     elif [ "$SK_OS" = "win64" ]; then
