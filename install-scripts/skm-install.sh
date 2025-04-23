@@ -25,7 +25,11 @@ command -v git >/dev/null 2>&1 || report_missing_git
 
 if [ -d "${INSTALL_PATH}" ]; then
     echo "Looks like you already have splashkit!"
-    echo "To uninstall run \"rm -rf ${INSTALL_PATH}\""
+    if command -v skm &> /dev/null; then
+        echo "To uninstall run \"skm uninstall\""
+    else
+        echo "To uninstall run \"rm -rf ${INSTALL_PATH}\""
+    fi
     exit 1
 fi
 
@@ -59,6 +63,8 @@ fi
 # Add SKM app to path
 # Add to .bashrc if using bash
 if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
+    echo "Adding SplashKit to the PATH..."
+    echo "This may require root access, please enter your password when prompted."
     $PRIVILEGED chmod a=rw ~/.bashrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc
@@ -66,6 +72,8 @@ fi
 
 # Add to .zshrc if using zsh
 if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
+    echo "Adding SplashKit to the PATH..."
+    echo "This may require root access, please enter your password when prompted."
     $PRIVILEGED chmod a=rw ~/.zshrc
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
     source ~/.zshrc
