@@ -119,12 +119,9 @@ if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
         /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('MSYS2_PATH_TYPE',\"inherit\",'User')"
         # echo Updated! Please restart your terminal and rerun this script to install SplashKit.
     fi
-
-    echo "Run the following to install the required pacman packages for splashkit:"
-    echo "${bold}skm windows install${normal}"
 fi
 
-if [[ `uname` = Linux ]]; then
+# if [[ `uname` = Linux ]]; then
     #     # Add SKM app to path without needing sudo
     #     echo "SKM and SplashKit depends on the following libraries:
     #     * sdl2 development library
@@ -149,10 +146,22 @@ if [[ `uname` = Linux ]]; then
 
     # "
 
-    echo "Run the following to install the necessary native libraries, compile and install splashkit:"
-    echo "${bold}skm linux install${normal}"
-fi
+# fi
 
 find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
+
+# Run the next install step
+if [[ `uname` = MINGW64* ]]; then
+    INSTALL_OS="windows"
+elif [[ `uname` = Linux ]]; then
+    INSTALL_OS="linux"
+elif [[ `uname` = Darwin ]]; then
+    INSTALL_OS="macos"
+fi
+
+echo "Installing the necessary native libraries, compiling and installing SplashKit globally..."
+echo ""
+
+"${INSTALL_PATH}/${INSTALL_OS}/install/install.sh"
 
 echo "SplashKit Successfully installed! Please restart your terminal..."
