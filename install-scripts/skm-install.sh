@@ -20,7 +20,8 @@ if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
         # Run install command in MINGW64 terminal
-        start "" C:/msys64/mingw64.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
+        MINGW64_PATH=`cd "$APP_PATH/../../.."; pwd -W`
+        start "" $MINGW64_PATH/mingw64.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
         exit 0
     else
         echo

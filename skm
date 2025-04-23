@@ -16,7 +16,8 @@ if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]
     read -p "Would you like run \"$PREV_CMD\" in the MINGW64 terminal now? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
-        start "" C:/msys64/mingw64.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
+        MINGW64_PATH=`cd "$APP_PATH/../../.."; pwd -W`
+        start "" $MINGW64_PATH/mingw64.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
         exit 0
     else
         # echo "$SHELL not supported. Please run \"skm\" commands in the MINGW64 terminal"
