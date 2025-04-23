@@ -3,6 +3,27 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
+if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]]; then
+    # Get simplified name of shell being used
+    SHELL_NAME=`uname`
+    SHELL_NAME="${SHELL_NAME%%_*}"
+
+    # Previous skm command to run in MINGW64 terminal
+    PREV_CMD=`echo "skm $@"`
+    
+    echo "$SHELL_NAME is not supported. Please run \"skm\" commands in the MINGW64 terminal"
+    echo ""
+    read -p "Would you like run \"$PREV_CMD\" in the MINGW64 terminal now? (Y/N): " -n 1 -r < /dev/tty
+    echo ""
+    if [[ $REPLY =~ [Yy]$ ]]; then
+        start "" C:/msys64/mingw64.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
+        exit 0
+    else
+        # echo "$SHELL not supported. Please run \"skm\" commands in the MINGW64 terminal"
+        exit 1
+    fi
+fi
+
 if [ $# -eq 0 ] ; then
     echo  "Splashkit is installed successfully!"
     echo  "Missing skm command. For help use 'skm help'"

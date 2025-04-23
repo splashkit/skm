@@ -5,15 +5,38 @@ GIT_SKM_REPO=https://github.com/splashkit/skm.git
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-if [[ `uname` = MINGW32* ]]; then
-    echo MinGW32 is no longer supported. Please install using the MinGW64 terminal
-    exit 1
+# Check if using MINGW64 terminal
+if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]]; then
+ 
+    # Get simplified name of shell being used
+    SHELL_NAME=`uname`
+    SHELL_NAME="${SHELL_NAME%%_*}"
+ 
+    echo
+    echo "The $SHELL_NAME terminal is not supported."
+    echo "Please use the \"MINGW64\" terminal for coding with SplashKit..."
+    echo
+    read -p "Would you like to install SplashKit in the MINGW64 terminal now? (Y/N): " -n 1 -r < /dev/tty
+    echo ""
+    if [[ $REPLY =~ [Yy]$ ]]; then
+        # Run install command in MINGW64 terminal
+        start "" C:/msys64/mingw64.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
+        exit 0
+    else
+        echo
+        echo To start coding with SplashKit:
+        echo
+        echo "  1. Open the MINGW64 terminal."
+        echo "  2. Copy/paste the following command to install SplashKit: bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh)"
+        echo
+        exit 1
+    fi
 fi
 
 function report_missing_git () {
     if [[ `uname` = Darwin ]]; then
         echo "Developer tools not installed, please run: \"xcode-select --install\" in the terminal and then reinstall."
-    elif [[ `uname` = MINGW* ]] || [[ `uname` = MSYS* ]]; then
+    elif [[ `uname` = MINGW64* ]]; then
         echo "Git not found. Please run \"pacman -S git --noconfirm;\" in the terminal and then reinstall"
     elif [[ `uname` = Linux ]]; then
         echo "Please install git using your package manager For example: sudo apt install git"
@@ -81,20 +104,8 @@ fi
 
 export PATH="$INSTALL_PATH:$PATH"
 
-if [[ `uname` = MINGW64* ]] || [[ `uname` = MSYS* ]]; then
+if [[ `uname` = MINGW64* ]]; then
     SHELL_PATH="/mingw64/bin"
-
-    # Section below commented out for further testing
-    # Detect MSYS2 shell
-    # SHELL_PATH=""
-    # if [ "$MSYSTEM" = "MINGW64" ]; then
-    #     SHELL_PATH="/mingw64/bin"
-    # elif [ "$MSYSTEM" = "CLANG64" ]; then
-    #     SHELL_PATH="/clang64/bin"
-    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
-    #     SHELL_PATH="/clangarm64/bin"
-    # fi
-    
     # List of PATHS added in splashkit install
     SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
     
