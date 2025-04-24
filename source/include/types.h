@@ -459,6 +459,24 @@ namespace splashkit_lib
         PUD_UP = 2
     };
 
+    enum adc_pin
+    {
+        ADC_PIN_0 = 0,
+        ADC_PIN_1 = 1,
+        ADC_PIN_2 = 2,
+        ADC_PIN_3 = 3,
+        ADC_PIN_4 = 4,
+        ADC_PIN_5 = 5,
+        ADC_PIN_6 = 6,
+        ADC_PIN_7 = 7,
+        // ADC_SDA = 8,
+        // ADC_SCL = 9,
+        // ADC_VREF = 10,
+        // ADC_COM = 12,
+        // ADC_AD0 = 13,
+        // ADC_AD1 = 14,
+    };
+
     /**
      * Use these interface styles as a way to quickly
      * customize your interface.

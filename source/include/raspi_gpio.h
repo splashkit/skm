@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include "networking.h"
 #include "types.h"
+#include "raspi_adc.h"
 
 namespace splashkit_lib
 {
@@ -151,7 +152,7 @@ namespace splashkit_lib
      * This function should be called when you are finished using the GPIO library. It sets all pin modes to INPUT and values to LOW.
      */
     void raspi_cleanup();
-    
+
 	/**
      * @brief Initialises a remote connection to a Raspberry Pi.
      *
