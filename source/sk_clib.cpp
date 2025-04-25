@@ -4834,6 +4834,53 @@ int __sklib__rnd__int(int ubound) {
     int __skreturn = rnd(__skparam__ubound);
     return __sklib__to_int(__skreturn);
 }
+__sklib_adc_device __sklib__adc_device_named__string_ref(const __sklib_string name) {
+    string __skparam__name = __sklib__to_string(name);
+    adc_device __skreturn = adc_device_named(__skparam__name);
+    return __sklib__to_sklib_adc_device(__skreturn);
+}
+void __sklib__close_adc__adc_device(__sklib_adc_device adc) {
+    adc_device __skparam__adc = __sklib__to_adc_device(adc);
+    close_adc(__skparam__adc);
+}
+void __sklib__close_adc__string_ref(const __sklib_string name) {
+    string __skparam__name = __sklib__to_string(name);
+    close_adc(__skparam__name);
+}
+void __sklib__close_all_adc() {
+    close_all_adc();
+}
+int __sklib__has_adc_device__string_ref(const __sklib_string name) {
+    string __skparam__name = __sklib__to_string(name);
+    bool __skreturn = has_adc_device(__skparam__name);
+    return __sklib__to_int(__skreturn);
+}
+__sklib_adc_device __sklib__open_adc__string_ref__adc_type(const __sklib_string name, int type) {
+    string __skparam__name = __sklib__to_string(name);
+    adc_type __skparam__type = __sklib__to_adc_type(type);
+    adc_device __skreturn = open_adc(__skparam__name, __skparam__type);
+    return __sklib__to_sklib_adc_device(__skreturn);
+}
+__sklib_adc_device __sklib__open_adc__string_ref__int__int__adc_type(const __sklib_string name, int bus, int address, int type) {
+    string __skparam__name = __sklib__to_string(name);
+    int __skparam__bus = __sklib__to_int(bus);
+    int __skparam__address = __sklib__to_int(address);
+    adc_type __skparam__type = __sklib__to_adc_type(type);
+    adc_device __skreturn = open_adc(__skparam__name, __skparam__bus, __skparam__address, __skparam__type);
+    return __sklib__to_sklib_adc_device(__skreturn);
+}
+int __sklib__read_adc__adc_device__adc_pin(__sklib_adc_device adc, int channel) {
+    adc_device __skparam__adc = __sklib__to_adc_device(adc);
+    adc_pin __skparam__channel = __sklib__to_adc_pin(channel);
+    int __skreturn = read_adc(__skparam__adc, __skparam__channel);
+    return __sklib__to_int(__skreturn);
+}
+int __sklib__read_adc__string_ref__adc_pin(const __sklib_string name, int channel) {
+    string __skparam__name = __sklib__to_string(name);
+    adc_pin __skparam__channel = __sklib__to_adc_pin(channel);
+    int __skreturn = read_adc(__skparam__name, __skparam__channel);
+    return __sklib__to_int(__skreturn);
+}
 int __sklib__has_gpio() {
     bool __skreturn = has_gpio();
     return __sklib__to_int(__skreturn);

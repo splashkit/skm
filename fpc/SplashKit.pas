@@ -12,6 +12,8 @@ type __sklib_message__record_type = record end;
 type Message = ^__sklib_message__record_type;
 type __sklib_server_socket__record_type = record end;
 type ServerSocket = ^__sklib_server_socket__record_type;
+type __sklib_adc_device__record_type = record end;
+type AdcDevice = ^__sklib_adc_device__record_type;
 type __sklib_sound_effect__record_type = record end;
 type SoundEffect = ^__sklib_sound_effect__record_type;
 type __sklib_sprite__record_type = record end;
@@ -1317,6 +1319,15 @@ function TrianglesFrom(const q: Quad): ArrayOfTriangle;
 function Rnd(min: Integer; max: Integer): Integer;
 function Rnd(): Single;
 function Rnd(ubound: Integer): Integer;
+function AdcDeviceNamed(const name: String): AdcDevice;
+procedure CloseAdc(adc: AdcDevice);
+procedure CloseAdc(const name: String);
+procedure CloseAllAdc();
+function HasAdcDevice(const name: String): Boolean;
+function OpenAdc(const name: String; type: AdcType): AdcDevice;
+function OpenAdc(const name: String; bus: Integer; address: Integer; type: AdcType): AdcDevice;
+function ReadAdc(adc: AdcDevice; channel: AdcPin): Integer;
+function ReadAdc(const name: String; channel: AdcPin): Integer;
 function HasGpio(): Boolean;
 procedure RaspiCleanup();
 function RaspiGetMode(pin: GpioPin): GpioPinMode;
@@ -2325,6 +2336,14 @@ begin
   result := ServerSocket(v);
 end;
 function __skadapter__to_sklib_server_socket(v: ServerSocket): __sklib_ptr;
+begin
+  result := __sklib_ptr(v);
+end;
+function __skadapter__to_adc_device(v: __sklib_ptr): AdcDevice;
+begin
+  result := AdcDevice(v);
+end;
+function __skadapter__to_sklib_adc_device(v: AdcDevice): __sklib_ptr;
 begin
   result := __sklib_ptr(v);
 end;
@@ -3827,6 +3846,15 @@ function __sklib__triangles_from__quad_ref(const q: __sklib_quad): __sklib_vecto
 function __sklib__rnd__int__int(min: Integer; max: Integer): Integer; cdecl; external;
 function __sklib__rnd(): Single; cdecl; external;
 function __sklib__rnd__int(ubound: Integer): Integer; cdecl; external;
+function __sklib__adc_device_named__string_ref(const name: __sklib_string): __sklib_ptr; cdecl; external;
+procedure __sklib__close_adc__adc_device(adc: __sklib_ptr); cdecl; external;
+procedure __sklib__close_adc__string_ref(const name: __sklib_string); cdecl; external;
+procedure __sklib__close_all_adc(); cdecl; external;
+function __sklib__has_adc_device__string_ref(const name: __sklib_string): LongInt; cdecl; external;
+function __sklib__open_adc__string_ref__adc_type(const name: __sklib_string; type: LongInt): __sklib_ptr; cdecl; external;
+function __sklib__open_adc__string_ref__int__int__adc_type(const name: __sklib_string; bus: Integer; address: Integer; type: LongInt): __sklib_ptr; cdecl; external;
+function __sklib__read_adc__adc_device__adc_pin(adc: __sklib_ptr; channel: LongInt): Integer; cdecl; external;
+function __sklib__read_adc__string_ref__adc_pin(const name: __sklib_string; channel: LongInt): Integer; cdecl; external;
 function __sklib__has_gpio(): LongInt; cdecl; external;
 procedure __sklib__raspi_cleanup(); cdecl; external;
 function __sklib__raspi_get_mode__gpio_pin(pin: LongInt): LongInt; cdecl; external;
@@ -13016,6 +13044,90 @@ var
 begin
   __skparam__ubound := __skadapter__to_sklib_int(ubound);
   __skreturn := __sklib__rnd__int(__skparam__ubound);
+  result := __skadapter__to_int(__skreturn);
+end;
+function AdcDeviceNamed(const name: String): AdcDevice;
+var
+  __skparam__name: __sklib_string;
+  __skreturn: __sklib_ptr;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skreturn := __sklib__adc_device_named__string_ref(__skparam__name);
+  result := __skadapter__to_adc_device(__skreturn);
+end;
+procedure CloseAdc(adc: AdcDevice);
+var
+  __skparam__adc: __sklib_ptr;
+begin
+  __skparam__adc := __skadapter__to_sklib_adc_device(adc);
+  __sklib__close_adc__adc_device(__skparam__adc);
+end;
+procedure CloseAdc(const name: String);
+var
+  __skparam__name: __sklib_string;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __sklib__close_adc__string_ref(__skparam__name);
+end;
+procedure CloseAllAdc();
+begin
+  __sklib__close_all_adc();
+end;
+function HasAdcDevice(const name: String): Boolean;
+var
+  __skparam__name: __sklib_string;
+  __skreturn: LongInt;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skreturn := __sklib__has_adc_device__string_ref(__skparam__name);
+  result := __skadapter__to_bool(__skreturn);
+end;
+function OpenAdc(const name: String; type: AdcType): AdcDevice;
+var
+  __skparam__name: __sklib_string;
+  __skparam__type: LongInt;
+  __skreturn: __sklib_ptr;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skparam__type := __skadapter__to_sklib_adc_type(type);
+  __skreturn := __sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type);
+  result := __skadapter__to_adc_device(__skreturn);
+end;
+function OpenAdc(const name: String; bus: Integer; address: Integer; type: AdcType): AdcDevice;
+var
+  __skparam__name: __sklib_string;
+  __skparam__bus: Integer;
+  __skparam__address: Integer;
+  __skparam__type: LongInt;
+  __skreturn: __sklib_ptr;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skparam__bus := __skadapter__to_sklib_int(bus);
+  __skparam__address := __skadapter__to_sklib_int(address);
+  __skparam__type := __skadapter__to_sklib_adc_type(type);
+  __skreturn := __sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type);
+  result := __skadapter__to_adc_device(__skreturn);
+end;
+function ReadAdc(adc: AdcDevice; channel: AdcPin): Integer;
+var
+  __skparam__adc: __sklib_ptr;
+  __skparam__channel: LongInt;
+  __skreturn: Integer;
+begin
+  __skparam__adc := __skadapter__to_sklib_adc_device(adc);
+  __skparam__channel := __skadapter__to_sklib_adc_pin(channel);
+  __skreturn := __sklib__read_adc__adc_device__adc_pin(__skparam__adc, __skparam__channel);
+  result := __skadapter__to_int(__skreturn);
+end;
+function ReadAdc(const name: String; channel: AdcPin): Integer;
+var
+  __skparam__name: __sklib_string;
+  __skparam__channel: LongInt;
+  __skreturn: Integer;
+begin
+  __skparam__name := __skadapter__to_sklib_string(name);
+  __skparam__channel := __skadapter__to_sklib_adc_pin(channel);
+  __skreturn := __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
   result := __skadapter__to_int(__skreturn);
 end;
 function HasGpio(): Boolean;

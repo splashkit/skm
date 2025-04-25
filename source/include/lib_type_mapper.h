@@ -42,6 +42,7 @@
 #include "point_geometry.h"
 #include "quad_geometry.h"
 #include "random.h"
+#include "raspi_adc.h"
 #include "raspi_gpio.h"
 #include "rectangle_drawing.h"
 #include "rectangle_geometry.h"
@@ -100,6 +101,8 @@ __sklib_ptr __sklib__to_sklib_message(splashkit_lib::message v);
 message __sklib__to_message(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_server_socket(splashkit_lib::server_socket v);
 server_socket __sklib__to_server_socket(__sklib_ptr v);
+__sklib_ptr __sklib__to_sklib_adc_device(splashkit_lib::adc_device v);
+adc_device __sklib__to_adc_device(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_sound_effect(splashkit_lib::sound_effect v);
 sound_effect __sklib__to_sound_effect(__sklib_ptr v);
 __sklib_ptr __sklib__to_sklib_sprite(splashkit_lib::sprite v);

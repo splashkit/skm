@@ -49,6 +49,8 @@ __sklib_ptr __skadapter__to_sklib_message(message v);
 message __skadapter__to_message(__sklib_ptr v);
 __sklib_ptr __skadapter__to_sklib_server_socket(server_socket v);
 server_socket __skadapter__to_server_socket(__sklib_ptr v);
+__sklib_ptr __skadapter__to_sklib_adc_device(adc_device v);
+adc_device __skadapter__to_adc_device(__sklib_ptr v);
 __sklib_ptr __skadapter__to_sklib_sound_effect(sound_effect v);
 sound_effect __skadapter__to_sound_effect(__sklib_ptr v);
 __sklib_ptr __skadapter__to_sklib_sprite(sprite v);

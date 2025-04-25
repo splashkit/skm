@@ -651,6 +651,9 @@ class Message(_PointerWrapper):
 class ServerSocket(_PointerWrapper):
     def __init__(self, ptr):
         super().__init__(ptr)
+class AdcDevice(_PointerWrapper):
+    def __init__(self, ptr):
+        super().__init__(ptr)
 class SoundEffect(_PointerWrapper):
     def __init__(self, ptr):
         super().__init__(ptr)
@@ -1503,6 +1506,12 @@ def __skadapter__to_server_socket(v):
     return _find_pointer_resource(v, "ServerSocket")
 
 def __skadapter__to_sklib_server_socket(v):
+    return v
+
+def __skadapter__to_adc_device(v):
+    return _find_pointer_resource(v, "AdcDevice")
+
+def __skadapter__to_sklib_adc_device(v):
     return v
 
 def __skadapter__to_sound_effect(v):
@@ -3346,6 +3355,24 @@ sklib.__sklib__rnd.argtypes = [  ]
 sklib.__sklib__rnd.restype = c_float
 sklib.__sklib__rnd__int.argtypes = [ c_int ]
 sklib.__sklib__rnd__int.restype = c_int
+sklib.__sklib__adc_device_named__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__adc_device_named__string_ref.restype = c_void_p
+sklib.__sklib__close_adc__adc_device.argtypes = [ c_void_p ]
+sklib.__sklib__close_adc__adc_device.restype = None
+sklib.__sklib__close_adc__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__close_adc__string_ref.restype = None
+sklib.__sklib__close_all_adc.argtypes = [  ]
+sklib.__sklib__close_all_adc.restype = None
+sklib.__sklib__has_adc_device__string_ref.argtypes = [ _sklib_string ]
+sklib.__sklib__has_adc_device__string_ref.restype = c_int32
+sklib.__sklib__open_adc__string_ref__adc_type.argtypes = [ _sklib_string, c_int ]
+sklib.__sklib__open_adc__string_ref__adc_type.restype = c_void_p
+sklib.__sklib__open_adc__string_ref__int__int__adc_type.argtypes = [ _sklib_string, c_int, c_int, c_int ]
+sklib.__sklib__open_adc__string_ref__int__int__adc_type.restype = c_void_p
+sklib.__sklib__read_adc__adc_device__adc_pin.argtypes = [ c_void_p, c_int ]
+sklib.__sklib__read_adc__adc_device__adc_pin.restype = c_int
+sklib.__sklib__read_adc__string_ref__adc_pin.argtypes = [ _sklib_string, c_int ]
+sklib.__sklib__read_adc__string_ref__adc_pin.restype = c_int
 sklib.__sklib__has_gpio.argtypes = [  ]
 sklib.__sklib__has_gpio.restype = c_int32
 sklib.__sklib__raspi_cleanup.argtypes = [  ]
@@ -8266,6 +8293,44 @@ def rnd (  ):
 def rnd_int ( ubound ):
     __skparam__ubound = __skadapter__to_sklib_int(ubound)
     __skreturn = sklib.__sklib__rnd__int(__skparam__ubound)
+    return __skadapter__to_int(__skreturn)
+def adc_device_named ( name ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skreturn = sklib.__sklib__adc_device_named__string_ref(__skparam__name)
+    return __skadapter__to_adc_device(__skreturn)
+def close_adc ( adc ):
+    __skparam__adc = __skadapter__to_sklib_adc_device(adc)
+    sklib.__sklib__close_adc__adc_device(__skparam__adc)
+def close_adc_named ( name ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    sklib.__sklib__close_adc__string_ref(__skparam__name)
+def close_all_adc (  ):
+    sklib.__sklib__close_all_adc()
+def has_adc_device ( name ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skreturn = sklib.__sklib__has_adc_device__string_ref(__skparam__name)
+    return __skadapter__to_bool(__skreturn)
+def open_adc ( name, type ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skparam__type = __skadapter__to_sklib_adc_type(type)
+    __skreturn = sklib.__sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type)
+    return __skadapter__to_adc_device(__skreturn)
+def open_adc_with_bus ( name, bus, address, type ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skparam__bus = __skadapter__to_sklib_int(bus)
+    __skparam__address = __skadapter__to_sklib_int(address)
+    __skparam__type = __skadapter__to_sklib_adc_type(type)
+    __skreturn = sklib.__sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type)
+    return __skadapter__to_adc_device(__skreturn)
+def read_adc ( adc, channel ):
+    __skparam__adc = __skadapter__to_sklib_adc_device(adc)
+    __skparam__channel = __skadapter__to_sklib_adc_pin(channel)
+    __skreturn = sklib.__sklib__read_adc__adc_device__adc_pin(__skparam__adc, __skparam__channel)
+    return __skadapter__to_int(__skreturn)
+def read_adc_named ( name, channel ):
+    __skparam__name = __skadapter__to_sklib_string(name)
+    __skparam__channel = __skadapter__to_sklib_adc_pin(channel)
+    __skreturn = sklib.__sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel)
     return __skadapter__to_int(__skreturn)
 def has_gpio (  ):
     __skreturn = sklib.__sklib__has_gpio()

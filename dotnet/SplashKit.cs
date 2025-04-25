@@ -983,6 +983,11 @@ namespace SplashKitSDK
     private static ServerSocket __skadapter__to_server_socket(IntPtr v) { return ServerSocket.FetchOrCreate(v); }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static IntPtr __skadapter__to_sklib_adc_device(AdcDevice v) { return v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static AdcDevice __skadapter__to_adc_device(IntPtr v) { return AdcDevice.FetchOrCreate(v); }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static IntPtr __skadapter__to_sklib_sound_effect(SoundEffect v) { return v; }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static SoundEffect __skadapter__to_sound_effect(IntPtr v) { return SoundEffect.FetchOrCreate(v); }
@@ -3693,6 +3698,33 @@ namespace SplashKitSDK
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__rnd__int", CharSet=CharSet.Ansi)]
     private static extern int __sklib__rnd__int(int ubound);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__adc_device_named__string_ref", CharSet=CharSet.Ansi)]
+    private static extern __sklib_ptr __sklib__adc_device_named__string_ref(__sklib_string name);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__close_adc__adc_device", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__close_adc__adc_device(__sklib_ptr adc);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__close_adc__string_ref", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__close_adc__string_ref(__sklib_string name);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__close_all_adc", CharSet=CharSet.Ansi)]
+    private static extern void __sklib__close_all_adc();
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__has_adc_device__string_ref", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__has_adc_device__string_ref(__sklib_string name);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__open_adc__string_ref__adc_type", CharSet=CharSet.Ansi)]
+    private static extern __sklib_ptr __sklib__open_adc__string_ref__adc_type(__sklib_string name, int type);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__open_adc__string_ref__int__int__adc_type", CharSet=CharSet.Ansi)]
+    private static extern __sklib_ptr __sklib__open_adc__string_ref__int__int__adc_type(__sklib_string name, int bus, int address, int type);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__read_adc__adc_device__adc_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__read_adc__adc_device__adc_pin(__sklib_ptr adc, int channel);
+
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__read_adc__string_ref__adc_pin", CharSet=CharSet.Ansi)]
+    private static extern int __sklib__read_adc__string_ref__adc_pin(__sklib_string name, int channel);
 
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__has_gpio", CharSet=CharSet.Ansi)]
     private static extern int __sklib__has_gpio();
@@ -17988,6 +18020,135 @@ namespace SplashKitSDK
       return __skadapter__to_int(__skreturn);
     }
     /// <summary>
+    /// Retrieve an ADC device that has been loaded.
+    /// </summary>
+    /// <param name="name"> The name of the ADC device.</param>
+    /// <returns>The adc_device pointer if found; otherwise, nullptr.</returns>
+    public static AdcDevice AdcDeviceNamed(string name)
+    {
+      __sklib_string __skparam__name;
+      __sklib_ptr __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skreturn = __sklib__adc_device_named__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(ref __skparam__name);
+      return __skadapter__to_adc_device(__skreturn);
+    }
+    /// <summary>
+    /// Closes an ADC device given its pointer.
+    /// </summary>
+    /// <param name="adc"> The ADC device to close.</param>
+    public static void CloseAdc(AdcDevice adc)
+    {
+      __sklib_ptr __skparam__adc;
+      __skparam__adc = __skadapter__to_sklib_adc_device(adc);
+      __sklib__close_adc__adc_device(__skparam__adc);
+    }
+    /// <summary>
+    /// Closes an ADC device given its name.
+    /// </summary>
+    /// <param name="name"> The name of the ADC device to close.</param>
+    public static void CloseAdc(string name)
+    {
+      __sklib_string __skparam__name;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __sklib__close_adc__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(ref __skparam__name);
+    }
+    /// <summary>
+    /// Closes all ADC devices that have been opened.
+    /// </summary>
+    public static void CloseAllAdc()
+    {
+      __sklib__close_all_adc();
+    }
+    /// <summary>
+    /// Checks if an ADC device with the given name has been loaded.
+    /// </summary>
+    /// <param name="name"> The name used to identify the ADC device.</param>
+    /// <returns>true if an ADC device with the supplied name exists.</returns>
+    public static bool HasAdcDevice(string name)
+    {
+      __sklib_string __skparam__name;
+      int __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skreturn = __sklib__has_adc_device__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(ref __skparam__name);
+      return __skadapter__to_bool(__skreturn);
+    }
+    /// <summary>
+    /// Opens an ADC device with the specified name and type. Defaults to bus 1 and address 0x48.
+    /// </summary>
+    /// <param name="name"> The name of the ADC device to open.</param>
+    /// <param name="type"> The type of ADC device (e.g., ADS7830, PCF8591).</param>
+    /// <returns>A valid adc_device on success, or nullptr on failure.</returns>
+    public static AdcDevice OpenAdc(string name, AdcType type)
+    {
+      __sklib_string __skparam__name;
+      int __skparam__type;
+      __sklib_ptr __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skparam__type = __skadapter__to_sklib_adc_type(type);
+      __skreturn = __sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type);
+    __skadapter__free__sklib_string(ref __skparam__name);
+      return __skadapter__to_adc_device(__skreturn);
+    }
+    /// <summary>
+    /// Loads an ADC device on the specified I2C bus at a given address.
+    /// </summary>
+    /// <param name="name"> The name to assign this ADC device.</param>
+    /// <param name="bus"> The I2C bus number.</param>
+    /// <param name="address"> The I2C address of the ADC device.</param>
+    /// <param name="type"> The type of ADC device (e.g., ADS7830, PCF8591).</param>
+    /// <returns>A valid adc_device on success, or nullptr on failure.</returns>
+    public static AdcDevice OpenAdc(string name, int bus, int address, AdcType type)
+    {
+      __sklib_string __skparam__name;
+      int __skparam__bus;
+      int __skparam__address;
+      int __skparam__type;
+      __sklib_ptr __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skparam__bus = __skadapter__to_sklib_int(bus);
+      __skparam__address = __skadapter__to_sklib_int(address);
+      __skparam__type = __skadapter__to_sklib_adc_type(type);
+      __skreturn = __sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type);
+    __skadapter__free__sklib_string(ref __skparam__name);
+      return __skadapter__to_adc_device(__skreturn);
+    }
+    /// <summary>
+    /// Reads an 8-bit value from the specified ADC channel on the device.
+    /// </summary>
+    /// <param name="adc"> The ADC device to read from.</param>
+    /// <param name="channel"> The channel number to read (range depends on ADC type).</param>
+    /// <returns>The ADC conversion value (0–255), or -1 on error.</returns>
+    public static int ReadAdc(AdcDevice adc, AdcPin channel)
+    {
+      __sklib_ptr __skparam__adc;
+      int __skparam__channel;
+      int __skreturn;
+      __skparam__adc = __skadapter__to_sklib_adc_device(adc);
+      __skparam__channel = __skadapter__to_sklib_adc_pin(channel);
+      __skreturn = __sklib__read_adc__adc_device__adc_pin(__skparam__adc, __skparam__channel);
+      return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
+    /// Reads an 8-bit value from the specified ADC channel on the device using its name.
+    /// </summary>
+    /// <param name="name"> The ADC name string to close.</param>
+    /// <param name="channel"> The channel number to read (range depends on ADC type).</param>
+    /// <returns>The ADC conversion value (0–255), or -1 on error.</returns>
+    public static int ReadAdc(string name, AdcPin channel)
+    {
+      __sklib_string __skparam__name;
+      int __skparam__channel;
+      int __skreturn;
+      __skparam__name = __skadapter__to_sklib_string(name);
+      __skparam__channel = __skadapter__to_sklib_adc_pin(channel);
+      __skreturn = __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
+    __skadapter__free__sklib_string(ref __skparam__name);
+      return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
     /// Checks if the system has GPIO capabilities.
     /// </summary>
     /// <returns>true if the system has GPIO capabilities, false otherwise.</returns>
@@ -27527,6 +27688,54 @@ public class ServerSocket : PointerWrapper
     {
         get { return SplashKit.ServerHasNewConnection(this); }
     }
+}
+/// <summary>
+/// This class represents AdcDevice, which wraps a pointer to SplashKit resources.
+/// </summary>
+public class AdcDevice : PointerWrapper
+{
+  private AdcDevice(IntPtr ptr) : base(ptr, true) {}
+
+  internal static AdcDevice FetchOrCreate(IntPtr ptr)
+  {
+    #pragma warning disable CS8603
+    if (ptr == IntPtr.Zero) return null;
+
+    if (_ptrRegister.ContainsKey(ptr)) return _ptrRegister[ptr] as AdcDevice;
+    #pragma warning restore CS8603
+    return new AdcDevice(ptr);
+  }
+
+    /// <summary>
+    /// Creates a new instance of AdcDevice using the provided parameters.
+    /// </summary>
+    /// <param name="name"> The name of the ADC device to open.</param>
+    /// <param name="type"> The type of ADC device (e.g., ADS7830, PCF8591).</param>
+    public AdcDevice(string name, AdcType type) : base ( SplashKit.OpenAdc(name, type), false )
+    { }
+    /// <summary>
+    /// Creates a new instance of AdcDevice using the provided parameters.
+    /// </summary>
+    /// <param name="name"> The name to assign this ADC device.</param>
+    /// <param name="bus"> The I2C bus number.</param>
+    /// <param name="address"> The I2C address of the ADC device.</param>
+    /// <param name="type"> The type of ADC device (e.g., ADS7830, PCF8591).</param>
+    public AdcDevice(string name, int bus, int address, AdcType type) : base ( SplashKit.OpenAdc(name, bus, address, type), false )
+    { }
+    protected internal override void DoFree()
+    {
+        SplashKit.CloseAdc(this);
+    }
+    /// <summary>
+    /// Reads an 8-bit value from the specified ADC channel on the device.
+    /// </summary>
+    /// <param name="channel"> The channel number to read (range depends on ADC type).</param>
+    /// <returns>The ADC conversion value (0–255), or -1 on error.</returns>
+    public int Read(AdcPin channel)
+    {
+        return SplashKit.ReadAdc(this, channel);
+    }
+
 }
 /// <summary>
 /// This class represents SoundEffect, which wraps a pointer to SplashKit resources.

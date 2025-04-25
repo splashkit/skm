@@ -5026,6 +5026,59 @@ int rnd(int ubound) {
     int __skreturn = __sklib__rnd__int(__skparam__ubound);
     return __skadapter__to_int(__skreturn);
 }
+adc_device adc_device_named(const string &name) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    __sklib_adc_device __skreturn = __sklib__adc_device_named__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_adc_device(__skreturn);
+}
+void close_adc(adc_device adc) {
+    __sklib_adc_device __skparam__adc = __skadapter__to_sklib_adc_device(adc);
+    __sklib__close_adc__adc_device(__skparam__adc);
+}
+void close_adc(const string &name) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    __sklib__close_adc__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(__skparam__name);
+}
+void close_all_adc() {
+    __sklib__close_all_adc();
+}
+bool has_adc_device(const string &name) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    int __skreturn = __sklib__has_adc_device__string_ref(__skparam__name);
+    __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_bool(__skreturn);
+}
+adc_device open_adc(const string &name, adc_type type) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    int __skparam__type = __skadapter__to_int(type);
+    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type);
+    __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_adc_device(__skreturn);
+}
+adc_device open_adc(const string &name, int bus, int address, adc_type type) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    int __skparam__bus = __skadapter__to_int(bus);
+    int __skparam__address = __skadapter__to_int(address);
+    int __skparam__type = __skadapter__to_int(type);
+    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type);
+    __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_adc_device(__skreturn);
+}
+int read_adc(adc_device adc, adc_pin channel) {
+    __sklib_adc_device __skparam__adc = __skadapter__to_sklib_adc_device(adc);
+    int __skparam__channel = __skadapter__to_int(channel);
+    int __skreturn = __sklib__read_adc__adc_device__adc_pin(__skparam__adc, __skparam__channel);
+    return __skadapter__to_int(__skreturn);
+}
+int read_adc(const string &name, adc_pin channel) {
+    const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
+    int __skparam__channel = __skadapter__to_int(channel);
+    int __skreturn = __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
+    __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_int(__skreturn);
+}
 bool has_gpio() {
     int __skreturn = __sklib__has_gpio();
     return __skadapter__to_bool(__skreturn);

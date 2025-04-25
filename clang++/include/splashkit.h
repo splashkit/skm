@@ -34,6 +34,7 @@
 #include "point_geometry.h"
 #include "quad_geometry.h"
 #include "random.h"
+#include "raspi_adc.h"
 #include "raspi_gpio.h"
 #include "rectangle_drawing.h"
 #include "rectangle_geometry.h"

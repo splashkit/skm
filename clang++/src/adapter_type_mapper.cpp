@@ -120,6 +120,12 @@ __sklib_ptr __skadapter__to_sklib_server_socket(server_socket v) {
 server_socket __skadapter__to_server_socket(__sklib_ptr v) {
     return static_cast<server_socket>(v);
 }
+__sklib_ptr __skadapter__to_sklib_adc_device(adc_device v) {
+    return static_cast<__sklib_ptr>(v);
+}
+adc_device __skadapter__to_adc_device(__sklib_ptr v) {
+    return static_cast<adc_device>(v);
+}
 __sklib_ptr __skadapter__to_sklib_sound_effect(sound_effect v) {
     return static_cast<__sklib_ptr>(v);
 }
