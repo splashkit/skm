@@ -194,6 +194,8 @@ if [ "$SK_OS" = "linux" ]; then
 elif [ "$SK_OS" = "macos" ]; then
     echo "Setting library location"
     sudo install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
+elif [ "$SK_OS" = "win64" ]; then
+    export PATH="$LIB_DEST:$PATH"
 fi
 
 echo "Testing install"
