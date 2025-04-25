@@ -25,12 +25,13 @@ else
     exit 1
 fi
 
-if [ "$SK_OS" = "linux" ]; then
+if [ "$SK_OS" = "macos" ]; then
+    echo "Rebuilding library"
+    skm macos install
+elif [ "$SK_OS" = "linux" ]; then
     echo "Rebuilding library"
     skm linux install
 fi
 
-if [ -f "${LIB_DEST}" ]; then
-    echo "Reinstalling globally"
-    skm global install
-fi
+echo "Reinstalling globally"
+skm global install
