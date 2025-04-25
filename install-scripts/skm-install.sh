@@ -5,13 +5,9 @@ GIT_SKM_REPO=https://github.com/splashkit/skm.git
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-# Check if using MINGW64 terminal
+# For MSYS2 users: Check if MINGW64 shell is being used
 if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]]; then
- 
-    # Get simplified name of shell being used
-    SHELL_NAME=`uname`
-    SHELL_NAME="${SHELL_NAME%%_*}"
- 
+    SHELL_NAME=`uname | cut -d '_' -f1,1`
     echo
     echo "The $SHELL_NAME terminal is not supported."
     echo "Please use the \"MINGW64\" terminal for coding with SplashKit..."

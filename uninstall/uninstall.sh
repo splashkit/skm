@@ -33,26 +33,9 @@ elif [ "$SK_OS" = "linux" ]; then
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
 elif [ "$SK_OS" = "win64" ]; then
-    # WIN_OUT_DIR="${WINDIR}/System32"
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
     LIB_DEST="/mingw64/lib"
     INC_DEST="/mingw64/include"
-
-    # Section below commented out for further testing
-    # if [ "$MSYSTEM" = "MINGW64" ]; then
-    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    #     LIB_DEST="/mingw64/lib"
-    #     INC_DEST="/mingw64/include"
-    # elif [ "$MSYSTEM" = "CLANG64" ]; then
-    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    #     LIB_DEST="/clang64/lib"
-    #     INC_DEST="/clang64/include"
-    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
-    #     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    #     LIB_DEST="/clangarm64/lib"
-    #     INC_DEST="/clangarm64/include"
-    # fi
-
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -118,15 +101,6 @@ if [ "$HAS_PYTHON3" = true ]; then
         PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
     elif [ "$SK_OS" = "win64" ]; then
         PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
-
-        # Section below commented out for further testing
-        # if [ "$MSYSTEM" = "MINGW64" ]; then
-        #     PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
-        # elif [ "$MSYSTEM" = "CLANG64" ]; then
-        #     PYTHON_LIB="/clang64/lib/python${PYTHON_VERSION}"
-        # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
-        #     PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
-        # fi
     fi
 
     # Remove splashkit python file from global location if python3 is installed
@@ -190,17 +164,6 @@ fi
 # Remove splashkit paths from Windows User PATH if using Windows(MSYS2)
 if [ $SK_OS = "win64" ]; then
     SHELL_PATH="/mingw64/bin"
-
-    # Section below commented out for further testing
-    # Detect MSYS2 shell
-    # SHELL_PATH=""
-    # if [ "$MSYSTEM" = "MINGW64" ]; then
-    #     SHELL_PATH="/mingw64/bin"
-    # elif [ "$MSYSTEM" = "CLANG64" ]; then
-    #     SHELL_PATH="/clang64/bin"
-    # elif [ "$MSYSTEM" = "CLANGARM64" ]; then
-    #     SHELL_PATH="/clangarm64/bin"
-    # fi
     
     # List of PATHS added in splashkit install
     SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
