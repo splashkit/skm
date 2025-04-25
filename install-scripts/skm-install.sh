@@ -163,17 +163,34 @@ fi
 find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
 # Run the next install step
-if [[ `uname` = MINGW64* ]]; then
-    INSTALL_OS="windows"
-elif [[ `uname` = Linux ]]; then
-    INSTALL_OS="linux"
-elif [[ `uname` = Darwin ]]; then
-    INSTALL_OS="macos"
+if command -v skm &> /dev/null; then
+    echo "Installing the necessary native libraries, compiling and installing SplashKit globally..."
+    echo
+
+    if [[ `uname` = MINGW64* ]]; then
+        skm windows install
+    elif [[ `uname` = Linux ]]; then
+        skm linux install
+    elif [[ `uname` = Darwin ]]; then
+        OSX_VERSION=`sw_vers -productVersion`
+        if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+            skm macos install
+        else
+            skm global install
+        fi
+    fi
+
+    echo "SplashKit Successfully installed! Please restart your terminal..."
+else
+    echo "\"skm\" command not found..."
+    echo "Open a new terminal window and run the following commands to complete the SplashKit installation:"
+    echo
+    if [[ `uname` = MINGW64* ]]; then
+        echo "skm windows install"
+    elif [[ `uname` = Linux ]]; then
+        echo "skm linux install"
+    elif [[ `uname` = Darwin ]]; then
+        echo "skm macos install"
+    fi
+    echo "skm global install"
 fi
-
-echo "Installing the necessary native libraries, compiling and installing SplashKit globally..."
-echo ""
-
-"${INSTALL_PATH}/${INSTALL_OS}/install/install.sh"
-
-echo "SplashKit Successfully installed! Please restart your terminal..."
