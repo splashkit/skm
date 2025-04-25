@@ -186,7 +186,10 @@ else
     elif [[ `uname` = Linux ]]; then
         echo "skm linux install"
     elif [[ `uname` = Darwin ]]; then
-        echo "skm macos install"
+        OSX_VERSION=`sw_vers -productVersion`
+        if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+            echo "skm macos install"
+        fi
     fi
     echo "skm global install"
 fi
