@@ -207,6 +207,17 @@ class SpriteEventKind(Enum):
     sprite_animation_ended_event = 1
     sprite_touched_event = 2
     sprite_clicked_event = 3
+class AdcPin(Enum):
+    adc_pin_0 = 0
+    adc_pin_1 = 1
+    adc_pin_2 = 2
+    adc_pin_3 = 3
+    adc_pin_4 = 4
+    adc_pin_5 = 5
+    adc_pin_6 = 6
+    adc_pin_7 = 7
+class AdcType(Enum):
+    ads7830 = 0
 class DrawingDest(Enum):
     draw_to_screen = 0
     draw_to_world = 1
@@ -843,6 +854,22 @@ def __skadapter__to_sprite_event_kind(v):
     return SpriteEventKind(v)
 
 def __skadapter__to_sklib_sprite_event_kind(v):
+    return c_int(v.value)
+
+def __skadapter__to_adc_pin(v):
+    if isinstance(v, AdcPin):
+        return v
+    return AdcPin(v)
+
+def __skadapter__to_sklib_adc_pin(v):
+    return c_int(v.value)
+
+def __skadapter__to_adc_type(v):
+    if isinstance(v, AdcType):
+        return v
+    return AdcType(v)
+
+def __skadapter__to_sklib_adc_type(v):
     return c_int(v.value)
 
 def __skadapter__to_drawing_dest(v):

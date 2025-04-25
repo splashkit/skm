@@ -64,11 +64,6 @@ namespace splashkit_lib
         ADC_PTR=                    0x41444350, //'ADCP';
         NONE_PTR =                  0x4e4f4e45  //'NONE';
     };
-    enum adc_type
-    {
-       ADS7830 = 0,
-    //    PCF8591 = 1,
-    };
 
     typedef color sk_color;
 

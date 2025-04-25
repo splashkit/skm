@@ -55,6 +55,8 @@ typedef int __sklib_connection_type;
 typedef int __sklib_resource_kind;
 typedef int __sklib_collision_test_kind;
 typedef int __sklib_sprite_event_kind;
+typedef int __sklib_adc_pin;
+typedef int __sklib_adc_type;
 typedef int __sklib_drawing_dest;
 typedef int __sklib_font_style;
 typedef int __sklib_gpio_pin;

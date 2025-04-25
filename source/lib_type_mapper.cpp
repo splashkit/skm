@@ -239,6 +239,18 @@ int __sklib__to_sklib_sprite_event_kind(sprite_event_kind v) {
 sprite_event_kind __sklib__to_sprite_event_kind(int v) {
     return static_cast<sprite_event_kind>(v);
 }
+int __sklib__to_sklib_adc_pin(adc_pin v) {
+    return static_cast<int>(v);
+}
+adc_pin __sklib__to_adc_pin(int v) {
+    return static_cast<adc_pin>(v);
+}
+int __sklib__to_sklib_adc_type(adc_type v) {
+    return static_cast<int>(v);
+}
+adc_type __sklib__to_adc_type(int v) {
+    return static_cast<adc_type>(v);
+}
 int __sklib__to_sklib_drawing_dest(drawing_dest v) {
     return static_cast<int>(v);
 }

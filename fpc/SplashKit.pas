@@ -216,6 +216,19 @@ type SpriteEventKind = (
   SPRITE_TOUCHED_EVENT,
   SPRITE_CLICKED_EVENT
 );
+type AdcPin = (
+  ADC_PIN_0 = 0,
+  ADC_PIN_1 = 1,
+  ADC_PIN_2 = 2,
+  ADC_PIN_3 = 3,
+  ADC_PIN_4 = 4,
+  ADC_PIN_5 = 5,
+  ADC_PIN_6 = 6,
+  ADC_PIN_7 = 7
+);
+type AdcType = (
+  ADS7830 = 0
+);
 type DrawingDest = (
   DRAW_TO_SCREEN,
   DRAW_TO_WORLD,
@@ -2176,6 +2189,22 @@ begin
   result := SpriteEventKind(v);
 end;
 function __skadapter__to_sklib_sprite_event_kind(v: SpriteEventKind): LongInt;
+begin
+  result := Integer(v);
+end;
+function __skadapter__to_adc_pin(v: LongInt): AdcPin;
+begin
+  result := AdcPin(v);
+end;
+function __skadapter__to_sklib_adc_pin(v: AdcPin): LongInt;
+begin
+  result := Integer(v);
+end;
+function __skadapter__to_adc_type(v: LongInt): AdcType;
+begin
+  result := AdcType(v);
+end;
+function __skadapter__to_sklib_adc_type(v: AdcType): LongInt;
 begin
   result := Integer(v);
 end;

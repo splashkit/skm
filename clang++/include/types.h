@@ -24,6 +24,19 @@ typedef struct _display_data *display;
 struct _font_data;
 typedef struct _font_data *font;
 typedef enum {
+    ADC_PIN_0 = 0,
+    ADC_PIN_1 = 1,
+    ADC_PIN_2 = 2,
+    ADC_PIN_3 = 3,
+    ADC_PIN_4 = 4,
+    ADC_PIN_5 = 5,
+    ADC_PIN_6 = 6,
+    ADC_PIN_7 = 7
+} adc_pin;
+typedef enum {
+    ADS7830 = 0
+} adc_type;
+typedef enum {
     DRAW_TO_SCREEN,
     DRAW_TO_WORLD,
     DRAW_DEFAULT

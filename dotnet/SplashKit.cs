@@ -104,6 +104,16 @@ namespace SplashKitSDK
     private static SpriteEventKind __skadapter__to_sprite_event_kind(int v) { return (SpriteEventKind)v; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int __skadapter__to_sklib_adc_pin(AdcPin v) { return (int)v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static AdcPin __skadapter__to_adc_pin(int v) { return (AdcPin)v; }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int __skadapter__to_sklib_adc_type(AdcType v) { return (int)v; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static AdcType __skadapter__to_adc_type(int v) { return (AdcType)v; }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int __skadapter__to_sklib_drawing_dest(DrawingDest v) { return (int)v; }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static DrawingDest __skadapter__to_drawing_dest(int v) { return (DrawingDest)v; }
@@ -25632,6 +25642,21 @@ namespace SplashKitSDK
     SpriteAnimationEndedEvent,
     SpriteTouchedEvent,
     SpriteClickedEvent
+  }
+  public enum AdcPin
+  {
+    AdcPin0 = 0,
+    AdcPin1 = 1,
+    AdcPin2 = 2,
+    AdcPin3 = 3,
+    AdcPin4 = 4,
+    AdcPin5 = 5,
+    AdcPin6 = 6,
+    AdcPin7 = 7
+  }
+  public enum AdcType
+  {
+    Ads7830 = 0
   }
   public enum DrawingDest
   {
