@@ -3,16 +3,18 @@
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
 APP_PATH=`cd "$APP_PATH"; pwd`
 
-if [[ `uname` != MINGW64* ]] && [[ `uname` != Linux ]] && [[ `uname` != Darwin ]]; then
-    # Get simplified name of shell being used
-    SHELL_NAME=`uname`
-    SHELL_NAME="${SHELL_NAME%%_*}"
-
-    # Previous skm command to run in MINGW64 terminal
-    PREV_CMD=`echo "skm $@"`
-    
+# For MSYS2 users: Check if MINGW64 shell is being used
+SHELL_NAME=`uname | cut -d '_' -f1,1`
+ 
+if [ "$SHELL_NAME" != "MINGW64" ] && [ "$SHELL_NAME" != "Linux" ] && [ "$SHELL_NAME" != "Darwin" ]; then
     echo "$SHELL_NAME is not supported. Please run \"skm\" commands in the MINGW64 terminal"
     echo ""
+   
+    # Previous skm command to run in MINGW64 terminal
+    PREV_CMD=`echo "skm $@"`
+    if [ -z "$@" ]; then
+        PREV_CMD="skm"
+    fi
     read -p "Would you like run \"$PREV_CMD\" in the MINGW64 terminal now? (Y/N): " -n 1 -r < /dev/tty
     echo ""
     if [[ $REPLY =~ [Yy]$ ]]; then
