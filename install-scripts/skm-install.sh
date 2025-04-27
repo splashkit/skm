@@ -83,9 +83,13 @@ fi
 # Add SKM app to path
 # Add to .bashrc if using bash
 if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
+
     echo "Adding SplashKit to the PATH..."
-    echo "This may require root access, please enter your password when prompted."
-    $PRIVILEGED chmod a=rw ~/.bashrc
+    # Check for read and write permissions
+    if [ `stat -c %A ~/.bashrc | cut -c2` != "r" ] && [ `stat -c %A ~/.bashrc | cut -c3` != "w" ]; then
+        echo "Updating .bashrc permissions, please enter your password when prompted."
+        $PRIVILEGED chmod a=rw ~/.bashrc
+    fi
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc
 fi
@@ -93,8 +97,20 @@ fi
 # Add to .zshrc if using zsh
 if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
     echo "Adding SplashKit to the PATH..."
-    echo "This may require root access, please enter your password when prompted."
-    $PRIVILEGED chmod a=rw ~/.zshrc
+    # Check for read and write permissions
+    if [[ `uname` = Darwin ]]; then
+        # macos version of stat command
+        if [ `stat -F ~/.zshrc | cut -c2` != "r" ] && [ `stat -F ~/.zshrc | cut -c3` != "w" ]; then
+            echo "Updating .zshrc permissions, please enter your password when prompted."
+            $PRIVILEGED chmod a=rw ~/.zshrc
+        fi
+    else
+        # linux version of stat command
+        if [ `stat -c %A ~/.zshrc | cut -c2` != "r" ] && [ `stat -c %A ~/.zshrc | cut -c3` != "w" ]; then
+            echo "Updating .zshrc permissions, please enter your password when prompted."
+            $PRIVILEGED chmod a=rw ~/.zshrc
+        fi
+    fi
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
     source ~/.zshrc
 fi
