@@ -10,7 +10,8 @@ HAS_DOTNET=false
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
-echo "Attempting to install the SplashKit C++ libraries to /usr/local/lib/splashkit"
+echo
+echo "Installing SplashKit library in default global locations..."
 echo "This may require root access, please enter your password when prompted."
 echo
 
@@ -39,6 +40,10 @@ else
     exit 1
 fi
 
+# --------------------------------------------
+# Copying Splashkit files to global locations
+# --------------------------------------------
+
 if [ ! -d "${LIB_DEST}" ]; then
     echo "Creating directory ${LIB_DEST}"
     $PRIVILEGED mkdir -p "${LIB_DEST}"
@@ -56,6 +61,40 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
         exit 1
     fi
 fi
+
+echo "Copying files to "${LIB_DEST}""
+$PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
+if [ ! $? -eq 0 ]; then
+    echo "Failed to copy SplashKit library to $LIB_DEST"
+    exit 1
+fi
+
+# # We cant install but it should be on the path anyway...
+# # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
+# if [ ! -z "$WIN_OUT_DIR" ]; then
+#     $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
+#     if [ ! $? -eq 0 ]; then
+#         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
+#         exit 1
+#     fi
+# fi
+
+echo "Copying files to ${INC_DEST}/splashkit"
+$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}/splashkit"
+if [ ! $? -eq 0 ]; then
+    echo "Failed to copy SplashKit C++ headers to ${INC_DEST}/splashkit"
+    exit 1
+fi
+
+$PRIVILEGED cp "${APP_PATH}/splashkit.h" ${INC_DEST}
+if [ ! $? -eq 0 ]; then
+    echo "Failed to copy SplashKit header to ${INC_DEST}"
+    exit 1
+fi
+
+# --------------------------------
+# Language-specific installations
+# --------------------------------
 
 # Copy library file to dotnet runtime folders
 if [ "$SK_OS" = "macos" ]; then
@@ -82,30 +121,8 @@ if [ "$SK_OS" = "macos" ]; then
     fi
 fi
 
-echo "Copying files to "${LIB_DEST}""
-$PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit library to $LIB_DEST"
-    exit 1
-fi
-
-echo "Copying files to ${INC_DEST}/splashkit"
-$PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}/splashkit"
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit C++ headers to ${INC_DEST}/splashkit"
-    exit 1
-fi
-
-$PRIVILEGED cp "${APP_PATH}/splashkit.h" ${INC_DEST}
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit header to ${INC_DEST}"
-    exit 1
-fi
-
-
-echo "Checking if python is installed..."
-
 # Check if python3 installed
+echo "Checking if python is installed..."
 if command -v python3 &> /dev/null; then
     # Check for brew python on macOS
     if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null && ! command -v conda &> /dev/null; then
@@ -121,7 +138,6 @@ fi
 # Get python3 directory for each OS if installed
 if [ "$HAS_PYTHON3" = true ]; then
     echo "Detecting python3 version to set global path.."
-    
     PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
 
     # Python3 global install path
@@ -148,16 +164,9 @@ if [ "$HAS_PYTHON3" = true ]; then
     fi
 fi
 
-# We cant install but it should be on the path anyway...
-#
-# # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
-# if [ ! -z "$WIN_OUT_DIR" ]; then
-#     $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
-#     if [ ! $? -eq 0 ]; then
-#         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
-#         exit 1
-#     fi
-# fi
+# ------------------
+# Updating the Path
+# ------------------
 
 if [ "$SK_OS" = "linux" ]; then
     echo "Updating library config cache"
@@ -172,6 +181,10 @@ elif [ "$SK_OS" = "macos" ]; then
 elif [ "$SK_OS" = "win64" ]; then
     export PATH="$LIB_DEST:$PATH"
 fi
+
+# ---------------------
+# Installation testing
+# ---------------------
 
 echo "Testing install"
 

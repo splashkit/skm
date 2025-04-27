@@ -23,17 +23,19 @@ detect_msys2_shell() {
 install_deps() {
   case $1 in
   MINGW64)
-    echo Installing depencies with $1 method
+    echo Installing the necessary $1 pacman packages for SplashKit...
+    echo
     echo You are about to install the dependencies using the following command:
     echo pacman -S --needed --disable-download-timeout mingw-w64-x86_64-clang mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-civetweb
+    echo
     pacman -S --needed --disable-download-timeout mingw-w64-x86_64-clang mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-civetweb
     ;;
   *)
-    echo Unable to install dependencies
-    echo Going ahead with SplashKit install.
-    echo If unsuccessful, ensure you have the following dependencies installed:
-    echo CMake, libpng, SDL2, SDL2_mixer, SDL2_gfx, SDL2_image, SDL_net, SDL2_ttf,
-    echo libmikmod, ncurses, bzip2, flac, vorbis, webp, freetype, clang
+    echo Unable to install the necessary pacman packages
+    echo Run the following command in the "MINGW64" terminal to install the required pacman packages for SplashKit:
+    echo
+    echo pacman -S --needed --disable-download-timeout mingw-w64-x86_64-clang mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-civetweb
+    echo
     ;;
   esac
 }
