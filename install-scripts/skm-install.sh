@@ -129,6 +129,34 @@ if [[ `uname` = MINGW64* ]]; then
     fi
 fi
 
+if ! command -v skm &> /dev/null; then
+    echo "\"skm\" command not found..."
+    echo "Open a new terminal window and run the command "skm" to check if SplashKit has been added to the PATH successfully."
+    echo "If the "skm" is found, please run the following commands in the new terminal window to complete the SplashKit installation:"
+    if [[ `uname` = MINGW64* ]]; then
+        echo "  skm windows install"
+    elif [[ `uname` = Linux ]]; then
+        echo "  skm linux install"
+    elif [[ `uname` = Darwin ]]; then
+        OSX_VERSION=`sw_vers -productVersion`
+        if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+            echo "  skm macos install"
+        else
+            echo "  skm global install"
+        fi
+    fi
+    echo
+    echo "If the "skm" command is not found in the new terminal window, please follow the troubleshooting steps in the link below:"
+    if [[ `uname` = MINGW64* ]]; then
+        echo "https://splashkit.io/troubleshoot/windows-msys2/issue-2-skm-not-found"
+    elif [[ `uname` = Linux ]]; then
+        echo "https://splashkit.io/troubleshoot/linux/issue-2-skm-not-found" 
+    elif [[ `uname` = Darwin ]]; then
+        echo "https://splashkit.io/troubleshoot/macos/issue-3-skm-not-found"
+    fi
+    exit 1
+fi
+
 # if [[ `uname` = Linux ]]; then
     #     # Add SKM app to path without needing sudo
     #     echo "SKM and SplashKit depends on the following libraries:
