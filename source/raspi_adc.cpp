@@ -234,7 +234,7 @@ namespace splashkit_lib
             if (channel < ADC_PIN_0 || channel > ADC_PIN_7)
             {
                 LOG(WARNING) << "Invalid ADC channel: " << channel
-                             << " for device " << dev->name << " (ADS7830 supports 0-7)";
+                             << " for device " << adc->name << " (ADS7830 supports 0-7)";
                 return -1;
             }
         }
