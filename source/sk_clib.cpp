@@ -3332,21 +3332,24 @@ int __sklib__start_treenode__string_ref(const __sklib_string label_text) {
     bool __skreturn = start_treenode(__skparam__label_text);
     return __sklib__to_int(__skreturn);
 }
-__sklib_string __sklib__text_box__string_ref(const __sklib_string value) {
-    string __skparam__value = __sklib__to_string(value);
-    string __skreturn = text_box(__skparam__value);
-    return __sklib__to_sklib_string(__skreturn);
-}
-__sklib_string __sklib__text_box__string_ref__rectangle_ref(const __sklib_string value, const __sklib_rectangle rect) {
+__sklib_string __sklib__text_box__string_ref__string_ref__rectangle_ref(const __sklib_string label_text, const __sklib_string value, const __sklib_rectangle rect) {
+    string __skparam__label_text = __sklib__to_string(label_text);
     string __skparam__value = __sklib__to_string(value);
     rectangle __skparam__rect = __sklib__to_rectangle(rect);
-    string __skreturn = text_box(__skparam__value, __skparam__rect);
+    string __skreturn = text_box(__skparam__label_text, __skparam__value, __skparam__rect);
     return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_string __sklib__text_box__string_ref__string_ref(const __sklib_string label_text, const __sklib_string value) {
     string __skparam__label_text = __sklib__to_string(label_text);
     string __skparam__value = __sklib__to_string(value);
     string __skreturn = text_box(__skparam__label_text, __skparam__value);
+    return __sklib__to_sklib_string(__skreturn);
+}
+__sklib_string __sklib__text_box__string_ref__string_ref__bool(const __sklib_string label_text, const __sklib_string value, int show_label) {
+    string __skparam__label_text = __sklib__to_string(label_text);
+    string __skparam__value = __sklib__to_string(value);
+    bool __skparam__show_label = __sklib__to_bool(show_label);
+    string __skreturn = text_box(__skparam__label_text, __skparam__value, __skparam__show_label);
     return __sklib__to_sklib_string(__skreturn);
 }
 __sklib_json __sklib__create_json() {

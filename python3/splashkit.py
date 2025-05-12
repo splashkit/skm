@@ -2803,12 +2803,12 @@ sklib.__sklib__start_popup__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__start_popup__string_ref.restype = c_int32
 sklib.__sklib__start_treenode__string_ref.argtypes = [ _sklib_string ]
 sklib.__sklib__start_treenode__string_ref.restype = c_int32
-sklib.__sklib__text_box__string_ref.argtypes = [ _sklib_string ]
-sklib.__sklib__text_box__string_ref.restype = _sklib_string
-sklib.__sklib__text_box__string_ref__rectangle_ref.argtypes = [ _sklib_string, _sklib_rectangle ]
-sklib.__sklib__text_box__string_ref__rectangle_ref.restype = _sklib_string
+sklib.__sklib__text_box__string_ref__string_ref__rectangle_ref.argtypes = [ _sklib_string, _sklib_string, _sklib_rectangle ]
+sklib.__sklib__text_box__string_ref__string_ref__rectangle_ref.restype = _sklib_string
 sklib.__sklib__text_box__string_ref__string_ref.argtypes = [ _sklib_string, _sklib_string ]
 sklib.__sklib__text_box__string_ref__string_ref.restype = _sklib_string
+sklib.__sklib__text_box__string_ref__string_ref__bool.argtypes = [ _sklib_string, _sklib_string, c_int32 ]
+sklib.__sklib__text_box__string_ref__string_ref__bool.restype = _sklib_string
 sklib.__sklib__create_json.argtypes = [  ]
 sklib.__sklib__create_json.restype = c_void_p
 sklib.__sklib__create_json__string.argtypes = [ _sklib_string ]
@@ -7068,19 +7068,22 @@ def start_treenode ( label_text ):
     __skparam__label_text = __skadapter__to_sklib_string(label_text)
     __skreturn = sklib.__sklib__start_treenode__string_ref(__skparam__label_text)
     return __skadapter__to_bool(__skreturn)
-def text_box ( value ):
-    __skparam__value = __skadapter__to_sklib_string(value)
-    __skreturn = sklib.__sklib__text_box__string_ref(__skparam__value)
-    return __skadapter__to_string(__skreturn)
-def text_box_at_position ( value, rect ):
+def text_box_at_position ( label_text, value, rect ):
+    __skparam__label_text = __skadapter__to_sklib_string(label_text)
     __skparam__value = __skadapter__to_sklib_string(value)
     __skparam__rect = __skadapter__to_sklib_rectangle(rect)
-    __skreturn = sklib.__sklib__text_box__string_ref__rectangle_ref(__skparam__value, __skparam__rect)
+    __skreturn = sklib.__sklib__text_box__string_ref__string_ref__rectangle_ref(__skparam__label_text, __skparam__value, __skparam__rect)
     return __skadapter__to_string(__skreturn)
-def text_box_labeled ( label_text, value ):
+def text_box ( label_text, value ):
     __skparam__label_text = __skadapter__to_sklib_string(label_text)
     __skparam__value = __skadapter__to_sklib_string(value)
     __skreturn = sklib.__sklib__text_box__string_ref__string_ref(__skparam__label_text, __skparam__value)
+    return __skadapter__to_string(__skreturn)
+def text_box_labeled ( label_text, value, show_label ):
+    __skparam__label_text = __skadapter__to_sklib_string(label_text)
+    __skparam__value = __skadapter__to_sklib_string(value)
+    __skparam__show_label = __skadapter__to_sklib_bool(show_label)
+    __skreturn = sklib.__sklib__text_box__string_ref__string_ref__bool(__skparam__label_text, __skparam__value, __skparam__show_label)
     return __skadapter__to_string(__skreturn)
 def create_json (  ):
     __skreturn = sklib.__sklib__create_json()

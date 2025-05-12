@@ -1043,9 +1043,9 @@ procedure StartInset(const name: String; height: Integer);
 function StartPanel(const name: String; initialRectangle: Rectangle): Boolean;
 function StartPopup(const name: String): Boolean;
 function StartTreenode(const labelText: String): Boolean;
-function TextBox(const value: String): String;
-function TextBox(const value: String; const rect: Rectangle): String;
+function TextBox(const labelText: String; const value: String; const rect: Rectangle): String;
 function TextBox(const labelText: String; const value: String): String;
+function TextBox(const labelText: String; const value: String; showLabel: Boolean): String;
 function CreateJson(): Json;
 function CreateJson(jsonString: String): Json;
 procedure FreeAllJson();
@@ -3570,9 +3570,9 @@ procedure __sklib__start_inset__string_ref__int(const name: __sklib_string; heig
 function __sklib__start_panel__string_ref__rectangle(const name: __sklib_string; initialRectangle: __sklib_rectangle): LongInt; cdecl; external;
 function __sklib__start_popup__string_ref(const name: __sklib_string): LongInt; cdecl; external;
 function __sklib__start_treenode__string_ref(const labelText: __sklib_string): LongInt; cdecl; external;
-function __sklib__text_box__string_ref(const value: __sklib_string): __sklib_string; cdecl; external;
-function __sklib__text_box__string_ref__rectangle_ref(const value: __sklib_string; const rect: __sklib_rectangle): __sklib_string; cdecl; external;
+function __sklib__text_box__string_ref__string_ref__rectangle_ref(const labelText: __sklib_string; const value: __sklib_string; const rect: __sklib_rectangle): __sklib_string; cdecl; external;
 function __sklib__text_box__string_ref__string_ref(const labelText: __sklib_string; const value: __sklib_string): __sklib_string; cdecl; external;
+function __sklib__text_box__string_ref__string_ref__bool(const labelText: __sklib_string; const value: __sklib_string; showLabel: LongInt): __sklib_string; cdecl; external;
 function __sklib__create_json(): __sklib_ptr; cdecl; external;
 function __sklib__create_json__string(jsonString: __sklib_string): __sklib_ptr; cdecl; external;
 procedure __sklib__free_all_json(); cdecl; external;
@@ -10341,24 +10341,17 @@ begin
   __skreturn := __sklib__start_treenode__string_ref(__skparam__label_text);
   result := __skadapter__to_bool(__skreturn);
 end;
-function TextBox(const value: String): String;
+function TextBox(const labelText: String; const value: String; const rect: Rectangle): String;
 var
-  __skparam__value: __sklib_string;
-  __skreturn: __sklib_string;
-begin
-  __skparam__value := __skadapter__to_sklib_string(value);
-  __skreturn := __sklib__text_box__string_ref(__skparam__value);
-  result := __skadapter__to_string(__skreturn);
-end;
-function TextBox(const value: String; const rect: Rectangle): String;
-var
+  __skparam__label_text: __sklib_string;
   __skparam__value: __sklib_string;
   __skparam__rect: __sklib_rectangle;
   __skreturn: __sklib_string;
 begin
+  __skparam__label_text := __skadapter__to_sklib_string(labelText);
   __skparam__value := __skadapter__to_sklib_string(value);
   __skparam__rect := __skadapter__to_sklib_rectangle(rect);
-  __skreturn := __sklib__text_box__string_ref__rectangle_ref(__skparam__value, __skparam__rect);
+  __skreturn := __sklib__text_box__string_ref__string_ref__rectangle_ref(__skparam__label_text, __skparam__value, __skparam__rect);
   result := __skadapter__to_string(__skreturn);
 end;
 function TextBox(const labelText: String; const value: String): String;
@@ -10370,6 +10363,19 @@ begin
   __skparam__label_text := __skadapter__to_sklib_string(labelText);
   __skparam__value := __skadapter__to_sklib_string(value);
   __skreturn := __sklib__text_box__string_ref__string_ref(__skparam__label_text, __skparam__value);
+  result := __skadapter__to_string(__skreturn);
+end;
+function TextBox(const labelText: String; const value: String; showLabel: Boolean): String;
+var
+  __skparam__label_text: __sklib_string;
+  __skparam__value: __sklib_string;
+  __skparam__show_label: LongInt;
+  __skreturn: __sklib_string;
+begin
+  __skparam__label_text := __skadapter__to_sklib_string(labelText);
+  __skparam__value := __skadapter__to_sklib_string(value);
+  __skparam__show_label := __skadapter__to_sklib_bool(showLabel);
+  __skreturn := __sklib__text_box__string_ref__string_ref__bool(__skparam__label_text, __skparam__value, __skparam__show_label);
   result := __skadapter__to_string(__skreturn);
 end;
 function CreateJson(): Json;

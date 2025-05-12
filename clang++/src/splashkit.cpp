@@ -3433,16 +3433,12 @@ bool start_treenode(const string &label_text) {
     __skadapter__free__sklib_string(__skparam__label_text);
     return __skadapter__to_bool(__skreturn);
 }
-string text_box(const string &value) {
-    const __sklib_string __skparam__value = __skadapter__to_sklib_string(value);
-    __sklib_string __skreturn = __sklib__text_box__string_ref(__skparam__value);
-    __skadapter__free__sklib_string(__skparam__value);
-    return __skadapter__to_string(__skreturn);
-}
-string text_box(const string &value, const rectangle &rect) {
+string text_box(const string &label_text, const string &value, const rectangle &rect) {
+    const __sklib_string __skparam__label_text = __skadapter__to_sklib_string(label_text);
     const __sklib_string __skparam__value = __skadapter__to_sklib_string(value);
     const __sklib_rectangle __skparam__rect = __skadapter__to_sklib_rectangle(rect);
-    __sklib_string __skreturn = __sklib__text_box__string_ref__rectangle_ref(__skparam__value, __skparam__rect);
+    __sklib_string __skreturn = __sklib__text_box__string_ref__string_ref__rectangle_ref(__skparam__label_text, __skparam__value, __skparam__rect);
+    __skadapter__free__sklib_string(__skparam__label_text);
     __skadapter__free__sklib_string(__skparam__value);
     return __skadapter__to_string(__skreturn);
 }
@@ -3450,6 +3446,15 @@ string text_box(const string &label_text, const string &value) {
     const __sklib_string __skparam__label_text = __skadapter__to_sklib_string(label_text);
     const __sklib_string __skparam__value = __skadapter__to_sklib_string(value);
     __sklib_string __skreturn = __sklib__text_box__string_ref__string_ref(__skparam__label_text, __skparam__value);
+    __skadapter__free__sklib_string(__skparam__label_text);
+    __skadapter__free__sklib_string(__skparam__value);
+    return __skadapter__to_string(__skreturn);
+}
+string text_box(const string &label_text, const string &value, bool show_label) {
+    const __sklib_string __skparam__label_text = __skadapter__to_sklib_string(label_text);
+    const __sklib_string __skparam__value = __skadapter__to_sklib_string(value);
+    int __skparam__show_label = __skadapter__to_int(show_label);
+    __sklib_string __skreturn = __sklib__text_box__string_ref__string_ref__bool(__skparam__label_text, __skparam__value, __skparam__show_label);
     __skadapter__free__sklib_string(__skparam__label_text);
     __skadapter__free__sklib_string(__skparam__value);
     return __skadapter__to_string(__skreturn);

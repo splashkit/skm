@@ -782,9 +782,9 @@ void __sklib__start_inset__string_ref__int(const __sklib_string name, int height
 int __sklib__start_panel__string_ref__rectangle(const __sklib_string name, __sklib_rectangle initial_rectangle);
 int __sklib__start_popup__string_ref(const __sklib_string name);
 int __sklib__start_treenode__string_ref(const __sklib_string label_text);
-__sklib_string __sklib__text_box__string_ref(const __sklib_string value);
-__sklib_string __sklib__text_box__string_ref__rectangle_ref(const __sklib_string value, const __sklib_rectangle rect);
+__sklib_string __sklib__text_box__string_ref__string_ref__rectangle_ref(const __sklib_string label_text, const __sklib_string value, const __sklib_rectangle rect);
 __sklib_string __sklib__text_box__string_ref__string_ref(const __sklib_string label_text, const __sklib_string value);
+__sklib_string __sklib__text_box__string_ref__string_ref__bool(const __sklib_string label_text, const __sklib_string value, int show_label);
 __sklib_json __sklib__create_json();
 __sklib_json __sklib__create_json__string(__sklib_string json_string);
 void __sklib__free_all_json();
