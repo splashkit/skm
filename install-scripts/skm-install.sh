@@ -88,7 +88,7 @@ if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Lin
     # Check for read and write permissions
     if [ `stat -c %A ~/.bashrc | cut -c2` != "r" ] && [ `stat -c %A ~/.bashrc | cut -c3` != "w" ]; then
         echo "Updating .bashrc permissions, please enter your password when prompted."
-        $PRIVILEGED chmod u+rw ~/.bashrc
+        $PRIVILEGED chmod u+rw,a-x ~/.bashrc
     fi
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc
@@ -102,13 +102,13 @@ if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
         # macos version of stat command
         if [ `stat -F ~/.zshrc | cut -c2` != "r" ] && [ `stat -F ~/.zshrc | cut -c3` != "w" ]; then
             echo "Updating .zshrc permissions, please enter your password when prompted."
-            $PRIVILEGED chmod u+rw ~/.zshrc
+            $PRIVILEGED chmod u+rw,a-x ~/.zshrc
         fi
     else
         # linux version of stat command
         if [ `stat -c %A ~/.zshrc | cut -c2` != "r" ] && [ `stat -c %A ~/.zshrc | cut -c3` != "w" ]; then
             echo "Updating .zshrc permissions, please enter your password when prompted."
-            $PRIVILEGED chmod u+rw ~/.zshrc
+            $PRIVILEGED chmod u+rw,a-x ~/.zshrc
         fi
     fi
     echo "export PATH=\"$INSTALL_PATH:\$PATH\"" >> ~/.zshrc
