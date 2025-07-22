@@ -14,7 +14,7 @@ detect_distro () {
   elif (lsb_release); then
     export DISTRO_ID=$( to_upper $(lsb_release -is) )
   else
-	if (apt-get 2>&1 | grep -v "command not found"); then
+	if (apt 2>&1 | grep -v "command not found"); then
 	  echo "We think you're using a Debian like distro"
 	  export DISTRO_ID="DEBIAN"
 	elif (pacman 2>&1 | grep -v "command not found"); then
@@ -41,13 +41,13 @@ install_deps () {
 	  sudo pacman -S --needed base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang
 	  ;;
     DEBIAN | UBUNTU | KALI | RASPBIAN | LINUXMINT )
-	  echo Installing the necessary $1 apt-get packages for SplashKit...
+	  echo Installing the necessary $1 apt packages for SplashKit...
 	  echo
 	  echo You are about to be prompt for your sudo password to install the dependencies using the following commands:
-	  echo   apt-get update
-	  echo   apt-get install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang
-	  sudo apt-get update
-	  sudo apt-get install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang
+	  echo   apt update
+	  echo   apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev
+	  sudo apt update
+	  sudo apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev
 	  ;;
 	FEDORA )
 	  echo Installing the necessary $1 dnf packages for SplashKit...
