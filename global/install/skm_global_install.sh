@@ -108,6 +108,10 @@ if [ "$SK_OS" = "macos" ]; then
     if [ "$HAS_DOTNET" = true ]; then
         echo "\"dotnet\" command found. Checking version..."
         DOTNET_PATH=`sudo find /usr/local -name Microsoft.NETCore.App`
+        if [ ! -d "$DOTNET_PATH" ]; then
+            DOTNET_PATH=`sudo find /opt/homebrew -name Microsoft.NETCore.App`
+        fi
+
         for f in $DOTNET_PATH/*; do
             if [ -d "$f" ]; then
                 echo "Copying "$LIB_FILE" to $f"
