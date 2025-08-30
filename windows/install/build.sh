@@ -5,9 +5,6 @@ APP_PATH=`cd "$APP_PATH"; pwd`
 
 SKM_PATH=`cd "$APP_PATH/../.."; pwd`
 
-# # Suppress the splashkit not found error (we're installing splashkit)
-# mkdir -p "$SKM_PATH/lib/linux"
-
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 if [ "$SK_OS" = "win64" ]; then
@@ -22,33 +19,29 @@ fi
 
 ${APP_PATH}/install_deps.sh
 
-# Libary building to come later
+echo "Configuring SplashKit"
+cd "${SKM_PATH}/source"
+pwd
+cmake -G "Unix Makefiles" .
+if [ $? -ne 0 ]; then
+  echo "Configuration failed"
+  exit $?
+fi
 
-# echo "Configuring SplashKit"
-# cd "${SKM_PATH}/source"
-# pwd
-# cmake -G "Unix Makefiles" .
-# if [ $? -ne 0 ]; then
-#   echo "Configuration failed"
-#   exit $?
-# fi
+echo "Compiling SplashKit..."
+make
+if [ $? -ne 0 ]; then
+  echo "Compilation failed"
+  exit $?
+fi
 
-# echo "Compiling SplashKit..."
-# make
-# if [ $? -ne 0 ]; then
-#   echo "Compilation failed"
-#   exit $?
-# fi
+echo "Installing compiled SplashKit library..."
+make install
+if [ $? -ne 0 ]; then
+  echo "Install failed"
+  exit $?
+fi
 
-# echo "Installing compiled SplashKit library..."
-# make install
-# if [ $? -ne 0 ]; then
-#   echo "Install failed"
-#   exit $?
-# fi
-
-# echo "SplashKit Installed"
-
-echo "SplashKit Dependencies Installed"
+echo "SplashKit Installed"
 
 "${SKM_PATH}/global/install/skm_global_install.sh"

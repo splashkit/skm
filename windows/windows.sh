@@ -7,6 +7,9 @@ case $1 in
     install)
     "${APP_PATH}/install/install.sh" $*
     ;;
+    build)
+    "${APP_PATH}/install/build.sh" $*
+    ;;
     *)
     echo "Unknown option for skm windows. "    
 esac
