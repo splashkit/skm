@@ -63,6 +63,9 @@ fpc/SplashKit.ppu
 source/cmake_install.cmake
 source/CMakeFiles
 source/libSplashKit.so
+source/libSplashKit.dll.a
+source/SplashKit.dll
+lib/win64/libSplashKit.dll.a
 source/install_manifest.txt
 source/CMakeCache.txt
 source/Makefile
