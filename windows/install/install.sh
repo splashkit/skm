@@ -28,7 +28,7 @@ ${APP_PATH}/install_deps.sh
 # echo "Configuring SplashKit"
 # cd "${SKM_PATH}/source"
 # pwd
-# cmake .
+# cmake -G "Unix Makefiles" .
 # if [ $? -ne 0 ]; then
 #   echo "Configuration failed"
 #   exit $?

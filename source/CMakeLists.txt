@@ -1,12 +1,23 @@
 # CMake file for generating the splashkit core library
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(SplashKit)
 
 # Detect Windows and flag MSYS
 if (WIN32 OR MSYS OR MINGW)
-    message(SEND_ERROR "Source compile only available for Linux")
-    return ()
+    set(PATH_SUFFIX "win64")
+    SET(MSYS "true")
+
+    string(COMPARE EQUAL "MINGW64" "$ENV{MSYSTEM}" MINGW64)
+
+    if (${MINGW64})
+        message("Using mingw64")
+        set(PATH_SUFFIX "win64")
+        set(MINGW_PATH_PART "mingw64")
+    else ( )
+        message(SEND_ERROR "Failed to detect windows architecture")
+        return ()
+    endif()
 elseif (APPLE)
     set(PATH_SUFFIX "macos")
 else()
@@ -72,10 +83,21 @@ set(SK_GPP "${SKM_ROOT}/g++")
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SPLASHKIT_REQUIRED_LIBS REQUIRED sdl2 SDL2_ttf SDL2_image SDL2_net SDL2_mixer SDL2_gfx libpng libcurl)
 
+if (MSYS)
+    add_definitions(-DWINDOWS)
+endif()
+
 # Setup include paths
 include_directories("${SK_SRC}/include")
 include_directories("${SK_GPP}/include")
 include_directories(${SPLASHKIT_REQUIRED_LIBS_INCLUDE_DIRS})
+
+# WINDOWS ONLY DIRECTORY INCLUDES
+if (MSYS)
+    include_directories("/${MINGW_PATH_PART}/include")
+    include_directories("/${MINGW_PATH_PART}/include/libpng16")
+    include_directories("${SK_LIB}/win_inc")
+endif()
 
 # FLAGS
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
@@ -113,6 +135,9 @@ endif()
 
 if (APPLE)
     target_link_libraries(SplashKit "-framework CoreFoundation")
+elseif (MSYS)
+    target_link_libraries(SplashKit wsock32 ws2_32)
+    set_target_properties(SplashKit PROPERTIES PREFIX "")
 endif()
 
 install(TARGETS SplashKit DESTINATION ${SK_DEPLOY_ROOT})
