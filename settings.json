@@ -1,0 +1,79 @@
+{
+    "explorer.confirmDelete": false,
+    "git.autofetch": true,
+    "extensions.ignoreRecommendations": true,
+    "githubPullRequests.remotes": [
+        "origin",
+        "thoth-tech"
+    ],
+    "gitlens.views.scm.grouped.views": {
+        "commits": false,
+        "branches": false,
+        "remotes": false,
+        "stashes": false,
+        "tags": false,
+        "worktrees": false,
+        "contributors": false
+    },
+    "window.restoreWindows": "none",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.stickyScroll.enabled": false,
+    "explorer.confirmPasteNative": false,
+    "cmake.generator": "Unix Makefiles",
+    "C_Cpp.default.cppStandard": "c++20",
+    "files.eol": "\n",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}/Sysnative/cmd.exe",
+                "${env:windir}/System32/cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "MSYS2": {
+            "path": "C:/msys64/usr/bin/bash.exe",
+            "args": [
+                "--login",
+                "-i"
+            ],
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1"
+            }
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "MSYS2",
+    "terminal.integrated.env.windows": {
+        "MSYSTEM": "MINGW64",
+        "CHERE_INVOKING": "1"
+    },
+    "C_Cpp.default.systemIncludePath": [
+        "C:/msys64/mingw64/bin",
+        "C:/msys64/mingw64/include",
+        "C:/msys64/mingw64/include/c++/15.1.0",
+        "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
+        "C:/msys64/mingw64/include/c++/15.1.0/backward",
+        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
+        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
+        "${default}"
+    ],
+    "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "github.copilot.enable": {
+        "*": false
+    },
+    "files.autoSave": "afterDelay",
+    "editor.formatOnSave": true
+}

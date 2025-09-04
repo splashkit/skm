@@ -69,5 +69,6 @@ lib/win64/libSplashKit.dll.a
 source/install_manifest.txt
 source/CMakeCache.txt
 source/Makefile
+vscode/settings/backup_settings.json
 
 .DS_Store
