@@ -38,14 +38,14 @@ if [ "$SK_OS" = "macos" ]; then
     OSX_VERSION=$(sw_vers -productVersion)
     if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
         echo "Rebuilding library"
-        skm macos install
+        "${SKM_PATH}/macos/install/install.sh"
     fi
 elif [ "$SK_OS" = "linux" ]; then
     echo "Rebuilding library"
-    skm linux install
+    "${SKM_PATH}/linux/install/install.sh"
 fi
 
 if [ -f "${LIB_DEST}" ]; then
     echo "Reinstalling globally"
-    skm global install
+    "${SKM_PATH}/global/install/skm_global_install.sh"
 fi
