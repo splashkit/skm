@@ -7,7 +7,7 @@ SKM_PATH=$(cd "$APP_PATH/../.." && pwd)
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 # Terminal text highlighting
-CYAN='\033[0;36m'
+BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
@@ -55,37 +55,37 @@ fi
 # Check if using WSL
 if [ "$SK_OS" = "linux" ] && [ -d "/mnt/c/Users" ]; then
     if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-vscode-remote.remote-wsl"; then
-        echo "${CYAN}Installing \"WSL\" VS Code extension...${NC}"
+        echo "${BLUE}Installing \"WSL\" VS Code extension...${NC}"
         "$VSCODE_PATH/code" --install-extension ms-vscode-remote.remote-wsl
     fi
 fi
 
 # Install "C/C++ Extension Pack" extension if not already installed
 if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-vscode.cpptools-extension-pack"; then
-    echo -e "${CYAN}Installing \"C/C++ Extension Pack\" VS Code extension...${NC}"
+    echo -e "${BLUE}Installing \"C/C++ Extension Pack\" VS Code extension...${NC}"
     "$VSCODE_PATH/code" --install-extension ms-vscode.cpptools-extension-pack
 fi
 
 # Install "C#"" extension if not already installed
 if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csharp"; then
-    echo -e "${CYAN}Installing \"C#\" VS Code extension...${NC}"
+    echo -e "${BLUE}Installing \"C#\" VS Code extension...${NC}"
     "$VSCODE_PATH/code" --install-extension ms-dotnettools.csharp
 fi
 
 # Install "C# Dev Kit" extension if not already installed
 if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csdevkit"; then
-    echo -e "${CYAN}Installing \"C# Dev Kit\" VS Code extension...${NC}"
+    echo -e "${BLUE}Installing \"C# Dev Kit\" VS Code extension...${NC}"
     "$VSCODE_PATH/code" --install-extension ms-dotnettools.csdevkit
 fi
 
 # Install "Python" extension if not already installed
 if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-python.python"; then
-    echo -e "${CYAN}Installing \"Python\" VS Code extension...${NC}"
+    echo -e "${BLUE}Installing \"Python\" VS Code extension...${NC}"
     "$VSCODE_PATH/code" --install-extension ms-python.python
 fi
 
 # Uninstall "Intellicode for C# Dev Kit" extension if installed (disabling is only very temporary)
 if "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.vscodeintellicode-csharp"; then
-    echo -e "${CYAN}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
+    echo -e "${BLUE}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
     "$VSCODE_PATH/code" --uninstall-extension ms-dotnettools.vscodeintellicode-csharp
 fi
