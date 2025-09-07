@@ -207,16 +207,18 @@ find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
 # Run the next install step
 if [[ $(uname) = MINGW64* ]]; then
-    ${INSTALL_PATH}/windows/install/install.sh
+    "${INSTALL_PATH}/windows/install/install.sh"
 elif [[ $(uname) = Linux ]]; then
-    ${INSTALL_PATH}/linux/install/install.sh
+    "${INSTALL_PATH}/linux/install/install.sh"
 elif [[ $(uname) = Darwin ]]; then
     OSX_VERSION=$(sw_vers -productVersion)
     if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
-        ${INSTALL_PATH}/macos/install/install.sh
+        "${INSTALL_PATH}/macos/install/install.sh"
     else
-        ${INSTALL_PATH}/macos/install/install_deps.sh
-        ${INSTALL_PATH}/global/install/skm_global_install.sh
+        # Install brew packages
+        "${INSTALL_PATH}/macos/install/install_deps.sh"
+        # Then do global install
+        "${INSTALL_PATH}/global/install/skm_global_install.sh"
     fi
 fi
 
