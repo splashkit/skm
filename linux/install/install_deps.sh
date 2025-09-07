@@ -37,18 +37,18 @@ install_deps() {
 	echo You are about to be prompted for your sudo password to install the dependencies using the following command:
 	case $1 in
 	ARCH | MANJARO)
-		echo pacman -S --needed --noconfirm base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang jq moreutils
-		sudo pacman -S --needed --noconfirm base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang jq moreutils
+		echo pacman -S base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang jq moreutils
+		sudo pacman -S base-devel cmake libpng sdl2 sdl2_mixer sdl2_gfx sdl2_image sdl2_net sdl2_ttf libmikmod clang jq moreutils
 		;;
 	DEBIAN | UBUNTU | KALI | RASPBIAN | LINUXMINT)
 		echo apt update
-		echo apt install -y cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
+		echo apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
 		sudo apt update
-		sudo apt install -y cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
+		sudo apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
 		;;
 	FEDORA)
-		echo dnf install -y cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel clang jq moreutils
-		sudo dnf install -y cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel clang jq moreutils
+		echo dnf install cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel clang jq moreutils
+		sudo dnf install cmake libpng-devel libcurl-devel SDL2-devel SDL2_mixer-devel SDL2_gfx-devel SDL2_image-devel SDL2_net-devel SDL2_ttf-devel libmikmod-devel ncurses-devel bzip2-devel flac-devel libvorbis-devel libwebp-devel freetype-devel clang jq moreutils
 		;;
 	*)
 		echo Unable to install dependencies
