@@ -168,6 +168,7 @@ jq '.["github.copilot.enable"]."*" |= false' $APP_PATH/settings.json | sponge $A
 
 # Disable "Intellicode for C# Dev Kit" extension
 jq '.["extensions.allowed"]."ms-dotnettools.vscodeintellicode-csharp" |= false' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+jq '.["extensions.allowed"]."*" |= true' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
 
 # Turn on auto save
 jq '.["files.autoSave"] |= "afterDelay"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
