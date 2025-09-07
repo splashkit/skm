@@ -7,17 +7,17 @@ if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Add homebrew to shell profile
-    echo "Adding \"eval \"\$(/opt/bin/brew shellenv)\" to your shell profile"
+    echo "Adding \"eval \"\$(/opt/homebrew/bin/brew shellenv)\" to your shell profile"
 
     # Add to .bashrc if using bash
     if [[ ${SHELL} = "/bin/bash" ]] || [[ ${SHELL} = "/usr/bin/bash" ]]; then
-        echo "eval \"\$(/opt/bin/brew shellenv)\"" >>~/.bashrc
+        grep -Fqx "eval \"\$(/opt/homebrew/bin/brew shellenv)\"" ~/.bashrc || echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\"" >>~/.bashrc
         source ~/.bashrc
     fi
 
     # Add to .zshrc if using zsh
     if [[ ${SHELL} = "/bin/zsh" ]] || [[ ${SHELL} = "/usr/bin/zsh" ]]; then
-        echo "eval \"\$(/opt/bin/brew shellenv)\"" >>~/.zshrc
+        grep -Fqx "eval \"\$(/opt/homebrew/bin/brew shellenv)\"" ~/.zshrc || echo "eval \"\$(/opt/homebrew/bin/brew shellenv)\"" >>~/.zshrc
         source ~/.zshrc
     fi
 fi

@@ -123,16 +123,7 @@ export PATH="$INSTALL_PATH:$PATH"
 if [[ $(uname) = MINGW64* ]]; then
     SHELL_PATH="/mingw64/bin"
     # List of PATHS added in splashkit install
-    SK_PATHS=("$(
-        cd $SHELL_PATH
-        pwd -W
-    )" "$(
-        cd ~/.splashkit
-        pwd -W
-    )" "$(
-        cd ~/.splashkit/lib/win64
-        pwd -W
-    )")
+    SK_PATHS=("$(cd $SHELL_PATH && pwd -W)" "$(cd ~/.splashkit && pwd -W)" "$(cd ~/.splashkit/lib/win64 && pwd -W)")
 
     # Get Windows path and remove splashkit-added path elements
     ORIGINAL_WIN_PATH=$(/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::GetEnvironmentVariable('PATH','User')")
