@@ -22,11 +22,11 @@ NC='\033[0m' # No Color
 if ! command -v jq &>/dev/null || ! command -v sponge &>/dev/null; then
     # Install required packages
     if [ "$SK_OS" = "macos" ]; then
-        ${INSTALL_PATH}/macos/install/install_deps.sh
+        ${SKM_PATH}/macos/install/install_deps.sh
     elif [ "$SK_OS" = "linux" ]; then
-        ${INSTALL_PATH}/linux/install/install_deps.sh
+        ${SKM_PATH}/linux/install/install_deps.sh
     elif [ "$SK_OS" = "win64" ]; then
-        ${INSTALL_PATH}/windows/install/install_deps.sh
+        ${SKM_PATH}/windows/install/install_deps.sh
     fi
 fi
 
@@ -43,7 +43,7 @@ elif [ "$SK_OS" = "linux" ]; then
         WIN_USER=$(powershell.exe -Command "[System.Environment]::UserName" | sed 's/\r$//')
         SETTINGS_JSON_PATH="/mnt/c/Users/$WIN_USER/AppData/Roaming/Code/User"
     else
-        SETTINGS_JSON_PATH="~/.config/Code/User"
+        SETTINGS_JSON_PATH="$HOME/.config/Code/User"
     fi
 elif [ "$SK_OS" = "win64" ]; then
     SETTINGS_JSON_PATH="$APPDATA\\Code\\User"

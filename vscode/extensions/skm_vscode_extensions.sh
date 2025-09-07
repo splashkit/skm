@@ -27,9 +27,9 @@ if ! command -v code &>/dev/null; then
             VSCODE_PATH=$(cd /mnt/c/Users/$WIN_USER/AppData/Local/Programs/Microsoft\ VS\ Code/bin && pwd)
         else
             VSCODE_PATH="/usr/bin"
-            # Back up
+            # Snap path (ubuntu)
             if [ ! -f "$VSCODE_PATH/code" ]; then
-                VSCODE_PATH="/usr/local/bin"
+                VSCODE_PATH="/snap/bin"
             fi
         fi
     elif [ "$SK_OS" = "win64" ]; then
