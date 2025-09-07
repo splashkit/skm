@@ -84,8 +84,9 @@ if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-python.python"; then
     "$VSCODE_PATH/code" --install-extension ms-python.python
 fi
 
-# Uninstall "Intellicode for C# Dev Kit" extension if installed (disabling is only very temporary)
-if "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.vscodeintellicode-csharp"; then
-    echo -e "${BLUE}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
-    "$VSCODE_PATH/code" --uninstall-extension ms-dotnettools.vscodeintellicode-csharp
-fi
+# No longer needed due to setting found to disable this extension
+# # Uninstall "Intellicode for C# Dev Kit" extension if installed (disabling is only very temporary)
+# if "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.vscodeintellicode-csharp"; then
+#     echo -e "${BLUE}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
+#     "$VSCODE_PATH/code" --uninstall-extension ms-dotnettools.vscodeintellicode-csharp
+# fi
