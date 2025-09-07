@@ -207,6 +207,7 @@ find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
 # Run the next install step
 if [[ $(uname) = MINGW64* ]]; then
+    # Just for installing dependencies
     "${INSTALL_PATH}/windows/install/install.sh"
 elif [[ $(uname) = Linux ]]; then
     "${INSTALL_PATH}/linux/install/install.sh"
