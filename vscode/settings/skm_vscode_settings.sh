@@ -163,12 +163,8 @@ fi
 # Add common settings (for all OS's)
 # ------------------------------
 
-# Disable github copilot and suggestions
+# Disable github copilot
 jq '.["github.copilot.enable"]."*" |= false' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-
-# Disable "Intellicode for C# Dev Kit" extension
-jq '.["extensions.allowed"]."ms-dotnettools.vscodeintellicode-csharp" |= false' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-jq '.["extensions.allowed"]."*" |= true' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
 
 # Close the RHS "copilot" sidebar
 jq '.["workbench.secondarySideBar.defaultVisibility"] |= "hidden"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
