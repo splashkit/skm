@@ -6,30 +6,39 @@ HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 # For MSYS2 users: Check if MINGW64 shell is being used
-if [[ $(uname) != MINGW64* ]] && [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
-    SHELL_NAME=$(uname | cut -d '_' -f1,1)
-    echo
-    echo "The $SHELL_NAME terminal is not supported."
-    echo "Please use the \"MINGW64\" terminal for coding with SplashKit..."
-    echo
-    read -p "Would you like to install SplashKit in the MINGW64 terminal now? (Y/N): " -n 1 -r </dev/tty
-    echo ""
-    if [[ $REPLY =~ [Yy]$ ]]; then
-        # Run install command in MINGW64 terminal
-        MINGW64_PATH=$(
-            cd "$APP_PATH/../../.."
-            pwd -W
-        )
-        start "" $MINGW64_PATH/mingw64.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
-        exit 0
+if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
+    if [ "$MSYSTEM" = "MINGW64" ] && [[ $(uname) != *ARM64 ]]; then
+        : # All good - no op and continue
+    elif [ "$MSYSTEM" = "CLANGARM64" ] && [[ $(uname) == *ARM64 ]]; then
+        : # All good - no op and continue
     else
+        if [[ $(uname) == *ARM64 ]]; then
+            SHELL_NAME="CLANGARM64"
+            SHELL_FILE="clangarm64"
+        else
+            SHELL_NAME="MINGW64"
+            SHELL_FILE="mingw64"
+        fi
         echo
-        echo To start coding with SplashKit:
+        echo "The $MSYSTEM terminal is not supported."
+        echo "Please use the \"$SHELL_NAME\" terminal for coding with SplashKit..."
         echo
-        echo "  1. Open the MINGW64 terminal."
-        echo "  2. Copy/paste the following command to install SplashKit: bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh)"
-        echo
-        exit 1
+        read -p "Would you like to install SplashKit in the $SHELL_NAME terminal now? (Y/N): " -n 1 -r </dev/tty
+        echo ""
+        if [[ $REPLY =~ [Yy]$ ]]; then
+            # Run install command in MINGW64 or CLANGARM64 terminal
+            MSYS2_PATH=$(cd "$APP_PATH/../../.." && pwd -W)
+            start "" $MSYS2_PATH/$SHELL_FILE.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
+            exit 0
+        else
+            echo
+            echo To start coding with SplashKit:
+            echo
+            echo "  1. Open the $SHELL_NAME terminal."
+            echo "  2. Copy/paste the following command to install SplashKit: bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh)"
+            echo
+            exit 1
+        fi
     fi
 fi
 
@@ -121,7 +130,11 @@ fi
 export PATH="$INSTALL_PATH:$PATH"
 
 if [[ $(uname) = MINGW64* ]]; then
-    SHELL_PATH="/mingw64/bin"
+    if [[ $(uname) == *ARM64 ]]; then
+        SHELL_PATH="/clangarm64/bin"
+    else
+        SHELL_PATH="/mingw64/bin"
+    fi
     # List of PATHS added in splashkit install
     SK_PATHS=("$(cd $SHELL_PATH && pwd -W)" "$(cd ~/.splashkit && pwd -W)" "$(cd ~/.splashkit/lib/win64 && pwd -W)")
 
@@ -207,7 +220,6 @@ find "${INSTALL_PATH}" -name "*.sh" -exec chmod a+x "{}" \;
 
 # Run the next install step
 if [[ $(uname) = MINGW64* ]]; then
-    # Just for installing dependencies
     "${INSTALL_PATH}/windows/install/install.sh"
 elif [[ $(uname) = Linux ]]; then
     "${INSTALL_PATH}/linux/install/install.sh"

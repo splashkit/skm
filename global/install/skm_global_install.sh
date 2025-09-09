@@ -33,8 +33,13 @@ elif [ "$SK_OS" = "linux" ]; then
     INC_DEST="/usr/local/include"
 elif [ "$SK_OS" = "win64" ]; then
     LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
-    LIB_DEST="/mingw64/lib"
-    INC_DEST="/mingw64/include"
+    if [[ $(uname) == *ARM64 ]]; then
+        LIB_DEST="/clangarm64/lib"
+        INC_DEST="/clangarm64/include"
+    else
+        LIB_DEST="/mingw64/lib"
+        INC_DEST="/mingw64/include"
+    fi
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -154,7 +159,11 @@ if [ "$HAS_PYTHON3" = true ]; then
     elif [ "$SK_OS" = "linux" ]; then
         PYTHON_LIB="/usr/lib/python${PYTHON_VERSION}"
     elif [ "$SK_OS" = "win64" ]; then
-        PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        if [[ $(uname) == *ARM64 ]]; then
+            PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
+        else
+            PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        fi
     fi
 
     # Copy splashkit python file to global location

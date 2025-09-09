@@ -1,39 +1,53 @@
 #!/bin/sh
 
-APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
-APP_PATH=`cd "$APP_PATH"; pwd`
+APP_PATH=$(echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }')
+APP_PATH=$(cd "$APP_PATH" && pwd)
 
-# For MSYS2 users: Check if MINGW64 shell is being used
-SHELL_NAME=`uname | cut -d '_' -f1,1`
- 
-if [ "$SHELL_NAME" != "MINGW64" ] && [ "$SHELL_NAME" != "Linux" ] && [ "$SHELL_NAME" != "Darwin" ]; then
-    echo "$SHELL_NAME is not supported. Please run \"skm\" commands in the MINGW64 terminal"
-    echo ""
-   
-    # Previous skm command to run in MINGW64 terminal
-    PREV_CMD=`echo "skm $@"`
-    if [ -z "$@" ]; then
-        PREV_CMD="skm"
-    fi
-    read -p "Would you like run \"$PREV_CMD\" in the MINGW64 terminal now? (Y/N): " -n 1 -r < /dev/tty
-    echo ""
-    if [[ $REPLY =~ [Yy]$ ]]; then
-        MINGW64_PATH=`cd "$APP_PATH/../../.."; pwd -W`
-        start "" $MINGW64_PATH/mingw64.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
-        exit 0
+# For MSYS2 users: Check if MINGW64 or CLANGARM64 shell is being used
+if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
+    if [ "$MSYSTEM" = "MINGW64" ] && [[ $(uname) != *ARM64 ]]; then
+        : # All good - no op and continue
+    elif [ "$MSYSTEM" = "CLANGARM64" ] && [[ $(uname) == *ARM64 ]]; then
+        : # All good - no op and continue
     else
-        # echo "$SHELL not supported. Please run \"skm\" commands in the MINGW64 terminal"
-        exit 1
+        if [[ $(uname) == *ARM64 ]]; then
+            SHELL_NAME="CLANGARM64"
+            SHELL_FILE="clangarm64"
+        else
+            SHELL_NAME="MINGW64"
+            SHELL_FILE="mingw64"
+        fi
+        echo
+        echo "The $MSYSTEM terminal is not supported. Please run \"skm\" commands in the $SHELL_NAME terminal"
+        echo ""
+
+        # Previous skm command to run in MINGW64 or CLANGARM64 terminal
+        PREV_CMD=$(echo "skm $@")
+        if [ -z "$*" ]; then
+            PREV_CMD="skm"
+        fi
+
+        read -p "Would you like run \"$PREV_CMD\" in the $SHELL_NAME terminal now? (Y/N): " -n 1 -r </dev/tty
+        echo ""
+        if [[ $REPLY =~ [Yy]$ ]]; then
+            # Run install command in MINGW64 or CLANGARM64 terminal
+            MSYS2_PATH=$(cd "$APP_PATH/../../.." && pwd -W)
+            start "" $MSYS2_PATH/$SHELL_FILE.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
+            exit 0
+        else
+            # echo "$MSYSTEM not supported. Please run \"skm\" commands in the $SHELL terminal"
+            exit 1
+        fi
     fi
 fi
 
-if [ $# -eq 0 ] ; then
-    echo  "Splashkit is installed successfully!"
-    echo  "Missing skm command. For help use 'skm help'"
+if [ $# -eq 0 ]; then
+    echo "Splashkit is installed successfully!"
+    echo "Missing skm command. For help use 'skm help'"
     exit 1
 fi
 
-if [ -f "$APP_PATH/$1/$1.sh" ] ; then
+if [ -f "$APP_PATH/$1/$1.sh" ]; then
     COMMAND=$1
     shift
     "$APP_PATH/$COMMAND/$COMMAND.sh" $*

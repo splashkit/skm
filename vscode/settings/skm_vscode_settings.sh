@@ -126,37 +126,73 @@ elif [ "$SK_OS" = "win64" ]; then
     # MSYS2 profile
     jq '.["terminal.integrated.profiles.windows"]."MSYS2".path |= "C:/msys64/usr/bin/bash.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
     jq '.["terminal.integrated.profiles.windows"]."MSYS2".args |= ["--login", "-i"]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-    jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    if [[ $(uname) == *ARM64 ]]; then
+        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "CLANGARM64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    else
+        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    fi
     jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.CHERE_INVOKING |= "1"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
     # Default profile
     jq '.["terminal.integrated.defaultProfile.windows"] |= "MSYS2"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
 
     # Terminal environment (for running debugger)
-    jq '.["terminal.integrated.env.windows"].MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    if [[ $(uname) == *ARM64 ]]; then
+        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "CLANGARM64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    else
+        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    fi
     jq '.["terminal.integrated.env.windows"].CHERE_INVOKING |= "1"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
 
     # Cpp default system include paths
-    jq '.["C_Cpp.default.systemIncludePath"] |= [
-        "C:/msys64/mingw64/bin",
-        "C:/msys64/mingw64/include",
-        "C:/msys64/mingw64/include/c++/15.1.0",
-        "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
-        "C:/msys64/mingw64/include/c++/15.1.0/backward",
-        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
-        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
-        "C:/msys64/mingw64/include/c++/15.2.0",
-        "C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32",
-        "C:/msys64/mingw64/include/c++/15.2.0/backward",
-        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
-        "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
-        "${default}"
-    ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-
-    # Cpp compiler path
-    jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/mingw64/bin/gcc.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-
-    # Cpp intellisense mode
-    jq '.["C_Cpp.default.intelliSenseMode"] |= "gcc-x64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    if [[ $(uname) == *ARM64 ]]; then
+        jq '.["C_Cpp.default.systemIncludePath"] |= [
+            "C:/msys64/clangarm64/bin",
+            "C:/msys64/clangarm64/include",
+            "C:/msys64/clangarm64/include/c++/v1",
+            "${default}"
+        ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    else
+        if [[ $(gcc -dumpversion) == 15.2* ]]; then
+            jq '.["C_Cpp.default.systemIncludePath"] |= [
+                "C:/msys64/mingw64/bin",
+                "C:/msys64/mingw64/include",
+                "C:/msys64/mingw64/include/c++/15.2.0",
+                "C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32",
+                "C:/msys64/mingw64/include/c++/15.2.0/backward",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
+                "${default}"
+            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        elif [[ $(gcc -dumpversion) == 15.1* ]]; then
+            jq '.["C_Cpp.default.systemIncludePath"] |= [
+                "C:/msys64/mingw64/bin",
+                "C:/msys64/mingw64/include",
+                "C:/msys64/mingw64/include/c++/15.1.0",
+                "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
+                "C:/msys64/mingw64/include/c++/15.1.0/backward",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
+                "${default}"
+            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        else
+            jq '.["C_Cpp.default.systemIncludePath"] |= [
+                "C:/msys64/mingw64/bin",
+                "C:/msys64/mingw64/include",
+                "${default}"
+            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        fi
+    fi
+    if [[ $(uname) == *ARM64 ]]; then
+        # Cpp compiler path
+        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/clangarm64/bin/clang.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        # Cpp intellisense mode
+        jq '.["C_Cpp.default.intelliSenseMode"] |= "windows-clang-arm64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    else
+        # Cpp compiler path
+        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/mingw64/bin/gcc.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        # Cpp intellisense mode
+        jq '.["C_Cpp.default.intelliSenseMode"] |= "gcc-x64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    fi
 fi
 
 # ------------------------------
