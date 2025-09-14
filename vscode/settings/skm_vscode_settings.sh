@@ -22,11 +22,11 @@ NC='\033[0m' # No Color
 if ! command -v jq &>/dev/null || ! command -v sponge &>/dev/null; then
     # Install required packages
     if [ "$SK_OS" = "macos" ]; then
-        ${SKM_PATH}/macos/install/install_deps.sh
+        "${SKM_PATH}/macos/install/install_deps.sh"
     elif [ "$SK_OS" = "linux" ]; then
-        ${SKM_PATH}/linux/install/install_deps.sh
+        "${SKM_PATH}/linux/install/install_deps.sh"
     elif [ "$SK_OS" = "win64" ]; then
-        ${SKM_PATH}/windows/install/install_deps.sh
+        "${SKM_PATH}/windows/install/install_deps.sh"
     fi
 fi
 
@@ -79,7 +79,7 @@ echo
 # ------------------------------
 
 # Make temporary file for error checking
-cp "$SETTINGS_JSON_PATH/settings.json" $APP_PATH
+cp "$SETTINGS_JSON_PATH/settings.json" "$APP_PATH"
 if [ ! $? -eq 0 ]; then
     echo -e "${RED}Failed to copy settings.json to $APP_PATH${NC}"
     exit 1
@@ -105,43 +105,43 @@ if [ "$SK_OS" = "macos" ]; then
 elif [ "$SK_OS" = "linux" ]; then
     # Check if using WSL
     if [ -d "/mnt/c/Users" ]; then
-        jq '.["security.allowedUNCHosts"] |= ["wsl.localhost"]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["security.allowedUNCHosts"] |= ["wsl.localhost"]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     fi
 elif [ "$SK_OS" = "win64" ]; then
     # Terminal profiles:
     # Powershell profile
-    jq '.["terminal.integrated.profiles.windows"].PowerShell.source |= "PowerShell"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-    jq '.["terminal.integrated.profiles.windows"].PowerShell.icon |= "terminal-powershell"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    jq '.["terminal.integrated.profiles.windows"].PowerShell.source |= "PowerShell"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+    jq '.["terminal.integrated.profiles.windows"].PowerShell.icon |= "terminal-powershell"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     # Command Prompt profile
     jq '.["terminal.integrated.profiles.windows"]."Command Prompt".path |= [
         "${env:windir}/Sysnative/cmd.exe",
         "${env:windir}/System32/cmd.exe"
-    ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-    jq '.["terminal.integrated.profiles.windows"]."Command Prompt".args |= []' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-    jq '.["terminal.integrated.profiles.windows"]."Command Prompt".icon |= "terminal-cmd"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+    jq '.["terminal.integrated.profiles.windows"]."Command Prompt".args |= []' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+    jq '.["terminal.integrated.profiles.windows"]."Command Prompt".icon |= "terminal-cmd"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     # Git Bash profile
     if command -v git &>/dev/null; then
-        jq '.["terminal.integrated.profiles.windows"]."Git Bash" |= {"source": "Git Bash"}' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["terminal.integrated.profiles.windows"]."Git Bash" |= {"source": "Git Bash"}' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     fi
     # MSYS2 profile
-    jq '.["terminal.integrated.profiles.windows"]."MSYS2".path |= "C:/msys64/usr/bin/bash.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
-    jq '.["terminal.integrated.profiles.windows"]."MSYS2".args |= ["--login", "-i"]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    jq '.["terminal.integrated.profiles.windows"]."MSYS2".path |= "C:/msys64/usr/bin/bash.exe"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+    jq '.["terminal.integrated.profiles.windows"]."MSYS2".args |= ["--login", "-i"]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     if [[ $(uname) == *ARM64 ]]; then
-        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "CLANGARM64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "CLANGARM64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
-        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.MSYSTEM |= "MINGW64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     fi
-    jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.CHERE_INVOKING |= "1"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    jq '.["terminal.integrated.profiles.windows"]."MSYS2".env.CHERE_INVOKING |= "1"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     # Default profile
-    jq '.["terminal.integrated.defaultProfile.windows"] |= "MSYS2"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    jq '.["terminal.integrated.defaultProfile.windows"] |= "MSYS2"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
     # Terminal environment (for running debugger)
     if [[ $(uname) == *ARM64 ]]; then
-        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "CLANGARM64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "CLANGARM64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
-        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "MINGW64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["terminal.integrated.env.windows"].MSYSTEM |= "MINGW64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     fi
-    jq '.["terminal.integrated.env.windows"].CHERE_INVOKING |= "1"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+    jq '.["terminal.integrated.env.windows"].CHERE_INVOKING |= "1"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
     # Cpp default system include paths
     if [[ $(uname) == *ARM64 ]]; then
@@ -150,7 +150,7 @@ elif [ "$SK_OS" = "win64" ]; then
             "C:/msys64/clangarm64/include",
             "C:/msys64/clangarm64/include/c++/v1",
             "${default}"
-        ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
         if [[ $(gcc -dumpversion) == 15.2* ]]; then
             jq '.["C_Cpp.default.systemIncludePath"] |= [
@@ -162,7 +162,7 @@ elif [ "$SK_OS" = "win64" ]; then
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
                 "${default}"
-            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+            ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         elif [[ $(gcc -dumpversion) == 15.1* ]]; then
             jq '.["C_Cpp.default.systemIncludePath"] |= [
                 "C:/msys64/mingw64/bin",
@@ -173,25 +173,25 @@ elif [ "$SK_OS" = "win64" ]; then
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
                 "${default}"
-            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+            ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         else
             jq '.["C_Cpp.default.systemIncludePath"] |= [
                 "C:/msys64/mingw64/bin",
                 "C:/msys64/mingw64/include",
                 "${default}"
-            ]' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+            ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         fi
     fi
     if [[ $(uname) == *ARM64 ]]; then
         # Cpp compiler path
-        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/clangarm64/bin/clang.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/clangarm64/bin/clang.exe"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         # Cpp intellisense mode
-        jq '.["C_Cpp.default.intelliSenseMode"] |= "windows-clang-arm64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["C_Cpp.default.intelliSenseMode"] |= "windows-clang-arm64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
         # Cpp compiler path
-        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/mingw64/bin/gcc.exe"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["C_Cpp.default.compilerPath"] |= "C:/msys64/mingw64/bin/gcc.exe"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         # Cpp intellisense mode
-        jq '.["C_Cpp.default.intelliSenseMode"] |= "gcc-x64"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+        jq '.["C_Cpp.default.intelliSenseMode"] |= "gcc-x64"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     fi
 fi
 
@@ -200,16 +200,16 @@ fi
 # ------------------------------
 
 # Disable github copilot
-jq '.["github.copilot.enable"]."*" |= false' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+jq '.["github.copilot.enable"]."*" |= false' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
 # Close the RHS "copilot" sidebar
-jq '.["workbench.secondarySideBar.defaultVisibility"] |= "hidden"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+jq '.["workbench.secondarySideBar.defaultVisibility"] |= "hidden"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
 # Turn on auto save
-jq '.["files.autoSave"] |= "afterDelay"' $APP_PATH/settings.json | sponge $APP_PATH/settings.json
+jq '.["files.autoSave"] |= "afterDelay"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
 # Format code when manually saving (and fix indentation to 4 spaces)
-jq '.["editor.formatOnSave"] |= true' $APP_PATH/settings.json --indent 4 | sponge $APP_PATH/settings.json
+jq '.["editor.formatOnSave"] |= true' "$APP_PATH/settings.json" --indent 4 | sponge "$APP_PATH/settings.json"
 
 # ------------------------------
 # Check temp_settings.json file
