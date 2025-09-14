@@ -28,7 +28,7 @@ if [ "$SK_OS" = "macos" ]; then
 elif [ "$SK_OS" = "linux" ]; then
     LIB_DEST="/usr/local/lib/libSplashKit.so"
 elif [ "$SK_OS" = "win64" ]; then
-    LIB_DEST="/mingw32/lib/SplashKit.dll"
+    LIB_DEST="/mingw64/lib/SplashKit.dll"
 else
     echo "Unable to detect operating system..."
     exit 1
