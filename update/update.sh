@@ -28,7 +28,11 @@ if [ "$SK_OS" = "macos" ]; then
 elif [ "$SK_OS" = "linux" ]; then
     LIB_DEST="/usr/local/lib/libSplashKit.so"
 elif [ "$SK_OS" = "win64" ]; then
-    LIB_DEST="/mingw32/lib/SplashKit.dll"
+    if [[ $(uname) == *ARM64 ]]; then
+        LIB_DEST="/clangarm64/lib/SplashKit.dll"
+    else
+        LIB_DEST="/mingw64/lib/SplashKit.dll"
+    fi
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -46,6 +50,10 @@ elif [ "$SK_OS" = "linux" ]; then
 fi
 
 if [ -f "${LIB_DEST}" ]; then
+    if [[ $(uname) == *ARM64 ]]; then
+        echo "Rebuilding library"
+        "${SKM_PATH}/windows/install/install.sh"
+    fi
     echo "Reinstalling globally"
     "${SKM_PATH}/global/install/skm_global_install.sh"
 fi
