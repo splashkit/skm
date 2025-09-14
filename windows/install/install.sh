@@ -20,7 +20,7 @@ else
     exit 1
 fi
 
-${APP_PATH}/install_deps.sh
+"${APP_PATH}/install_deps.sh"
 
 # enable the integrated MINGW64 terminal in VS Code to update the .bash_history file
 grep -Fqx "PROMPT_COMMAND='history -a'" ~/.bashrc || echo "PROMPT_COMMAND='history -a'" >>~/.bashrc

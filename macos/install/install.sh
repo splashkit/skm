@@ -18,7 +18,7 @@ else
     exit 1
 fi
 
-${APP_PATH}/install_deps.sh
+"${APP_PATH}/install_deps.sh"
 if [ $? -ne 0 ]; then
   exit $?
 fi
