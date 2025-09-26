@@ -57,8 +57,10 @@ command -v git >/dev/null 2>&1 || report_missing_git
 
 if [ -d "${INSTALL_PATH}" ]; then
     echo "Looks like you already have splashkit!"
-    if command -v skm &>/dev/null; then
+    if command -v skm &> /dev/null; then
         echo "To uninstall run \"skm uninstall\""
+        echo "Updating SplashKit"
+        skm update
     else
         echo "To uninstall run \"rm -rf ${INSTALL_PATH}\""
     fi
