@@ -147,6 +147,35 @@ namespace splashkit_lib
     string raspi_spi_transfer(int handle, const string &send, int count, int &bytes_transfered);
 
     /**
+     * Opens I2C communication on selected address. It will return -1 if not using Raspberry Pi.
+     *
+     * @param bus    The bus of the I2C device.
+     * @param address    The address of the I2C device.
+     * @returns          The handle referencing this particular connection.
+     */
+    int raspi_i2c_open(int bus, int address);
+
+    /**
+     * Writes data to specified I2C connection.
+     *
+     * @param handle   The reference for a specific I2C connection.
+     * @param data     The data to send.
+     */
+    void raspi_i2c_write(int handle, int data);
+
+    /**
+     * Writes 8-bit (1 byte) or 16-bit (2 bytes) data to specified I2C connection.
+     *
+     * @param handle   The reference for a specific I2C connection.
+     * @param reg      The register to send the data to
+     * @param data     The data to send.
+     * @param bytes    The number of bytes to be transferred.
+     * 
+     * @attribute suffix data
+     */
+    void raspi_i2c_write(int handle, int reg, int data, int bytes);
+
+    /**
      * @brief Sets the pulse width for the specified pin.
      *
      * This function sets the pulse width for the specified pin.
@@ -293,6 +322,6 @@ namespace splashkit_lib
      * @param value  The pin to read the value from.
      * @returns      The pin value as an integer.
      */
-    int to_int(gpio_pin_value value);
+    int gpio_pin_to_int(gpio_pin_value value);
 }
 #endif /* raspi_gpio_hpp */

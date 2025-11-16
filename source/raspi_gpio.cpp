@@ -36,7 +36,7 @@ namespace splashkit_lib
         // https://web.archive.org/web/20240901170108/https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-datasheet.pdf
         if (bcmPinResult < 2)
         {
-            std::string extra_text = " Pin is a";
+            string extra_text = " Pin is a";
             extra_text += (bcmPinResult >= 0) ? "n EEPROM Pin, using this could corrupt the bootloader." : (bcmPinResult == -1) ? " POWER line."
                                                                                                        : (bcmPinResult == -2)   ? " GROUND line."
                                                                                                                                 : "n Unknown Pin Type.";
@@ -242,6 +242,48 @@ namespace splashkit_lib
         return "";
 #endif
     }
+
+    int raspi_i2c_open(int bus, int address)
+    {
+#ifdef RASPBERRY_PI
+        int handle = -1;
+        handle = sk_i2c_open(bus, address);
+        return handle;
+#else
+        LOG(ERROR) << "Unable to open SPI interface - GPIO not supported on this platform";
+        return -1;
+#endif
+    }
+
+    void raspi_i2c_write(int handle, int data)
+    {
+#ifdef RASPBERRY_PI
+        sk_i2c_write_byte(handle, data);
+#else
+        LOG(ERROR) << "Unable to write to I2C device - GPIO not supported on this platform";
+#endif
+    }
+
+    void raspi_i2c_write(int handle, int reg, int data, int bytes)
+    {
+#ifdef RASPBERRY_PI
+        switch (bytes)
+        {
+        case 1:
+            sk_i2c_write_byte_data(handle, reg, data);
+            break;
+        case 2:
+            sk_i2c_write_word_data(handle, reg, data);
+            break;
+        default:
+            LOG(ERROR) << "Unable to write to I2C device - count must be 1 or 2.";
+            break;
+        }
+#else
+        LOG(ERROR) << "Unable to write to I2C device - GPIO not supported on this platform";
+#endif
+    }
+
     int raspi_get_servo_pulsewidth(gpio_pin pin)
     {
 #ifdef RASPBERRY_PI
@@ -380,7 +422,7 @@ namespace splashkit_lib
         return sk_remote_gpio_cleanup(pi);
     }
 
-    int to_int(gpio_pin_value value)
+    int gpio_pin_to_int(gpio_pin_value value)
     {
         return static_cast<int>(value);
     }

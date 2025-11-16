@@ -161,11 +161,11 @@ namespace splashkit_lib
     }
 
     // I2C Functions
-    int sk_i2c_open(int bus, int address, int flags)
+    int sk_i2c_open(int bus, int address)
     {
         if (check_pi())
         {
-            int result = ::i2c_open(pi, bus, address, flags);
+            int result = ::i2c_open(pi, bus, address, 0);
             if (result < 0)
             {
                 LOG(ERROR) << sk_gpio_error_message(result);

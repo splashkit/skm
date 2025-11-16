@@ -72,6 +72,8 @@ namespace splashkit_lib
     
     void sk_stop_sound(sk_sound_data *sound);
     
+    bool sk_music_paused();
+
     bool sk_music_playing();
     
     sk_sound_data * sk_current_music();

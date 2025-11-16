@@ -219,6 +219,11 @@ namespace splashkit_lib
         return sk_music_playing();
     }
 
+    bool music_paused()
+    {
+        return sk_music_paused();
+    }
+
     void set_music_volume(double volume)
     {
         sk_set_music_vol(volume);

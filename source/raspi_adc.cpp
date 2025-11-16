@@ -106,7 +106,7 @@ namespace splashkit_lib
 
         // Open the I2C channel to the ADC device.
         // (For both ADS7830 and PCF8591, we assume the initialization is similar.)
-        result->i2c_handle = sk_i2c_open(bus, address, 0);
+        result->i2c_handle = sk_i2c_open(bus, address);
         if (result->i2c_handle < 0)
         {
             LOG(WARNING) << "Error opening ADC device " << name
@@ -152,7 +152,7 @@ namespace splashkit_lib
 #endif
     }
 
-    adc_device open_adc(const string &name, int bus, int address, adc_type type)
+    adc_device open_adc(const string &name, int bus, int address, adc_type type_of_adc)
     {
 #ifdef RASPBERRY_PI
         if (has_adc_device(name))
@@ -166,7 +166,7 @@ namespace splashkit_lib
         }
 
         // Load the ADC device with the specified parameters
-        return _load_adc_device(name, bus, address, type);
+        return _load_adc_device(name, bus, address, type_of_adc);
 #else
         LOG(ERROR) << "ADC not supported on this platform";
         return nullptr;
@@ -175,17 +175,17 @@ namespace splashkit_lib
 
     // Open an ADC device with default parameters (bus 1, address 0x48)
     // ADC functions
-    adc_device open_adc(const string &name, adc_type type)
+    adc_device open_adc(const string &name, adc_type type_of_adc)
     {
 #ifdef RASPBERRY_PI
-        if (type != ADS7830 && type != PCF8591)
+        if (type_of_adc != ADS7830 && type_of_adc != PCF8591)
         {
             LOG(ERROR) << "Unsupported ADC type for " << name;
             return nullptr;
         }
         const int default_bus = 1;
         const int default_address = 0x48; // Default I2C address for ADS7830 and PCF8591
-        return _load_adc_device(name, default_bus, default_address, type);
+        return _load_adc_device(name, default_bus, default_address, type_of_adc);
 #else
         LOG(ERROR) << "ADC not supported on this platform";
         return nullptr;

@@ -4230,6 +4230,10 @@ music music_named(const string &name) {
     __skadapter__free__sklib_string(__skparam__name);
     return __skadapter__to_music(__skreturn);
 }
+bool music_paused() {
+    int __skreturn = __sklib__music_paused();
+    return __skadapter__to_bool(__skreturn);
+}
 bool music_playing() {
     int __skreturn = __sklib__music_playing();
     return __skadapter__to_bool(__skreturn);
@@ -5068,19 +5072,19 @@ bool has_adc_device(const string &name) {
     __skadapter__free__sklib_string(__skparam__name);
     return __skadapter__to_bool(__skreturn);
 }
-adc_device open_adc(const string &name, adc_type type) {
+adc_device open_adc(const string &name, adc_type type_of_adc) {
     const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
-    int __skparam__type = __skadapter__to_int(type);
-    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type);
+    int __skparam__type_of_adc = __skadapter__to_int(type_of_adc);
+    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__adc_type(__skparam__name, __skparam__type_of_adc);
     __skadapter__free__sklib_string(__skparam__name);
     return __skadapter__to_adc_device(__skreturn);
 }
-adc_device open_adc(const string &name, int bus, int address, adc_type type) {
+adc_device open_adc(const string &name, int bus, int address, adc_type type_of_adc) {
     const __sklib_string __skparam__name = __skadapter__to_sklib_string(name);
     int __skparam__bus = __skadapter__to_int(bus);
     int __skparam__address = __skadapter__to_int(address);
-    int __skparam__type = __skadapter__to_int(type);
-    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type);
+    int __skparam__type_of_adc = __skadapter__to_int(type_of_adc);
+    __sklib_adc_device __skreturn = __sklib__open_adc__string_ref__int__int__adc_type(__skparam__name, __skparam__bus, __skparam__address, __skparam__type_of_adc);
     __skadapter__free__sklib_string(__skparam__name);
     return __skadapter__to_adc_device(__skreturn);
 }
@@ -5095,6 +5099,11 @@ int read_adc(const string &name, adc_pin channel) {
     int __skparam__channel = __skadapter__to_int(channel);
     int __skreturn = __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
     __skadapter__free__sklib_string(__skparam__name);
+    return __skadapter__to_int(__skreturn);
+}
+int gpio_pin_to_int(gpio_pin_value value) {
+    int __skparam__value = __skadapter__to_int(value);
+    int __skreturn = __sklib__gpio_pin_to_int__gpio_pin_value(__skparam__value);
     return __skadapter__to_int(__skreturn);
 }
 bool has_gpio() {
@@ -5113,6 +5122,24 @@ int raspi_get_servo_pulsewidth(gpio_pin pin) {
     int __skparam__pin = __skadapter__to_int(pin);
     int __skreturn = __sklib__raspi_get_servo_pulsewidth__gpio_pin(__skparam__pin);
     return __skadapter__to_int(__skreturn);
+}
+int raspi_i2c_open(int bus, int address) {
+    int __skparam__bus = __skadapter__to_int(bus);
+    int __skparam__address = __skadapter__to_int(address);
+    int __skreturn = __sklib__raspi_i2c_open__int__int(__skparam__bus, __skparam__address);
+    return __skadapter__to_int(__skreturn);
+}
+void raspi_i2c_write(int handle, int data) {
+    int __skparam__handle = __skadapter__to_int(handle);
+    int __skparam__data = __skadapter__to_int(data);
+    __sklib__raspi_i2c_write__int__int(__skparam__handle, __skparam__data);
+}
+void raspi_i2c_write(int handle, int reg, int data, int bytes) {
+    int __skparam__handle = __skadapter__to_int(handle);
+    int __skparam__reg = __skadapter__to_int(reg);
+    int __skparam__data = __skadapter__to_int(data);
+    int __skparam__bytes = __skadapter__to_int(bytes);
+    __sklib__raspi_i2c_write__int__int__int__int(__skparam__handle, __skparam__reg, __skparam__data, __skparam__bytes);
 }
 void raspi_init() {
     __sklib__raspi_init();
@@ -5240,11 +5267,6 @@ void remote_raspi_write(connection pi, gpio_pin pin, gpio_pin_value value) {
     int __skparam__pin = __skadapter__to_int(pin);
     int __skparam__value = __skadapter__to_int(value);
     __sklib__remote_raspi_write__connection__gpio_pin__gpio_pin_value(__skparam__pi, __skparam__pin, __skparam__value);
-}
-int to_int(gpio_pin_value value) {
-    int __skparam__value = __skadapter__to_int(value);
-    int __skreturn = __sklib__to_int__gpio_pin_value(__skparam__value);
-    return __skadapter__to_int(__skreturn);
 }
 void draw_quad(color clr, const quad &q) {
     __sklib_color __skparam__clr = __skadapter__to_sklib_color(clr);

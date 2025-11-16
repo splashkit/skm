@@ -15,10 +15,14 @@
 using std::string;
 using std::vector;
 
+int gpio_pin_to_int(gpio_pin_value value);
 bool has_gpio();
 void raspi_cleanup();
 gpio_pin_mode raspi_get_mode(gpio_pin pin);
 int raspi_get_servo_pulsewidth(gpio_pin pin);
+int raspi_i2c_open(int bus, int address);
+void raspi_i2c_write(int handle, int data);
+void raspi_i2c_write(int handle, int reg, int data, int bytes);
 void raspi_init();
 gpio_pin_value raspi_read(gpio_pin pin);
 void raspi_set_mode(gpio_pin pin, gpio_pin_mode mode);
@@ -41,6 +45,5 @@ void remote_raspi_set_pwm_dutycycle(connection pi, gpio_pin pin, int dutycycle);
 void remote_raspi_set_pwm_frequency(connection pi, gpio_pin pin, int frequency);
 void remote_raspi_set_pwm_range(connection pi, gpio_pin pin, int range);
 void remote_raspi_write(connection pi, gpio_pin pin, gpio_pin_value value);
-int to_int(gpio_pin_value value);
 
 #endif /* __raspi_gpio_h */

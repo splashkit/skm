@@ -372,10 +372,28 @@ namespace splashkit_lib
         }
     }
     
+    bool sk_music_paused()
+    {
+        internal_sk_init();
+        if (Mix_PausedMusic())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     bool sk_music_playing()
     {
         internal_sk_init();
-        if ( Mix_PlayingMusic() ) {
+        if (Mix_PausedMusic())
+        {
+            return false;
+        }
+        else if (Mix_PlayingMusic())
+        {
             return true;
         }
         else
