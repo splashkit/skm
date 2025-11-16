@@ -219,8 +219,22 @@ jq '.["editor.formatOnSave"] |= true' "$APP_PATH/settings.json" --indent 4 | spo
 if [ $(wc -c <"$APP_PATH/settings.json") -le 5 ]; then
     echo
     echo -e "${RED}Something went wrong... VS Code Settings not updated.${NC}"
-    echo -e "${RED}Check the settings.json file in $SETTINGS_JSON_PATH for errors/warnings and try again.${NC}"
+    echo -e "${RED}Check the settings.json file in $SETTINGS_JSON_PATH for errors/warnings (no comments and no trailing commas) and try again.${NC}"
     echo
+    read -p "Would you like to open the settings.json file in VS Code now? (Y/N): " -n 1 -r </dev/tty
+    echo
+    if [[ $REPLY =~ [Yy]$ ]]; then
+        # Open settings.json file in VS Code
+        if command -v code &>/dev/null; then
+            code "$SETTINGS_JSON_PATH/settings.json"
+        else
+            echo
+            echo "\"code\" command not found. Check the settings.json file manually and try again."
+        fi
+    else
+        echo
+        echo "Check the settings.json file manually and try again."
+    fi
     exit 1
 fi
 
