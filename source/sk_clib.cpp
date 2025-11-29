@@ -4901,6 +4901,11 @@ int __sklib__read_adc__string_ref__adc_pin(const __sklib_string name, int channe
     int __skreturn = read_adc(__skparam__name, __skparam__channel);
     return __sklib__to_int(__skreturn);
 }
+unsigned short __sklib__get_alpha_font_14_seg__char(char ascii_char) {
+    char __skparam__ascii_char = __sklib__to_char(ascii_char);
+    unsigned short __skreturn = get_alpha_font_14_seg(__skparam__ascii_char);
+    return __sklib__to_unsigned_short(__skreturn);
+}
 int __sklib__gpio_pin_to_int__gpio_pin_value(int value) {
     gpio_pin_value __skparam__value = __sklib__to_gpio_pin_value(value);
     int __skreturn = gpio_pin_to_int(__skparam__value);

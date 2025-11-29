@@ -1339,6 +1339,7 @@ function OpenAdc(const name: String; typeOfAdc: AdcType): AdcDevice;
 function OpenAdc(const name: String; bus: Integer; address: Integer; typeOfAdc: AdcType): AdcDevice;
 function ReadAdc(adc: AdcDevice; channel: AdcPin): Integer;
 function ReadAdc(const name: String; channel: AdcPin): Integer;
+function GetAlphaFont14Seg(asciiChar: Char): Word;
 function GpioPinToInt(value: GpioPinValue): Integer;
 function HasGpio(): Boolean;
 procedure RaspiCleanup();
@@ -3891,6 +3892,7 @@ function __sklib__open_adc__string_ref__adc_type(const name: __sklib_string; typ
 function __sklib__open_adc__string_ref__int__int__adc_type(const name: __sklib_string; bus: Integer; address: Integer; typeOfAdc: LongInt): __sklib_ptr; cdecl; external;
 function __sklib__read_adc__adc_device__adc_pin(adc: __sklib_ptr; channel: LongInt): Integer; cdecl; external;
 function __sklib__read_adc__string_ref__adc_pin(const name: __sklib_string; channel: LongInt): Integer; cdecl; external;
+function __sklib__get_alpha_font_14_seg__char(asciiChar: Char): Word; cdecl; external;
 function __sklib__gpio_pin_to_int__gpio_pin_value(value: LongInt): Integer; cdecl; external;
 function __sklib__has_gpio(): LongInt; cdecl; external;
 procedure __sklib__raspi_cleanup(); cdecl; external;
@@ -13208,6 +13210,15 @@ begin
   __skparam__channel := __skadapter__to_sklib_adc_pin(channel);
   __skreturn := __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
   result := __skadapter__to_int(__skreturn);
+end;
+function GetAlphaFont14Seg(asciiChar: Char): Word;
+var
+  __skparam__ascii_char: Char;
+  __skreturn: Word;
+begin
+  __skparam__ascii_char := __skadapter__to_sklib_char(asciiChar);
+  __skreturn := __sklib__get_alpha_font_14_seg__char(__skparam__ascii_char);
+  result := __skadapter__to_unsigned_short(__skreturn);
 end;
 function GpioPinToInt(value: GpioPinValue): Integer;
 var

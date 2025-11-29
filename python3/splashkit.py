@@ -3401,6 +3401,8 @@ sklib.__sklib__read_adc__adc_device__adc_pin.argtypes = [ c_void_p, c_int ]
 sklib.__sklib__read_adc__adc_device__adc_pin.restype = c_int
 sklib.__sklib__read_adc__string_ref__adc_pin.argtypes = [ _sklib_string, c_int ]
 sklib.__sklib__read_adc__string_ref__adc_pin.restype = c_int
+sklib.__sklib__get_alpha_font_14_seg__char.argtypes = [ c_char ]
+sklib.__sklib__get_alpha_font_14_seg__char.restype = c_ushort
 sklib.__sklib__gpio_pin_to_int__gpio_pin_value.argtypes = [ c_int ]
 sklib.__sklib__gpio_pin_to_int__gpio_pin_value.restype = c_int
 sklib.__sklib__has_gpio.argtypes = [  ]
@@ -8389,6 +8391,10 @@ def read_adc_named ( name, channel ):
     __skparam__channel = __skadapter__to_sklib_adc_pin(channel)
     __skreturn = sklib.__sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel)
     return __skadapter__to_int(__skreturn)
+def get_alpha_font_14_seg ( ascii_char ):
+    __skparam__ascii_char = __skadapter__to_sklib_char(ascii_char)
+    __skreturn = sklib.__sklib__get_alpha_font_14_seg__char(__skparam__ascii_char)
+    return __skadapter__to_unsigned_short(__skreturn)
 def gpio_pin_to_int ( value ):
     __skparam__value = __skadapter__to_sklib_gpio_pin_value(value)
     __skreturn = sklib.__sklib__gpio_pin_to_int__gpio_pin_value(__skparam__value)

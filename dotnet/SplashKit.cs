@@ -3745,6 +3745,9 @@ namespace SplashKitSDK
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__read_adc__string_ref__adc_pin", CharSet=CharSet.Ansi)]
     private static extern int __sklib__read_adc__string_ref__adc_pin(__sklib_string name, int channel);
 
+    [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__get_alpha_font_14_seg__char", CharSet=CharSet.Ansi)]
+    private static extern ushort __sklib__get_alpha_font_14_seg__char(char asciiChar);
+
     [DllImport("SplashKit", CallingConvention=CallingConvention.Cdecl, EntryPoint="__sklib__gpio_pin_to_int__gpio_pin_value", CharSet=CharSet.Ansi)]
     private static extern int __sklib__gpio_pin_to_int__gpio_pin_value(int value);
 
@@ -18240,6 +18243,19 @@ namespace SplashKitSDK
       __skreturn = __sklib__read_adc__string_ref__adc_pin(__skparam__name, __skparam__channel);
     __skadapter__free__sklib_string(ref __skparam__name);
       return __skadapter__to_int(__skreturn);
+    }
+    /// <summary>
+    /// Converts an ASCII character to a binary value to be used with the Quad 14-segment display module (HT16K33 backpack).
+    /// </summary>
+    /// <param name="asciiChar"> The ascii character to be converted to a 16-bit binary value.</param>
+    /// <returns>The binary value used to display a character on the 14-segment display.</returns>
+    public static ushort GetAlphaFont14Seg(char asciiChar)
+    {
+      char __skparam__ascii_char;
+      ushort __skreturn;
+      __skparam__ascii_char = __skadapter__to_sklib_char(asciiChar);
+      __skreturn = __sklib__get_alpha_font_14_seg__char(__skparam__ascii_char);
+      return __skadapter__to_unsigned_short(__skreturn);
     }
     /// <summary>
     /// Converts the specified pin value to an integer, to use in calculations.

@@ -15,6 +15,7 @@
 using std::string;
 using std::vector;
 
+unsigned short get_alpha_font_14_seg(char ascii_char);
 int gpio_pin_to_int(gpio_pin_value value);
 bool has_gpio();
 void raspi_cleanup();

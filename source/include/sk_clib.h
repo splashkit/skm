@@ -1072,6 +1072,7 @@ __sklib_adc_device __sklib__open_adc__string_ref__adc_type(const __sklib_string 
 __sklib_adc_device __sklib__open_adc__string_ref__int__int__adc_type(const __sklib_string name, int bus, int address, int type_of_adc);
 int __sklib__read_adc__adc_device__adc_pin(__sklib_adc_device adc, int channel);
 int __sklib__read_adc__string_ref__adc_pin(const __sklib_string name, int channel);
+unsigned short __sklib__get_alpha_font_14_seg__char(char ascii_char);
 int __sklib__gpio_pin_to_int__gpio_pin_value(int value);
 int __sklib__has_gpio();
 void __sklib__raspi_cleanup();
