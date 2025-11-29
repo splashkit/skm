@@ -10,14 +10,8 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 cd "$APP_PATH"
 git stash
 
-case $1 in
-develop)
-    git checkout develop
-    ;;
-*)
-    git checkout master
-    ;;
-esac
+BRANCH_NAME=$(git branch --show-current)
+git checkout $BRANCH_NAME
 
 git pull --force
 
