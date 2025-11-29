@@ -30,12 +30,17 @@ else()
 
     # Detect if the platform is Raspberry Pi
     set(RASPBERRY_PI FALSE)
+    set(RASPBERRY_PI_5 FALSE)
 
     # Method 1: Check for Raspberry Pi specific file
     if(EXISTS "/proc/device-tree/model")
         file(READ "/proc/device-tree/model" DEVICE_MODEL)
         if(DEVICE_MODEL MATCHES "Raspberry Pi")
             set(RASPBERRY_PI TRUE)
+            # Check if using Pi 5 (to use Wiring Pi)
+            if(DEVICE_MODEL MATCHES "Raspberry Pi 5")
+                set(RASPBERRY_PI_5 TRUE)
+            endif()
         endif()
     endif()
 
@@ -45,11 +50,36 @@ else()
             file(READ "/proc/cpuinfo" CPU_INFO)
             if(CPU_INFO MATCHES "BCM[0-9]+")
                 set(RASPBERRY_PI TRUE)
+                # Check if using Pi 5 (to use Wiring Pi)
+                if(CPU_INFO MATCHES "BCM2712")
+                    set(RASPBERRY_PI_5 TRUE)
+                endif()
             endif()
         endif()
     endif()
 
-    if(RASPBERRY_PI)
+    # Use WiringPi for Raspberry Pi 5 (limited functionality)
+    if(RASPBERRY_PI_5)
+        message("-- Raspberry Pi Detected")
+
+        # RASPBERRY PI SETUP
+        # Locate WiringPi libraries
+        find_path(WIRINGPI_INCLUDE_DIR NAMES wiringPi.h HINTS /usr/include /usr/local/include)
+        find_library(WIRINGPI_LIBRARY NAMES wiringPi libwiringPi.so HINTS /usr/lib /usr/local/lib)
+
+        if(WIRINGPI_LIBRARY AND WIRINGPI_INCLUDE_DIR)
+            message("-- WiringPi library found: ${WIRINGPI_LIBRARY}")
+            set(WIRINGPI_LIBS ${WIRINGPI_LIBRARY})
+            include_directories(${WIRINGPI_INCLUDE_DIR})
+            add_definitions(-DRASPBERRY_PI)
+            add_definitions(-DRASPBERRY_PI_5)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+        else()
+            message(WARNING "-- WiringPi library NOT found. Some features may be unavailable.")
+        endif()
+    
+    # Use pigpio for Raspberry Pi 4 and below
+    elseif(RASPBERRY_PI)
         message("-- Raspberry Pi Detected")
 
         # RASPBERRY PI SETUP
@@ -132,7 +162,9 @@ file(GLOB SPLASHKITCPP_SOURCE_FILES
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${SPLASHKITCPP_SOURCE_FILES})
 
 # Link libraries based on platform
-if (RASPBERRY_PI AND PIGPIO_FOUND)
+if(RASPBERRY_PI_5 AND WIRINGPI_LIBRARY AND WIRINGPI_INCLUDE_DIR)
+    target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS} ${WIRINGPI_LIBS})
+elseif (RASPBERRY_PI AND PIGPIO_FOUND)
     target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS} ${PIGPIOD_IF2_LIB})
 else()
     target_link_libraries(SplashKit ${SPLASHKIT_REQUIRED_LIBS_LDFLAGS})
