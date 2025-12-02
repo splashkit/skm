@@ -1,0 +1,4 @@
+use splashkit::*;
+
+fn main() {
+}
