@@ -235,6 +235,15 @@ namespace splashkit_lib
     void stop_music();
 
     /**
+     * Checks whether music is currently paused.
+     * @returns Returns true or false value representing whether music is currently paused.
+     *
+     * @attribute static music
+     * @attribute getter paused
+     */
+    bool music_paused();
+    
+    /**
      * Checks whether music is currently playing.
      * @returns Returns true or false value representing whether music is currently playing.
      *

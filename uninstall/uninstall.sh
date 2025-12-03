@@ -1,12 +1,12 @@
 #!/bin/bash
 
-APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
-APP_PATH=`cd "$APP_PATH"; pwd`
+APP_PATH=$(echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }')
+APP_PATH=$(cd "$APP_PATH" && pwd)
 
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-SKM_PATH=`cd "$APP_PATH/.."; pwd`
+SKM_PATH=$(cd "$APP_PATH/.." && pwd)
 
 HAS_PYTHON3=false
 
@@ -73,9 +73,9 @@ if [ -f "${LIB_FILE}" ]; then
 fi
 
 # Check if python3 installed
-if command -v python3 &> /dev/null; then
+if command -v python3 &>/dev/null; then
     # Check for brew python on macOS
-    if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null && ! command -v conda &> /dev/null; then
+    if [ "$SK_OS" = "macos" ] && ! command -v brew &>/dev/null && ! command -v conda &>/dev/null; then
         HAS_PYTHON3=false
     else
         HAS_PYTHON3=true
@@ -87,8 +87,8 @@ fi
 # Get python3 directory for each OS if installed
 if [ "$HAS_PYTHON3" = true ]; then
     echo "Detecting python3 version to set global path for removing splashkit.py file"
-    
-    PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
+
+    PYTHON_VERSION=$(python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);')
 
     # Python3 global install path
     if [ "$SK_OS" = "macos" ]; then
@@ -115,9 +115,9 @@ if [ "$HAS_PYTHON3" = true ]; then
 fi
 
 if [ "$SK_OS" = "macos" ]; then
-    if command -v dotnet &> /dev/null; then
+    if command -v dotnet &>/dev/null; then
         if [ "$HAS_DOTNET" = true ]; then
-            DOTNET_PATH=`sudo find /usr/local -name Microsoft.NETCore.App`
+            DOTNET_PATH=$(sudo find /usr/local -name Microsoft.NETCore.App)
             for f in $DOTNET_PATH/*; do
                 if [ -d "$f" ]; then
                     echo "Removing "libSplashKit.dylib" from $f"
@@ -142,7 +142,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 # Remove splashkit path from .bashrc if using bash
-if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a `uname` = Linux ] ; then
+if [[ ${SHELL} = "/bin/bash" ]] || [ ${SHELL} = "/usr/bin/bash" -a $(uname) = Linux ]; then
     echo "Removing ${bold}export PATH=\"$INSTALL_PATH:\$PATH\"${normal} from ~/.bashrc"
     if [ $SK_OS = "macos" ]; then
         sed -i '' "\|export PATH=\"$INSTALL_PATH:\$PATH\"|d" ~/.bashrc
@@ -166,7 +166,7 @@ if [ $SK_OS = "win64" ]; then
     SHELL_PATH="/mingw64/bin"
     
     # List of PATHS added in splashkit install
-    SK_PATHS=("`cd $SHELL_PATH; pwd -W`" "`cd ~/.splashkit; pwd -W`" "`cd ~/.splashkit/lib/win64; pwd -W`")
+    SK_PATHS=("$(cd $SHELL_PATH && pwd -W)" "$(cd ~/.splashkit && pwd -W)" "$(cd ~/.splashkit/lib/win64 && pwd -W)")
 
     # Update paths in SK_PATHS to replace / with \
     for i in ${!SK_PATHS[@]}; do

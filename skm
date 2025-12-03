@@ -27,13 +27,13 @@ if [ "$SHELL_NAME" != "MINGW64" ] && [ "$SHELL_NAME" != "Linux" ] && [ "$SHELL_N
     fi
 fi
 
-if [ $# -eq 0 ] ; then
-    echo  "Splashkit is installed successfully!"
-    echo  "Missing skm command. For help use 'skm help'"
+if [ $# -eq 0 ]; then
+    echo "Splashkit is installed successfully!"
+    echo "Missing skm command. For help use 'skm help'"
     exit 1
 fi
 
-if [ -f "$APP_PATH/$1/$1.sh" ] ; then
+if [ -f "$APP_PATH/$1/$1.sh" ]; then
     COMMAND=$1
     shift
     "$APP_PATH/$COMMAND/$COMMAND.sh" $*

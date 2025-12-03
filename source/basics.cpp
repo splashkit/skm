@@ -202,7 +202,7 @@ namespace splashkit_lib
     {
         if (!is_binary(bin_str))
         {
-            LOG(ERROR) << "Invalid binary string passed to bin_to_dec, returning 0";
+            LOG(ERROR) << "Invalid binary string \"" << bin_str << "\" passed to bin_to_dec. Returning 0.";
             return 0;
         }
 
@@ -213,7 +213,7 @@ namespace splashkit_lib
     {
         if (!is_hex(hex_str))
         {
-            LOG(ERROR) << "Invalid hexadecimal string passed to hex_to_bin, returning empty string";
+            LOG(ERROR) << "Invalid hexadecimal string \"" << hex_str << "\" passed to hex_to_bin. Returning empty string.";
             return "";
         }
 
@@ -248,7 +248,7 @@ namespace splashkit_lib
     {
         if (!is_binary(bin_str))
         {
-            LOG(ERROR) << "Invalid binary string passed to bin_to_hex, returning empty string";
+            LOG(ERROR) << "Invalid binary string \"" << bin_str << "\" passed to bin_to_hex. Returning empty string.";
             return "";
         }
 
@@ -280,7 +280,6 @@ namespace splashkit_lib
     {
         if (decimal_value == 0)
         {
-            LOG(ERROR) << "Invalid decimal value passed to dec_to_oct: " << decimal_value << ", returning 0";
             return "0";
         }
 
@@ -297,7 +296,7 @@ namespace splashkit_lib
     {
         if (!is_octal(octal_string))
         {
-            LOG(ERROR) << "Invalid octal string passed to oct_to_dec: " << octal_string << ", returning 0";
+            LOG(ERROR) << "Invalid octal string \"" << octal_string << "\" passed to oct_to_dec. Returning 0.";
             return 0;
         }
 
@@ -308,7 +307,7 @@ namespace splashkit_lib
     {
         if (!is_hex(hex_string))
         {
-            LOG(ERROR) << "Invalid octal string passed to hex_to_dec: " << hex_string << ", returning 0";
+            LOG(ERROR) << "Invalid octal string \"" << hex_string << "\" passed to hex_to_dec. Returning 0.";
             return 0;
         }
 
@@ -319,7 +318,7 @@ namespace splashkit_lib
     {
         if (!is_octal(octal_str))
         {
-            LOG(ERROR) << "Invalid octal string passed to oct_to_bin: " << octal_str << ", returning empty string";
+            LOG(ERROR) << "Invalid octal string \"" << octal_str << "\" passed to oct_to_bin. Returning empty string.";
             return "";
         }
 
@@ -343,7 +342,7 @@ namespace splashkit_lib
     {
         if (!is_binary(bin_str))
         {
-            LOG(ERROR) << "Invalid binary string passed to bin_to_oct: " << bin_str << ", returning empty string";
+            LOG(ERROR) << "Invalid binary string \"" << bin_str << "\" passed to bin_to_oct. Returning empty string.";
             return "";
         }
 
@@ -374,7 +373,7 @@ namespace splashkit_lib
     {
         if (!is_hex(hex_str))
         {
-            LOG(ERROR) << "Invalid hexadecimal string passed to hex_to_oct: " << hex_str << ", returning empty string";
+            LOG(ERROR) << "Invalid hexadecimal string \"" << hex_str << "\" passed to hex_to_oct. Returning empty string.";
             return "";
         }
 
@@ -386,7 +385,7 @@ namespace splashkit_lib
     {
         if (!is_octal(octal_str))
         {
-            LOG(ERROR) << "Invalid octal string passed to oct_to_hex: " << octal_str << ", returning empty string";
+            LOG(ERROR) << "Invalid octal string \"" << octal_str << "\" passed to oct_to_hex. Returning empty string.";
             return "";
         }
 

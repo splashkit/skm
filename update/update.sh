@@ -10,12 +10,34 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 cd "$APP_PATH"
 git stash
 
+BRANCH_NAME=$(git branch --show-current)
+
 case $1 in
 develop)
-    git checkout develop
+    if [ "$BRANCH_NAME" != "develop" ]; then
+        git remote set-branches origin '*'
+        git fetch -v --depth=1
+        git checkout develop
+    fi
     ;;
 *)
-    git checkout master
+    if [ "$BRANCH_NAME" = "develop" ]; then
+        echo "You are currently using the develop (testing) branch."
+        read -p "Would you like to checkout the main branch now? (Y/N): " -n 1 -r </dev/tty
+        echo ""
+        case $REPLY in
+        y | Y)
+            git remote set-branches origin '*'
+            git fetch -v --depth=1
+            git checkout master
+            ;;
+        *)
+            # already on develop branch
+            ;;
+        esac
+    else
+        git checkout master
+    fi
     ;;
 esac
 
