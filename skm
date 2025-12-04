@@ -30,6 +30,18 @@ MINGW64*)
         SHELL_FILE="mingw64"
     fi
     ;;
+# For MINGW32 and MSYS terminal environments - on ARM64 architecture 
+*ARM64)
+    SHELL_SUPPORTED=false
+    SHELL_NAME="CLANGARM64"
+    SHELL_FILE="clangarm64"
+    ;;
+# For MINGW32 and MSYS terminal environments - on x86 architecture 
+MINGW32* | MSYS*)
+    SHELL_SUPPORTED=false
+    SHELL_NAME="MINGW64"
+    SHELL_FILE="mingw64"
+    ;;
 *)
     SHELL_SUPPORTED=true
     ;;
