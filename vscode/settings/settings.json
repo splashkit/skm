@@ -1,0 +1,25 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "remote.SSH.connectTimeout": 120,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "git.blame.editorDecoration.enabled": true,
+    "remote.autoForwardPortsSource": "hybrid",
+    "git.confirmSync": false,
+    "git.replaceTagsWhenPull": true,
+    "C_Cpp.default.cppStandard": "c++26",
+    "workbench.startupEditor": "none",
+    "chat.agent.enabled": false,
+    "editor.inlineSuggest.enabled": false,
+    "chat.disableAIFeatures": true,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "files.autoSave": "afterDelay",
+    "editor.formatOnSave": true,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+}

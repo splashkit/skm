@@ -29,6 +29,7 @@ CLANGARM64)
         echo pacman -S --needed --noconfirm --disable-download-timeout mingw-w64-x86_64-clang mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-civetweb mingw-w64-x86_64-python mingw-w64-x86_64-python-pip make mingw-w64-x86_64-jq moreutils
     fi
     echo
+    exit 1
     ;;
 esac
 

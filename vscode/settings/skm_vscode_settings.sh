@@ -199,6 +199,9 @@ fi
 # Add common settings (for all OS's)
 # ------------------------------
 
+# Disable AI features
+jq '.["chat.disableAIFeatures"] |= true' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+
 # Disable github copilot
 jq '.["github.copilot.enable"]."*" |= false' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
