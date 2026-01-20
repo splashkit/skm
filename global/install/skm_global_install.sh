@@ -186,7 +186,7 @@ if [ "$SK_OS" = "linux" ]; then
     # Add /usr/local/lib to ld search paths using conf file
     touch "${SKM_PATH}/linux/splashkit.conf"
     echo "/usr/local/lib" >> "${SKM_PATH}/linux/splashkit.conf"
-    $PRIVILEGED mv "${SKM_PATH}/linux/splashkit.conf" "/etc/ld.so.conf.d/splashkit.conf"
+    $PRIVILEGED mv "${SKM_PATH}/linux/splashkit.conf /etc/ld.so.conf.d/splashkit.conf"
     $PRIVILEGED ldconfig
 elif [ "$SK_OS" = "macos" ]; then
     echo "Setting library location"
