@@ -2,6 +2,7 @@
 
 cmake_minimum_required(VERSION 3.10)
 project(SplashKit)
+include(ExternalProject)
 
 # Detect Windows and flag MSYS
 if (WIN32 OR MSYS OR MINGW)
@@ -124,6 +125,8 @@ endif()
 
 # Setup include paths
 include_directories("${SK_SRC}/include")
+include_directories("${SK_SRC}/llama.cpp/include")
+include_directories("${SK_SRC}/llama.cpp/ggml/include")
 include_directories("${SK_GPP}/include")
 include_directories(${SPLASHKIT_REQUIRED_LIBS_INCLUDE_DIRS})
 
@@ -152,6 +155,9 @@ file(GLOB SOURCE_FILES
     "${SK_SRC}/*.cpp"
     "${SK_SRC}/easylogging++.cc"
 )
+
+# Filter out directory
+list(FILTER SOURCE_FILES EXCLUDE REGEX ".*llama\\.cpp$")
 
 # Adapter SOURCE
 file(GLOB SPLASHKITCPP_SOURCE_FILES
