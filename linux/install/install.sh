@@ -22,6 +22,9 @@ fi
 
 "${APP_PATH}/install_deps.sh"
 
+export CC=`which clang`
+export CXX=`which clang++`
+
 echo "Adding llama.cpp"
 cd "${SKM_PATH}/source"
 mkdir -p "${SKM_PATH}/source/llama.cpp"
@@ -40,8 +43,10 @@ fi
 
 echo "Configuring SplashKit"
 cd "${SKM_PATH}/source"
+mkdir bin
+cd bin
 pwd
-cmake .
+cmake -S ..
 if [ $? -ne 0 ]; then
   echo "Configuration failed"
   exit $?
