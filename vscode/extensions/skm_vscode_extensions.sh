@@ -51,9 +51,39 @@ fi
 # Install VS Code extensions
 # ------------------------------
 
+HAS_WSL=false
+HAS_DOTNET=false
+HAS_PYTHON3=false
+
+if [ "$SK_OS" = "linux" ] && [ -d "/mnt/c/Users" ]; then
+    HAS_WSL=true
+fi
+if command -v dotnet &>/dev/null; then
+    HAS_DOTNET=true
+fi
+if command -v python3 &>/dev/null; then
+    HAS_PYTHON3=true
+fi
+
+echo
+echo "Installing the following VS Code Extensions:"
+if [ "$HAS_WSL" = true ]; then
+    echo "  -  WSL"
+fi
+echo "  -  C/C++ Extension Pack"
+if [ "$HAS_DOTNET" = true ]; then
+    echo "  -  C#"
+    echo "  -  C# Dev Kit"
+    echo "  -  (Uninstall) Intellicode for C# Dev Kit"
+fi
+if [ "$HAS_PYTHON3" = true ]; then
+    echo "  -  Python"
+fi
+echo
+
 # Install "WSL" extension if not already installed
 # Check if using WSL
-if [ "$SK_OS" = "linux" ] && [ -d "/mnt/c/Users" ]; then
+if [ "$HAS_WSL" = true ]; then
     if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-vscode-remote.remote-wsl"; then
         echo "${BLUE}Installing \"WSL\" VS Code extension...${NC}"
         "$VSCODE_PATH/code" --install-extension ms-vscode-remote.remote-wsl
@@ -66,26 +96,30 @@ if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-vscode.cpptools-extensi
     "$VSCODE_PATH/code" --install-extension ms-vscode.cpptools-extension-pack
 fi
 
-# Install "C#"" extension if not already installed
-if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csharp"; then
-    echo -e "${BLUE}Installing \"C#\" VS Code extension...${NC}"
-    "$VSCODE_PATH/code" --install-extension ms-dotnettools.csharp
+if [ "$HAS_DOTNET" = true ]; then
+    # Install "C#"" extension if not already installed
+    if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csharp"; then
+        echo -e "${BLUE}Installing \"C#\" VS Code extension...${NC}"
+        "$VSCODE_PATH/code" --install-extension ms-dotnettools.csharp
+    fi
+
+    # Install "C# Dev Kit" extension if not already installed
+    if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csdevkit"; then
+        echo -e "${BLUE}Installing \"C# Dev Kit\" VS Code extension...${NC}"
+        "$VSCODE_PATH/code" --install-extension ms-dotnettools.csdevkit
+    fi
+
+    # Uninstall "Intellicode for C# Dev Kit" extension if installed (disabling is only very temporary)
+    if "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.vscodeintellicode-csharp"; then
+        echo -e "${BLUE}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
+        "$VSCODE_PATH/code" --uninstall-extension ms-dotnettools.vscodeintellicode-csharp
+    fi
 fi
 
-# Install "C# Dev Kit" extension if not already installed
-if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.csdevkit"; then
-    echo -e "${BLUE}Installing \"C# Dev Kit\" VS Code extension...${NC}"
-    "$VSCODE_PATH/code" --install-extension ms-dotnettools.csdevkit
-fi
-
-# Install "Python" extension if not already installed
-if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-python.python"; then
-    echo -e "${BLUE}Installing \"Python\" VS Code extension...${NC}"
-    "$VSCODE_PATH/code" --install-extension ms-python.python
-fi
-
-# Uninstall "Intellicode for C# Dev Kit" extension if installed (disabling is only very temporary)
-if "$VSCODE_PATH/code" --list-extensions | grep -q "ms-dotnettools.vscodeintellicode-csharp"; then
-    echo -e "${BLUE}Uninstalling \"Intellicode for C# Dev Kit\" VS Code extension...${NC}"
-    "$VSCODE_PATH/code" --uninstall-extension ms-dotnettools.vscodeintellicode-csharp
+if [ "$HAS_PYTHON3" = true ]; then
+    # Install "Python" extension if not already installed
+    if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-python.python"; then
+        echo -e "${BLUE}Installing \"Python\" VS Code extension...${NC}"
+        "$VSCODE_PATH/code" --install-extension ms-python.python
+    fi
 fi
