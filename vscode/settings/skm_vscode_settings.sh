@@ -245,7 +245,7 @@ fi
 # Copy file back to settings.json file
 # ------------------------------
 
-mv "$APP_PATH/settings.json" "$SETTINGS_JSON_PATH/settings.json"
+sudo mv "$APP_PATH/settings.json" "$SETTINGS_JSON_PATH/settings.json"
 if [ ! $? -eq 0 ]; then
     echo
     echo -e "${RED}Failed to copy $APP_PATH/settings.json to $SETTINGS_JSON_PATH/settings.json${NC}"
