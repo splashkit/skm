@@ -6,6 +6,12 @@ SKM_PATH=$(cd "$APP_PATH/../.." && pwd)
 
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
+if [ "$IS_WINDOWS" = true ]; then
+    PRIVILEGED=""
+else
+    PRIVILEGED="sudo"
+fi
+
 # Terminal text highlighting
 LIGHT_BLUE='\033[38;2;157;220;253m'
 DARK_BLUE='\033[38;2;86;156;214m'
@@ -245,7 +251,7 @@ fi
 # Copy file back to settings.json file
 # ------------------------------
 
-sudo mv "$APP_PATH/settings.json" "$SETTINGS_JSON_PATH/settings.json"
+$PRIVILEGED mv "$APP_PATH/settings.json" "$SETTINGS_JSON_PATH/settings.json"
 if [ ! $? -eq 0 ]; then
     echo
     echo -e "${RED}Failed to copy $APP_PATH/settings.json to $SETTINGS_JSON_PATH/settings.json${NC}"
