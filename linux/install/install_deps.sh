@@ -43,11 +43,11 @@ install_deps() {
 	DEBIAN | UBUNTU | KALI | RASPBIAN | LINUXMINT)
 		echo Installing the necessary $1 apt packages for SplashKit...
 		echo
-		echo You are about to be prompt for your sudo password to install the dependencies using the following commands:
-		echo apt update
-		echo apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
+		echo You may be prompted for your sudo password to install the required dependencies, using the following commands:
+		echo sudo apt update
+		echo sudo apt -y install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev g++ gdb jq moreutils
 		sudo apt update
-		sudo apt install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev jq moreutils
+		sudo apt -y install cmake libpng-dev libcurl4-openssl-dev libsdl2-dev libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-net-dev libsdl2-ttf-dev libmikmod-dev libncurses5-dev libbz2-dev libflac-dev libvorbis-dev libwebp-dev libfreetype6-dev build-essential clang libstdc++-12-dev g++ gdb jq moreutils
 		;;
 	FEDORA)
 		echo Installing the necessary $1 dnf packages for SplashKit...
