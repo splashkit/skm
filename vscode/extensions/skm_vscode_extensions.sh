@@ -55,7 +55,7 @@ fi
 # Check if using WSL
 if [ "$SK_OS" = "linux" ] && [ -d "/mnt/c/Users" ]; then
     if ! "$VSCODE_PATH/code" --list-extensions | grep -q "ms-vscode-remote.remote-wsl"; then
-        echo "${BLUE}Installing \"WSL\" VS Code extension...${NC}"
+        echo -e "${BLUE}Installing \"WSL\" VS Code extension...${NC}"
         "$VSCODE_PATH/code" --install-extension ms-vscode-remote.remote-wsl
     else
         echo "\"WSL\" VS Code extension already installed..."
