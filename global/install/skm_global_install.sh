@@ -24,15 +24,19 @@ fi
 echo "Detecting operating system"
 
 if [ "$SK_OS" = "macos" ]; then
-    LIB_FILE="${SKM_PATH}/lib/macos/libSplashKit.dylib"
+    LIB_FILE_SRC="${SKM_PATH}/lib/macos/libSplashKit.dylib"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
+    LIB_FILE_DEST="${LIB_DEST}/libSplashKit.dylib"
+    LIB_FILE_DEST_LOWER="${LIB_DEST}/libsplashkit.dylib"
 elif [ "$SK_OS" = "linux" ]; then
-    LIB_FILE="${SKM_PATH}/lib/linux/libSplashKit.so"
+    LIB_FILE_SRC="${SKM_PATH}/lib/linux/libSplashKit.so"
     LIB_DEST="/usr/local/lib"
     INC_DEST="/usr/local/include"
+    LIB_FILE_DEST="${LIB_DEST}/libSplashKit.so"
+    LIB_FILE_DEST_LOWER="${LIB_DEST}/libsplashkit.so"
 elif [ "$SK_OS" = "win64" ]; then
-    LIB_FILE="${SKM_PATH}/lib/win64/SplashKit.dll"
+    LIB_FILE_SRC="${SKM_PATH}/lib/win64/SplashKit.dll"
     if [[ $(uname) == *ARM64 ]]; then
         LIB_DEST="/clangarm64/lib"
         INC_DEST="/clangarm64/include"
@@ -40,6 +44,8 @@ elif [ "$SK_OS" = "win64" ]; then
         LIB_DEST="/mingw64/lib"
         INC_DEST="/mingw64/include"
     fi
+    LIB_FILE_DEST="${LIB_DEST}/SplashKit.dll"
+    LIB_FILE_DEST_LOWER="${LIB_DEST}/splashkit.dll"
 else
     echo "Unable to detect operating system..."
     exit 1
@@ -67,17 +73,32 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
     fi
 fi
 
-echo "Copying files to "${LIB_DEST}""
-$PRIVILEGED cp -f "$LIB_FILE" "$LIB_DEST"
-if [ ! $? -eq 0 ]; then
-    echo "Failed to copy SplashKit library to $LIB_DEST"
-    exit 1
+# Check if library source file exists
+if [ -f "${LIB_FILE_SRC}" ]; then
+    # Create symbolic link to library
+    echo "Linking library files into ${LIB_DEST}"
+    if [ ! -f "$LIB_FILE_DEST" ]; then
+        # Link library file if not already linked
+        $PRIVILEGED ln -s "$LIB_FILE_SRC" "$LIB_FILE_DEST"
+        if [ ! $? -eq 0 ]; then
+            echo "Failed to create symbolic link to $LIB_FILE_DEST"
+            exit 1
+        fi
+    fi
+    # Link lowercase version if not already linked
+    if [ ! -f "${LIB_FILE_DEST_LOWER}" ]; then
+        $PRIVILEGED ln -s "${LIB_FILE_SRC}" "$LIB_FILE_DEST_LOWER"
+        if [ ! $? -eq 0 ]; then
+            echo "Failed to create symbolic link to $LIB_FILE_DEST_LOWER"
+            exit 1
+        fi
+    fi
 fi
 
 # # We cant install but it should be on the path anyway...
 # # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
 # if [ ! -z "$WIN_OUT_DIR" ]; then
-#     $PRIVILEGED cp "$LIB_FILE" "$WIN_OUT_DIR"
+#     $PRIVILEGED cp "$LIB_FILE_SRC" "$WIN_OUT_DIR"
 #     if [ ! $? -eq 0 ]; then
 #         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
 #         exit 1
@@ -119,10 +140,10 @@ if [ "$SK_OS" = "macos" ]; then
 
         for f in $DOTNET_PATH/*; do
             if [ -d "$f" ]; then
-                echo "Copying "$LIB_FILE" to $f"
-                $PRIVILEGED cp -f "$LIB_FILE" "$f"
+                echo "Copying "$LIB_FILE_SRC" to $f"
+                $PRIVILEGED cp -f "$LIB_FILE_SRC" "$f"
                 if [ ! $? -eq 0 ]; then
-                    echo "Failed to copy "$LIB_FILE" to $f"
+                    echo "Failed to copy "$LIB_FILE_SRC" to $f"
                     exit 1
                 fi
             fi
