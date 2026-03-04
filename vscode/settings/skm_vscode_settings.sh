@@ -78,23 +78,39 @@ echo
 # Update temp_settings.json file
 # ------------------------------
 
-# Make temporary file for error checking
-cp "$SETTINGS_JSON_PATH/settings.json" "$APP_PATH"
-if [ ! $? -eq 0 ]; then
-    echo -e "${RED}Failed to copy settings.json to $APP_PATH${NC}"
-    exit 1
+# # Check that settings folder exists
+if [ ! -d "$SETTINGS_JSON_PATH" ]; then
+    mkdir -p "$SETTINGS_JSON_PATH"
 fi
 
-# Make backup settings file for recovery (in case of issues)
+# Get existing settings
+if [ -f "$SETTINGS_JSON_PATH/settings.json" ]; then
+    sed ':a
+    /,[[:space:]]*$/{
+      N
+      s/,[[:space:]]*\n\([[:space:]]*}\)/\n\1/
+      ta
+      P
+      D
+    }
+    P
+    D' "$SETTINGS_JSON_PATH/settings.json" > "$APP_PATH/settings.json"
 
-echo "Creating \"backup_settings.json\" file to recover your previous settings if something goes wrong."
-cp "$APP_PATH/settings.json" "$APP_PATH/backup_settings.json"
-if [ ! $? -eq 0 ]; then
-    echo -e "${RED}Failed to copy $APP_PATH/settings.json to $APP_PATH/backup_settings.json${NC}"
-    exit 1
+    if [ ! $? -eq 0 ]; then
+        echo -e "${RED}Failed to copy settings.json to $APP_PATH${NC}"
+        exit 1
+    fi
+
+    # Make backup settings file for recovery (in case of issues)
+    echo "Creating \"backup_settings.json\" file to recover your previous settings if something goes wrong."
+    cp "$APP_PATH/settings.json" "$APP_PATH/backup_settings.json"
+    if [ ! $? -eq 0 ]; then
+        echo -e "${RED}Failed to copy $APP_PATH/settings.json to $APP_PATH/backup_settings.json${NC}"
+        exit 1
+    fi
+    echo "Backup file location: $APP_PATH/backup_settings.json."
+    echo
 fi
-echo "Backup file location: $APP_PATH/backup_settings.json."
-echo
 
 # ------------------------------
 # Add OS-specific settings
