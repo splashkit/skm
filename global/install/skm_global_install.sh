@@ -107,7 +107,7 @@ if [ "$SK_OS" = "macos" ]; then
     if command -v dotnet &> /dev/null; then
         HAS_DOTNET=true
     else
-        echo ".NET SDK not installed. This may cause issues with \"dotnet run\" command. Please install .NET 8, then run this script again."
+        echo "For C# support: Please install the .NET SDK, then run this script again."
     fi
 
     if [ "$HAS_DOTNET" = true ]; then
