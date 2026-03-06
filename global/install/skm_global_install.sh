@@ -74,7 +74,21 @@ if [ ! -d "${INC_DEST}/splashkit" ]; then
 fi
 
 # Check if library source file exists
-if [ -f "${LIB_FILE_SRC}" ]; then
+if [ ! -f "${LIB_FILE_SRC}" ]; then
+    echo "Building library..."
+    if [ "$SK_OS" = "macos" ]; then
+        "${INSTALL_PATH}/macos/install/install.sh"
+    elif [ "$SK_OS" = "linux" ]; then
+        "${SKM_PATH}/linux/install/install.sh"
+    elif [ "$SK_OS" = "win64" ]; then
+        "${SKM_PATH}/windows/install/install.sh"
+    else
+        echo "Unable to detect operating system..."
+        exit 1
+    fi
+fi
+
+if [ "$SK_OS" = "linux" ]; then
     # Create symbolic link to library
     echo "Linking library files into ${LIB_DEST}"
     if [ ! -f "$LIB_FILE_DEST" ]; then
@@ -92,6 +106,14 @@ if [ -f "${LIB_FILE_SRC}" ]; then
             echo "Failed to create symbolic link to $LIB_FILE_DEST_LOWER"
             exit 1
         fi
+    fi
+else
+    # Copy files
+    echo "Copying files to ${LIB_DEST}"
+    $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_FILE_DEST"
+    if [ ! $? -eq 0 ]; then
+        echo "Failed to copy SplashKit library to $LIB_DEST"
+        exit 1
     fi
 fi
 
