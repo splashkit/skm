@@ -110,7 +110,7 @@ if [ "$SK_OS" = "linux" ]; then
 else
     # Copy files
     echo "Copying files to ${LIB_DEST}"
-    $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_FILE_DEST"
+    $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_DEST"
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy SplashKit library to $LIB_DEST"
         exit 1
