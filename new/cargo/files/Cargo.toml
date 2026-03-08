@@ -1,0 +1,8 @@
+[package]
+name = "splashkit_project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libc = "0.2"
+splashkit = { path = "SPLASHKIT_PATH" }
