@@ -8,6 +8,10 @@ SKM_PATH=$(cd "$APP_PATH/../.." && pwd)
 HAS_PYTHON3=false
 HAS_DOTNET=false
 
+# Terminal text error highlighting for dotnet and python
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo
@@ -168,8 +172,10 @@ if [ "$SK_OS" = "macos" ]; then
                     echo "Copying library file to $DOTNET_PATH"
                     $PRIVILEGED cp -f "$LIB_FILE_SRC" "$DOTNET_PATH"
                     if [ ! $? -eq 0 ]; then
-                        echo "Failed to copy "$LIB_FILE_SRC" to $DOTNET_PATH"
-                        exit 1
+                        echo
+                        echo -e "${RED}Failed to copy "$LIB_FILE_SRC" to $DOTNET_PATH${NC}"
+                        echo
+                        # exit 1
                     fi
                 fi
             fi
@@ -236,8 +242,10 @@ if [ "$HAS_PYTHON3" = true ]; then
         echo "Copying splashkit.py to "${PYTHON_LIB}""
         $PRIVILEGED cp "${SKM_PATH}/python3/splashkit.py" "${PYTHON_LIB}"
         if [ ! $? -eq 0 ]; then
-            echo "Failed to copy splashkit.py to ${PYTHON_LIB}"
-            exit 1
+            echo
+            echo -e "${RED}Failed to copy splashkit.py to ${PYTHON_LIB}${NC}"
+            echo
+            # exit 1
         fi
     fi
 fi
