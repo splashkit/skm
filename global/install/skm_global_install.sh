@@ -116,8 +116,15 @@ else
     echo "Copying library file to ${LIB_DEST}"
     $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_DEST"
     if [ ! $? -eq 0 ]; then
-        echo "Failed to copy SplashKit library to $LIB_DEST"
-        exit 1
+        # Remove file if there are issues with cp command then try again
+        if [ -f "${LIB_FILE_DEST}" ]; then
+            $PRIVILEGED rm -f "$LIB_FILE_DEST"
+        fi
+        $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_DEST"
+        if [ ! $? -eq 0 ]; then
+            echo "Failed to copy SplashKit library to $LIB_DEST"
+            exit 1
+        fi
     fi
 fi
 
