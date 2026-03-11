@@ -43,7 +43,9 @@ fi
 
 echo "Configuring SplashKit"
 cd "${SKM_PATH}/source"
-mkdir bin
+if [ ! -d "bin" ]; then
+  mkdir bin
+fi
 cd bin
 pwd
 cmake -S ..
