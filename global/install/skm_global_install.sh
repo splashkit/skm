@@ -1,9 +1,9 @@
 #!/bin/bash
 
-APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
-APP_PATH=`cd "$APP_PATH"; pwd`
+APP_PATH=$(echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }')
+APP_PATH=$(cd "$APP_PATH" && pwd)
 
-SKM_PATH=`cd "$APP_PATH/../.."; pwd`
+SKM_PATH=$(cd "$APP_PATH/../.." && pwd)
 
 HAS_PYTHON3=false
 HAS_DOTNET=false
@@ -21,7 +21,7 @@ else
     PRIVILEGED="sudo"
 fi
 
-echo "Detecting operating system"
+echo "Detecting operating system for global paths..."
 
 if [ "$SK_OS" = "macos" ]; then
     LIB_FILE_SRC="${SKM_PATH}/lib/macos/libSplashKit.dylib"
@@ -109,7 +109,7 @@ if [ "$SK_OS" = "linux" ]; then
     fi
 else
     # Copy files
-    echo "Copying files to ${LIB_DEST}"
+    echo "Copying library file to ${LIB_DEST}"
     $PRIVILEGED cp -f "$LIB_FILE_SRC" "$LIB_DEST"
     if [ ! $? -eq 0 ]; then
         echo "Failed to copy SplashKit library to $LIB_DEST"
@@ -127,7 +127,7 @@ fi
 #     fi
 # fi
 
-echo "Copying files to ${INC_DEST}/splashkit"
+echo "Copying header files to ${INC_DEST}/splashkit"
 $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}/splashkit"
 if [ ! $? -eq 0 ]; then
     echo "Failed to copy SplashKit C++ headers to ${INC_DEST}/splashkit"
@@ -146,51 +146,73 @@ fi
 
 # Copy library file to dotnet runtime folders
 if [ "$SK_OS" = "macos" ]; then
-    echo "Checking if dotnet is installed..."
-    if command -v dotnet &> /dev/null; then
+    if command -v dotnet &>/dev/null; then
         HAS_DOTNET=true
     else
-        echo "For C# support: Please install the .NET SDK, then run this script again."
+        echo "For C# support: Please install the .NET SDK, then run \"skm global install\" again."
     fi
 
     if [ "$HAS_DOTNET" = true ]; then
-        echo "\"dotnet\" command found. Checking version..."
-        DOTNET_PATH=`sudo find /usr/local -name Microsoft.NETCore.App`
-        if [ ! -d "$DOTNET_PATH" ]; then
-            DOTNET_PATH=`sudo find /opt/homebrew -name Microsoft.NETCore.App`
-        fi
+        echo "Detecting dotnet version(s) to set global path..."
 
-        for f in $DOTNET_PATH/*; do
-            if [ -d "$f" ]; then
-                echo "Copying "$LIB_FILE_SRC" to $f"
-                $PRIVILEGED cp -f "$LIB_FILE_SRC" "$f"
-                if [ ! $? -eq 0 ]; then
-                    echo "Failed to copy "$LIB_FILE_SRC" to $f"
-                    exit 1
+        DOTNET_TARGET="Microsoft.NETCore.App"
+
+        # Read the output of "dotnet --list-runtimes" command, line by line
+        while IFS= read -r line; do
+            if [[ "$line" == *"$DOTNET_TARGET"* ]]; then
+                DOTNET_VERSION=$(echo "$line" | awk '{print $2}')
+                DOTNET_PATH=$(echo "$line" | sed 's/^.*\[//' | sed 's/]$//')
+                DOTNET_PATH="$DOTNET_PATH/$DOTNET_VERSION"
+
+                if [ -d "$DOTNET_PATH" ]; then
+                    echo "Copying library file to $DOTNET_PATH"
+                    $PRIVILEGED cp -f "$LIB_FILE_SRC" "$DOTNET_PATH"
+                    if [ ! $? -eq 0 ]; then
+                        echo "Failed to copy "$LIB_FILE_SRC" to $DOTNET_PATH"
+                        exit 1
+                    fi
                 fi
             fi
-        done
+        done < <(dotnet --list-runtimes)
+
+        # DOTNET_PATH=`$PRIVILEGED find /usr/local -name Microsoft.NETCore.App`
+        # if [ ! -d "$DOTNET_PATH" ]; then
+        #     DOTNET_PATH=`$PRIVILEGED find /opt/homebrew -name Microsoft.NETCore.App`
+        # if [ ! -d "$DOTNET_PATH" ]; then
+        #     DOTNET_PATH=`$PRIVILEGED find ~/.dotnet -name Microsoft.NETCore.App`
+        # fi
+        # fi
+
+        # for f in $DOTNET_PATH/*; do
+        #     if [ -d "$f" ]; then
+        #         echo "Copying "$LIB_FILE_SRC" to $f"
+        #         $PRIVILEGED cp -f "$LIB_FILE_SRC" "$f"
+        #         if [ ! $? -eq 0 ]; then
+        #             echo "Failed to copy "$LIB_FILE_SRC" to $f"
+        #             exit 1
+        #         fi
+        #     fi
+        # done
     fi
 fi
 
 # Check if python3 installed
-echo "Checking if python is installed..."
-if command -v python3 &> /dev/null; then
+if command -v python3 &>/dev/null; then
     # Check for brew python on macOS
-    if [ "$SK_OS" = "macos" ] && ! command -v brew &> /dev/null && ! command -v conda &> /dev/null; then
+    if [ "$SK_OS" = "macos" ] && ! command -v brew &>/dev/null && ! command -v conda &>/dev/null; then
         HAS_PYTHON3=false
-        echo "For Python support: Please install python3 using Homebrew or Anaconda3, then run this script again."
+        echo "For Python support: Please install python3 using Homebrew or Anaconda3, then run \"skm global install\" again."
     else
         HAS_PYTHON3=true
     fi
 else
-    echo "For Python support: Please install python3, then run this script again."
+    echo "For Python support: Please install python3, then run \"skm global install\" again."
 fi
 
 # Get python3 directory for each OS if installed
 if [ "$HAS_PYTHON3" = true ]; then
-    echo "Detecting python3 version to set global path.."
-    PYTHON_VERSION=`python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);'`
+    echo "Detecting python3 version to set global path..."
+    PYTHON_VERSION=$(python3 -c 'import platform; major, minor, patch = platform.python_version_tuple(); print(major + "." + minor);')
 
     # Python3 global install path
     if [ "$SK_OS" = "macos" ]; then
@@ -228,12 +250,12 @@ if [ "$SK_OS" = "linux" ]; then
     echo "Updating library config cache"
     # Add /usr/local/lib to ld search paths using conf file
     touch "${SKM_PATH}/linux/splashkit.conf"
-    echo "/usr/local/lib" >> "${SKM_PATH}/linux/splashkit.conf"
+    echo "/usr/local/lib" >>"${SKM_PATH}/linux/splashkit.conf"
     $PRIVILEGED mv "${SKM_PATH}/linux/splashkit.conf" "/etc/ld.so.conf.d/splashkit.conf"
     $PRIVILEGED ldconfig
 elif [ "$SK_OS" = "macos" ]; then
-    echo "Setting library location"
-    sudo install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
+    echo "Setting library location..."
+    $PRIVILEGED install_name_tool -id /usr/local/lib/libSplashKit.dylib /usr/local/lib/libSplashKit.dylib
 elif [ "$SK_OS" = "win64" ]; then
     export PATH="$LIB_DEST:$PATH"
 fi
@@ -242,11 +264,11 @@ fi
 # Installation testing
 # ---------------------
 
-echo "Testing install"
+echo "Testing install..."
 
-if command -v clang++ &> /dev/null; then
+if command -v clang++ &>/dev/null; then
     COMPILER_EXE=clang++
-elif command -v g++ &> /dev/null; then
+elif command -v g++ &>/dev/null; then
     COMPILER_EXE=g++
 else
     echo "No C/C++ compiler found, skipping test"
@@ -259,6 +281,7 @@ if [ ! $? -eq 0 ]; then
     exit 1
 fi
 
+echo
 "${APP_PATH}/test"
 if [ ! $? -eq 0 ]; then
     echo "Failed to run test program"
@@ -267,4 +290,4 @@ fi
 
 rm "${APP_PATH}/test"
 
-echo "Done"
+echo #"Done"
