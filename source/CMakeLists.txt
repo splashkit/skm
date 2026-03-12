@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(SplashKit)
 include(ExternalProject)
+include(GNUInstallDirs)
 
 # Detect Windows and flag MSYS
 if (WIN32 OR MSYS OR MINGW)
@@ -199,7 +200,7 @@ ExternalProject_Add(
         else()
             set_target_properties(${lib} PROPERTIES
                 IMPORTED_LOCATION
-                    ${INSTALL_DIR}/lib/lib${lib}.a # lib prefix
+                    ${INSTALL_DIR}/${CMAKE_INSTALL_LIBDIR}/lib${lib}.a # lib prefix
             )
         endif()
         add_dependencies(${lib} llama_ext)

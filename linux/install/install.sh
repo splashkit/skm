@@ -55,7 +55,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Compiling SplashKit..."
-make
+make -j$(nproc)
 if [ $? -ne 0 ]; then
   echo "Compilation failed"
   exit $?
