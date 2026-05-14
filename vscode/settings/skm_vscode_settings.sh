@@ -169,18 +169,18 @@ elif [ "$SK_OS" = "win64" ]; then
     if [[ $(uname) == *ARM64 ]]; then
         jq '.["C_Cpp.default.systemIncludePath"] |= [
             "C:/msys64/clangarm64/bin",
-            "C:/msys64/clangarm64/include",
             "C:/msys64/clangarm64/include/c++/v1",
+            "C:/msys64/clangarm64/include",
             "${default}"
         ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
         if [[ $(gcc -dumpversion) == 15.2* ]]; then
             jq '.["C_Cpp.default.systemIncludePath"] |= [
                 "C:/msys64/mingw64/bin",
-                "C:/msys64/mingw64/include",
                 "C:/msys64/mingw64/include/c++/15.2.0",
                 "C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32",
                 "C:/msys64/mingw64/include/c++/15.2.0/backward",
+                "C:/msys64/mingw64/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
                 "${default}"
@@ -188,10 +188,10 @@ elif [ "$SK_OS" = "win64" ]; then
         elif [[ $(gcc -dumpversion) == 15.1* ]]; then
             jq '.["C_Cpp.default.systemIncludePath"] |= [
                 "C:/msys64/mingw64/bin",
-                "C:/msys64/mingw64/include",
                 "C:/msys64/mingw64/include/c++/15.1.0",
                 "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
                 "C:/msys64/mingw64/include/c++/15.1.0/backward",
+                "C:/msys64/mingw64/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
                 "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
                 "${default}"
