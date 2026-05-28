@@ -69,13 +69,12 @@ if [ "$SK_OS" = "macos" ]; then
 elif [ "$SK_OS" = "linux" ]; then
     echo "Rebuilding library"
     "${SKM_PATH}/linux/install/install.sh"
-fi
-
-if [ -f "${LIB_DEST}" ]; then
+elif [ "$SK_OS" = "win64" ]; then
     if [[ $(uname) == *ARM64 ]]; then
-        echo "Rebuilding library"
+        echo "Rebuilding library and reinstalling globally for ARM windows"
         "${SKM_PATH}/windows/install/install.sh"
+    else
+        echo "Reinstalling globally"
+        "${SKM_PATH}/global/install/skm_global_install.sh"
     fi
-    echo "Reinstalling globally"
-    "${SKM_PATH}/global/install/skm_global_install.sh"
 fi

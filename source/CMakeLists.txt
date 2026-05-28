@@ -138,7 +138,7 @@ if (MSYS)
 endif()
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fPIC")
 
 # MACRO DEFINITIONS #
 add_definitions(-DELPP_THREAD_SAFE)
@@ -209,6 +209,12 @@ ExternalProject_Add(
 
 #### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${SPLASHKITCPP_SOURCE_FILES})
+
+# The following was added by Copilot for issue with windows build cause by llama library duplicates.
+# Allow duplicate std::regex internals on MSYS/MinGW when linking the shared DLL
+if (MSYS)
+    target_link_options(SplashKit PRIVATE "-Wl,--allow-multiple-definition")
+endif()
 
 # Link libraries based on platform
 if(RASPBERRY_PI_5 AND WIRINGPI_LIBRARY AND WIRINGPI_INCLUDE_DIR)

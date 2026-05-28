@@ -46,49 +46,7 @@ source ~/.bashrc
 
 # Build library for ARM windows
 if [[ $(uname) == *ARM64 ]]; then
-    export CC=`which clang`
-    export CXX=`which clang++`
-
-    echo "Adding llama.cpp"
-    cd "${SKM_PATH}/source"
-    mkdir -p "${SKM_PATH}/source/llama.cpp"
-    cd "${SKM_PATH}/source/llama.cpp"
-    if [ ! -d ".git" ]; then
-    git init
-    git remote add origin https://github.com/ggml-org/llama.cpp
-    fi
-
-    git fetch origin 8ea958d4d9d5bd43f9f244950bf057b5227ce8d9 && git reset --hard FETCH_HEAD
-
-    if [ $? -ne 0 ]; then
-    echo "Failed to clone llama"
-    exit $?
-    fi
-
-    echo "Configuring SplashKit"
-    cd "${SKM_PATH}/source"
-    pwd
-    cmake -G "Unix Makefiles" .
-    if [ $? -ne 0 ]; then
-        echo "Configuration failed"
-        exit $?
-    fi
-
-    echo "Compiling SplashKit..."
-    make
-    if [ $? -ne 0 ]; then
-        echo "Compilation failed"
-        exit $?
-    fi
-
-    echo "Installing compiled SplashKit library..."
-    make install
-    if [ $? -ne 0 ]; then
-        echo "Install failed"
-        exit $?
-    fi
+    "${APP_PATH}/build.sh"
 fi
-
-echo "SplashKit Installed"
 
 "${SKM_PATH}/global/install/skm_global_install.sh"
