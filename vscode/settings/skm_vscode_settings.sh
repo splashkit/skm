@@ -100,7 +100,7 @@ if [ -f "$SETTINGS_JSON_PATH/settings.json" ]; then
       D
     }
     P
-    D' "$SETTINGS_JSON_PATH/settings.json" > "$APP_PATH/settings.json"
+    D' "$SETTINGS_JSON_PATH/settings.json" >"$APP_PATH/settings.json"
 
     if [ ! $? -eq 0 ]; then
         echo -e "${RED}Failed to copy settings.json to $APP_PATH${NC}"
@@ -174,26 +174,18 @@ elif [ "$SK_OS" = "win64" ]; then
             "${default}"
         ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
     else
-        if [[ $(gcc -dumpversion) == 15.2* ]]; then
-            jq '.["C_Cpp.default.systemIncludePath"] |= [
+        # Improved version
+        # Dynamically get paths using GCC version
+        GCC_VERSION=$(gcc -dumpversion)
+        if [ -d "C:/msys64/mingw64/include/c++/$GCC_VERSION" ]; then
+            jq --arg GCC_VERSION "$GCC_VERSION" '.["C_Cpp.default.systemIncludePath"] |= [
                 "C:/msys64/mingw64/bin",
-                "C:/msys64/mingw64/include/c++/15.2.0",
-                "C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32",
-                "C:/msys64/mingw64/include/c++/15.2.0/backward",
+                "C:/msys64/mingw64/include/c++/'$GCC_VERSION'",
+                "C:/msys64/mingw64/include/c++/'$GCC_VERSION'/x86_64-w64-mingw32",
+                "C:/msys64/mingw64/include/c++/'$GCC_VERSION'/backward",
                 "C:/msys64/mingw64/include",
-                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
-                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
-                "${default}"
-            ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
-        elif [[ $(gcc -dumpversion) == 15.1* ]]; then
-            jq '.["C_Cpp.default.systemIncludePath"] |= [
-                "C:/msys64/mingw64/bin",
-                "C:/msys64/mingw64/include/c++/15.1.0",
-                "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
-                "C:/msys64/mingw64/include/c++/15.1.0/backward",
-                "C:/msys64/mingw64/include",
-                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
-                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/'$GCC_VERSION'/include",
+                "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/'$GCC_VERSION'/include-fixed",
                 "${default}"
             ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         else
@@ -203,6 +195,37 @@ elif [ "$SK_OS" = "win64" ]; then
                 "${default}"
             ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
         fi
+
+        # Previous version - can be removed after testing future gcc versions
+        # if [[ $(gcc -dumpversion) == 15.2* ]]; then
+        #     jq '.["C_Cpp.default.systemIncludePath"] |= [
+        #         "C:/msys64/mingw64/bin",
+        #         "C:/msys64/mingw64/include/c++/15.2.0",
+        #         "C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32",
+        #         "C:/msys64/mingw64/include/c++/15.2.0/backward",
+        #         "C:/msys64/mingw64/include",
+        #         "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include",
+        #         "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed",
+        #         "${default}"
+        #     ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+        # elif [[ $(gcc -dumpversion) == 15.1* ]]; then
+        #     jq '.["C_Cpp.default.systemIncludePath"] |= [
+        #         "C:/msys64/mingw64/bin",
+        #         "C:/msys64/mingw64/include/c++/15.1.0",
+        #         "C:/msys64/mingw64/include/c++/15.1.0/x86_64-w64-mingw32",
+        #         "C:/msys64/mingw64/include/c++/15.1.0/backward",
+        #         "C:/msys64/mingw64/include",
+        #         "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include",
+        #         "C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed",
+        #         "${default}"
+        #     ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+        # else
+        #     jq '.["C_Cpp.default.systemIncludePath"] |= [
+        #         "C:/msys64/mingw64/bin",
+        #         "C:/msys64/mingw64/include",
+        #         "${default}"
+        #     ]' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+        # fi
     fi
     if [[ $(uname) == *ARM64 ]]; then
         # Cpp compiler path
@@ -235,6 +258,9 @@ jq '.["files.autoSave"] |= "afterDelay"' "$APP_PATH/settings.json" | sponge "$AP
 
 # Format code when manually saving (and fix indentation to 4 spaces)
 jq '.["editor.formatOnSave"] |= true' "$APP_PATH/settings.json" --indent 4 | sponge "$APP_PATH/settings.json"
+
+# Use c++26 as default C++ standard
+jq '.["C_Cpp.default.cppStandard"] |= "c++26"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
 
 # ------------------------------
 # Check temp_settings.json file
