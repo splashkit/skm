@@ -16,7 +16,9 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo
 echo "Installing SplashKit library in default global locations..."
-echo "This may require root access, please enter your password when prompted."
+if [ "$IS_WINDOWS" = false ]; then
+    echo "This may require root access, please enter your password when prompted."
+fi
 echo
 
 if [ "$IS_WINDOWS" = true ]; then
