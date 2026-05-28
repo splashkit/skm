@@ -236,6 +236,9 @@ jq '.["files.autoSave"] |= "afterDelay"' "$APP_PATH/settings.json" | sponge "$AP
 # Format code when manually saving (and fix indentation to 4 spaces)
 jq '.["editor.formatOnSave"] |= true' "$APP_PATH/settings.json" --indent 4 | sponge "$APP_PATH/settings.json"
 
+# Use c++26 as default C++ standard
+jq '.["C_Cpp.default.cppStandard"] |= "c++26"' "$APP_PATH/settings.json" | sponge "$APP_PATH/settings.json"
+
 # ------------------------------
 # Check temp_settings.json file
 # ------------------------------
