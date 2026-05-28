@@ -272,10 +272,18 @@ fi
 echo
 "${APP_PATH}/test"
 if [ ! $? -eq 0 ]; then
-    echo "Failed to run test program"
+    if [ "$SK_OS" = "win64" ]; then
+        echo "Failed to run test program. Rebuilding library and trying again..."
+        echo
+
+        "${SKM_PATH}/windows/install/build.sh"
+
+        # Run script again to copy files to global locations and update paths
+        "${APP_PATH}/skm_global_install.sh"
+    else
+        echo "Failed to run test program."
+    fi
     exit 1
 fi
 
 rm "${APP_PATH}/test"
-
-echo #"Done"
