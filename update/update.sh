@@ -78,3 +78,4 @@ elif [ "$SK_OS" = "win64" ]; then
         "${SKM_PATH}/global/install/skm_global_install.sh"
     fi
 fi
+echo
