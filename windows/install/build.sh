@@ -60,5 +60,3 @@ if [ $? -ne 0 ]; then
     echo "Install failed"
     exit $?
 fi
-
-"${SKM_PATH}/global/install/skm_global_install.sh"
