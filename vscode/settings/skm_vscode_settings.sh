@@ -281,7 +281,8 @@ jq '.["C_Cpp.default.cppStandard"] |= "c++26"' "$APP_PATH/settings.json" | spong
 if [ $(wc -c <"$APP_PATH/settings.json") -le 5 ]; then
     echo
     echo -e "${RED}Something went wrong... VS Code Settings not updated.${NC}"
-    echo -e "${RED}Check the settings.json file in $SETTINGS_JSON_PATH for errors/warnings (no comments and no trailing commas) and try again.${NC}"
+    echo -e "${RED}Check the settings.json file in $SETTINGS_JSON_PATH.${NC}"
+    echo -e "${RED}Uncomment/remove any comments or other invalid JSON syntax and try again.${NC}"
     echo
     read -p "Would you like to open the settings.json file in VS Code now? (Y/N): " -n 1 -r </dev/tty
     echo
