@@ -125,6 +125,11 @@ if [ $(wc -c <"$APP_PATH/settings.json") -eq 0 ]; then
 fi
 
 # ------------------------------
+# Remove trailing commas from JSON file (to avoid jq errors)
+# ------------------------------
+perl -0777 -pi -e 's/,\s*([\]}])/$1/g' "$APP_PATH/settings.json"
+
+# ------------------------------
 # Add OS-specific settings
 # ------------------------------
 
