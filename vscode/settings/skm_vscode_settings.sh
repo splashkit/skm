@@ -118,6 +118,12 @@ if [ -f "$SETTINGS_JSON_PATH/settings.json" ]; then
     echo
 fi
 
+# Check if file is empty - and is missing { }
+if [ $(wc -c <"$APP_PATH/settings.json") -eq 0 ]; then
+    echo -e "The settings.json file is empty. Creating a new settings.json file."
+    echo "{}" >"$APP_PATH/settings.json"
+fi
+
 # ------------------------------
 # Add OS-specific settings
 # ------------------------------
