@@ -62,7 +62,7 @@ fi
 
 if [ "$SK_OS" = "macos" ]; then
     OSX_VERSION=$(sw_vers -productVersion)
-    if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+    if ! awk "BEGIN{ exit ($OSX_VERSION < 13.3) }"; then
         echo "Rebuilding library"
         "${SKM_PATH}/macos/install/install.sh"
     else
