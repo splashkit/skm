@@ -12,8 +12,8 @@ elif system() == 'Linux':
     # Linux uses .so extension
     search_paths = ["/usr/local/lib/libSplashKit.so", os.path.expanduser("~") + "/.splashkit/lib/linux/libSplashKit.so"]
 else:
-    # Windows uses .dll extension
-    search_paths = ["C:/msys64/mingw64/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
+    # Windows uses .dll extension (checking both C and D drives)
+    search_paths = ["C:/msys64/mingw64/lib/SplashKit.dll", "D:/msys64/mingw64/lib/SplashKit.dll", "C:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll", "D:/msys64/home/" + os.getlogin() + "/.splashkit/lib/win64/SplashKit.dll"]
 
 # find path to use -> format above is: ["global/path", ".splashkit/path"]
 for path in search_paths:
