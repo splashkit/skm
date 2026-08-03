@@ -70,6 +70,7 @@ source/install_manifest.txt
 source/CMakeCache.txt
 source/Makefile
 vscode/settings/backup_settings.json
+global/install/test.exe
 
 .DS_Store
 

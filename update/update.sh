@@ -62,20 +62,23 @@ fi
 
 if [ "$SK_OS" = "macos" ]; then
     OSX_VERSION=$(sw_vers -productVersion)
-    if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+    if ! awk "BEGIN{ exit ($OSX_VERSION < 13.3) }"; then
         echo "Rebuilding library"
         "${SKM_PATH}/macos/install/install.sh"
+    else
+        echo "Reinstalling globally"
+        "${SKM_PATH}/global/install/skm_global_install.sh"
     fi
 elif [ "$SK_OS" = "linux" ]; then
     echo "Rebuilding library"
     "${SKM_PATH}/linux/install/install.sh"
-fi
-
-if [ -f "${LIB_DEST}" ]; then
+elif [ "$SK_OS" = "win64" ]; then
     if [[ $(uname) == *ARM64 ]]; then
-        echo "Rebuilding library"
+        echo "Rebuilding library and reinstalling globally for ARM windows"
         "${SKM_PATH}/windows/install/install.sh"
+    else
+        echo "Reinstalling globally"
+        "${SKM_PATH}/global/install/skm_global_install.sh"
     fi
-    echo "Reinstalling globally"
-    "${SKM_PATH}/global/install/skm_global_install.sh"
 fi
+echo

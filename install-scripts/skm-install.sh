@@ -173,7 +173,7 @@ if ! command -v skm &>/dev/null; then
         echo "  skm linux install"
     elif [[ $(uname) = Darwin ]]; then
         OSX_VERSION=$(sw_vers -productVersion)
-        if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+        if ! awk "BEGIN{ exit ($OSX_VERSION < 13.3) }"; then
             echo "  skm macos install"
         else
             echo "  skm global install"
@@ -227,7 +227,7 @@ elif [[ $(uname) = Linux ]]; then
     "${INSTALL_PATH}/linux/install/install.sh"
 elif [[ $(uname) = Darwin ]]; then
     OSX_VERSION=$(sw_vers -productVersion)
-    if ! awk "BEGIN{ exit ($OSX_VERSION < 12.3) }"; then
+    if ! awk "BEGIN{ exit ($OSX_VERSION < 13.3) }"; then
         "${INSTALL_PATH}/macos/install/install.sh"
     else
         # Install brew packages
