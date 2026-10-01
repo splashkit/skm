@@ -7,7 +7,7 @@ INSTALLED_PACKAGES=$(pacman -Qeq)
 package_install_string=""
 
 # Package list based on MSYS2 terminal environment or arm64 vs x64 architecture
-if [[ "$MSYSTEM" = "UCRT64" ]] || [[ $(uname) != *ARM64 ]]; then
+if [[ "$MSYSTEM" = "UCRT64" || $MSYSTEM == "MINGW64" ]] && [[ $(uname) != *ARM64 ]]; then
     SHELL_NAME="UCRT64"
     REQUIRED_PACKAGES=(
         "mingw-w64-ucrt-x86_64-clang"
@@ -29,26 +29,26 @@ if [[ "$MSYSTEM" = "UCRT64" ]] || [[ $(uname) != *ARM64 ]]; then
         "moreutils"
     )
 # Backup in case this is still needed
-elif [[ $MSYSTEM == "MINGW64" ]] || [[ $(uname) != *ARM64 ]]; then
-    SHELL_NAME="UCRT64"
-    REQUIRED_PACKAGES=(
-        "mingw-w64-x86_64-clang"
-        "mingw-w64-x86_64-gcc"
-        "mingw-w64-x86_64-gdb"
-        "mingw-w64-x86_64-cmake"
-        "mingw-w64-x86_64-SDL2"
-        "mingw-w64-x86_64-SDL2_gfx"
-        "mingw-w64-x86_64-SDL2_mixer"
-        "mingw-w64-x86_64-SDL2_image"
-        "mingw-w64-x86_64-SDL2_ttf"
-        "mingw-w64-x86_64-SDL2_net"
-        "mingw-w64-x86_64-civetweb"
-        "mingw-w64-x86_64-python"
-        "mingw-w64-x86_64-python-pip"
-        "make"
-        "mingw-w64-x86_64-jq"
-        "moreutils"
-    )
+# elif [[ $MSYSTEM == "MINGW64" ]] && [[ $(uname) != *ARM64 ]]; then
+#     SHELL_NAME="UCRT64"
+#     REQUIRED_PACKAGES=(
+#         "mingw-w64-x86_64-clang"
+#         "mingw-w64-x86_64-gcc"
+#         "mingw-w64-x86_64-gdb"
+#         "mingw-w64-x86_64-cmake"
+#         "mingw-w64-x86_64-SDL2"
+#         "mingw-w64-x86_64-SDL2_gfx"
+#         "mingw-w64-x86_64-SDL2_mixer"
+#         "mingw-w64-x86_64-SDL2_image"
+#         "mingw-w64-x86_64-SDL2_ttf"
+#         "mingw-w64-x86_64-SDL2_net"
+#         "mingw-w64-ucrt-x86_64-civetweb"
+#         "mingw-w64-x86_64-python"
+#         "mingw-w64-x86_64-python-pip"
+#         "make"
+#         "mingw-w64-ucrt-x86_64-jq"
+#         "moreutils"
+#     )
 elif [[ $MSYSTEM == "CLANGARM64" ]] || [[ $(uname) == *ARM64 ]]; then
     SHELL_NAME="CLANGARM64"
     REQUIRED_PACKAGES=(
