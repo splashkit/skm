@@ -7,7 +7,7 @@ INSTALL_PATH="${HOME_PATH}/.splashkit"
 
 # For MSYS2 users: Check if MINGW64 shell is being used
 if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
-    if [ "$MSYSTEM" = "MINGW64" ] && [[ $(uname) != *ARM64 ]]; then
+    if [[ "$MSYSTEM" = "MINGW64" || "$MSYSTEM" = "UCRT64" ]] && [[ $(uname) != *ARM64 ]]; then
         : # All good - no op and continue
     elif [ "$MSYSTEM" = "CLANGARM64" ] && [[ $(uname) == *ARM64 ]]; then
         : # All good - no op and continue
@@ -16,8 +16,8 @@ if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
             SHELL_NAME="CLANGARM64"
             SHELL_FILE="clangarm64"
         else
-            SHELL_NAME="MINGW64"
-            SHELL_FILE="mingw64"
+            SHELL_NAME="UCRT64"
+            SHELL_FILE="ucrt64"
         fi
         echo
         echo "The $MSYSTEM terminal is not supported."
