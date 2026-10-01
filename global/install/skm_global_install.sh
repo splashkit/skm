@@ -47,8 +47,13 @@ elif [ "$SK_OS" = "win64" ]; then
         LIB_DEST="/clangarm64/lib"
         INC_DEST="/clangarm64/include"
     else
-        LIB_DEST="/mingw64/lib"
-        INC_DEST="/mingw64/include"
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            LIB_DEST="/ucrt64/lib"
+            INC_DEST="/ucrt64/include"
+        else
+            LIB_DEST="/mingw64/lib"
+            INC_DEST="/mingw64/include"
+        fi
     fi
     LIB_FILE_DEST="${LIB_DEST}/SplashKit.dll"
     LIB_FILE_DEST_LOWER="${LIB_DEST}/splashkit.dll"
@@ -213,7 +218,11 @@ if [ "$HAS_PYTHON3" = true ]; then
         if [[ $(uname) == *ARM64 ]]; then
             PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
         else
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            PYTHON_LIB="/ucrt64/lib/python${PYTHON_VERSION}"
+        else
             PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        fi
         fi
     fi
 

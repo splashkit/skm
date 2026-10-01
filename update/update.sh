@@ -53,7 +53,11 @@ elif [ "$SK_OS" = "win64" ]; then
     if [[ $(uname) == *ARM64 ]]; then
         LIB_DEST="/clangarm64/lib/SplashKit.dll"
     else
+    if [ "$MSYSTEM" = "UCRT64" ]; then
+        LIB_DEST="/ucrt64/lib/SplashKit.dll"
+        else
         LIB_DEST="/mingw64/lib/SplashKit.dll"
+        fi
     fi
 else
     echo "Unable to detect operating system..."

@@ -13,16 +13,16 @@ if [ "$SK_OS" = "win64" ]; then
         if [[ $(uname) == *ARM64 ]]; then
             SHELL_NAME="CLANGARM64"
         else
-            SHELL_NAME="MINGW64"
+            SHELL_NAME="UCRT64"
         fi
 
-        if [ "$MSYSTEM" = "MINGW64" ] && [[ $(uname) != *ARM64 ]]; then
+        if [[ "$MSYSTEM" = "MINGW64"  || "$MSYSTEM" = "UCRT64" ]] && [[ $(uname) != *ARM64 ]]; then
             : # All good - no op and continue
         elif [ "$MSYSTEM" = "CLANGARM64" ] && [[ $(uname) == *ARM64 ]]; then
             : # All good - no op and continue
         else
             echo "Unable to detect Windows version."
-            echo "Please run in \"$SHELL_NAME\" terminal (not MSYS2 or UCRT terminals)"
+            echo "Please run in \"$SHELL_NAME\" terminal"
             exit 1
         fi
     else

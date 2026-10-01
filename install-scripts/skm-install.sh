@@ -5,7 +5,7 @@ GIT_SKM_REPO=https://github.com/splashkit/skm.git
 HOME_PATH=~
 INSTALL_PATH="${HOME_PATH}/.splashkit"
 
-# For MSYS2 users: Check if MINGW64 shell is being used
+# For MSYS2 users: Check if UCRT64 shell is being used
 if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
     if [[ "$MSYSTEM" = "MINGW64" || "$MSYSTEM" = "UCRT64" ]] && [[ $(uname) != *ARM64 ]]; then
         : # All good - no op and continue
@@ -26,7 +26,7 @@ if [[ $(uname) != Linux ]] && [[ $(uname) != Darwin ]]; then
         read -p "Would you like to install SplashKit in the $SHELL_NAME terminal now? (Y/N): " -n 1 -r </dev/tty
         echo ""
         if [[ $REPLY =~ [Yy]$ ]]; then
-            # Run install command in MINGW64 or CLANGARM64 terminal
+            # Run install command in UCRT64 or CLANGARM64 terminal
             MSYS2_PATH=$(cd "$APP_PATH/../../.." && pwd -W)
             start "" $MSYS2_PATH/$SHELL_FILE.exe bash -c "bash <(curl -s https://raw.githubusercontent.com/splashkit/skm/master/install-scripts/skm-install.sh); bash"
             exit 0
@@ -57,7 +57,7 @@ command -v git >/dev/null 2>&1 || report_missing_git
 
 if [ -d "${INSTALL_PATH}" ]; then
     echo "Looks like you already have splashkit!"
-    if command -v skm &> /dev/null; then
+    if command -v skm &>/dev/null; then
         echo "To uninstall run \"skm uninstall\""
         echo "Updating SplashKit"
         skm update
@@ -135,7 +135,11 @@ if [[ $(uname) = MINGW64* ]]; then
     if [[ $(uname) == *ARM64 ]]; then
         SHELL_PATH="/clangarm64/bin"
     else
-        SHELL_PATH="/mingw64/bin"
+        if [ "$MSYSTEM" = "UCRT64" ]; then
+            SHELL_PATH="/ucrt64/bin"
+        else
+            SHELL_PATH="/mingw64/bin"
+        fi
     fi
     # List of PATHS added in splashkit install
     SK_PATHS=("$(cd $SHELL_PATH && pwd -W)" "$(cd ~/.splashkit && pwd -W)" "$(cd ~/.splashkit/lib/win64 && pwd -W)")
