@@ -10,10 +10,15 @@ if (WIN32 OR MSYS OR MINGW)
     set(PATH_SUFFIX "win64")
     SET(MSYS "true")
 
+    string(COMPARE EQUAL "UCRT64" "$ENV{MSYSTEM}" UCRT64)
     string(COMPARE EQUAL "MINGW64" "$ENV{MSYSTEM}" MINGW64)
     string(COMPARE EQUAL "CLANGARM64" "$ENV{MSYSTEM}" CLANGARM64)
 
-    if (${MINGW64})
+    if (${UCRT64})
+        message("Using ucrt64")
+        set(PATH_SUFFIX "win64")
+        set(MSYS2_PATH_PART "ucrt64")
+    elseif (${MINGW64})
         message("Using mingw64")
         set(PATH_SUFFIX "win64")
         set(MSYS2_PATH_PART "mingw64")
@@ -139,7 +144,7 @@ if (MSYS)
 endif()
 
 # FLAGS
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fPIC")
 
 # MACRO DEFINITIONS #
 add_definitions(-DELPP_THREAD_SAFE)
@@ -210,6 +215,12 @@ ExternalProject_Add(
 
 #### SplashKit SHARED LIBRARY ####
 add_library(SplashKit SHARED ${SOURCE_FILES} ${C_SOURCE_FILES} ${SPLASHKITCPP_SOURCE_FILES})
+
+# The following was added by Copilot for issue with windows build cause by llama library duplicates.
+# Allow duplicate std::regex internals on MSYS/MinGW when linking the shared DLL
+if (MSYS)
+    target_link_options(SplashKit PRIVATE "-Wl,--allow-multiple-definition")
+endif()
 
 # Link libraries based on platform
 if(RASPBERRY_PI_5 AND WIRINGPI_LIBRARY AND WIRINGPI_INCLUDE_DIR)

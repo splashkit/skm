@@ -8,7 +8,7 @@ APP_PATH=$(cd "$APP_PATH" && pwd)
 
 SHELL_SUPPORTED=false
 
-# Check if MINGW64 or CLANGARM64 shell is being used (ignore Linux/Mac)
+# Check if UCRT64 or CLANGARM64 shell is being used (ignore Linux/Mac)
 case $(uname) in
 Linux | Darwin)
     SHELL_SUPPORTED=true
@@ -24,9 +24,11 @@ MINGW64*ARM64)
 MINGW64*)
     if [ "$MSYSTEM" = "MINGW64" ]; then
         SHELL_SUPPORTED=true
+    elif [ "$MSYSTEM" = "UCRT64" ]; then
+        SHELL_SUPPORTED=true
     else
-        SHELL_NAME="MINGW64"
-        SHELL_FILE="mingw64"
+        SHELL_NAME="UCRT64"
+        SHELL_FILE="ucrt64"
     fi
     ;;
 # For MINGW32 and MSYS terminal environments - on ARM64 architecture 
@@ -52,7 +54,7 @@ if [ "$SHELL_SUPPORTED" = false ]; then
     echo "The $MSYSTEM terminal is not supported. Please run \"skm\" commands in the $SHELL_NAME terminal..."
     echo ""
 
-    # Previous skm command to run in MINGW64 or CLANGARM64 terminal
+    # Previous skm command to run in UCRT64 or CLANGARM64 terminal
     PREV_CMD=$(echo "skm $@")
     if [ -z "$*" ]; then
         PREV_CMD="skm"
@@ -63,7 +65,7 @@ if [ "$SHELL_SUPPORTED" = false ]; then
 
     case $REPLY in
     y | Y)
-        # Run install command in MINGW64 or CLANGARM64 terminal
+        # Run install command in UCRT64 or CLANGARM64 terminal
         MSYS2_PATH=$(cd "$APP_PATH/../../.." && pwd -W)
         start "" $MSYS2_PATH/$SHELL_FILE.exe bash -c "echo \$ $PREV_CMD; $PREV_CMD; bash"
         exit 0
