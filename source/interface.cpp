@@ -313,6 +313,9 @@ namespace splashkit_lib
         if (container_stack.size() == 0)
             return;
 
+        if (container_stack.back().layout_widths.size() == 0)
+            container_stack.back().layout_widths.push_back(-1);
+
         sk_interface_set_layout(container_stack.back().layout_widths.size(), &container_stack.back().layout_widths[0], container_stack.back().layout_height);
     }
 
@@ -709,6 +712,7 @@ namespace splashkit_lib
             w /= count;
         }
 
+        container_stack.back().layout_widths.clear();
         for (int i = 0; i < count - 1; i++)
         {
             container_stack.back().layout_widths.push_back(w - p);
