@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(uname -o 2>>/dev/null)" = "Msys" ]; then
-    if [ "$MSYSTEM" = "MINGW64" ] && [[ $(uname) != *ARM64 ]]; then
+    if [[ "$MSYSTEM" = "MINGW64" || "$MSYSTEM" = "UCRT64" ]] && [[ $(uname) != *ARM64 ]]; then
         export SK_OS="win64"
     elif [ "$MSYSTEM" = "CLANGARM64" ] && [[ $(uname) == *ARM64 ]]; then
         export SK_OS="win64"
@@ -10,7 +10,7 @@ if [ "$(uname -o 2>>/dev/null)" = "Msys" ]; then
         if [[ $(uname) == *ARM64 ]]; then
             echo "Please run in CLANGARM64 terminal"
         else
-            echo "Please run in MINGW64 terminal"
+            echo "Please run in UCRT64 terminal"
         fi
         exit 1
     fi

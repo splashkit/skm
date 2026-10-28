@@ -4,7 +4,7 @@ APP_PATH=$(echo "$0" | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] 
 APP_PATH=$(cd "$APP_PATH" && pwd)
 
 if [ "$1" = "-s" ]; then
-    echo "    vscode      Update Visual Studio Code to add useful 'settings' and install useful 'extensions'"
+    echo "    vscode     Update Visual Studio Code to add useful 'settings' and install useful 'extensions'"
 else
     bold=$(tput bold)
     normal=$(tput sgr0)
@@ -16,8 +16,8 @@ else
     echo "Runs the vscode command with the provided options."
     echo
     echo "Options:"
-    echo "  settings     Update Visual Studio Code settings to add useful settings."
-    echo "  extensions   Install Visual Studio Code extensions for C++, C# and Python development."
+    echo "    settings     Update Visual Studio Code settings to add useful settings."
+    echo "    extensions   Install Visual Studio Code extensions for C++, C# and Python development."
     echo
     echo "Example usage:"
     echo "    Update VS Code settings"

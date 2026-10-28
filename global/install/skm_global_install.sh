@@ -16,7 +16,9 @@ source "${SKM_PATH}/tools/set_sk_env_vars.sh"
 
 echo
 echo "Installing SplashKit library in default global locations..."
-echo "This may require root access, please enter your password when prompted."
+if [ "$IS_WINDOWS" = false ]; then
+    echo "This may require root access, please enter your password when prompted."
+fi
 echo
 
 if [ "$IS_WINDOWS" = true ]; then
@@ -45,8 +47,13 @@ elif [ "$SK_OS" = "win64" ]; then
         LIB_DEST="/clangarm64/lib"
         INC_DEST="/clangarm64/include"
     else
-        LIB_DEST="/mingw64/lib"
-        INC_DEST="/mingw64/include"
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            LIB_DEST="/ucrt64/lib"
+            INC_DEST="/ucrt64/include"
+        else
+            LIB_DEST="/mingw64/lib"
+            INC_DEST="/mingw64/include"
+        fi
     fi
     LIB_FILE_DEST="${LIB_DEST}/SplashKit.dll"
     LIB_FILE_DEST_LOWER="${LIB_DEST}/splashkit.dll"
@@ -128,16 +135,6 @@ else
     fi
 fi
 
-# # We cant install but it should be on the path anyway...
-# # If $WIN_OUT_DIR is set, we are on Windows and need to copy the dll to the System32 or System64 directory
-# if [ ! -z "$WIN_OUT_DIR" ]; then
-#     $PRIVILEGED cp "$LIB_FILE_SRC" "$WIN_OUT_DIR"
-#     if [ ! $? -eq 0 ]; then
-#         echo "Failed to copy SplashKit library to $WIN_OUT_DIR"
-#         exit 1
-#     fi
-# fi
-
 echo "Copying header files to ${INC_DEST}/splashkit"
 $PRIVILEGED cp "${SKM_PATH}/clang++/include/"* "${INC_DEST}/splashkit"
 if [ ! $? -eq 0 ]; then
@@ -187,25 +184,6 @@ if [ "$SK_OS" = "macos" ]; then
                 fi
             fi
         done < <(dotnet --list-runtimes)
-
-        # DOTNET_PATH=`$PRIVILEGED find /usr/local -name Microsoft.NETCore.App`
-        # if [ ! -d "$DOTNET_PATH" ]; then
-        #     DOTNET_PATH=`$PRIVILEGED find /opt/homebrew -name Microsoft.NETCore.App`
-        # if [ ! -d "$DOTNET_PATH" ]; then
-        #     DOTNET_PATH=`$PRIVILEGED find ~/.dotnet -name Microsoft.NETCore.App`
-        # fi
-        # fi
-
-        # for f in $DOTNET_PATH/*; do
-        #     if [ -d "$f" ]; then
-        #         echo "Copying "$LIB_FILE_SRC" to $f"
-        #         $PRIVILEGED cp -f "$LIB_FILE_SRC" "$f"
-        #         if [ ! $? -eq 0 ]; then
-        #             echo "Failed to copy "$LIB_FILE_SRC" to $f"
-        #             exit 1
-        #         fi
-        #     fi
-        # done
     fi
 fi
 
@@ -240,7 +218,11 @@ if [ "$HAS_PYTHON3" = true ]; then
         if [[ $(uname) == *ARM64 ]]; then
             PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
         else
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            PYTHON_LIB="/ucrt64/lib/python${PYTHON_VERSION}"
+        else
             PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+        fi
         fi
     fi
 
@@ -299,10 +281,18 @@ fi
 echo
 "${APP_PATH}/test"
 if [ ! $? -eq 0 ]; then
-    echo "Failed to run test program"
+    if [ "$SK_OS" = "win64" ]; then
+        echo "Failed to run test program. Rebuilding library and trying again..."
+        echo
+
+        "${SKM_PATH}/windows/install/build.sh"
+
+        # Run script again to copy files to global locations and update paths
+        "${APP_PATH}/skm_global_install.sh"
+    else
+        echo "Failed to run test program."
+    fi
     exit 1
 fi
 
 rm "${APP_PATH}/test"
-
-echo #"Done"

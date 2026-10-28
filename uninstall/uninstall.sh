@@ -38,8 +38,13 @@ elif [ "$SK_OS" = "win64" ]; then
         LIB_DEST="/clangarm64/lib"
         INC_DEST="/clangarm64/include"
     else
-        LIB_DEST="/mingw64/lib"
-        INC_DEST="/mingw64/include"
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            LIB_DEST="/ucrt64/lib"
+            INC_DEST="/ucrt64/include"
+        else
+            LIB_DEST="/mingw64/lib"
+            INC_DEST="/mingw64/include"
+        fi
     fi
 else
     echo "Unable to detect operating system..."
@@ -108,7 +113,11 @@ if [ "$HAS_PYTHON3" = true ]; then
         if [[ $(uname) == *ARM64 ]]; then
             PYTHON_LIB="/clangarm64/lib/python${PYTHON_VERSION}"
         else
-            PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+            if [[ "$MSYSTEM" = "UCRT64" ]]; then
+                PYTHON_LIB="/ucrt64/lib/python${PYTHON_VERSION}"
+            else
+                PYTHON_LIB="/mingw64/lib/python${PYTHON_VERSION}"
+            fi
         fi
     fi
 
@@ -175,7 +184,11 @@ if [ $SK_OS = "win64" ]; then
     if [[ $(uname) == *ARM64 ]]; then
         SHELL_PATH="/clangarm64/bin"
     else
-        SHELL_PATH="/mingw64/bin"
+        if [[ "$MSYSTEM" = "UCRT64" ]]; then
+            SHELL_PATH="/ucrt64/bin"
+        else
+            SHELL_PATH="/mingw64/bin"
+        fi
     fi
 
     # List of PATHS added in splashkit install
@@ -189,7 +202,7 @@ if [ $SK_OS = "win64" ]; then
     done
 
     # Get Windows path and remove splashkit-added path elements
-    ORIGINAL_WIN_PATH=`/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "([System.Environment]::GetEnvironmentVariable('PATH','User').Split(';') | Where-Object { (\\$_ -ne '${SK_PATHS[0]}' -and \\$_ -ne '${SK_PATHS[1]}' -and \\$_ -ne '${SK_PATHS[2]}') }) -join ';'"`
+    ORIGINAL_WIN_PATH=$(/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "([System.Environment]::GetEnvironmentVariable('PATH','User').Split(';') | Where-Object { (\$_ -ne '${SK_PATHS[0]}' -and \$_ -ne '${SK_PATHS[1]}' -and \$_ -ne '${SK_PATHS[2]}') }) -join ';'")
 
     # Set updated Windows path
     /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Command "[System.Environment]::SetEnvironmentVariable('PATH',\"$ORIGINAL_WIN_PATH\",'User')"
